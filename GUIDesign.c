@@ -214,7 +214,7 @@ int GetPage(void)
 	int analogtable_visible = 0;
 	int digtable_visible = 0;
  	double vlast=0,vnow=0;
- 	int dimset=0,nozerofound;
+ 	int dimset=0,nozerofound,val;
  
  	int ispicture=1,celltype=0; //celtype has 3 values.  0=Numerc, 1=String, 2=Picture  
  	int ColourTable[25]={VAL_BLACK,VAL_GRAY,VAL_GRAY,VAL_GRAY,0x00B0B0B0,0x00B0B0B0,0x00B0B0B0,VAL_GRAY,VAL_GRAY,VAL_GRAY,0x00B0B0B0,0x00B0B0B0,0x00B0B0B0,
@@ -227,6 +227,17 @@ int GetPage(void)
 	SetCtrlAttribute (panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, 0);	
  	SetCtrlAttribute (panelHandle, PANEL_TIMETABLE, ATTR_VISIBLE, 0);
 	page=GetPage();
+	
+//	GetCtrlVal(panelHandle, PANEL_TGL_NUMERICTABLE,&val);
+//	if(val==0) 
+//	{ 
+//			SetDisplayType(VAL_CELL_NUMERIC);
+//	}
+//	else 
+//	{
+//		SetDisplayType(VAL_CELL_PICTURE);
+//	}
+
 	GetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(1,1),
 						   ATTR_CELL_TYPE, &celltype);
 	
@@ -389,6 +400,18 @@ int GetPage(void)
 	SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, analogtable_visible);
 	SetCtrlAttribute (panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, digtable_visible);
 	SetCtrlAttribute (panelHandle, PANEL_TIMETABLE, ATTR_VISIBLE, 1);
+	
+	if(currentpage==10)
+	{
+		SetCtrlAttribute (panelHandle, PANEL_NUM_INSERTIONPAGE, ATTR_DIMMED, 0);
+		SetCtrlAttribute (panelHandle, PANEL_NUM_INSERTIONCOL, ATTR_DIMMED, 0);
+	}
+	else
+	{
+		SetCtrlAttribute (panelHandle, PANEL_NUM_INSERTIONPAGE, ATTR_DIMMED, 1);
+		SetCtrlAttribute (panelHandle, PANEL_NUM_INSERTIONCOL, ATTR_DIMMED, 1);
+	}
+	
 }
 
 //*************************************************************************************
@@ -422,6 +445,8 @@ int CVICALLBACK TOGGLE1_CALLBACK (int panel, int control, int event,
 			currentpage=1;
 			ChangedVals=TRUE;
 			DrawNewTable(isdimmed);
+			
+			
 			break;
 		}
 	return 0;
@@ -852,6 +877,7 @@ int CVICALLBACK CMD_RUN_CALLBACK (int panel, int control, int event,
 		{
 		case EVENT_COMMIT:
 			SaveLastGuiSettings();
+			ChangedVals=TRUE;
 			GetCtrlVal(panelHandle,PANEL_TOGGLEREPEAT,&repeat);
 			if(repeat==1)
 			{
@@ -1034,58 +1060,145 @@ void RunOnce (void)
 //		} MetaAnalogArray[16][500];
 	struct AnVals MetaAnalogArray[NUMBERANALOGCHANNELS+1][500];
 	ddsoptions_struct MetaDDSArray[500];
-	int i,j,k,mindex,nozerofound,tsize;
+	int i,j,k,mindex,tsize;
+	int insertpage,insertcolumn,x,y,lastpagenum,FinalPageToUse;
+	BOOL nozerofound,nozerofound_2;
+	//*********
+	int ResetToZeroAtEnd[30];
 	
-	isdimmed=1;
-	
-		//Lets build the times list first...so we know how long it will be.
-		//check each page...find used columns and dim out unused....(with 0 or negative values)
-		SetCtrlAttribute(panelHandle,PANEL_ANALOGTABLE,ATTR_TABLE_MODE,VAL_COLUMN); 
-		mindex=0;
-		
-		//go through for each page
-		for(k=1;k<=NUMBEROFPAGES;k++)
+	//****************
+	isdimmed=TRUE;
+	lastpagenum=10;
+	GetCtrlVal (panelHandle, PANEL_NUM_INSERTIONPAGE, &insertpage);
+	GetCtrlVal (panelHandle, PANEL_NUM_INSERTIONCOL, &insertcolumn);
+	//Lets build the times list first...so we know how long it will be.
+	//check each page...find used columns and dim out unused....(with 0 or negative values)
+	SetCtrlAttribute(panelHandle,PANEL_ANALOGTABLE,ATTR_TABLE_MODE,VAL_COLUMN); 
+	mindex=0;
+	FinalPageToUse=NUMBEROFPAGES-2;//issues with '0 or 1 indexing'
+	if(insertpage==NUMBEROFPAGES-1)
+	{
+		FinalPageToUse++;
+	}
+	//go through for each page
+	for(k=1;k<=FinalPageToUse;k++)// numberofpages-1 because last page is 'mobile'
+	{
+		nozerofound=1;
+		if(ischecked[k]==1) //if the page is selected
 		{
-			nozerofound=1;
-			if(ischecked[k]==1) //if the page is selected
+			//go through for each time column
+			for(i=1;i<14;i++)
 			{
-				
-				//go through for each time column
-				for(i=1;i<14;i++)
+	//			printf("%d\t%d\n",k,i);
+				if((i==insertcolumn)&&(k==insertpage)&&(k!=NUMBEROFPAGES-1))
 				{
-					if((nozerofound==1)&&(TimeArray[i][k]>0)) 
-					//ignore all columns after the first
-					// time 0
+					nozerofound_2=TRUE;
+					if(ischecked[lastpagenum]==1)
 					{
-						mindex++; //increase the number of columns counter
-						MetaTimeArray[mindex]=TimeArray[i][k];
-						
-						//go through for each analog channel
-						for(j=1;j<=NUMBERANALOGCHANNELS;j++)
+						for(x=1;x<=14;x++)
 						{
-							MetaAnalogArray[j][mindex].fcn=AnalogTable[i][j][k].fcn;
-							MetaAnalogArray[j][mindex].fval=AnalogTable[i][j][k].fval;
-							MetaAnalogArray[j][mindex].tscale=AnalogTable[i][j][k].tscale;
-							MetaDigitalArray[j][mindex]=DigTableValues[i][j][k];
+							if((nozerofound==TRUE)&&(nozerofound_2==TRUE)&&(TimeArray[x][lastpagenum]>0))
+							{
+								mindex++;
+								MetaTimeArray[mindex]=TimeArray[x][lastpagenum];
+								for(y=1;y<=NUMBERANALOGCHANNELS;y++)
+								{
+									MetaAnalogArray[y][mindex].fcn=AnalogTable[x][y][lastpagenum].fcn;
+									MetaAnalogArray[y][mindex].fval=AnalogTable[x][y][lastpagenum].fval;
+									MetaAnalogArray[y][mindex].tscale=AnalogTable[x][y][lastpagenum].tscale;
+									MetaDigitalArray[y][mindex]=DigTableValues[x][y][lastpagenum];
+								}
+								MetaDDSArray[mindex] = ddstable[x][lastpagenum];  
+							}
+							else if(TimeArray[x][lastpagenum]==0)
+							{
+								nozerofound_2=0;
+							}
 						}
-						/* ddsoptions_struct contains floats and ints, so shallow copy is ok */
-						MetaDDSArray[mindex] = ddstable[i][k];
 					}
-					else if (TimeArray[i][k]==0) 
+					
+/*end A */		}
+				
+			
+				if((nozerofound==1)&&(TimeArray[i][k]>0)) 
+				//ignore all columns after the first
+				// time 0
+				{
+					mindex++; //increase the number of columns counter
+					MetaTimeArray[mindex]=TimeArray[i][k];
+					//go through for each analog channel
+					for(j=1;j<=NUMBERANALOGCHANNELS;j++)
 					{
-						nozerofound=0;
+						MetaAnalogArray[j][mindex].fcn=AnalogTable[i][j][k].fcn;
+						MetaAnalogArray[j][mindex].fval=AnalogTable[i][j][k].fval;
+						MetaAnalogArray[j][mindex].tscale=AnalogTable[i][j][k].tscale;
+						MetaDigitalArray[j][mindex]=DigTableValues[i][j][k];
 					}
+					/* ddsoptions_struct contains floats and ints, so shallow copy is ok */
+					MetaDDSArray[mindex] = ddstable[i][k];
+				}
+				else if (TimeArray[i][k]==0) 
+				{
+					nozerofound=0;
 				}
 			}
 		}
-		isdimmed=1;
-		DrawNewTable(isdimmed);
-		tsize=mindex; //tsize is the number of columns
-		BuildUpdateList(MetaTimeArray,MetaAnalogArray,MetaDigitalArray,MetaDDSArray,tsize);
-		
-		//BuildUpdateList(MetaTimeArray,MetaDigitalArray);
+	}
+	isdimmed=TRUE;
+	
+/*  Add 1 column to end of the meta array to take care of zeroing etc....
+	mindex++;
 
-		//Send to ADwin
+	GetMenuBarAttribute (MENU, MENU_ALLLOW, ATTR_CHECKED,&Checked_All_Low );
+	if(Checked_All_Low==TRUE)
+	{
+		for(j=1;j<=NUMBERANALOGCHANNELS:j++)
+		{
+			MetaAnalogArray[j][mindex].fval=0;
+			MetaAnalogArray[j][mindex].fcn=1;//set to step;
+			MetaAnalogArray[j][mindex].tscale=1;
+			MetaDigitalArray[j][mindex]=FALSE;
+		}
+	}
+	
+	GetMenuBarAttribute (MENU, MENU_BYCHANNEL, ATTR_CHECKED,&Checked_By_Value );
+	if(Checked_By_Value==TRUE)
+	{
+		for(j=1;j<=NUMBERANALOGCHANNELS;j++)
+		{
+			if(AChName[j].resettozero==TRUE)
+			{
+				MetaAnalogArray[j][mindex].fval=0;
+			}
+			else
+			{
+				MetaAnalogArray[j][mindex].fval=MetaAnalogArray[j][mindex-1];	
+			}
+			if(DChName[j].resetlow==TRUE)
+			{
+				MetaDigitalArray[j][mindex]=FALSE;
+			}
+			else
+			{
+				MetaDigitalArray[j][mindex]=MetaDigitalArray[j][mindex-1];	
+			}
+		}
+	}
+	
+	GetMenuBarAttribute (MENU, MENU_HOLDVALUE, ATTR_CHECKED,&Checked_Hold_Value );
+	if(Checked_Hold_Value==TRUE)
+	{
+		for(j=1;j<=NUMBERANALOGCHANNELS;j++)
+		{
+				MetaAnalogArray[j][mindex].fval=MetaAnalogArray[j][mindex-1];	
+				MetaDigitalArray[j][mindex]=MetaDigitalArray[j][mindex-1];
+		}
+	}
+*/	
+	DrawNewTable(isdimmed);
+	tsize=mindex; //tsize is the number of columns
+	BuildUpdateList(MetaTimeArray,MetaAnalogArray,MetaDigitalArray,MetaDDSArray,tsize);
+
 }
 //*********************************************************************************************************
 
@@ -1486,13 +1599,13 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 //  	    calculate all step changes.
 //			Loop unitltimes done
 //				calc new changes for nonstep
-
+	BOOL UseCompression,ArraysToDebug; 
 	int *UpdateNum;
 	int *ChNum;
 	float *ChVal;
 	FILE *fp;
 	int NewTimeMat[500];
-	int i=0,j=0,k=0,m=0,n=0,tau=0,p=0;
+	int i=0,j=0,k=0,m=0,n=0,tau=0,p=0,imax;
 	int nupcurrent=0,nuptotal=0,checkresettozero=0;
 	int usefcn=0,LastDVal=0,LastDVal2=0,digchannel;  //Bool
 	int UsingFcns[NUMBERANALOGCHANNELS+1]={0},count=0,ucounter=0,digval,digval2,counter,channel;
@@ -1515,6 +1628,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 	int ZeroThreshold=50;
 	int lastfound=0;
 	int ii=0,jj=0,kk=0,tt=0; // variables for loops
+	int start_offset=0;
 // done optimization loop variables
 	
 	//Change run button appearance
@@ -1550,8 +1664,8 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
     {	
     	/* Update the array of DDS commands
 		EventPeriod is in ms, create_command_array in s, so convert units */
-		dds_cmd_seq = create_dds_cmd_sequence(DDSArray, numtimes,DDSFreq.PLLmult, 
-		DDSFreq.extclock,EventPeriod/1000);
+//		dds_cmd_seq = create_dds_cmd_sequence(DDSArray, numtimes,DDSFreq.PLLmult, 
+//		DDSFreq.extclock,EventPeriod/1000);
     
 	//	SaveLastGuiSettings();
 		UpdateNum=calloc((int)((double)timesum*1.2),sizeof(int));
@@ -1569,7 +1683,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		//nupcurrent: number of updates for the current Adwin event
 		//nuptotal: current position in the channel/value column
 		//*********************Initialize outputs to zero********************
-		for(i=1;i<=NUMBERANALOGCHANNELS;i++)
+/*		for(i=1;i<=NUMBERANALOGCHANNELS;i++)
 		{
 			ChNum[i]=AChName[i].chnum;
 			ChVal[i]=AChName[i].tbias;
@@ -1581,11 +1695,22 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		ChVal[NUMBERANALOGCHANNELS+2]=0;
 		nuptotal=26;
 		nupcurrent=26;
-		UpdateNum[1]=8;
-		UpdateNum[2]=8;
-		UpdateNum[3]=8;
+		UpdateNum[1]=2;
+		UpdateNum[2]=2;
+		UpdateNum[3]=2;
 		UpdateNum[4]=2;
-		count=4;
+		UpdateNum[5]=2;
+		UpdateNum[6]=2;
+		UpdateNum[7]=2;
+		UpdateNum[8]=2;
+		UpdateNum[9]=2;
+		UpdateNum[10]=2;
+		UpdateNum[11]=2;
+		UpdateNum[12]=2;
+		UpdateNum[13]=2;
+
+		count=13;   
+		start_offset=13;		*/
 		//*********************Done initializing outputs to zero********************
 	
 		for (i=1;i<=numtimes;i++)
@@ -1659,7 +1784,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 				k=0;
 				nupcurrent=0;
 				//do the DDS
-				tmp_dds = get_dds_cmd(dds_cmd_seq, count-1);  //dds translator runs 1 behind this counter
+		/*		tmp_dds = get_dds_cmd(dds_cmd_seq, count-1-start_offset);  //dds translator(zero base) runs 1 behind this counter
 				if (tmp_dds>=0)
 				{
 					nupcurrent++;
@@ -1668,7 +1793,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 					ChVal[nuptotal] = tmp_dds;
 				
 				} //done the DDS
-				
+		*/		
 				while(k<usefcn)
 				{
 					k++;
@@ -1695,20 +1820,30 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		//draw in DEBUG box
 		bigger=count;
 		if(nuptotal>bigger) {bigger=nuptotal;}
+		GetMenuBarAttribute (menuHandle, MENU_PREFS_COMPRESSION, ATTR_CHECKED, &UseCompression);     
+		GetMenuBarAttribute (menuHandle, MENU_PREFS_SHOWARRAY, ATTR_CHECKED, &ArraysToDebug);     		
+		newcount=0;
+		if(UseCompression)
+		{
+			OptimizeTimeLoop(UpdateNum,count,&newcount);
+		}
 		
-		OptimizeTimeLoop(UpdateNum,count,&newcount);
 		
-		#ifdef PRINT_TO_DEBUG
-			fp=fopen("outarraymerge.txt","w");
-			for(i=1;i<newcount+1;i++)
+		if(ArraysToDebug)
+		{
+			//fp=fopen("outarraymerge.txt","w");
+			imax=newcount;
+			if(newcount==0) {imax=count;}
+			if(imax>1000){imax=1000;}
+			for(i=1;i<imax+1;i++)
 			{
 				sprintf(buff,"%d :  %d    %d    %f",i,UpdateNum[i],ChNum[i],ChVal[i]);
 				InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
-				fprintf(fp,"%d,%d,%d,%f\n",i,UpdateNum[i],ChNum[i],ChVal[i]);
+			//	fprintf(fp,"%d,%d,%d,%f\n",i,UpdateNum[i],ChNum[i],ChVal[i]);
 			}
-			fclose(fp);
-			
-		#endif
+		//	fclose(fp);
+		}
+		
 		
 		tstop=clock();
 		
@@ -1738,13 +1873,20 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		}
 		for(p-1;p<=NUMBERANALOGCHANNELS;p++) {ResetToZeroAtEnd[p]=AChName[p].resettozero;}
 	
-		SetPar(1,newcount);  	//Let ADwin know how many counts (read as Events) we will be using.
+		if(UseCompression)
+		{
+			SetPar(1,newcount);  	//Let ADwin know how many counts (read as Events) we will be using.		
+			SetData_Long(1,UpdateNum,1,newcount+1);
+		}
+		else
+		{
+		  	SetPar(1,count);  	//Let ADwin know how many counts (read as Events) we will be using.
+			SetData_Long(1,UpdateNum,1,count+1);
+		}
+		
 		SetPar(2,GlobalDelay);
-		//Command below sends to Data_1, send array val, starting index 1, sends 10 elements.
-		SetData_Long(1,UpdateNum,1,newcount+1);
 		SetData_Long(2,ChNum,1,nuptotal+1);
 		SetData_Float(3,ChVal,1,nuptotal+1);
-		
 		// determine if we should reset values to zero after a cycle
 		GetMenuBarAttribute (menuHandle, MENU_SETTINGS_RESETZERO, ATTR_CHECKED,&checkresettozero);
 		for(i=1;i<=NUMBERANALOGCHANNELS;i++)
@@ -1767,6 +1909,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		//ResetToZeroAtEnd[26]=0;// digital channels 17-24
 		ResetToZeroAtEnd[27]=0;// master override....if ==1 then reset none
 		if(checkresettozero==0) { ResetToZeroAtEnd[27]=1;}
+
 		SetData_Long(4,ResetToZeroAtEnd,1,NUMBERANALOGCHANNELS+6);
 		// done ealuating channels that are reset to  zero (low)
 		ChangedVals=0;
@@ -1955,7 +2098,7 @@ void SetDisplayType(int display_setting)
 	
 	for(i=1;i<=14;i++)
 	{
-		for(j=1;j<=NUMBERANALOGCHANNELS+1;j++)
+		for(j=1;j<=NUMBERANALOGCHANNELS;j++)
 		{
 			SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,j),
 				   ATTR_CELL_TYPE, display_setting);
@@ -2284,11 +2427,15 @@ void OptimizeTimeLoop(int *UpdateNum,int count, int *newcount)
 	int i=0,k=0; // i is the counter through the original UpdateNum list
 	int j=0; // t is the counter through the NewUpdateNum list 
 	int t=0;
-	int ZeroThreshold;
+	int LowZeroThreshold,HighZeroThreshold;
 	int LastFound=0;
+	int numberofzeros;
 	i=1;
 	t=1;
-	ZeroThreshold=50;
+	LowZeroThreshold=10;	  // minimum number of consecutive zero's to encounter before optimizing
+	HighZeroThreshold=10000;  // maximum number of consecutive zero's to optimize 
+							//  We do not want to exceed the counter on the ADwin
+							//  ADwin uses a 40MHz clock, 1 ms implies counter set to 40,000
 	do 
 	{
 		//find the number of zero's, without updating i
@@ -2297,35 +2444,40 @@ void OptimizeTimeLoop(int *UpdateNum,int count, int *newcount)
 		{
 			j=1;
 			do 
-			{  //start B
-				
+			{ 
 				LastFound=UpdateNum[i+j];
 				if(LastFound!=0)
 				{
-					if(j>=ZeroThreshold)
+					if(j>=LowZeroThreshold)
 					{
-						//NewUpdateNum[t]=100+j;
-						UpdateNum[t]=-j;
+						numberofzeros=j;
+						while(numberofzeros>HighZeroThreshold)
+						{
+							UpdateNum[t]=-HighZeroThreshold;
+							t=t+1;
+							numberofzeros=numberofzeros-HighZeroThreshold;
+						} 
+						UpdateNum[t]=-numberofzeros;
+						t++;
 					}
 					else
 					{
 						for(k=1;k<j;k++) 
 						{   
 							UpdateNum[t]=0;
-							//NewUpdateNum[t]=0;
 							t=t+1;
 						}
 						UpdateNum[t]=0;
-					//	NewUpdateNum[t]=0; 
 					}
-				}	
-				j=j+1;	
-			}while(LastFound==0);  //end B
+					
+				}
+				j=j+1;	 
+			}while((LastFound==0)&&((i+j)<=(count+10)));
+
 			i=i+j-2;
 		}	//endA
 		else
 		{
-		//	NewUpdateNum[t]=UpdateNum[i];
 			UpdateNum[t]=UpdateNum[i];
 		}
 		i=i+1;
@@ -2335,4 +2487,60 @@ void OptimizeTimeLoop(int *UpdateNum,int count, int *newcount)
 	// clean up, set everything to 0 from t to count
 //	for (k=t;k<=count;k++) {UpdateNum[k]=0;}
 	*newcount=t;
+}
+
+int CVICALLBACK NUM_INSERTIONPAGE_CALLBACK (int panel, int control, int event,
+		void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+		{
+		case EVENT_COMMIT:
+			ChangedVals=TRUE;
+		}
+	return 0;
+}
+
+int CVICALLBACK NUM_INSERTIONCOL_CALLBACK (int panel, int control, int event,
+		void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+		{
+		case EVENT_COMMIT:
+			ChangedVals=TRUE;
+			break;
+		}
+	return 0;
+}
+
+void CVICALLBACK COMPRESSION_CALLBACK (int menuBar, int menuItem, void *callbackData,
+		int panel)
+{
+	BOOL UseCompression;
+	GetMenuBarAttribute (menuHandle, MENU_PREFS_COMPRESSION, ATTR_CHECKED, &UseCompression);
+	if(UseCompression)
+	{
+		SetMenuBarAttribute (menuHandle, MENU_PREFS_COMPRESSION, ATTR_CHECKED, FALSE);
+	}
+	else
+	{
+		SetMenuBarAttribute (menuHandle, MENU_PREFS_COMPRESSION, ATTR_CHECKED, TRUE);
+	}
+}
+
+
+void CVICALLBACK SHOWARRAY_CALLBACK (int menuBar, int menuItem, void *callbackData,
+		int panel)
+{
+	BOOL ShowArray;
+	GetMenuBarAttribute (menuHandle, MENU_PREFS_SHOWARRAY, ATTR_CHECKED, &ShowArray);
+	if(ShowArray)
+	{
+		SetMenuBarAttribute (menuHandle, MENU_PREFS_SHOWARRAY, ATTR_CHECKED, FALSE);
+	}
+	else
+	{
+		SetMenuBarAttribute (menuHandle, MENU_PREFS_SHOWARRAY, ATTR_CHECKED, TRUE);
+	}
+
+
 }

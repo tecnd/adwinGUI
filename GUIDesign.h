@@ -1,6 +1,6 @@
 /**************************************************************************/
 /* LabWindows/CVI User Interface Resource (UIR) Include File              */
-/* Copyright (c) National Instruments 2004. All Rights Reserved.          */
+/* Copyright (c) National Instruments 2005. All Rights Reserved.          */
 /*                                                                        */
 /* WARNING: Do not add to, delete from, or otherwise modify the contents  */
 /*          of this include file.                                         */
@@ -59,6 +59,8 @@
 #define  PANEL_TBL_DIGNAMES              43
 #define  PANEL_TBL_ANAMES                44
 #define  PANEL_TIMER                     45      /* callback function: TIMER_CALLBACK */
+#define  PANEL_NUM_INSERTIONCOL          46      /* callback function: NUM_INSERTIONCOL_CALLBACK */
+#define  PANEL_NUM_INSERTIONPAGE         47      /* callback function: NUM_INSERTIONPAGE_CALLBACK */
 
 
      /* Menu Bars, Menus, and Menu Items: */
@@ -101,6 +103,9 @@
 #define  MENU_UPDATEPERIOD_SETGD10       36      /* callback function: SETGD10_CALLBACK */
 #define  MENU_UPDATEPERIOD_SETGD100      37      /* callback function: SETGD100_CALLBACK */
 #define  MENU_UPDATEPERIOD_SETGD1000     38      /* callback function: SETGD1000_CALLBACK */
+#define  MENU_PREFS                      39
+#define  MENU_PREFS_COMPRESSION          40      /* callback function: COMPRESSION_CALLBACK */
+#define  MENU_PREFS_SHOWARRAY            41      /* callback function: SHOWARRAY_CALLBACK */
 
 
      /* Callback Prototypes: */ 
@@ -112,6 +117,7 @@ void CVICALLBACK BOOTLOAD_CALLBACK(int menubar, int menuItem, void *callbackData
 void CVICALLBACK CLEARPANEL_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK CMD_RUN_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK CMDSTOP_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+void CVICALLBACK COMPRESSION_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK CONFIG_EXPORT_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK COPYCOLUMN_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK DDSSETUP_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
@@ -126,6 +132,8 @@ void CVICALLBACK MENU_BYCHANNEL_CALLBACK(int menubar, int menuItem, void *callba
 void CVICALLBACK MENU_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK MENU_DEBUG_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK MENU_HOLD_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
+int  CVICALLBACK NUM_INSERTIONCOL_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+int  CVICALLBACK NUM_INSERTIONPAGE_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 void CVICALLBACK PASTECOLUMN_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK QuitCallback(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 void CVICALLBACK RESETZERO_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
@@ -133,6 +141,7 @@ void CVICALLBACK SETGD1000_CALLBACK(int menubar, int menuItem, void *callbackDat
 void CVICALLBACK SETGD100_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SETGD10_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SETGD5_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
+void CVICALLBACK SHOWARRAY_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK TGLNUMERIC_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK TIMER_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
