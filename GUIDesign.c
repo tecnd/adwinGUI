@@ -1539,8 +1539,15 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 	int timeused;
 	int tmp_dds;
 	int digchannelsum;
+	int newcount=0;
+	// variables for timechannel optimization
+	int ZeroThreshold=50;
+	int lastfound=0;
+	int ii=0,jj=0,kk=0,tt=0; // variables for loops
+// done optimization loop variables
+	
 	//Change run button appearance
-
+	
 	time_t tstart,tstop;
 	//TODO:	make sure it writes the final value....currently might not.
 	// Change the color of the Run button, so we know the program/ADwin is active
@@ -1694,8 +1701,9 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		bigger=count;
 		if(nuptotal>bigger) {bigger=nuptotal;}
 		
+		OptimizeTimeLoop(UpdateNum,count,&newcount);
 		#ifdef PRINT_TO_DEBUG
-			for(i=1;i<bigger+10;i++)
+			for(i=1;i<newcount+1;i++)
 			{
 				sprintf(buff,"%d :  %d    %d    %f",i,UpdateNum[i],ChNum[i],ChVal[i]);
 				InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
@@ -1706,6 +1714,8 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		
 		#ifdef PRINT_TO_DEBUG
 			sprintf(buff,"count %d",count);
+			InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
+			sprintf(buff,"compressed count %d",newcount);
 			InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
 			sprintf(buff,"updates %d",nuptotal);
 			InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
@@ -1728,10 +1738,10 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		}
 		for(p-1;p<=NUMBERANALOGCHANNELS;p++) {ResetToZeroAtEnd[p]=AChName[p].resettozero;}
 	
-		SetPar(1,count);  	//Let ADwin know how many counts (read as Events) we will be using.
+		SetPar(1,newcount);  	//Let ADwin know how many counts (read as Events) we will be using.
 		SetPar(2,GlobalDelay);
 		//Command below sends to Data_1, send array val, starting index 1, sends 10 elements.
-		SetData_Long(1,UpdateNum,1,count+1);
+		SetData_Long(1,UpdateNum,1,newcount+1);
 		SetData_Long(2,ChNum,1,nuptotal+1);
 		SetData_Float(3,ChVal,1,nuptotal+1);
 		
@@ -2268,4 +2278,62 @@ void CVICALLBACK MENU_HOLD_CALLBACK (int menuBar, int menuItem, void *callbackDa
 void CVICALLBACK MENU_BYCHANNEL_CALLBACK (int menuBar, int menuItem, void *callbackData,
 		int panel)
 {
+}
+
+void OptimizeTimeLoop(int *UpdateNum,int count, int *newcount)
+{
+	int i=0,k=0; // i is the counter through the original UpdateNum list
+	int j=0; // t is the counter through the NewUpdateNum list 
+	int t=0;
+	int ZeroThreshold;
+	int LastFound=0;
+	i=1;
+	t=1;
+	ZeroThreshold=50;
+	do 
+	{
+		//find the number of zero's, without updating i
+		
+		if((UpdateNum[i]==0)&&(i<=count)) //point A
+		{
+			j=1;
+			do 
+			{  //start B
+				
+				LastFound=UpdateNum[i+j];
+				if(LastFound!=0)
+				{
+					if(j>=ZeroThreshold)
+					{
+						//NewUpdateNum[t]=100+j;
+						UpdateNum[t]=-j;
+					}
+					else
+					{
+						for(k=1;k<j;k++) 
+						{   
+							UpdateNum[t]=0;
+							//NewUpdateNum[t]=0;
+							t=t+1;
+						}
+						UpdateNum[t]=0;
+					//	NewUpdateNum[t]=0; 
+					}
+				}	
+				j=j+1;	
+			}while(LastFound==0);  //end B
+			i=i+j-2;
+		}	//endA
+		else
+		{
+		//	NewUpdateNum[t]=UpdateNum[i];
+			UpdateNum[t]=UpdateNum[i];
+		}
+		i=i+1;
+		t=t+1;
+	}while(i<count+1);
+	//output
+	// clean up, set everything to 0 from t to count
+//	for (k=t;k<=count;k++) {UpdateNum[k]=0;}
+	*newcount=t;
 }

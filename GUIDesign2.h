@@ -38,4 +38,5 @@ void SetChannelDisplayed(int display_setting); //analog, digital of both
 void SetDisplayType(int display_setting); //toggle graphic and numeric
 double CheckIfWithinLimits(double OutputVoltage, int linenumber);
 void SaveLastGuiSettings(void);
+void OptimizeTimeLoop(int *,int,int*);
 #endif
