@@ -1,6 +1,8 @@
 #include <userint.h>
+
 #include "AnalogControl.h"
-#include "main.h"
+#include "AnalogControl2.h"
+
 //Info on the panel
 //PanelName		PANEL_CTRL
 //Control Mode listbox				CTRL_PANEL_LB_CTRLMODE
@@ -9,30 +11,28 @@
 //Timescale	numeric control			CTRL_PANEL_NUMTIMESCALE
 //Command button to set values		CTRL_PANEL_CMD_SETANALOG 
 
-extern int panelHandle4,panelHandle;
-extern struct AnalogTableValues{
-	int		fcn;		//fcn is an integer refering to a function to use.// 0-step, 1-linear, 2- exp, 3- 'S' curve
-	double 	fval;		//the final value
-	double	tscale;		//the timescale to approach final value
-	} AnalogTable[17][17][10];  // read as x,y,page
-	
-extern struct AnalogChannelProperties{
-	int		chnum;		// channel number 1-8 DAC1	9-16 DAC2
-	char    chname[50]; // name to appear on the panel
-	char	units[50];
-	double  tfcn;		// Transfer function.  i.e. 10V out = t G/cm etc...
-	}  AChName[16];	
+/*
+This panel is used to set the value of an analog control.  It is called by double-clicking on an
+analog table cell.
 
-extern double TimeArray[17][10];
-extern int isdimmed;	
-extern int currentpage,currentx,currenty;
+*/
+
+
 
 //***********************************************************************
 int CVICALLBACK CMD_SETANALAOG_CALLBACK (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
+/* Panel button to set analog data. 
+Reads data off of the panel controls, ringbox and numberboxes.
+Writes data to the AnalogTable array
+NOT DONE:  IF TIMESCALE IS TOO LONG THEN OVERWRITE THE FOLLOWING CELL
+*/
 {
-	int itemp=0,cmode,docheck=0,valuesgood=1;
-	double dtemp=0.0,usedtimescale,timematrixlength;
+	int itemp=0,cmode;				// variables for reading/writing the control mode
+	int docheck=0,valuesgood=1;		// booleans.  docheck=1 if we need to check the time settings
+									// valuesgood=1 if okay to write data to AnalogTable array..sets to 0 if prompt denied
+	double dtemp=0.0,usedtimescale; //usedtimescale=timescale written in AnalogTable to control ramping, exponential etc.
+	double timematrixlength;		// duration of the current column.
 	switch (event)
 		{
 								 
@@ -65,7 +65,7 @@ int CVICALLBACK CMD_SETANALAOG_CALLBACK (int panel, int control, int event,
 				
 				}
 			}
-			if(valuesgood==1) 
+			if(valuesgood==1)  // everything checks out, return to main panel 
 			{
 				HidePanel(panelHandle4);
 				DrawNewTable(isdimmed);
@@ -90,9 +90,14 @@ void SetControlPanel(void)
 
 int CVICALLBACK RING_CTRLMODE_CALLBACK (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
+/* activated when using the control mode ring control.
+Cycles between the different control modes and changes the timescale of the ramp
+to an appropriate value for the mode. 
+*/
 {
 	int ctrlmode=0;
 	double timescales=0,newtime=1,Vdiff=0,ctrlvfinal;
+	
 	GetCtrlVal (panelHandle4,CTRL_PANEL_RING_CTRLMODE, &ctrlmode);
 	GetCtrlVal (panelHandle4,CTRL_PANEL_NUMFINALVAL, &ctrlvfinal);
 	timescales=TimeArray[currentx][currentpage];
@@ -135,3 +140,15 @@ int CVICALLBACK RING_CTRLMODE_CALLBACK (int panel, int control, int event,
 	return 0;
 }
 //***************************************************************************
+
+int CVICALLBACK CMD_ANCANCEL_CALLBACK (int panel, int control, int event,
+		void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+		{
+		case EVENT_COMMIT:
+			 HidePanel(panelHandle4);
+			break;
+		}
+	return 0;
+}

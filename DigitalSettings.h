@@ -21,6 +21,7 @@
 #define  DIGPANEL_CMD_DIGALLOWCHANGE     5       /* callback function: CMD_DIGALLOWCHANGE_CALLBACK */
 #define  DIGPANEL_CMD_DIGSETCHANGES      6       /* callback function: CMD_DIGSETCHANGES_CALLBACK */
 #define  DIGPANEL_CMD_DONEDIG            7       /* callback function: CMD_DONEDIG_CALLBACK */
+#define  DIGPANEL_CHK_DIGRESET           8       /* callback function: CHKDIGRESET_CALLBACK */
 
 
      /* Menu Bars, Menus, and Menu Items: */
@@ -30,6 +31,7 @@
 
      /* Callback Prototypes: */ 
 
+int  CVICALLBACK CHKDIGRESET_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK CMD_DIGALLOWCHANGE_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK CMD_DIGSETCHANGES_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK CMD_DONEDIG_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);

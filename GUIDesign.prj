@@ -1,171 +1,329 @@
 [Project Header]
 Version = 600
-Pathname = "/c/ADWinProgs/LW-GraphicInterfaceDesign-Feb10/GUIDesign.prj"
+Pathname = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/GUIDesign.prj"
 CVI Dir = "/c/program files/national instruments/measurementstudio/cvi"
 VXIplug&play Framework Dir = "/C/VXIpnp/winnt"
-Number of Files = 16
+Number of Files = 31
 Target Type = "Executable"
 Flags = 16
 
 [File 0001]
 File Type = "CSource"
-Res Id = 1
-Path Is Rel = False
-Path = "/c/ADWinProgs/LW-prototypePanel/Adwin.c"
+Res Id = 31
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "Adwin.c"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/Adwin.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
 [File 0002]
 File Type = "Include"
-Res Id = 2
-Path Is Rel = False
-Path = "/c/ADWinProgs/LW-prototypePanel/Adwin.h"
+Res Id = 0
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "Adwin.h"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/Adwin.h"
 Exclude = False
 Project Flags = 0
 
 [File 0003]
 File Type = "CSource"
-Res Id = 3
+Res Id = 1
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogControl.c"
-Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-Feb10/AnalogControl.c"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/AnalogControl.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
 [File 0004]
 File Type = "Include"
-Res Id = 4
+Res Id = 3
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogControl.h"
-Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-Feb10/AnalogControl.h"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/AnalogControl.h"
 Exclude = False
 Project Flags = 0
 
 [File 0005]
 File Type = "User Interface Resource"
-Res Id = 5
+Res Id = 4
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogControl.uir"
-Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-Feb10/AnalogControl.uir"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/AnalogControl.uir"
 Exclude = False
 Project Flags = 0
 
 [File 0006]
+File Type = "Include"
+Res Id = 5
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "AnalogControl2.h"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/AnalogControl2.h"
+Exclude = False
+Project Flags = 0
+
+[File 0007]
 File Type = "CSource"
 Res Id = 6
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogSettings.c"
-Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-Feb10/AnalogSettings.c"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/AnalogSettings.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
-[File 0007]
+[File 0008]
 File Type = "Include"
 Res Id = 7
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogSettings.h"
-Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-Feb10/AnalogSettings.h"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/AnalogSettings.h"
 Exclude = False
 Project Flags = 0
 
-[File 0008]
+[File 0009]
 File Type = "User Interface Resource"
 Res Id = 8
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogSettings.uir"
-Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-Feb10/AnalogSettings.uir"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/AnalogSettings.uir"
 Exclude = False
-Project Flags = 0
-
-[File 0009]
-File Type = "CSource"
-Res Id = 9
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "DigitalSettings.c"
-Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-Feb10/DigitalSettings.c"
-Exclude = False
-Compile Into Object File = False
 Project Flags = 0
 
 [File 0010]
 File Type = "Include"
-Res Id = 10
+Res Id = 9
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "DigitalSettings.h"
-Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-Feb10/DigitalSettings.h"
+Path Rel Path = "AnalogSettings2.h"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/AnalogSettings2.h"
 Exclude = False
 Project Flags = 0
 
 [File 0011]
-File Type = "User Interface Resource"
-Res Id = 11
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "DigitalSettings.uir"
-Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-Feb10/DigitalSettings.uir"
-Exclude = False
-Project Flags = 0
-
-[File 0012]
 File Type = "CSource"
-Res Id = 12
+Res Id = 10
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "GUIDesign.c"
-Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-Feb10/GUIDesign.c"
+Path Rel Path = "DDSControl.c"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DDSControl.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
-[File 0013]
+[File 0012]
 File Type = "Include"
-Res Id = 13
+Res Id = 11
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "GUIDesign.h"
-Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-Feb10/GUIDesign.h"
+Path Rel Path = "DDSControl.h"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DDSControl.h"
+Exclude = False
+Project Flags = 0
+
+[File 0013]
+File Type = "User Interface Resource"
+Res Id = 12
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "DDSControl.uir"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DDSControl.uir"
 Exclude = False
 Project Flags = 0
 
 [File 0014]
-File Type = "User Interface Resource"
-Res Id = 14
+File Type = "Include"
+Res Id = 13
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "GUIDesign.uir"
-Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-Feb10/GUIDesign.uir"
+Path Rel Path = "DDSControl2.h"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DDSControl2.h"
 Exclude = False
 Project Flags = 0
 
 [File 0015]
 File Type = "CSource"
-Res Id = 15
+Res Id = 14
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "main.c"
-Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-Feb10/main.c"
+Path Rel Path = "DDSSettings.c"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DDSSettings.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
 [File 0016]
 File Type = "Include"
+Res Id = 15
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "DDSSettings.h"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DDSSettings.h"
+Exclude = False
+Project Flags = 0
+
+[File 0017]
+File Type = "User Interface Resource"
 Res Id = 16
 Path Is Rel = True
 Path Rel To = "Project"
+Path Rel Path = "DDSSettings.uir"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DDSSettings.uir"
+Exclude = False
+Project Flags = 0
+
+[File 0018]
+File Type = "Include"
+Res Id = 17
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "DDSSettings2.h"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DDSSettings2.h"
+Exclude = False
+Project Flags = 0
+
+[File 0019]
+File Type = "CSource"
+Res Id = 18
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "ddstranslator.c"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/ddstranslator.c"
+Exclude = False
+Compile Into Object File = False
+Project Flags = 0
+
+[File 0020]
+File Type = "Include"
+Res Id = 19
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "ddstranslator.h"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/ddstranslator.h"
+Exclude = False
+Project Flags = 0
+
+[File 0021]
+File Type = "CSource"
+Res Id = 20
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "DigitalSettings.c"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DigitalSettings.c"
+Exclude = False
+Compile Into Object File = False
+Project Flags = 0
+
+[File 0022]
+File Type = "Include"
+Res Id = 21
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "DigitalSettings.h"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DigitalSettings.h"
+Exclude = False
+Project Flags = 0
+
+[File 0023]
+File Type = "User Interface Resource"
+Res Id = 22
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "DigitalSettings.uir"
+Path Line0001 = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DigitalSettings.ui"
+Path Line0002 = "r"
+Exclude = False
+Project Flags = 0
+
+[File 0024]
+File Type = "Include"
+Res Id = 23
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "DigitalSettings2.h"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DigitalSettings2.h"
+Exclude = False
+Project Flags = 0
+
+[File 0025]
+File Type = "CSource"
+Res Id = 24
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "GUIDesign.c"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/GUIDesign.c"
+Exclude = False
+Compile Into Object File = False
+Project Flags = 0
+
+[File 0026]
+File Type = "Include"
+Res Id = 25
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "GUIDesign.h"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/GUIDesign.h"
+Exclude = False
+Project Flags = 0
+
+[File 0027]
+File Type = "User Interface Resource"
+Res Id = 26
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "GUIDesign.uir"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/GUIDesign.uir"
+Exclude = False
+Project Flags = 0
+
+[File 0028]
+File Type = "Include"
+Res Id = 27
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "GUIDesign2.h"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/GUIDesign2.h"
+Exclude = False
+Project Flags = 0
+
+[File 0029]
+File Type = "CSource"
+Res Id = 28
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "main.c"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/main.c"
+Exclude = False
+Compile Into Object File = False
+Project Flags = 0
+
+[File 0030]
+File Type = "Include"
+Res Id = 29
+Path Is Rel = True
+Path Rel To = "Project"
 Path Rel Path = "main.h"
-Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-Feb10/main.h"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/main.h"
+Exclude = False
+Project Flags = 0
+
+[File 0031]
+File Type = "Include"
+Res Id = 30
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "vars.h"
+Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/vars.h"
 Exclude = False
 Project Flags = 0
 
@@ -197,14 +355,24 @@ Include Path 2 = "/c/ADwin/Developer/C"
 Executable File_Debug Is Rel = True
 Executable File_Debug Rel To = "Project"
 Executable File_Debug Rel Path = "GUIDesign_dbg.exe"
-Executable File_Debug = "/c/ADWinProgs/LW-GraphicInterfaceDesign-Feb10/GUIDesign_dbg.exe"
+Executable File_Debug = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/GUIDesign_dbg.exe"
 Executable File_Release Is Rel = True
 Executable File_Release Rel To = "Project"
 Executable File_Release Rel Path = "GUIDesign.exe"
-Executable File_Release = "/c/ADWinProgs/LW-GraphicInterfaceDesign-Feb10/GUIDesign.exe"
+Executable File_Release = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/GUIDesign.exe"
 Icon File Is Rel = False
 Icon File = ""
 Application Title = ""
+Numeric File Version = "1,1,0,0"
+Numeric Prod Version = "1,0,0,0"
+Comments = ""
+Company Name = "U of T"
+File Version = "1.1.0.0"
+Legal Copyright = "Copyright © U of T, 2004"
+Legal Trademarks = ""
+Private Build = ""
+Product Version = "1.0"
+Special Build = ""
 DLL Exports = "Include File Symbols"
 DLL Import Library Choice = "Gen Lib For Current Mode"
 Use VXIPNP Subdirectories for Import Libraries = False

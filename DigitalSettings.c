@@ -1,24 +1,25 @@
 #include <userint.h>
+
 #include "DigitalSettings.h"
-#include "main.h"
-extern int	panelHandle,panelHandle3;
-extern struct DigitalChannelProperties{
-	int		chnum;		// digital line to control
-	char 	chname[50];	// name of the channel on the panel
-	}	DChName[33];
+#include "DigitalSettings2.h"
+
+
 //********************************************************************************************
 int CVICALLBACK NUM_DIG_LINE_CALLBACK (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
+/*  
+Numeric control to update information displayed on the digital settings panel.
+*/
+
 {
 	int line=0;
 	switch (event)
 		{
 		case EVENT_COMMIT:
 			GetCtrlVal (panelHandle3, DIGPANEL_NUM_DIGCH_LINE, &line);
-			
 			SetCtrlVal (panelHandle3, DIGPANEL_NUM_DIGCHANNEL, DChName[line].chnum);
-		//	SetCtrlVal (panelHandle3, DIGPANEL_NUM_DIGCH_LINE, &line);
 			SetCtrlVal (panelHandle3, DIGPANEL_STR_DIGCHANNELNAME, DChName[line].chname);
+			SetCtrlVal (panelHandle3, DIGPANEL_CHK_DIGRESET, DChName[line].resettolow);			
 			break;
 		}
 	return 0;
@@ -26,6 +27,10 @@ int CVICALLBACK NUM_DIG_LINE_CALLBACK (int panel, int control, int event,
 //********************************************************************************************
 int CVICALLBACK CMD_DIGALLOWCHANGE_CALLBACK (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
+/*  
+Button to allow changes to be made to textboxes.
+Changes textbox from dimmed to activate (hot) mode
+*/
 {
 	SetCtrlAttribute (panelHandle3, DIGPANEL_CMD_DIGSETCHANGES,   ATTR_VISIBLE, 1);
 	switch (event)
@@ -34,6 +39,7 @@ int CVICALLBACK CMD_DIGALLOWCHANGE_CALLBACK (int panel, int control, int event,
 			
 			SetCtrlAttribute (panelHandle3, DIGPANEL_NUM_DIGCHANNEL, ATTR_CTRL_MODE, VAL_HOT);
 			SetCtrlAttribute (panelHandle3, DIGPANEL_STR_DIGCHANNELNAME, ATTR_CTRL_MODE, VAL_HOT);
+			SetCtrlAttribute (panelHandle3, DIGPANEL_CHK_DIGRESET, ATTR_CTRL_MODE, VAL_HOT);			
 			break;
 		}
 	return 0;
@@ -41,8 +47,11 @@ int CVICALLBACK CMD_DIGALLOWCHANGE_CALLBACK (int panel, int control, int event,
 //********************************************************************************************
 int CVICALLBACK CMD_DIGSETCHANGES_CALLBACK (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
+/*
+Set the digital line information DChName, based on information in text boxes.
+*/
 {	
-	int channel=0,line=0;
+	int channel=0,line=0,resetlow=0;
 	char buff[50];
 	switch (event)
 		{
@@ -50,8 +59,10 @@ int CVICALLBACK CMD_DIGSETCHANGES_CALLBACK (int panel, int control, int event,
 			GetCtrlVal (panelHandle3, DIGPANEL_NUM_DIGCHANNEL, &channel);
 			GetCtrlVal (panelHandle3, DIGPANEL_NUM_DIGCH_LINE, &line);
 			GetCtrlVal (panelHandle3, DIGPANEL_STR_DIGCHANNELNAME, buff);
+			GetCtrlVal (panelHandle3, DIGPANEL_CHK_DIGRESET, &resetlow);
 			DChName[line].chnum=channel;
 			sprintf(DChName[line].chname,buff);
+			DChName[line].resettolow=resetlow;
 			SetDigitalChannels();
 			break;
 		}
@@ -60,6 +71,9 @@ int CVICALLBACK CMD_DIGSETCHANGES_CALLBACK (int panel, int control, int event,
 //********************************************************************************************
 int CVICALLBACK CMD_DONEDIG_CALLBACK (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
+/*
+Turn control bxes into inactive (indicator) mode and hide the panel
+*/
 {
 	switch (event)
 		{
@@ -67,38 +81,38 @@ int CVICALLBACK CMD_DONEDIG_CALLBACK (int panel, int control, int event,
 			SetCtrlAttribute (panelHandle3, DIGPANEL_NUM_DIGCHANNEL, ATTR_CTRL_MODE, VAL_INDICATOR);
 			SetCtrlAttribute (panelHandle3, DIGPANEL_STR_DIGCHANNELNAME, ATTR_CTRL_MODE, VAL_INDICATOR);
 			SetCtrlAttribute (panelHandle3, DIGPANEL_CMD_DIGSETCHANGES,   ATTR_VISIBLE, 0);
+			SetCtrlAttribute (panelHandle3, DIGPANEL_CHK_DIGRESET,   ATTR_CTRL_MODE, VAL_INDICATOR);
 			HidePanel(panelHandle3);
 			break;
 		}
 	return 0;
 }
+
 //********************************************************************************************
-
-
-
 void SetDigitalChannels(void)
+/*
+Set the digital channel list (on main panel) with the information contained in the DChName array
+*/
 {
 	int i=0,j=0,k=0,line=0;
 	char numbuff[20]="";
-	for(i=1;i<=16;i++)
+	for(i=1;i<=NUMBERDIGITALCHANNELS;i++)
 	{
-		ReplaceListItem (panelHandle, PANEL_LB_DIGNAMES, i-1, DChName[i].chname,DChName[i].chnum);
-		sprintf(numbuff,"%d",DChName[i].chnum);
-		ReplaceListItem (panelHandle, PANEL_LB_DIGLINES, i-1, numbuff, DChName[i].chnum);
+		SetTableCellVal (panelHandle, PANEL_TBL_DIGNAMES, MakePoint(1,i),DChName[i].chname);
+		SetTableCellVal (panelHandle, PANEL_TBL_DIGNAMES, MakePoint(2,i),DChName[i].chnum);
 	}
 }
 
 //********************************************************************************************
-void ReadDigitalChannels(void)
-{
-	int i=0,j=0,k=0,line=0;
-    char buff[50]="";
-    for(i=1;i<=16;i++)
-    {
-	    GetLabelFromIndex (panelHandle, PANEL_LB_DIGNAMES, i-1, buff);
-	    sprintf(DChName[i].chname,buff);	
-    	GetLabelFromIndex (panelHandle, PANEL_LB_DIGLINES, i-1, buff);
-   		DChName[i].chnum=atoi(buff);
-    }
-}
 
+int CVICALLBACK CHKDIGRESET_CALLBACK (int panel, int control, int event,
+		void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+		{
+		case EVENT_COMMIT:
+
+			break;
+		}
+	return 0;
+}
