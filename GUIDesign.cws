@@ -1,6 +1,6 @@
 [Workspace Header]
 Version = 600
-Pathname = "/c/ADWinProgs/AdwinGUI-week of Nov25/GUIDesign.cws"
+Pathname = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/GUIDesign.cws"
 CVI Dir = "/c/program files/national instruments/measurementstudio/cvi"
 VXIplug&play Framework Dir = "/C/VXIpnp/winnt"
 Number of Projects = 1
@@ -32,19 +32,19 @@ Batch Build Release = False
 Batch Build Debug = False
 
 [File 0001]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/AnalogControl.c"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/AnalogControl.c"
 File Type = "CSource"
 Disk Date = 3176720681
 In Projects = "1,"
 Project Window Indexes = "3,"
 Window Top = 30
 Window Left = 178
-Source Window State = "1,69,69,69,16,39,16,0,0,101,0,0,0,0,0,36,110,0,139,38,"
+Source Window State = "1,97,103,97,4,73,4,0,3,101,0,0,0,0,0,36,86,0,103,73,"
 Breakpoint 0001 = "8,0,disabled,"
 Breakpoint 0002 = "19,0,disabled,"
 
 [File 0002]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/Adwin.c"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/Adwin.c"
 File Type = "CSource"
 Disk Date = 3156512726
 In Projects = "1,"
@@ -54,7 +54,7 @@ Window Left = 22
 Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,25,295,0,307,11,"
 
 [File 0003]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/Adwin.h"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/Adwin.h"
 File Type = "Include"
 Disk Date = 3117103292
 In Projects = "1,"
@@ -64,7 +64,7 @@ Window Left = 22
 Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,25,0,0,0,0,"
 
 [File 0004]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/AnalogControl.h"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/AnalogControl.h"
 File Type = "Include"
 Disk Date = 3176720679
 In Projects = "1,"
@@ -74,7 +74,7 @@ Window Left = 105
 Source Window State = "1,8,8,8,0,26,26,0,0,80,0,0,0,0,0,25,16,0,33,31,"
 
 [File 0005]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/AnalogControl.uir"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/AnalogControl.uir"
 File Type = "User Interface Resource"
 Disk Date = 3176720679
 In Projects = "1,"
@@ -85,7 +85,7 @@ Window Height = 400
 Window Width = 676
 
 [File 0006]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/AnalogControl2.h"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/AnalogControl2.h"
 File Type = "Include"
 Disk Date = 3174050576
 In Projects = "1,"
@@ -95,7 +95,7 @@ Window Left = 293
 Source Window State = "1,7,7,7,0,18,18,0,0,80,0,0,0,0,0,25,1,0,16,18,"
 
 [File 0007]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/AnalogSettings.c"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/AnalogSettings.c"
 File Type = "CSource"
 Disk Date = 3181832927
 In Projects = "1,"
@@ -105,7 +105,7 @@ Window Left = 154
 Source Window State = "1,78,82,78,0,0,0,0,0,117,0,8,0,8,0,40,64,0,77,0,"
 
 [File 0008]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/AnalogSettings.h"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/AnalogSettings.h"
 File Type = "Include"
 Disk Date = 3176819051
 In Projects = "1,"
@@ -115,7 +115,7 @@ Window Left = 107
 Source Window State = "1,22,22,22,9,31,31,0,3,80,0,0,0,0,0,25,1,0,22,9,"
 
 [File 0009]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/AnalogSettings.uir"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/AnalogSettings.uir"
 File Type = "User Interface Resource"
 Disk Date = 3176910149
 In Projects = "1,"
@@ -126,7 +126,7 @@ Window Height = 401
 Window Width = 676
 
 [File 0010]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/AnalogSettings2.h"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/AnalogSettings2.h"
 File Type = "Include"
 Disk Date = 3174050527
 In Projects = "1,"
@@ -136,7 +136,7 @@ Window Left = 188
 Source Window State = "1,10,10,10,5,23,23,0,0,80,0,0,0,0,0,25,0,0,14,43,"
 
 [File 0011]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/DDSControl.c"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/DDSControl.c"
 File Type = "CSource"
 Disk Date = 3174066206
 In Projects = "1,"
@@ -146,7 +146,7 @@ Window Left = 344
 Source Window State = "1,56,56,56,14,15,15,0,0,73,0,0,0,0,0,31,16,0,21,61,"
 
 [File 0012]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/DDSControl.h"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/DDSControl.h"
 File Type = "Include"
 Disk Date = 3174063742
 In Projects = "1,"
@@ -156,7 +156,7 @@ Window Left = 192
 Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,25,0,0,11,17,"
 
 [File 0013]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/DDSControl.uir"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/DDSControl.uir"
 File Type = "User Interface Resource"
 Disk Date = 3176225366
 In Projects = "1,"
@@ -167,7 +167,7 @@ Window Height = 401
 Window Width = 676
 
 [File 0014]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/DDSControl2.h"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/DDSControl2.h"
 File Type = "Include"
 Disk Date = 3174066227
 In Projects = "1,"
@@ -177,7 +177,7 @@ Window Left = 196
 Source Window State = "1,6,12,12,7,19,19,0,0,80,0,0,0,0,0,25,0,0,6,46,"
 
 [File 0015]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/DDSSettings.c"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/DDSSettings.c"
 File Type = "CSource"
 Disk Date = 3174386777
 In Projects = "1,"
@@ -187,7 +187,7 @@ Window Left = 457
 Source Window State = "1,8,10,8,5,27,5,0,0,80,0,0,0,0,0,25,51,0,69,6,"
 
 [File 0016]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/DDSSettings.h"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/DDSSettings.h"
 File Type = "Include"
 Disk Date = 3173724115
 In Projects = "1,"
@@ -197,7 +197,7 @@ Window Left = 134
 Source Window State = "1,17,17,17,9,35,35,0,0,80,0,0,0,0,0,25,5,0,29,46,"
 
 [File 0017]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/DDSSettings.uir"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/DDSSettings.uir"
 File Type = "User Interface Resource"
 Disk Date = 3174386983
 In Projects = "1,"
@@ -208,7 +208,7 @@ Window Height = 401
 Window Width = 676
 
 [File 0018]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/DDSSettings2.h"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/DDSSettings2.h"
 File Type = "Include"
 Disk Date = 3174386781
 In Projects = "1,"
@@ -218,7 +218,7 @@ Window Left = 162
 Source Window State = "1,7,7,7,0,32,0,0,0,80,0,0,0,0,0,25,0,0,9,25,"
 
 [File 0019]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/ddstranslator.c"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/ddstranslator.c"
 File Type = "CSource"
 Disk Date = 3183468669
 In Projects = "1,"
@@ -228,7 +228,7 @@ Window Left = 4
 Source Window State = "1,397,397,397,5,21,21,0,0,133,0,0,0,0,0,67,364,0,397,39,"
 
 [File 0020]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/ddstranslator.h"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/ddstranslator.h"
 File Type = "Include"
 Disk Date = 3183468669
 In Projects = "1,"
@@ -238,7 +238,7 @@ Window Left = 652
 Source Window State = "1,76,76,76,5,21,21,0,3,72,0,0,0,0,0,35,49,0,76,5,"
 
 [File 0021]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/DigitalSettings.c"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/DigitalSettings.c"
 File Type = "CSource"
 Disk Date = 3176832225
 In Projects = "1,"
@@ -248,7 +248,7 @@ Window Left = 4
 Source Window State = "1,20,21,21,103,103,103,0,3,155,0,0,0,0,0,56,0,0,20,103,"
 
 [File 0022]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/DigitalSettings.h"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/DigitalSettings.h"
 File Type = "Include"
 Disk Date = 3176832127
 In Projects = "1,"
@@ -258,7 +258,7 @@ Window Left = 6
 Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,25,0,0,0,0,"
 
 [File 0023]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/DigitalSettings.uir"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/DigitalSettings.uir"
 File Type = "User Interface Resource"
 Disk Date = 3176832127
 In Projects = "1,"
@@ -269,7 +269,7 @@ Window Height = 401
 Window Width = 676
 
 [File 0024]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/DigitalSettings2.h"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/DigitalSettings2.h"
 File Type = "Include"
 Disk Date = 3174050596
 In Projects = "1,"
@@ -279,19 +279,19 @@ Window Left = 284
 Source Window State = "1,10,10,10,5,23,23,0,0,80,0,0,0,0,0,25,0,0,7,22,"
 
 [File 0025]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/GUIDesign.c"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/GUIDesign.c"
 File Type = "CSource"
-Disk Date = 3184598592
+Disk Date = 3184687717
 In Projects = "1,"
 Project Window Indexes = "25,"
 Window Top = 49
 Window Left = 162
-Source Window State = "1,1035,1035,1035,27,28,28,0,0,112,0,169,0,0,0,54,912,0,935,27,"
+Source Window State = "1,1739,1741,1739,8,64,8,0,0,112,0,169,0,0,0,54,2204,0,2257,0,"
 
 [File 0026]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/GUIDesign.h"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/GUIDesign.h"
 File Type = "Include"
-Disk Date = 3184258828
+Disk Date = 3184683811
 In Projects = "1,"
 Project Window Indexes = "26,"
 Window Top = 156
@@ -299,9 +299,9 @@ Window Left = 279
 Source Window State = "1,88,88,88,17,35,35,0,0,87,0,0,0,0,0,28,82,0,89,53,"
 
 [File 0027]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/GUIDesign.uir"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/GUIDesign.uir"
 File Type = "User Interface Resource"
-Disk Date = 3184258828
+Disk Date = 3184683810
 In Projects = "1,"
 Project Window Indexes = "27,"
 Window Top = 30
@@ -310,27 +310,27 @@ Window Height = 1004
 Window Width = 1069
 
 [File 0028]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/GUIDesign2.h"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/GUIDesign2.h"
 File Type = "Include"
 Disk Date = 3178894508
 In Projects = "1,"
 Project Window Indexes = "28,"
 Window Top = 219
 Window Left = 173
-Source Window State = "1,39,39,39,0,6,6,0,0,98,0,0,0,0,0,42,0,0,39,4,"
+Source Window State = "1,12,12,12,1,6,6,0,0,98,0,0,0,0,0,42,0,0,12,7,"
 
 [File 0029]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/main.c"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/main.c"
 File Type = "CSource"
-Disk Date = 3176821086
+Disk Date = 3184597419
 In Projects = "1,"
 Project Window Indexes = "29,"
 Window Top = 241
 Window Left = 173
-Source Window State = "1,116,130,116,4,11,4,0,0,111,0,0,0,0,0,33,109,0,134,61,"
+Source Window State = "1,118,118,118,19,21,21,0,0,111,0,0,0,0,0,33,107,0,118,32,"
 
 [File 0030]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/main.h"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/main.h"
 File Type = "Include"
 Disk Date = 3176125431
 In Projects = "1,"
@@ -340,14 +340,14 @@ Window Left = 104
 Source Window State = "1,20,20,20,0,50,0,0,0,110,0,0,0,0,0,27,2,0,17,43,"
 
 [File 0031]
-Path = "/c/ADWinProgs/AdwinGUI-week of Nov25/vars.h"
+Path = "/c/ADWinProgs/AdwinGUI-week of Nov25-add pages/vars.h"
 File Type = "Include"
-Disk Date = 3184270401
+Disk Date = 3184597340
 In Projects = "1,"
 Project Window Indexes = "31,"
 Window Top = 97
 Window Left = 247
-Source Window State = "1,19,19,19,0,73,73,0,3,106,0,94,0,94,0,45,3,0,19,0,"
+Source Window State = "1,86,86,86,20,22,22,0,0,106,0,95,0,95,0,45,56,0,86,33,"
 
 [Build Options 0001]
 Generate Browse Info = True

@@ -10,7 +10,7 @@
 #include "ddstranslator.h"
 #include "DDSSettings2.h"
 
-#undef PRINT_TO_DEBUG //if defined, outputs the array to the debug window
+#define PRINT_TO_DEBUG //if defined, outputs the array to the debug window
 
 struct AnVals{
 	int		fcn;		//fcn is an integer refering to a function to use.

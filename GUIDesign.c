@@ -12,7 +12,7 @@ struct AnalogTableClip{
 	double	tscale;		//the timescale to approach final value
 	} AnalogClip[NUMBERANALOGCHANNELS+1];
 int DigClip[NUMBERDIGITALCHANNELS+1];
-
+DDSOPTIONS ddsclip;
 
 
 //******************************************************************
@@ -445,7 +445,9 @@ int CVICALLBACK TOGGLE1_CALLBACK (int panel, int control, int event,
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE5, 0);
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE6, 0);
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE7, 0);
-			
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE8, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE9, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE10, 0);			
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 1);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 0);
@@ -453,7 +455,10 @@ int CVICALLBACK TOGGLE1_CALLBACK (int panel, int control, int event,
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
-			currentpage=1;
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0); 
+	currentpage=1;
 			DrawNewTable(isdimmed);
 			break;
 		}
@@ -473,7 +478,9 @@ int CVICALLBACK TOGGLE2_CALLBACK (int panel, int control, int event,
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE5, 0);
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE6, 0);
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE7, 0);
-			
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE8, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE9, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE10, 0);			
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 1);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 0);
@@ -481,7 +488,10 @@ int CVICALLBACK TOGGLE2_CALLBACK (int panel, int control, int event,
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
-			currentpage=2;
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0); 
+	currentpage=2;
 			DrawNewTable(isdimmed);
 			break;
 		}
@@ -501,7 +511,9 @@ int CVICALLBACK TOGGLE3_CALLBACK (int panel, int control, int event,
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE5, 0);
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE6, 0);
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE7, 0);
-			
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE8, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE9, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE10, 0);			
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 1);
@@ -509,7 +521,10 @@ int CVICALLBACK TOGGLE3_CALLBACK (int panel, int control, int event,
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
-			currentpage=3;
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0); 
+	currentpage=3;
 			DrawNewTable(isdimmed);
 			break;
 		}
@@ -529,7 +544,9 @@ int CVICALLBACK TOGGLE4_CALLBACK (int panel, int control, int event,
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE5, 0);
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE6, 0);
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE7, 0);
-			
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE8, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE9, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE10, 0);			
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 0);
@@ -537,7 +554,10 @@ int CVICALLBACK TOGGLE4_CALLBACK (int panel, int control, int event,
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
-			currentpage=4;
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0); 
+	currentpage=4;
 			DrawNewTable(isdimmed);			
 			break;
 		}
@@ -557,7 +577,9 @@ int CVICALLBACK TOGGLE5_CALLBACK (int panel, int control, int event,
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE5, 1);
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE6, 0);
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE7, 0);
-			
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE8, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE9, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE10, 0);			
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 0);
@@ -565,7 +587,10 @@ int CVICALLBACK TOGGLE5_CALLBACK (int panel, int control, int event,
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 1);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
-			currentpage=5;
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0); 
+	currentpage=5;
 			DrawNewTable(isdimmed);			
 			break;
 		}
@@ -585,7 +610,9 @@ int CVICALLBACK TOGGLE6_CALLBACK (int panel, int control, int event,
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE5, 0);
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE6, 1);
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE7, 0);
-			
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE8, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE9, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE10, 0);			
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 0);
@@ -593,7 +620,10 @@ int CVICALLBACK TOGGLE6_CALLBACK (int panel, int control, int event,
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 1);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
-			currentpage=6;
+ 	SetCtrlAttribute (panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0); 
+	currentpage=6;
 			DrawNewTable(isdimmed);			
 			break;
 		}
@@ -613,7 +643,9 @@ int CVICALLBACK TOGGLE7_CALLBACK (int panel, int control, int event,
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE5, 0);
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE6, 0);
 			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE7, 1);
-			
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE8, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE9, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE10, 0);			
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 0);
@@ -621,12 +653,119 @@ int CVICALLBACK TOGGLE7_CALLBACK (int panel, int control, int event,
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 1);
-			currentpage=7;
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0); 
+	currentpage=7;
 			DrawNewTable(isdimmed);
 			break;
 		}
 	return 0;
 }
+
+int CVICALLBACK TOGGLE8_CALLBACK (int panel, int control, int event,
+		void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+		{
+		case EVENT_COMMIT:
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE1, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE2, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE3, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE4, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE5, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE6, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE7, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE8, 1);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE9, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE10, 0);			
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_4, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 1); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0); 
+	currentpage=8;
+			DrawNewTable(isdimmed);
+			break;
+		}
+	return 0;
+}
+
+
+int CVICALLBACK TOGGLE9_CALLBACK (int panel, int control, int event,
+		void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+		{
+		case EVENT_COMMIT:
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE1, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE2, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE3, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE4, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE5, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE6, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE7, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE8, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE9, 1);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE10, 0);			
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_4, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 1); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0); 
+	currentpage=9;
+			DrawNewTable(isdimmed);
+			break;
+		}
+	return 0;
+}
+
+
+int CVICALLBACK TOGGLE10_CALLBACK (int panel, int control, int event,
+		void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+		{
+		case EVENT_COMMIT:
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE1, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE2, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE3, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE4, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE5, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE6, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE7, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE8, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE9, 0);
+			SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE10, 1);
+			
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_4, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0); 
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 1); 
+			currentpage=10;
+			DrawNewTable(isdimmed);
+			break;
+		}
+	return 0;
+}
+
+
 
 void CheckActivePages(void)
 {
@@ -644,7 +783,15 @@ void CheckActivePages(void)
   	GetCtrlVal (panelHandle, PANEL_CHECKBOX_6, &bool);
   	ischecked[6]=bool;
   	GetCtrlVal (panelHandle, PANEL_CHECKBOX_7, &bool);
-	ischecked[7]=bool;  	
+	ischecked[7]=bool;  
+  	GetCtrlVal (panelHandle, PANEL_CHECKBOX_8, &bool);
+	ischecked[8]=bool;
+  	GetCtrlVal (panelHandle, PANEL_CHECKBOX_9, &bool);
+	ischecked[9]=bool;
+  	GetCtrlVal (panelHandle, PANEL_CHECKBOX_10, &bool);
+	ischecked[10]=bool;
+	
+	
 }
 //***************************************************************************************************
 
@@ -685,7 +832,7 @@ int CVICALLBACK TIMETABLE_CALLBACK (int panel, int control, int event,
 	double dval,oldtime,ratio,tscaleold;
 	Point pval={0,0};
 	int page,i,j;
-	
+	int ctrlmode;
 	ChangedVals=1;
 	switch (event)
 		{
@@ -706,8 +853,9 @@ int CVICALLBACK TIMETABLE_CALLBACK (int panel, int control, int event,
 				
 				for(j=1;j<=NUMBERANALOGCHANNELS;j++)
 				{
-					tscaleold=AnalogTable[i][j][page].tscale;
+					tscaleold=AnalogTable[i][j][page].tscale;	// use this  and next line to auto-scale the time
 					AnalogTable[i][j][page].tscale=tscaleold*ratio;
+			//		AnalogTable[i][j][page].tscale=dval;	  //use this line to force timescale to period
 				}
 				
 				//set the delta time value for the dds array
@@ -916,7 +1064,7 @@ void RunOnce (void)
 	
 	int i,j,k,mindex,nozerofound,tsize;
 	
-	createCommandArray(ddstable, 17, 10, DDSFreq.PLLmult, DDSFreq.extclock);
+	createCommandArray(ddstable, 17, NUMBEROFPAGES, DDSFreq.PLLmult, DDSFreq.extclock);
 	
 	isdimmed=1;
 	
@@ -926,14 +1074,14 @@ void RunOnce (void)
 		mindex=0;
 		
 		//go through for each page
-		for(k=1;k<=7;k++)
+		for(k=1;k<=NUMBEROFPAGES;k++)
 		{
 			nozerofound=1;
 			if(ischecked[k]==1) //if the page is selected
 			{
 				
 				//go through for each time column
-				for(i=1;i<=14;i++)
+				for(i=1;i<14;i++)
 				{
 					if((nozerofound==1)&&(TimeArray[i][k]>0)) 
 					//ignore all columns after the first
@@ -1033,13 +1181,17 @@ void CVICALLBACK CLEARPANEL_CALLBACK (int menuBar, int menuItem, void *callbackD
 		{
 			for(j=1;j<=NUMBERANALOGCHANNELS;j++)
 			{
-				for(k=1;k<=7;k++)
+				for(k=0;k<NUMBEROFPAGES;k++)
 				{
 					AnalogTable[i][j][k].fcn=1;		
 					AnalogTable[i][j][k].fval=0;
 					AnalogTable[i][j][k].tscale=0;
 					DigTableValues[i][j][k]=0;
 					TimeArray[i][k]=0;
+					ddstable[i][k].frequency1=0;
+					ddstable[i][k].frequency2=0;
+					ddstable[i][k].current=0;
+					ddstable[i][k].is_stop=0;
 				}
 			}
 		}
@@ -1112,6 +1264,10 @@ void ShiftColumn(int col, int dir)
 			AnalogTable[xstart-dir*i][j][page].fval=AnalogTable[xstart-dir*i-dir][j][page].fval ;
 			AnalogTable[xstart-dir*i][j][page].tscale=AnalogTable[xstart-dir*i-dir][j][page].tscale;
 		}
+		ddstable[xstart-dir*i][page].frequency1=ddstable[xstart-dir*i-dir][page].frequency1;
+		ddstable[xstart-dir*i][page].frequency2=ddstable[xstart-dir*i-dir][page].frequency2;
+		ddstable[xstart-dir*i][page].current=ddstable[xstart-dir*i-dir][page].current;
+		ddstable[xstart-dir*i][page].is_stop=ddstable[xstart-dir*i-dir][page].is_stop;
 	}
 	//if we inserted a column, then set all values to zero 
 	// prompt and ask if we want to duplicate the selected column
@@ -1125,6 +1281,10 @@ void ShiftColumn(int col, int dir)
 			AnalogTable[col][j][page].fval=0;
 			AnalogTable[col][j][page].tscale=1;
 		}
+		ddstable[col][page].frequency1=0;
+		ddstable[col][page].frequency2=0;
+		ddstable[col][page].current=0;
+		ddstable[col][page].is_stop=FALSE;
 		status=ConfirmPopup("Duplicate","Do you want to duplicate the selected column?");
 		if (status==1)
 		{
@@ -1136,6 +1296,10 @@ void ShiftColumn(int col, int dir)
 				AnalogTable[col][j][page].fval=AnalogTable[col+1][j][page].fval;
 				AnalogTable[col][j][page].tscale=AnalogTable[col+1][j][page].tscale;
 			}
+			ddstable[col][page].frequency1=ddstable[col+1][page].frequency1;
+			ddstable[col][page].frequency2=ddstable[col+1][page].frequency2;
+			ddstable[col][page].current=ddstable[col+1][page].current;
+			ddstable[col][page].is_stop=ddstable[col+1][page].is_stop;
 		}
 	}   
 
@@ -1161,6 +1325,10 @@ void CVICALLBACK COPYCOLUMN_CALLBACK (int menuBar, int menuItem, void *callbackD
 		AnalogClip[j].tscale=AnalogTable[cpoint.x][j][page].tscale;
 		DigClip[j]=DigTableValues[cpoint.x][j][page];
 	}
+	ddsclip.frequency1=ddstable[cpoint.x][page].frequency1;
+	ddsclip.frequency2=ddstable[cpoint.x][page].frequency2;
+	ddsclip.current=ddstable[cpoint.x][page].current;
+	ddsclip.is_stop=ddstable[cpoint.x][page].is_stop;
 	DrawNewTable(0);
 
 }
@@ -1185,6 +1353,10 @@ void CVICALLBACK PASTECOLUMN_CALLBACK (int menuBar, int menuItem, void *callback
 		AnalogTable[cpoint.x][j][page].tscale=AnalogClip[j].tscale;
 		DigTableValues[cpoint.x][j][page]=DigClip[j];
 	}
+	ddstable[cpoint.x][page].frequency1=ddsclip.frequency1;
+	ddstable[cpoint.x][page].frequency2=ddsclip.frequency2;
+	ddstable[cpoint.x][page].current=ddsclip.current;
+	ddstable[cpoint.x][page].is_stop=ddsclip.is_stop;
 	DrawNewTable(0);
 }
 //**********************************************************************************
@@ -1581,8 +1753,8 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 			if(DChName[i].resettolow==1) {digchannelsum+=2^(i-17);}	
 		}
 		ResetToZeroAtEnd[26]=digchannelsum;// digital channels 17-24
-		ResetToZeroAtEnd[25]=0;// lower 16 digital channels    
-		ResetToZeroAtEnd[26]=0;// digital channels 17-24
+		//ResetToZeroAtEnd[25]=0;// lower 16 digital channels    
+		//ResetToZeroAtEnd[26]=0;// digital channels 17-24
 		ResetToZeroAtEnd[27]=0;// master override....if ==1 then reset none
 		if(checkresettozero==0) { ResetToZeroAtEnd[27]=1;}
 		SetData_Long(4,ResetToZeroAtEnd,1,NUMBERANALOGCHANNELS+6);
@@ -1927,7 +2099,7 @@ void CVICALLBACK EXPORT_PANEL_CALLBACK (int menuBar, int menuItem, void *callbac
 	//check each page...find used columns and dim out unused....(with 0 or negative values)
 	SetCtrlAttribute(panelHandle,PANEL_ANALOGTABLE,ATTR_TABLE_MODE,VAL_COLUMN); 
 	mindex=0;
-	for(k=1;k<=7;k++)				//go through for each page       
+	for(k=1;k<=NUMBEROFPAGES;k++)				//go through for each page       
 	{
 		nozerofound=1;
 		if(ischecked[k]==1) //if the page is selected
@@ -2083,3 +2255,17 @@ void CVICALLBACK CONFIG_EXPORT_CALLBACK (int menuBar, int menuItem, void *callba
 }
 
 
+void CVICALLBACK MENU_ALLLOW_CALLBACK (int menuBar, int menuItem, void *callbackData,
+		int panel)
+{
+}
+
+void CVICALLBACK MENU_HOLD_CALLBACK (int menuBar, int menuItem, void *callbackData,
+		int panel)
+{
+}
+
+void CVICALLBACK MENU_BYCHANNEL_CALLBACK (int menuBar, int menuItem, void *callbackData,
+		int panel)
+{
+}

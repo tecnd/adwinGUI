@@ -54,17 +54,17 @@ July26: Begin adding code to control the DDS (AD9854 from Analog Devices)
 //**************INITIALIZE GLOBALS***********************************************************************
 
 extern int currentx=0,currenty=0,currentpage=0;
-extern int ischecked[10]={0},isdimmed=0;
+extern int ischecked[NUMBEROFPAGES]={0},isdimmed=0;
 extern int ChangedVals=1;
-extern struct AnalogTableValues AnalogTable[17][NUMBERANALOGCHANNELS+1][10]={1,0,1};
+extern struct AnalogTableValues AnalogTable[17][NUMBERANALOGCHANNELS+1][NUMBEROFPAGES]={1,0,1};
 	// the structure is the values/elements contained at each point in the 
 	// analog panel.  The array aval, is set up as [x][y][page]
 	
-extern int DigTableValues[17][NUMBERDIGITALCHANNELS+1][10]={0};
+extern int DigTableValues[17][NUMBERDIGITALCHANNELS+1][NUMBEROFPAGES]={0};
 extern int ChMap[NUMBERANALOGCHANNELS+1]={0};	// The channel mapping (for analog). i.e. if we program line 1 as channel 
 				// 12, the ChMap[12]=1
 
-extern double TimeArray[17][10]={0};
+extern double TimeArray[17][NUMBEROFPAGES]={0};
 extern struct AnalogChannelProperties AChName[NUMBERANALOGCHANNELS+1]={0,"","",0,1};		
 
 extern double EventPeriod=DefaultEventPeriod;
@@ -93,7 +93,7 @@ int main (int argc, char *argv[])
 	//initialize the dds array
 	for (i=0;i<17;i++)
 	{
-		ddstable[i] = (DDSOPTIONS *) malloc(sizeof(DDSOPTIONS) * 10);
+		ddstable[i] = (DDSOPTIONS *) malloc(sizeof(DDSOPTIONS) * NUMBEROFPAGES);
 	}
 		
 	//Load bitmaps
@@ -104,7 +104,7 @@ int main (int argc, char *argv[])
 		AChName[j].tbias=0;
 		AChName[j].resettozero=1;
 		for(i=0;i<=16;i++){		// ramp over # of cells per page
-			for(k=0;k<=9;k++){	// ramp over pages
+			for(k=0;k<NUMBEROFPAGES;k++){	// ramp over pages
 				AnalogTable[i][j][k].fcn=1;
 				AnalogTable[i][j][k].fval=0.0;
 				AnalogTable[i][j][k].tscale=1;
@@ -116,7 +116,7 @@ int main (int argc, char *argv[])
 	//initialize ddstable
 	for (i=0;i<17;i++)
 	{
-		for (j=0;j<10;j++)
+		for (j=0;j<NUMBEROFPAGES;j++)
 		{
 			ddstable[i][j].frequency1 = 0;
 			ddstable[i][j].frequency2 = 0;
@@ -171,7 +171,7 @@ int main (int argc, char *argv[])
 void Initialization()
 {
 	int i=0,cellheight=0,fontsize=0;
-	int j=0;
+	int j=0,x0,dx;
 	char str_list_val[5];
 	
 	//Add in any extra rows (if the number of channels increases)
@@ -202,7 +202,9 @@ void Initialization()
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
-	
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
 
 
 
@@ -221,10 +223,56 @@ void Initialization()
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_6, ATTR_TOP, 88);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_7, ATTR_LEFT, 165);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_7, ATTR_TOP, 88);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_8, ATTR_LEFT, 165);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_8, ATTR_TOP, 88);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_9, ATTR_LEFT, 165);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_9, ATTR_TOP, 88);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_10, ATTR_LEFT, 165);
+	SetCtrlAttribute (panelHandle, PANEL_LABEL_10, ATTR_TOP, 88);
 	
-	
-	
-	
+	// Reposition the page boxes and checkboxes
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE1,ATTR_TOP,30);
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE2,ATTR_TOP,30);
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE3,ATTR_TOP,30);
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE4,ATTR_TOP,30);
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE5,ATTR_TOP,30);
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE6,ATTR_TOP,30);
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE7,ATTR_TOP,30);
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE8,ATTR_TOP,30);
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE9,ATTR_TOP,30);
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE10,ATTR_TOP,30);
+	x0=165;dx=65;
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE1,ATTR_LEFT,x0);x0=x0+dx;
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE2,ATTR_LEFT,x0);x0=x0+dx;
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE3,ATTR_LEFT,x0);x0=x0+dx;
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE4,ATTR_LEFT,x0);x0=x0+dx;
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE5,ATTR_LEFT,x0);x0=x0+dx;
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE6,ATTR_LEFT,x0);x0=x0+dx;
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE7,ATTR_LEFT,x0);x0=x0+dx;
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE8,ATTR_LEFT,x0);x0=x0+dx;
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE9,ATTR_LEFT,x0);x0=x0+dx;
+	SetCtrlAttribute (panelHandle,PANEL_TB_SHOWPHASE10,ATTR_LEFT,x0);x0=x0+dx;	
+	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX,ATTR_TOP,60);
+	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_2,ATTR_TOP,60);
+	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_3,ATTR_TOP,60);
+	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_4,ATTR_TOP,60);
+	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_5,ATTR_TOP,60);
+	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_6,ATTR_TOP,60);
+	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_7,ATTR_TOP,60);
+	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_8,ATTR_TOP,60);
+	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_9,ATTR_TOP,60);
+	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_10,ATTR_TOP,60);	
+	x0=165;dx=65 ;
+	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX,ATTR_LEFT,x0);x0=x0+dx;
+	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_2,ATTR_LEFT,x0);x0=x0+dx;
+	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_3,ATTR_LEFT,x0);x0=x0+dx;
+	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_4,ATTR_LEFT,x0);x0=x0+dx;
+	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_5,ATTR_LEFT,x0);x0=x0+dx;
+	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_6,ATTR_LEFT,x0);x0=x0+dx;
+	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_7,ATTR_LEFT,x0);x0=x0+dx;
+ 	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_8,ATTR_LEFT,x0);x0=x0+dx;
+	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_9,ATTR_LEFT,x0);x0=x0+dx;
+	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_10,ATTR_LEFT,x0);x0=x0+dx;
 	
 	for (i=1;i<=NUMBERDIGITALCHANNELS;i++)
 	{
