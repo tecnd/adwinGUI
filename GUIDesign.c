@@ -843,6 +843,7 @@ int CVICALLBACK TIMETABLE_CALLBACK (int panel, int control, int event,
 			{
 				oldtime=TimeArray[i][page];
 				GetTableCellVal(PANEL,PANEL_TIMETABLE,MakePoint(i,1),&dval);
+				
 				TimeArray[i][page]=dval;
 				//now rescale the time scale for waveform fcn. Go over all 16 analog channels
 				ratio=dval/oldtime;
@@ -1136,6 +1137,9 @@ void RunOnce (void)
 					}
 					/* ddsoptions_struct contains floats and ints, so shallow copy is ok */
 					MetaDDSArray[mindex] = ddstable[i][k];
+					MetaDDSArray[mindex].delta_time=TimeArray[i][k]/1000;
+					// Don't know why the preceding line is necessary...
+					// But the time information wasn't always copied in... or it was erased elsewhere
 				}
 				else if (TimeArray[i][k]==0) 
 				{
@@ -1542,13 +1546,19 @@ void SaveArrays(char savedname[500],int csize)
 	FILE *fdata;
 	int i=0,j=0,k=0;
 	int xval=16,yval=16,zval=10;
-	char buff[500],buff2[100];
+	char buff[500]="",buff2[100];
 	strncpy(buff,savedname,csize-4);
 	strcat(buff,".arr");
 	if((fdata=fopen(buff,"w"))==NULL)
 	{
 	//	InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
-		MessagePopup("Save Error","Failed to save data arrays");
+		strcpy(buff2,"Failed to save data arrays. \n Panel Filename received\n");
+		strcat(buff2,buff);
+	//	strcat(buff2,"\n Array File name attempted \n");
+	//	strcat(buff2,buff);
+		
+		MessagePopup("Save Error",buff2);
+		
 	}
 	//The Plan:
 	//write the dimensionality of the array....
@@ -1664,8 +1674,8 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
     {	
     	/* Update the array of DDS commands
 		EventPeriod is in ms, create_command_array in s, so convert units */
-//		dds_cmd_seq = create_dds_cmd_sequence(DDSArray, numtimes,DDSFreq.PLLmult, 
-//		DDSFreq.extclock,EventPeriod/1000);
+		dds_cmd_seq = create_dds_cmd_sequence(DDSArray, numtimes,DDSFreq.PLLmult, 
+		DDSFreq.extclock,EventPeriod/1000);
     
 	//	SaveLastGuiSettings();
 		UpdateNum=calloc((int)((double)timesum*1.2),sizeof(int));
@@ -1729,9 +1739,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 					nuptotal++;
 					ChNum[nuptotal]=AChName[j].chnum;
 					NewAval=CalcFcnValue(AMat[j][i].fcn,AMat[j][i-1].fval,AMat[j][i].fval,AMat[j][i].tscale,0.0);
-	// use 1 of the following 2 lines.  Line 1 for output =entry (in V) on panel
-	// line 2 for scaled output.  Maybe rewrite to do a function call with a more complex formula.
-//					ChVal[nuptotal]=NewAval;
+
  					TempChVal=AChName[j].tbias+NewAval*AChName[j].tfcn;
  					ChVal[nuptotal]=CheckIfWithinLimits(TempChVal,j);
  					
@@ -1784,7 +1792,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 				k=0;
 				nupcurrent=0;
 				//do the DDS
-		/*		tmp_dds = get_dds_cmd(dds_cmd_seq, count-1-start_offset);  //dds translator(zero base) runs 1 behind this counter
+				tmp_dds = get_dds_cmd(dds_cmd_seq, count-1-start_offset);  //dds translator(zero base) runs 1 behind this counter
 				if (tmp_dds>=0)
 				{
 					nupcurrent++;
@@ -1793,7 +1801,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 					ChVal[nuptotal] = tmp_dds;
 				
 				} //done the DDS
-		*/		
+				
 				while(k<usefcn)
 				{
 					k++;
@@ -2432,60 +2440,58 @@ void OptimizeTimeLoop(int *UpdateNum,int count, int *newcount)
 	int numberofzeros;
 	i=1;
 	t=1;
-	LowZeroThreshold=10;	  // minimum number of consecutive zero's to encounter before optimizing
-	HighZeroThreshold=10000;  // maximum number of consecutive zero's to optimize 
+	LowZeroThreshold=0;	  // minimum number of consecutive zero's to encounter before optimizing
+	HighZeroThreshold=100000;  // maximum number of consecutive zero's to optimize 
 							//  We do not want to exceed the counter on the ADwin
 							//  ADwin uses a 40MHz clock, 1 ms implies counter set to 40,000
-	do 
+	while( i<count+1)
 	{
-		//find the number of zero's, without updating i
-		
-		if((UpdateNum[i]==0)&&(i<=count)) //point A
+		if(UpdateNum[i]!=0)	
 		{
+			UpdateNum[t]=UpdateNum[i];			
+			i++;
+			t++;
+		}
+		else   							// found a 0  
+		{     							// now we need to scan to find the # of zeros
 			j=1;
-			do 
-			{ 
-				LastFound=UpdateNum[i+j];
-				if(LastFound!=0)
+			while(((i+j)<(count+1))&&(UpdateNum[i+j]==0))	
+			{
+				j++;
+			} 						//if this fails, then AA[i+j]!=0
+			if((i+j)<(count+1))
+			{		
+				
+			// write out 0's		
+				numberofzeros=j;
+				if(numberofzeros<=LowZeroThreshold)
 				{
-					if(j>=LowZeroThreshold)
-					{
-						numberofzeros=j;
-						while(numberofzeros>HighZeroThreshold)
-						{
-							UpdateNum[t]=-HighZeroThreshold;
-							t=t+1;
-							numberofzeros=numberofzeros-HighZeroThreshold;
-						} 
-						UpdateNum[t]=-numberofzeros;
-						t++;
-					}
-					else
-					{
-						for(k=1;k<j;k++) 
-						{   
-							UpdateNum[t]=0;
-							t=t+1;
-						}
-						UpdateNum[t]=0;
-					}
+					for(k=1;k<=numberofzeros;k++) { UpdateNum[t]=0;t++;i++;}
 					
 				}
-				j=j+1;	 
-			}while((LastFound==0)&&((i+j)<=(count+10)));
-
-			i=i+j-2;
-		}	//endA
-		else
-		{
-			UpdateNum[t]=UpdateNum[i];
+				else
+				{
+					while(numberofzeros>HighZeroThreshold)
+					{
+						numberofzeros=numberofzeros-HighZeroThreshold;
+						UpdateNum[t]=-HighZeroThreshold;
+						t++;
+					}
+					UpdateNum[t]=-numberofzeros;
+					t++;	
+					UpdateNum[t]=UpdateNum[i+j];
+					t++;
+					i=i+j+1;
+				}		
+			}
+			else
+			{
+				UpdateNum[t]=-(count+1-i-j);
+				i=i+j+1;
+			}
+		
 		}
-		i=i+1;
-		t=t+1;
-	}while(i<count+1);
-	//output
-	// clean up, set everything to 0 from t to count
-//	for (k=t;k<=count;k++) {UpdateNum[k]=0;}
+	}
 	*newcount=t;
 }
 
