@@ -228,20 +228,7 @@ int GetPage(void)
  	SetCtrlAttribute (panelHandle, PANEL_TIMETABLE, ATTR_VISIBLE, 0);
 	page=GetPage();
 	
-//	GetCtrlVal(panelHandle, PANEL_TGL_NUMERICTABLE,&val);
-//	if(val==0) 
-//	{ 
-//			SetDisplayType(VAL_CELL_NUMERIC);
-//	}
-//	else 
-//	{
-//		SetDisplayType(VAL_CELL_PICTURE);
-//	}
-
-	GetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(1,1),
-						   ATTR_CELL_TYPE, &celltype);
-	
-	
+	GetCtrlVal(panelHandle, PANEL_TGL_NUMERICTABLE,&celltype);
 	if(celltype==2) {ispicture=1;}
 	else { ispicture=0;}
 	
@@ -261,18 +248,19 @@ int GetPage(void)
  	picmode=0;
 	for(i=1;i<=14;i++)
 	{
+		
 		SetTableCellAttribute (panelHandle, PANEL_TIMETABLE, MakePoint(i,1),ATTR_CELL_DIMMED, 0);
 		for(j=1;j<=NUMBERANALOGCHANNELS;j++)
 		{
-			SetTableCellVal (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,j), 0);
-			if(ispicture==0)
-			{
-				SetTableCellVal(panelHandle,PANEL_ANALOGTABLE,MakePoint(i,j),AnalogTable[i][j][page].fval);
-			}
-			
-			
+			SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,j),
+				   ATTR_CELL_TYPE, VAL_CELL_NUMERIC);
+			SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,j),
+				ATTR_CTRL_VAL, AnalogTable[i][j][page].fval);
+
 			SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,j),ATTR_CELL_DIMMED, 0);
 			SetTableCellAttribute (panelHandle, PANEL_DIGTABLE, MakePoint(i,j),ATTR_CELL_DIMMED, 0);
+		//	SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,j),
+		//		ATTR_CTRL_VAL, AnalogTable[i][j][page].fval);
 			//check what's happening...care about off, static, changing
 			// step.  Vfinal=0 and last Vfinal=0  -> off
 			// step	  Vfinal=Vconst and last Vconst=Vconst
@@ -337,7 +325,7 @@ int GetPage(void)
 		//update DDS row
 		
 		SetTableCellVal (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,25), 0);
-		if(ispicture==0)
+		//if(ispicture==0)
 		{
 			SetTableCellVal(panelHandle,PANEL_ANALOGTABLE,MakePoint(i,25),ddstable[i][page].start_frequency);
 		}
@@ -400,7 +388,7 @@ int GetPage(void)
 	SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, analogtable_visible);
 	SetCtrlAttribute (panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, digtable_visible);
 	SetCtrlAttribute (panelHandle, PANEL_TIMETABLE, ATTR_VISIBLE, 1);
-	
+
 	if(currentpage==10)
 	{
 		SetCtrlAttribute (panelHandle, PANEL_NUM_INSERTIONPAGE, ATTR_DIMMED, 0);
@@ -1199,7 +1187,7 @@ void RunOnce (void)
 		}
 	}
 */	
-	DrawNewTable(isdimmed);
+	DrawNewTable(1);
 	tsize=mindex; //tsize is the number of columns
 	BuildUpdateList(MetaTimeArray,MetaAnalogArray,MetaDigitalArray,MetaDDSArray,tsize);
 
@@ -2104,16 +2092,6 @@ void SetDisplayType(int display_setting)
 
 	int i,j;
 	
-	for(i=1;i<=14;i++)
-	{
-		for(j=1;j<=NUMBERANALOGCHANNELS;j++)
-		{
-			SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,j),
-				   ATTR_CELL_TYPE, display_setting);
-		 }
-	}
-	DrawNewTable(0);
-	
 	//set button status
 	if (display_setting == VAL_CELL_NUMERIC)
 	{
@@ -2124,7 +2102,15 @@ void SetDisplayType(int display_setting)
 		SetCtrlVal(panelHandle, PANEL_TGL_NUMERICTABLE, 1);
 	}	
 
-
+	printf("called Display Type with value:   %d \n",display_setting);
+	for(i=1;i<=14;i++)
+	{
+		for(j=1;j<=NUMBERANALOGCHANNELS;j++)
+		{
+			SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,j),
+				   ATTR_CELL_TYPE, display_setting);
+		 }
+	}
 }
 
 
@@ -2549,4 +2535,18 @@ void CVICALLBACK SHOWARRAY_CALLBACK (int menuBar, int menuItem, void *callbackDa
 	}
 
 
+}
+
+void CVICALLBACK DDS_OFF_CALLBACK (int menuBar, int menuItem, void *callbackData,
+		int panel)
+{
+	int i=0,j=0;
+	for(j=0;j<NUMBEROFPAGES;j++)
+	{
+		for(i=0;i<NUMBEROFCOLUMNS;i++)
+		{
+			ddstable[i][j].is_stop=TRUE;
+		}
+	}
+	
 }

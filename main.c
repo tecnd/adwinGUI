@@ -38,7 +38,14 @@ June24:	Add support for more analog output cards.  Change the #define NUMBEROFAN
 		if using more than 16 analog channels.
 July26: Begin adding code to control the DDS (AD9854 from Analog Devices)
 	    Use an extra line on the analog table (17 or 25) as the DDS control interface
+AUg		Include DDS control
+Nov		DDS control re-written
 
+2005
+Jan 5   Fix bug in code where the timing isn't always copied into the DDS commands
+Jan 18	Add menu option to turn off the DDS for all cells.  
+		Avoids a string of warnings created by the DDS command routines if a DDS command is written before the 
+		previous DDS command was done;
 */
 
 #define ALLOC_GLOBALS  
@@ -122,7 +129,7 @@ int main (int argc, char *argv[])
 			ddstable[i][j].end_frequency = 0.0;
 			ddstable[i][j].amplitude = 0.0;
 			ddstable[i][j].delta_time = 0.0;
-			ddstable[i][j].is_stop = FALSE;
+			ddstable[i][j].is_stop = TRUE;
 		}
 	}
 	
@@ -281,13 +288,13 @@ void Initialization()
 		SetTableCellVal (panelHandle, PANEL_TBL_ANAMES, MakePoint(2,i), i);
 	}
 	   
-	DrawNewTable(0);
 	
 	//set to display both analog and digital channels
 	SetChannelDisplayed(1);
 	
 	//set to graphical display
-	SetDisplayType(VAL_CELL_PICTURE);
+	SetDisplayType(VAL_CELL_NUMERIC);
+	DrawNewTable(0);
 	return;
 	
 }

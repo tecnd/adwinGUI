@@ -33,7 +33,7 @@
 
 /* The variable "DeviceNo" is declared and inizialized to the default value of 0x150.
    This variable is responsible for all accesses to the ADwin-system(s). */
-short DeviceNo = 0x1;		// Device number 
+short DeviceNo = 0x2;		// Device number 
 int	FirstTime  = 1;
 
 

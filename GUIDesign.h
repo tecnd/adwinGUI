@@ -106,6 +106,7 @@
 #define  MENU_PREFS                      39
 #define  MENU_PREFS_COMPRESSION          40      /* callback function: COMPRESSION_CALLBACK */
 #define  MENU_PREFS_SHOWARRAY            41      /* callback function: SHOWARRAY_CALLBACK */
+#define  MENU_PREFS_DDS_OFF              42      /* callback function: DDS_OFF_CALLBACK */
 
 
      /* Callback Prototypes: */ 
@@ -120,6 +121,7 @@ int  CVICALLBACK CMDSTOP_CALLBACK(int panel, int control, int event, void *callb
 void CVICALLBACK COMPRESSION_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK CONFIG_EXPORT_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK COPYCOLUMN_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
+void CVICALLBACK DDS_OFF_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK DDSSETUP_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK DELETECOLUMN_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK DIGITALSET_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);

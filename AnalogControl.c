@@ -68,7 +68,7 @@ NOT DONE:  IF TIMESCALE IS TOO LONG THEN OVERWRITE THE FOLLOWING CELL
 			if(valuesgood==1)  // everything checks out, return to main panel 
 			{
 				HidePanel(panelHandle4);
-				DrawNewTable(isdimmed);
+				DrawNewTable(1);
 				break;
 			}
 			

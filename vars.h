@@ -13,6 +13,7 @@ Macro Definitions
 #define NUMBERDIGITALCHANNELS 24  	// number of digital channels that may 
 									// be user controlled.  Some are reserved
 									// for DDS etc.
+#define NUMBEROFCOLUMNS 17
 #define TRUE 1
 #define FALSE 0
 #define NUMBEROFPAGES 11				//currently hardwired up to 10
