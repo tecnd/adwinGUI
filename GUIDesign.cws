@@ -1,0 +1,220 @@
+[Workspace Header]
+Version = 600
+Pathname = "/c/ADWinProgs/LW-GraphicInterfaceDesign-May13-fixarrays/GUIDesign.cws"
+CVI Dir = "/c/program files/national instruments/measurementstudio/cvi"
+VXIplug&play Framework Dir = "/C/VXIpnp/winnt"
+Number of Projects = 1
+Active Project = 1
+Project 0001 = "GUIDesign.prj"
+Drag Bar Left = 259
+Window Top = 50
+Window Left = 4
+Window Bottom = 682
+Window Right = 1016
+Max Number Of Errors = 40
+Track Include File Dependencies = True
+Prompt For Missing Includes = True
+Stop On First Error File = False
+Bring Up Err Win For Warnings = True
+Show Build Dialog = True
+Save Changes Before Running = "Ask"
+Hide Windows = False
+Global Hot Key = False
+Break At First Statement = False
+
+[Project Header 0001]
+Version = 600
+Platform Code = 4
+Sort Type = "File Name"
+Build Configuration = "Debug"
+Warn User If Debugging Release = 1
+Batch Build Release = False
+Batch Build Debug = False
+
+[File 0001]
+Path = "/c/ADWinProgs/LW-prototypePanel/Adwin.c"
+File Type = "CSource"
+Disk Date = 3156516326
+In Projects = "1,"
+Project Window Indexes = "1,"
+Source Window State = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"
+
+[File 0002]
+Path = "/c/ADWinProgs/LW-prototypePanel/Adwin.h"
+File Type = "Include"
+Disk Date = 3117106892
+In Projects = "1,"
+Project Window Indexes = "2,"
+Source Window State = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"
+
+[File 0003]
+Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-May13-fixarrays/AnalogControl.c"
+File Type = "CSource"
+Disk Date = 3167311617
+In Projects = "1,"
+Project Window Indexes = "3,"
+Window Top = 156
+Window Left = 2
+Source Window State = "1,25,25,25,25,26,25,0,0,123,0,0,0,0,0,36,4,0,25,26,"
+
+[File 0004]
+Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-May13-fixarrays/AnalogControl.h"
+File Type = "Include"
+Disk Date = 3159366842
+In Projects = "1,"
+Project Window Indexes = "4,"
+Window Top = 212
+Window Left = 102
+Source Window State = "1,16,21,21,8,34,34,0,3,80,0,0,0,0,0,25,0,0,16,8,"
+
+[File 0005]
+Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-May13-fixarrays/AnalogControl.uir"
+File Type = "User Interface Resource"
+Disk Date = 3159366842
+In Projects = "1,"
+Project Window Indexes = "5,"
+Window Top = 189
+Window Left = 104
+Window Height = 400
+Window Width = 676
+
+[File 0006]
+Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-May13-fixarrays/AnalogSettings.c"
+File Type = "CSource"
+Disk Date = 3167311601
+In Projects = "1,"
+Project Window Indexes = "6,"
+Window Top = 271
+Window Left = 34
+Source Window State = "1,20,20,20,23,24,23,0,0,103,0,6,0,6,0,26,4,0,20,24,"
+
+[File 0007]
+Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-May13-fixarrays/AnalogSettings.h"
+File Type = "Include"
+Disk Date = 3157735998
+In Projects = "1,"
+Project Window Indexes = "7,"
+Window Top = 236
+Window Left = 107
+Source Window State = "1,37,37,37,5,8,5,0,0,80,0,0,0,0,0,25,19,0,38,0,"
+
+[File 0008]
+Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-May13-fixarrays/AnalogSettings.uir"
+File Type = "User Interface Resource"
+Disk Date = 3157736334
+In Projects = "1,"
+Project Window Indexes = "8,"
+Window Top = 243
+Window Left = 13
+Window Height = 401
+Window Width = 676
+
+[File 0009]
+Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-May13-fixarrays/DigitalSettings.c"
+File Type = "CSource"
+Disk Date = 3158243513
+In Projects = "1,"
+Project Window Indexes = "9,"
+Window Top = 183
+Window Left = 42
+Source Window State = "1,101,103,101,8,39,8,0,0,114,0,0,0,0,0,26,0,0,72,86,"
+
+[File 0010]
+Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-May13-fixarrays/DigitalSettings.h"
+File Type = "Include"
+Disk Date = 3157737304
+In Projects = "1,"
+Project Window Indexes = "10,"
+Window Top = 32
+Window Left = 6
+Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,25,0,0,0,0,"
+
+[File 0011]
+Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-May13-fixarrays/DigitalSettings.uir"
+File Type = "User Interface Resource"
+Disk Date = 3157737304
+In Projects = "1,"
+Project Window Indexes = "11,"
+Window Top = 142
+Window Left = 187
+Window Height = 401
+Window Width = 676
+
+[File 0012]
+Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-May13-fixarrays/GUIDesign.c"
+File Type = "CSource"
+Disk Date = 3167738474
+In Projects = "1,"
+Project Window Indexes = "12,"
+Window Top = 42
+Window Left = 34
+Source Window State = "1,817,817,817,13,29,13,0,0,117,0,169,0,0,0,36,293,0,300,116,"
+
+[File 0013]
+Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-May13-fixarrays/GUIDesign.h"
+File Type = "Include"
+Disk Date = 3166722277
+In Projects = "1,"
+Project Window Indexes = "13,"
+Window Top = 250
+Window Left = 47
+Source Window State = "1,26,26,26,9,24,9,0,0,87,0,0,0,0,0,28,5,0,20,73,"
+
+[File 0014]
+Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-May13-fixarrays/GUIDesign.uir"
+File Type = "User Interface Resource"
+Disk Date = 3167330819
+In Projects = "1,"
+Project Window Indexes = "14,"
+Window Top = 30
+Window Left = 42
+Window Height = 639
+Window Width = 935
+
+[File 0015]
+Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-May13-fixarrays/main.c"
+File Type = "CSource"
+Disk Date = 3167739408
+In Projects = "1,"
+Project Window Indexes = "15,"
+Window Top = 173
+Window Left = 52
+Source Window State = "1,343,343,343,8,58,8,0,0,105,0,0,0,0,0,36,135,0,149,58,"
+
+[File 0016]
+Path = "/c/ADWinProgs/LW-GraphicInterfaceDesign-May13-fixarrays/main.h"
+File Type = "Include"
+Disk Date = 3166619154
+In Projects = "1,"
+Project Window Indexes = "16,"
+Window Top = 113
+Window Left = 20
+Source Window State = "1,21,21,21,22,26,26,0,0,110,0,0,0,0,0,27,11,0,25,34,"
+
+[Build Options 0001]
+Generate Browse Info = True
+Enable Uninitialized Locals Runtime Warning = True
+Debugging Level = "No Run-time Checking"
+Break On Library Errors = True
+Break On First Chance Exceptions = False
+
+[SCC Options 0001]
+Use global settings = True
+SCC Provider = ""
+SCC Project = ""
+Local Path = ""
+Auxiliary Path = ""
+Perform Same Action For .h File As For .uir File = "Ask"
+Username = ""
+Comment = ""
+Use Default Username = False
+Use Default Comment = False
+Do Not Include PRJ File in Actions = False
+Suppress CVI Error Messages = False
+
+[DLL Debugging Support 0001]
+External Process Path = ""
+
+[Command Line Args 0001]
+Command Line Args = ""
+
