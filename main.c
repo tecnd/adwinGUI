@@ -91,10 +91,10 @@ int main (int argc, char *argv[])
 		return -1;
 		
 	//initialize the dds array
-	for (i=0;i<17;i++)
-	{
-		ddstable[i] = (DDSOPTIONS *) malloc(sizeof(DDSOPTIONS) * NUMBEROFPAGES);
-	}
+//	for (i=0;i<17;i++)
+//	{
+//		ddstable[i] = (ddsoptions_struct *) malloc(sizeof(ddsoptions_struct) * 10);
+//	}
 		
 	//Load bitmaps
 	SetCtrlAttribute (panelHandle, PANEL_DEBUG, ATTR_VISIBLE, 0);
@@ -118,15 +118,11 @@ int main (int argc, char *argv[])
 	{
 		for (j=0;j<NUMBEROFPAGES;j++)
 		{
-			ddstable[i][j].frequency1 = 0;
-			ddstable[i][j].frequency2 = 0;
-			ddstable[i][j].current = 0;
-			ddstable[i][j].transition_type = LINEAR;
-			ddstable[i][j].is_update = FALSE;
-			ddstable[i][j].delta_time = 0;
+			ddstable[i][j].start_frequency = 0.0;
+			ddstable[i][j].end_frequency = 0.0;
+			ddstable[i][j].amplitude = 0.0;
+			ddstable[i][j].delta_time = 0.0;
 			ddstable[i][j].is_stop = FALSE;
-			ddstable[i][j].start_time = 0;
-			ddstable[i][j].new_settings = FALSE;
 		}
 	}
 	
@@ -143,13 +139,13 @@ int main (int argc, char *argv[])
 	SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE6, 0);
 	SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE7, 0);
 
-	EventPeriod=1.00;
+	EventPeriod=DefaultEventPeriod;
 	ClearListCtrl(panelHandle,PANEL_DEBUG);
 	menuHandle=GetPanelMenuBar(panelHandle);
 	SetMenuBarAttribute (menuHandle, MENU_UPDATEPERIOD_SETGD5, ATTR_CHECKED, 0);
 	SetMenuBarAttribute (menuHandle, MENU_UPDATEPERIOD_SETGD10, ATTR_CHECKED, 0);
-	SetMenuBarAttribute (menuHandle, MENU_UPDATEPERIOD_SETGD100, ATTR_CHECKED, 0);
-	SetMenuBarAttribute (menuHandle, MENU_UPDATEPERIOD_SETGD1000, ATTR_CHECKED, 1);
+	SetMenuBarAttribute (menuHandle, MENU_UPDATEPERIOD_SETGD100, ATTR_CHECKED, 1);
+	SetMenuBarAttribute (menuHandle, MENU_UPDATEPERIOD_SETGD1000, ATTR_CHECKED, 0);
 	currentpage=1;
 	
 	// autochange the size of the analog table on main panel

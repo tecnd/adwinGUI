@@ -10,7 +10,7 @@
 #include "ddstranslator.h"
 #include "DDSSettings2.h"
 
-#define PRINT_TO_DEBUG //if defined, outputs the array to the debug window
+#undef PRINT_TO_DEBUG //if defined, outputs the array to the debug window
 
 struct AnVals{
 	int		fcn;		//fcn is an integer refering to a function to use.
@@ -29,7 +29,7 @@ void DrawNewTable(int dimmed);
 void CheckActivePages(void);
 void SaveArrays(char*,int);
 void LoadArrays(char*,int);
-void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1][500],int DMat[NUMBERDIGITALCHANNELS+1][500],int tsize); 
+void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1][500],int DMat[NUMBERDIGITALCHANNELS+1][500],ddsoptions_struct DDSArray[500], int tsize); 
 double CalcFcnValue(int fcn,double Vinit,double Vfinal, double timescale,double telapsed);
 
 void ReshapeAnalogTable(int,int,int);

@@ -7,7 +7,7 @@
 Macro Definitions
 *************************************************************************/
 
-#define DefaultEventPeriod 0.010   // in milliseconds
+#define DefaultEventPeriod 0.100   // in milliseconds
 #define AdwinTick	0.000025       //Adwin clock cycle, in ms.
 #define NUMBERANALOGCHANNELS 24	   // Number of analog Channels available for control
 #define NUMBERDIGITALCHANNELS 24  	// number of digital channels that may 
@@ -22,21 +22,15 @@ Macro Definitions
 Structure/Typedef Declarations
 *************************************************************************/
 
-typedef enum transtype_enum {LINEAR,EXPONENTIAL} TRANSTYPE;
 typedef int  BOOL;
 
 typedef struct ddsoptions_struct {
-	float frequency1; /*these frequencies are in units of mega hertz*/
-	float frequency2;
-	float current;
-    TRANSTYPE transition_type;
-	BOOL is_update; /*if false, ignore this element*/
+	float start_frequency; /* in MHz*/
+	float end_frequency;
+	float amplitude;
 	float delta_time;
 	BOOL is_stop;
-	float start_time;
-	BOOL new_settings; /*if true, reset all frequency values, if false, only frequency 2 is changing*/ 
-} DDSOPTIONS;
-
+} ddsoptions_struct;
 /************************************************************************
 Global Variables
 *************************************************************************/
@@ -46,7 +40,7 @@ int  menuHandle;
 int currentx,currenty,currentpage;
 int pic_off,pic_static,pic_change,pic_don;
 int ischecked[NUMBEROFPAGES],isdimmed;
-int ChangedVals;
+BOOL ChangedVals;
 struct AnalogTableValues{
 	int		fcn;		//fcn is an integer refering to a function to use.
 						// 1-step, 2-linear, 3- exp, 4- 'S' curve
@@ -94,7 +88,8 @@ struct DDSClock{
 	double	clock;	
 }	DDSFreq;
 
-DDSOPTIONS *ddstable[17]; //17 columns (actually only 14, but in case we expand), 10 pages
+//DDSOPTIONS *ddstable[17]; //17 columns (actually only 14, but in case we expand), 10 pages
+ddsoptions_struct ddstable[17][NUMBEROFPAGES]; //17 columns (actually only 14, but in case we expand), 10 pages
 
 
 	
