@@ -1,6 +1,6 @@
 [Project Header]
 Version = 600
-Pathname = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/GUIDesign.prj"
+Pathname = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/GUIDesign.prj"
 CVI Dir = "/c/program files/national instruments/measurementstudio/cvi"
 VXIplug&play Framework Dir = "/C/VXIpnp/winnt"
 Number of Files = 31
@@ -9,321 +9,320 @@ Flags = 16
 
 [File 0001]
 File Type = "CSource"
-Res Id = 31
+Res Id = 1
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "Adwin.c"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/Adwin.c"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/Adwin.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
 [File 0002]
 File Type = "Include"
-Res Id = 0
+Res Id = 2
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "Adwin.h"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/Adwin.h"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/Adwin.h"
 Exclude = False
 Project Flags = 0
 
 [File 0003]
 File Type = "CSource"
-Res Id = 1
+Res Id = 3
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogControl.c"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/AnalogControl.c"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/AnalogControl.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
 [File 0004]
 File Type = "Include"
-Res Id = 3
+Res Id = 4
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogControl.h"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/AnalogControl.h"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/AnalogControl.h"
 Exclude = False
 Project Flags = 0
 
 [File 0005]
 File Type = "User Interface Resource"
-Res Id = 4
+Res Id = 5
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogControl.uir"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/AnalogControl.uir"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/AnalogControl.uir"
 Exclude = False
 Project Flags = 0
 
 [File 0006]
 File Type = "Include"
-Res Id = 5
+Res Id = 6
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogControl2.h"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/AnalogControl2.h"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/AnalogControl2.h"
 Exclude = False
 Project Flags = 0
 
 [File 0007]
 File Type = "CSource"
-Res Id = 6
+Res Id = 7
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogSettings.c"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/AnalogSettings.c"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/AnalogSettings.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
 [File 0008]
 File Type = "Include"
-Res Id = 7
+Res Id = 8
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogSettings.h"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/AnalogSettings.h"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/AnalogSettings.h"
 Exclude = False
 Project Flags = 0
 
 [File 0009]
 File Type = "User Interface Resource"
-Res Id = 8
+Res Id = 9
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogSettings.uir"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/AnalogSettings.uir"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/AnalogSettings.uir"
 Exclude = False
 Project Flags = 0
 
 [File 0010]
 File Type = "Include"
-Res Id = 9
+Res Id = 10
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogSettings2.h"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/AnalogSettings2.h"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/AnalogSettings2.h"
 Exclude = False
 Project Flags = 0
 
 [File 0011]
 File Type = "CSource"
-Res Id = 10
+Res Id = 11
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DDSControl.c"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DDSControl.c"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DDSControl.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
 [File 0012]
 File Type = "Include"
-Res Id = 11
+Res Id = 12
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DDSControl.h"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DDSControl.h"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DDSControl.h"
 Exclude = False
 Project Flags = 0
 
 [File 0013]
 File Type = "User Interface Resource"
-Res Id = 12
+Res Id = 13
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DDSControl.uir"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DDSControl.uir"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DDSControl.uir"
 Exclude = False
 Project Flags = 0
 
 [File 0014]
 File Type = "Include"
-Res Id = 13
+Res Id = 14
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DDSControl2.h"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DDSControl2.h"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DDSControl2.h"
 Exclude = False
 Project Flags = 0
 
 [File 0015]
 File Type = "CSource"
-Res Id = 14
+Res Id = 15
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DDSSettings.c"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DDSSettings.c"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DDSSettings.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
 [File 0016]
 File Type = "Include"
-Res Id = 15
+Res Id = 16
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DDSSettings.h"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DDSSettings.h"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DDSSettings.h"
 Exclude = False
 Project Flags = 0
 
 [File 0017]
 File Type = "User Interface Resource"
-Res Id = 16
+Res Id = 17
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DDSSettings.uir"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DDSSettings.uir"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DDSSettings.uir"
 Exclude = False
 Project Flags = 0
 
 [File 0018]
 File Type = "Include"
-Res Id = 17
+Res Id = 18
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DDSSettings2.h"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DDSSettings2.h"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DDSSettings2.h"
 Exclude = False
 Project Flags = 0
 
 [File 0019]
 File Type = "CSource"
-Res Id = 18
+Res Id = 19
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "ddstranslator.c"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/ddstranslator.c"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/ddstranslator.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
 [File 0020]
 File Type = "Include"
-Res Id = 19
+Res Id = 20
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "ddstranslator.h"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/ddstranslator.h"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/ddstranslator.h"
 Exclude = False
 Project Flags = 0
 
 [File 0021]
 File Type = "CSource"
-Res Id = 20
+Res Id = 21
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DigitalSettings.c"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DigitalSettings.c"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DigitalSettings.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
 [File 0022]
 File Type = "Include"
-Res Id = 21
+Res Id = 22
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DigitalSettings.h"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DigitalSettings.h"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DigitalSettings.h"
 Exclude = False
 Project Flags = 0
 
 [File 0023]
 File Type = "User Interface Resource"
-Res Id = 22
+Res Id = 23
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DigitalSettings.uir"
-Path Line0001 = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DigitalSettings.ui"
-Path Line0002 = "r"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DigitalSettings.uir"
 Exclude = False
 Project Flags = 0
 
 [File 0024]
 File Type = "Include"
-Res Id = 23
+Res Id = 24
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DigitalSettings2.h"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/DigitalSettings2.h"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DigitalSettings2.h"
 Exclude = False
 Project Flags = 0
 
 [File 0025]
 File Type = "CSource"
-Res Id = 24
+Res Id = 25
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "GUIDesign.c"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/GUIDesign.c"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/GUIDesign.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
 [File 0026]
 File Type = "Include"
-Res Id = 25
+Res Id = 26
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "GUIDesign.h"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/GUIDesign.h"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/GUIDesign.h"
 Exclude = False
 Project Flags = 0
 
 [File 0027]
 File Type = "User Interface Resource"
-Res Id = 26
+Res Id = 27
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "GUIDesign.uir"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/GUIDesign.uir"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/GUIDesign.uir"
 Exclude = False
 Project Flags = 0
 
 [File 0028]
 File Type = "Include"
-Res Id = 27
+Res Id = 28
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "GUIDesign2.h"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/GUIDesign2.h"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/GUIDesign2.h"
 Exclude = False
 Project Flags = 0
 
 [File 0029]
 File Type = "CSource"
-Res Id = 28
+Res Id = 29
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "main.c"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/main.c"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/main.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
 [File 0030]
 File Type = "Include"
-Res Id = 29
+Res Id = 30
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "main.h"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/main.h"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/main.h"
 Exclude = False
 Project Flags = 0
 
 [File 0031]
 File Type = "Include"
-Res Id = 30
+Res Id = 31
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "vars.h"
-Path = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/vars.h"
+Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/vars.h"
 Exclude = False
 Project Flags = 0
 
@@ -355,23 +354,23 @@ Include Path 2 = "/c/ADwin/Developer/C"
 Executable File_Debug Is Rel = True
 Executable File_Debug Rel To = "Project"
 Executable File_Debug Rel Path = "GUIDesign_dbg.exe"
-Executable File_Debug = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/GUIDesign_dbg.exe"
+Executable File_Debug = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/GUIDesign_dbg.exe"
 Executable File_Release Is Rel = True
 Executable File_Release Rel To = "Project"
 Executable File_Release Rel Path = "GUIDesign.exe"
-Executable File_Release = "/c/AdwinProgs/Copy of LW-GraphicInterfaceDesign-July30-AddDDS/GUIDesign.exe"
+Executable File_Release = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/GUIDesign.exe"
 Icon File Is Rel = False
 Icon File = ""
 Application Title = ""
-Numeric File Version = "1,1,0,0"
+Numeric File Version = "1,0,0,0"
 Numeric Prod Version = "1,0,0,0"
 Comments = ""
 Company Name = "U of T"
-File Version = "1.1.0.0"
+File Version = "1.0.2."
 Legal Copyright = "Copyright © U of T, 2004"
 Legal Trademarks = ""
 Private Build = ""
-Product Version = "1.0"
+Product Version = "10.2.2"
 Special Build = ""
 DLL Exports = "Include File Symbols"
 DLL Import Library Choice = "Gen Lib For Current Mode"

@@ -33,6 +33,10 @@ Bigger numbers: represent special actions to be taken directly by the
 
 All data transfers to the DDS are in network order:
 Most significant byte first, and most significant bit first within each byte
+
+Modified: Mar 10, 2005 (Stefan Myrskog)
+Fixed a bug where the ramp rate is twice the desired value.
+
 *************************************************************************/
 
 #include "ddstranslator.h"
@@ -679,7 +683,7 @@ static void set_frequency_ramp_rate(dds_shadow_struct* shadow,
 	
 	note the unit conversion from MHz to Hz for sysclk
 	*/
-	ramp_rate = (sysclk * 1e6) * delta_time * STEP_GRANULARITY / 2 - 1;
+	ramp_rate = (sysclk * 1e6) * delta_time * STEP_GRANULARITY / 1 - 1;
 	/* casts truncate high bits */
 	new_ramprate_reg[2] = (unsigned char) (ramp_rate >> 16);
 	new_ramprate_reg[1] = (unsigned char) (ramp_rate >> 8);

@@ -1941,7 +1941,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 //********************************************************************************************
 double CalcFcnValue(int fcn,double Vinit,double Vfinal, double timescale,double telapsed)
 {
-	double value=-99,amplitude,slope,aconst,bconst,tms;
+	double value=-99,amplitude,slope,aconst,bconst,tms,frequency;
 	if (timescale<=0) {timescale=1;}
 	tms=telapsed*EventPeriod;
 	switch(fcn)
@@ -1972,6 +1972,10 @@ double CalcFcnValue(int fcn,double Vinit,double Vfinal, double timescale,double 
 				value=Vinit+(aconst*pow(tms,2)+bconst*pow(tms,3));
 			}
 			break;
+		case 5 : // generate a sinewave.  Use Vfinal as the amplitude and timescale as the frequency
+			amplitude=Vfinal;
+			frequency=timescale; //consider it to be Hertz (tms is time in milliseconds)
+			value=amplitude * sin(2*3.14159*frequency*tms/1000);
 	}
 	// Check if the value exceeds the limits.
 	return value;
