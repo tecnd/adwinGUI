@@ -259,12 +259,6 @@ int GetPage(void)
 
 			SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,j),ATTR_CELL_DIMMED, 0);
 			SetTableCellAttribute (panelHandle, PANEL_DIGTABLE, MakePoint(i,j),ATTR_CELL_DIMMED, 0);
-		//	SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,j),
-		//		ATTR_CTRL_VAL, AnalogTable[i][j][page].fval);
-			//check what's happening...care about off, static, changing
-			// step.  Vfinal=0 and last Vfinal=0  -> off
-			// step	  Vfinal=Vconst and last Vconst=Vconst
-			// changing mode>0			
 			cmode=AnalogTable[i][j][page].fcn;
 			vlast=AnalogTable[i-1][j][page].fval;
 			vnow=AnalogTable[i][j][page].fval;			
@@ -281,38 +275,32 @@ int GetPage(void)
 					SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,j), ATTR_TEXT_BGCOLOR,VAL_RED);
 				}
 			}
-			if(cmode==2)
+			if(cmode==2) // linear ramp
 			{
 				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,j), ATTR_TEXT_BGCOLOR,VAL_GREEN);
 			}
-			if(cmode==3)
+			if(cmode==3) // exponential ramp
 			{
 				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,j), ATTR_TEXT_BGCOLOR,VAL_BLUE);
 			}
-			if(cmode==4)
+			if(cmode==4) // constant jerk function
 			{
 				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,j), ATTR_TEXT_BGCOLOR,VAL_MAGENTA);
 			}
-			if(vnow==vlast)
+			if(cmode==5)// Sine wave output
 			{
-				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,j), ATTR_TEXT_BGCOLOR,ColourTable[j]);
+				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,j), ATTR_TEXT_BGCOLOR,VAL_CYAN);
 			}
-			if(vnow==0&&cmode==1)
+			if(cmode==6)
 			{
-				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,j), ATTR_TEXT_BGCOLOR,ColourTable[j]);
+				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,j), ATTR_TEXT_BGCOLOR,VAL_YELLOW);
+
 			}
-			if(((vnow==vlast)&&(!(vlast==0)))||((cmode=0)&&(!(vlast==0))))
-			{
-				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,j), ATTR_TEXT_BGCOLOR,MakeColor(255,128,128));
-			}
+			
 			
 			if(DigTableValues[i][j][page]==1)
 			{
-		
-			SetTableCellAttribute (panelHandle, PANEL_DIGTABLE,MakePoint(i,j), ATTR_TEXT_BGCOLOR,VAL_RED);
-			
-			//	SetTableCellAttrib
-			//	SetTableCellVal (panelHandle, PANEL_DIGTABLE, MakePoint(i,j), pic_don);
+				SetTableCellAttribute (panelHandle, PANEL_DIGTABLE,MakePoint(i,j), ATTR_TEXT_BGCOLOR,VAL_RED);
 			}
 			else
 			{
@@ -867,6 +855,7 @@ int CVICALLBACK CMD_RUN_CALLBACK (int panel, int control, int event,
 		case EVENT_COMMIT:
 			SaveLastGuiSettings();
 			ChangedVals=TRUE;
+			scancount=0;
 			GetCtrlVal(panelHandle,PANEL_TOGGLEREPEAT,&repeat);
 			if(repeat==1)
 			{
@@ -1058,6 +1047,7 @@ void RunOnce (void)
 	//****************
 	isdimmed=TRUE;
 	lastpagenum=10;
+	UpdateScanValue();
 	GetCtrlVal (panelHandle, PANEL_NUM_INSERTIONPAGE, &insertpage);
 	GetCtrlVal (panelHandle, PANEL_NUM_INSERTIONCOL, &insertcolumn);
 	//Lets build the times list first...so we know how long it will be.
@@ -1189,6 +1179,8 @@ void RunOnce (void)
 */	
 	DrawNewTable(1);
 	tsize=mindex; //tsize is the number of columns
+	
+	
 	BuildUpdateList(MetaTimeArray,MetaAnalogArray,MetaDigitalArray,MetaDDSArray,tsize);
 
 }
@@ -1620,6 +1612,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 	int timeused;
 	int tmp_dds;
 	dds_cmds_ptr dds_cmd_seq = NULL;
+	double DDSoffset=0.0;
 	int digchannelsum;
 	int newcount=0;
 	// variables for timechannel optimization
@@ -1662,6 +1655,17 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
     {	
     	/* Update the array of DDS commands
 		EventPeriod is in ms, create_command_array in s, so convert units */
+		
+		GetMenuBarAttribute (menuHandle, MENU_PREFS_SIMPLETIMING, ATTR_CHECKED, &UseSimpleTiming);
+
+		// add offset to DDSArray
+		GetCtrlVal (panelHandle, PANEL_NUM_DDS_OFFSET, &DDSoffset);
+		for(m=1;m<=numtimes;m++)
+		{
+			DDSArray[m].start_frequency=DDSArray[m].start_frequency+DDSoffset;
+			DDSArray[m].end_frequency=DDSArray[m].end_frequency+DDSoffset;
+		}
+		
 		dds_cmd_seq = create_dds_cmd_sequence(DDSArray, numtimes,DDSFreq.PLLmult, 
 		DDSFreq.extclock,EventPeriod/1000);
     
@@ -1726,7 +1730,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 					nupcurrent++;
 					nuptotal++;
 					ChNum[nuptotal]=AChName[j].chnum;
-					NewAval=CalcFcnValue(AMat[j][i].fcn,AMat[j][i-1].fval,AMat[j][i].fval,AMat[j][i].tscale,0.0);
+					NewAval=CalcFcnValue(AMat[j][i].fcn,AMat[j][i-1].fval,AMat[j][i].fval,AMat[j][i].tscale,0.0,TMatrix[i]);
 
  					TempChVal=AChName[j].tbias+NewAval*AChName[j].tfcn;
  					ChVal[nuptotal]=CheckIfWithinLimits(TempChVal,j);
@@ -1794,7 +1798,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 				{
 					k++;
 					c=UsingFcns[k];
-					NewAval=CalcFcnValue(AMat[c][i].fcn,AMat[c][i-1].fval,AMat[c][i].fval,AMat[c][i].tscale,t);
+					NewAval=CalcFcnValue(AMat[c][i].fcn,AMat[c][i-1].fval,AMat[c][i].fval,AMat[c][i].tscale,t,TMatrix[i]);
 //					TempChVal=AChName[j].tbias+NewAval*AChName[j].tfcn;
 
 					TempChVal=AChName[c].tbias+NewAval*AChName[c].tfcn;
@@ -1939,11 +1943,15 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 }
 
 //********************************************************************************************
-double CalcFcnValue(int fcn,double Vinit,double Vfinal, double timescale,double telapsed)
+double CalcFcnValue(int fcn,double Vinit,double Vfinal, double timescale,double telapsed,double celltime)
 {
-	double value=-99,amplitude,slope,aconst,bconst,tms;
+	double value=-99,amplitude,slope,aconst,bconst,tms,frequency,newtime;
+	frequency=timescale;
+	if(UseSimpleTiming==TRUE) { timescale=celltime-EventPeriod; }
 	if (timescale<=0) {timescale=1;}
 	tms=telapsed*EventPeriod;
+	// add commands here to select 'simple timing'
+	
 	switch(fcn)
 	{
 		case 1 ://step function
@@ -1957,7 +1965,12 @@ double CalcFcnValue(int fcn,double Vinit,double Vfinal, double timescale,double 
 			break;
 		case 3 ://exponential
 			amplitude=Vfinal-Vinit;
-			value=Vfinal-amplitude*exp(-tms/timescale);
+			newtime =timescale;
+			if(UseSimpleTiming==TRUE)
+			{  
+				newtime=timescale/fabs(log(fabs(amplitude))-log(0.001));
+			}
+			value=Vfinal-amplitude*exp(-tms/newtime);
 			break;
 		case 4 :
 			amplitude=Vfinal-Vinit;
@@ -1972,6 +1985,12 @@ double CalcFcnValue(int fcn,double Vinit,double Vfinal, double timescale,double 
 				value=Vinit+(aconst*pow(tms,2)+bconst*pow(tms,3));
 			}
 			break;
+		case 5 : // generate a sinewave.  Use Vfinal as the amplitude and timescale as the frequency
+			// ignore the 'Simple Timing' option...use the user entered value.
+			
+			amplitude=Vfinal;
+		//	frequency=timescale; //consider it to be Hertz (tms is time in milliseconds)
+			value=amplitude * sin(2*3.14159*frequency*tms/1000);
 	}
 	// Check if the value exceeds the limits.
 	return value;
@@ -2102,7 +2121,7 @@ void SetDisplayType(int display_setting)
 		SetCtrlVal(panelHandle, PANEL_TGL_NUMERICTABLE, 1);
 	}	
 
-	printf("called Display Type with value:   %d \n",display_setting);
+//	printf("called Display Type with value:   %d \n",display_setting);
 	for(i=1;i<=14;i++)
 	{
 		for(j=1;j<=NUMBERANALOGCHANNELS;j++)
@@ -2549,4 +2568,32 @@ void CVICALLBACK DDS_OFF_CALLBACK (int menuBar, int menuItem, void *callbackData
 		}
 	}
 	
+}
+
+
+
+void CVICALLBACK SIMPLETIMING_CALLBACK (int menuBar, int menuItem, void *callbackData,
+		int panel)
+{
+	BOOL Simple_Timing;
+	GetMenuBarAttribute (menuHandle, MENU_PREFS_SIMPLETIMING, ATTR_CHECKED, &Simple_Timing);
+	if(Simple_Timing)
+	{
+		SetMenuBarAttribute (menuHandle, MENU_PREFS_SIMPLETIMING, ATTR_CHECKED, FALSE);
+	}
+	else
+	{
+		SetMenuBarAttribute (menuHandle, MENU_PREFS_SIMPLETIMING, ATTR_CHECKED, TRUE);
+	}
+}
+void UpdateScanValue(void)
+{
+
+
+
+}
+
+void ScanSetUp(void)
+{
+	InitializeScanPanel();
 }

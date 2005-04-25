@@ -53,12 +53,13 @@ NOT DONE:  IF TIMESCALE IS TOO LONG THEN OVERWRITE THE FOLLOWING CELL
 			if((cmode==1)&&(usedtimescale>timematrixlength)) {docheck=1;}
 			if((cmode==2)&&(usedtimescale>timematrixlength)) {docheck=1;}
 			if((cmode==3)&&(usedtimescale>timematrixlength/3)) {docheck=1;}
-			if(cmode=0) {docheck=0;}
+			if(cmode==0) {docheck=0;}
 			
 			
 			if (docheck==1)
 			{
-				valuesgood=ConfirmPopup("Overlong array selected","Do you want to overwrite the following array?");	
+				//valuesgood=ConfirmPopup("Overlong array selected","Do you want to overwrite the following array?");	
+				valuesgood=1;  // just assume timing is right.
 				if(valuesgood==1)
 				{
 				 //code to update the 2 columns
@@ -72,18 +73,52 @@ NOT DONE:  IF TIMESCALE IS TOO LONG THEN OVERWRITE THE FOLLOWING CELL
 				break;
 			}
 			
+			
 		}
 	return 0;
 }
 //***************************************************************************
 void SetControlPanel(void)
 {
+	double lastvalue;
+	BOOL FOUNDVAL=0;
+	int cx,cy,cz;
+	
 	SetCtrlVal(panelHandle4,CTRL_PANEL_STRUNITS, AChName[currenty].units);
 	SetCtrlVal(panelHandle4,CTRL_PANEL_STR_CHNAME,AChName[currenty].chname);
 	SetCtrlVal (panelHandle4,CTRL_PANEL_NUMFINALVAL, AnalogTable[currentx][currenty][currentpage].fval);
 	SetCtrlVal (panelHandle4,CTRL_PANEL_NUMTIMESCALE, AnalogTable[currentx][currenty][currentpage].tscale);
 	SetCtrlVal (panelHandle4,CTRL_PANEL_RING_CTRLMODE,AnalogTable[currentx][currenty][currentpage].fcn);
-	SetCtrlVal(panelHandle4,CTRL_PANEL_NUMINITVAL,AnalogTable[currentx-1][currenty][currentpage].fval);
+
+	// find the last value
+	cx=1;
+	cz=1;
+	lastvalue=0;
+	while(!FOUNDVAL)
+	{
+		if(TimeArray[cx][cz]==0) {cz++;cx=1;}
+		if(TimeArray[cx][cz]<0) 
+		{
+			cx++;  
+			if(cx>=14) {cx=1;cz++;}
+		}
+		if(TimeArray[cx][cz]>0)
+		{	
+			
+			if((cx>=currentx)&&(cz>=currentpage)) 
+			{	
+				FOUNDVAL=TRUE;
+			}
+			else
+			{
+				lastvalue=AnalogTable[cx][currenty][cz].fval;
+			}
+			cx++;
+			if(cx>=14) {cx=1;cz++;}
+		}
+	}
+	
+	SetCtrlVal(panelHandle4,CTRL_PANEL_NUMINITVAL,lastvalue);
 }
 
 //***************************************************************************
@@ -102,6 +137,8 @@ to an appropriate value for the mode.
 	GetCtrlVal (panelHandle4,CTRL_PANEL_NUMFINALVAL, &ctrlvfinal);
 	timescales=TimeArray[currentx][currentpage];
 	Vdiff=ctrlvfinal-AnalogTable[currentx-1][currenty][currentpage].fval;
+	SetCtrlAttribute (panelHandle4, CTRL_PANEL_NUMFINALVAL, ATTR_LABEL_TEXT,"Final Value");
+	SetCtrlAttribute (panelHandle4, CTRL_PANEL_NUMTIMESCALE, ATTR_LABEL_TEXT,"Time Scale");
 	switch (event)
 		{
 		case EVENT_LEFT_CLICK:
@@ -133,10 +170,18 @@ to an appropriate value for the mode.
 				SetCtrlVal (panelHandle4,CTRL_PANEL_NUMTIMESCALE, newtime);
 			}
 			break;//const. jerk
-			case 4:
-				SetCtrlVal (panelHandle4,CTRL_PANEL_NUMTIMESCALE,timescales);
+		case 4:
+			SetCtrlVal (panelHandle4,CTRL_PANEL_NUMTIMESCALE,timescales);
 			break;
-			}
+			
+		case 5:
+			SetCtrlAttribute (panelHandle4, CTRL_PANEL_NUMFINALVAL, ATTR_LABEL_TEXT,"Amplitude");
+		
+			SetCtrlAttribute (panelHandle4, CTRL_PANEL_NUMTIMESCALE, ATTR_LABEL_TEXT,"Frequency");
+			break;
+	
+	}
+			
 	return 0;
 }
 //***************************************************************************
@@ -148,6 +193,23 @@ int CVICALLBACK CMD_ANCANCEL_CALLBACK (int panel, int control, int event,
 		{
 		case EVENT_COMMIT:
 			 HidePanel(panelHandle4);
+			break;
+		}
+	return 0;
+}
+
+int CVICALLBACK CMD_SCANSETUP_CALLBACK (int panel, int control, int event,
+		void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+		{
+		case EVENT_COMMIT:
+	
+			GetCtrlVal(panelHandle4,CTRL_PANEL_RING_CTRLMODE,&AnalogScan.Scan_Mode);		
+			GetCtrlVal(panelHandle4,CTRL_PANEL_NUMFINALVAL,&AnalogScan.End_Of_Scan);
+			GetCtrlVal(panelHandle4,CTRL_PANEL_NUMINITVAL,&AnalogScan.Start_Of_Scan);
+			ScanSetUp();
+			
 			break;
 		}
 	return 0;

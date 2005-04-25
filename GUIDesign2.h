@@ -9,7 +9,7 @@
 #include "DDSControl2.h"
 #include "ddstranslator.h"
 #include "DDSSettings2.h"
-
+#include "Scan2.h"
 #define PRINT_TO_DEBUG //if defined, outputs the array to the debug window
 
 struct AnVals{
@@ -30,7 +30,7 @@ void CheckActivePages(void);
 void SaveArrays(char*,int);
 void LoadArrays(char*,int);
 void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1][500],int DMat[NUMBERDIGITALCHANNELS+1][500],ddsoptions_struct DDSArray[500], int tsize); 
-double CalcFcnValue(int fcn,double Vinit,double Vfinal, double timescale,double telapsed);
+double CalcFcnValue(int fcn,double Vinit,double Vfinal, double timescale,double telapsed,double celltime);
 
 void ReshapeAnalogTable(int,int,int);
 void ReshapeDigitalTable(int,int,int);
@@ -39,4 +39,7 @@ void SetDisplayType(int display_setting); //toggle graphic and numeric
 double CheckIfWithinLimits(double OutputVoltage, int linenumber);
 void SaveLastGuiSettings(void);
 void OptimizeTimeLoop(int *,int,int*);
+void UpdateScanValue(void);
+void ScanSetUp(void);
+int scancount;
 #endif

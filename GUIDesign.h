@@ -61,6 +61,7 @@
 #define  PANEL_TIMER                     45      /* callback function: TIMER_CALLBACK */
 #define  PANEL_NUM_INSERTIONCOL          46      /* callback function: NUM_INSERTIONCOL_CALLBACK */
 #define  PANEL_NUM_INSERTIONPAGE         47      /* callback function: NUM_INSERTIONPAGE_CALLBACK */
+#define  PANEL_NUM_DDS_OFFSET            48
 
 
      /* Menu Bars, Menus, and Menu Items: */
@@ -105,8 +106,9 @@
 #define  MENU_UPDATEPERIOD_SETGD1000     38      /* callback function: SETGD1000_CALLBACK */
 #define  MENU_PREFS                      39
 #define  MENU_PREFS_COMPRESSION          40      /* callback function: COMPRESSION_CALLBACK */
-#define  MENU_PREFS_SHOWARRAY            41      /* callback function: SHOWARRAY_CALLBACK */
-#define  MENU_PREFS_DDS_OFF              42      /* callback function: DDS_OFF_CALLBACK */
+#define  MENU_PREFS_SIMPLETIMING         41      /* callback function: SIMPLETIMING_CALLBACK */
+#define  MENU_PREFS_SHOWARRAY            42      /* callback function: SHOWARRAY_CALLBACK */
+#define  MENU_PREFS_DDS_OFF              43      /* callback function: DDS_OFF_CALLBACK */
 
 
      /* Callback Prototypes: */ 
@@ -144,6 +146,7 @@ void CVICALLBACK SETGD100_CALLBACK(int menubar, int menuItem, void *callbackData
 void CVICALLBACK SETGD10_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SETGD5_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SHOWARRAY_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
+void CVICALLBACK SIMPLETIMING_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK TGLNUMERIC_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK TIMER_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);

@@ -1,40 +1,40 @@
 [Project Header]
 Version = 600
-Pathname = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/GUIDesign.prj"
+Pathname = "/c/ADWinProgs/AdwinGUI-April20_2005/GUIDesign.prj"
 CVI Dir = "/c/program files/national instruments/measurementstudio/cvi"
 VXIplug&play Framework Dir = "/C/VXIpnp/winnt"
-Number of Files = 31
+Number of Files = 35
 Target Type = "Executable"
 Flags = 16
 
 [File 0001]
 File Type = "CSource"
-Res Id = 1
+Res Id = 2
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "Adwin.c"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/Adwin.c"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/Adwin.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
 [File 0002]
 File Type = "Include"
-Res Id = 2
+Res Id = 3
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "Adwin.h"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/Adwin.h"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/Adwin.h"
 Exclude = False
 Project Flags = 0
 
 [File 0003]
 File Type = "CSource"
-Res Id = 3
+Res Id = 1
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogControl.c"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/AnalogControl.c"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/AnalogControl.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
@@ -45,7 +45,7 @@ Res Id = 4
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogControl.h"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/AnalogControl.h"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/AnalogControl.h"
 Exclude = False
 Project Flags = 0
 
@@ -55,7 +55,7 @@ Res Id = 5
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogControl.uir"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/AnalogControl.uir"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/AnalogControl.uir"
 Exclude = False
 Project Flags = 0
 
@@ -65,7 +65,7 @@ Res Id = 6
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogControl2.h"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/AnalogControl2.h"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/AnalogControl2.h"
 Exclude = False
 Project Flags = 0
 
@@ -75,7 +75,7 @@ Res Id = 7
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogSettings.c"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/AnalogSettings.c"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/AnalogSettings.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
@@ -86,7 +86,7 @@ Res Id = 8
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogSettings.h"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/AnalogSettings.h"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/AnalogSettings.h"
 Exclude = False
 Project Flags = 0
 
@@ -96,7 +96,7 @@ Res Id = 9
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogSettings.uir"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/AnalogSettings.uir"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/AnalogSettings.uir"
 Exclude = False
 Project Flags = 0
 
@@ -106,7 +106,7 @@ Res Id = 10
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogSettings2.h"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/AnalogSettings2.h"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/AnalogSettings2.h"
 Exclude = False
 Project Flags = 0
 
@@ -116,7 +116,7 @@ Res Id = 11
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DDSControl.c"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DDSControl.c"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/DDSControl.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
@@ -127,7 +127,7 @@ Res Id = 12
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DDSControl.h"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DDSControl.h"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/DDSControl.h"
 Exclude = False
 Project Flags = 0
 
@@ -137,7 +137,7 @@ Res Id = 13
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DDSControl.uir"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DDSControl.uir"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/DDSControl.uir"
 Exclude = False
 Project Flags = 0
 
@@ -147,7 +147,7 @@ Res Id = 14
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DDSControl2.h"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DDSControl2.h"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/DDSControl2.h"
 Exclude = False
 Project Flags = 0
 
@@ -157,7 +157,7 @@ Res Id = 15
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DDSSettings.c"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DDSSettings.c"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/DDSSettings.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
@@ -168,7 +168,7 @@ Res Id = 16
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DDSSettings.h"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DDSSettings.h"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/DDSSettings.h"
 Exclude = False
 Project Flags = 0
 
@@ -178,7 +178,7 @@ Res Id = 17
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DDSSettings.uir"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DDSSettings.uir"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/DDSSettings.uir"
 Exclude = False
 Project Flags = 0
 
@@ -188,7 +188,7 @@ Res Id = 18
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DDSSettings2.h"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DDSSettings2.h"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/DDSSettings2.h"
 Exclude = False
 Project Flags = 0
 
@@ -198,7 +198,7 @@ Res Id = 19
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "ddstranslator.c"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/ddstranslator.c"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/ddstranslator.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
@@ -209,7 +209,7 @@ Res Id = 20
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "ddstranslator.h"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/ddstranslator.h"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/ddstranslator.h"
 Exclude = False
 Project Flags = 0
 
@@ -219,7 +219,7 @@ Res Id = 21
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DigitalSettings.c"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DigitalSettings.c"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/DigitalSettings.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
@@ -230,7 +230,7 @@ Res Id = 22
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DigitalSettings.h"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DigitalSettings.h"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/DigitalSettings.h"
 Exclude = False
 Project Flags = 0
 
@@ -240,7 +240,7 @@ Res Id = 23
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DigitalSettings.uir"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DigitalSettings.uir"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/DigitalSettings.uir"
 Exclude = False
 Project Flags = 0
 
@@ -250,7 +250,7 @@ Res Id = 24
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DigitalSettings2.h"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/DigitalSettings2.h"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/DigitalSettings2.h"
 Exclude = False
 Project Flags = 0
 
@@ -260,7 +260,7 @@ Res Id = 25
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "GUIDesign.c"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/GUIDesign.c"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/GUIDesign.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
@@ -271,7 +271,7 @@ Res Id = 26
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "GUIDesign.h"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/GUIDesign.h"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/GUIDesign.h"
 Exclude = False
 Project Flags = 0
 
@@ -281,7 +281,7 @@ Res Id = 27
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "GUIDesign.uir"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/GUIDesign.uir"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/GUIDesign.uir"
 Exclude = False
 Project Flags = 0
 
@@ -291,7 +291,7 @@ Res Id = 28
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "GUIDesign2.h"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/GUIDesign2.h"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/GUIDesign2.h"
 Exclude = False
 Project Flags = 0
 
@@ -301,7 +301,7 @@ Res Id = 29
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "main.c"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/main.c"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/main.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
@@ -312,17 +312,58 @@ Res Id = 30
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "main.h"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/main.h"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/main.h"
 Exclude = False
 Project Flags = 0
 
 [File 0031]
+File Type = "CSource"
+Res Id = 33
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "scan.c"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/scan.c"
+Exclude = False
+Compile Into Object File = False
+Project Flags = 0
+
+[File 0032]
+File Type = "Include"
+Res Id = 34
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "Scan.h"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/Scan.h"
+Exclude = False
+Project Flags = 0
+
+[File 0033]
+File Type = "User Interface Resource"
+Res Id = 32
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "Scan.uir"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/Scan.uir"
+Exclude = False
+Project Flags = 0
+
+[File 0034]
+File Type = "Include"
+Res Id = 0
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "scan2.h"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/scan2.h"
+Exclude = False
+Project Flags = 0
+
+[File 0035]
 File Type = "Include"
 Res Id = 31
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "vars.h"
-Path = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/vars.h"
+Path = "/c/ADWinProgs/AdwinGUI-April20_2005/vars.h"
 Exclude = False
 Project Flags = 0
 
@@ -354,23 +395,23 @@ Include Path 2 = "/c/ADwin/Developer/C"
 Executable File_Debug Is Rel = True
 Executable File_Debug Rel To = "Project"
 Executable File_Debug Rel Path = "GUIDesign_dbg.exe"
-Executable File_Debug = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/GUIDesign_dbg.exe"
+Executable File_Debug = "/c/ADWinProgs/AdwinGUI-April20_2005/GUIDesign_dbg.exe"
 Executable File_Release Is Rel = True
 Executable File_Release Rel To = "Project"
 Executable File_Release Rel Path = "GUIDesign.exe"
-Executable File_Release = "/c/ADWinProgs/AdwinGUI-Mar10-Fix DDS ramp/GUIDesign.exe"
+Executable File_Release = "/c/ADWinProgs/AdwinGUI-April20_2005/GUIDesign.exe"
 Icon File Is Rel = False
 Icon File = ""
 Application Title = ""
-Numeric File Version = "1,0,0,0"
-Numeric Prod Version = "1,0,0,0"
+Numeric File Version = "1,0,2,3"
+Numeric Prod Version = "1,0,2,3"
 Comments = ""
 Company Name = "U of T"
-File Version = "1.0.2."
+File Version = "1.0.2.3"
 Legal Copyright = "Copyright © U of T, 2004"
 Legal Trademarks = ""
 Private Build = ""
-Product Version = "10.2.2"
+Product Version = "10.2.3"
 Special Build = ""
 DLL Exports = "Include File Symbols"
 DLL Import Library Choice = "Gen Lib For Current Mode"

@@ -6,7 +6,7 @@
 /************************************************************************
 Macro Definitions
 *************************************************************************/
-
+																						  
 #define DefaultEventPeriod 0.100   // in milliseconds
 #define AdwinTick	0.000025       //Adwin clock cycle, in ms.
 #define NUMBERANALOGCHANNELS 24	   // Number of analog Channels available for control
@@ -36,12 +36,13 @@ typedef struct ddsoptions_struct {
 Global Variables
 *************************************************************************/
 
-int panelHandle,panelHandle2,panelHandle3,panelHandle4,panelHandle5,panelHandle6;         
+int panelHandle,panelHandle2,panelHandle3,panelHandle4,panelHandle5,panelHandle6,panelHandle7;         
 int  menuHandle;
 int currentx,currenty,currentpage;
 int pic_off,pic_static,pic_change,pic_don;
 int ischecked[NUMBEROFPAGES],isdimmed;
 BOOL ChangedVals;
+BOOL UseSimpleTiming;
 struct AnalogTableValues{
 	int		fcn;		//fcn is an integer refering to a function to use.
 						// 1-step, 2-linear, 3- exp, 4- 'S' curve
@@ -92,7 +93,18 @@ struct DDSClock{
 //DDSOPTIONS *ddstable[17]; //17 columns (actually only 14, but in case we expand), 10 pages
 ddsoptions_struct ddstable[17][NUMBEROFPAGES]; //17 columns (actually only 14, but in case we expand), 10 pages
 
-
-	
+struct ScanParameters{
+	double Start_Of_Scan;
+	double End_Of_Scan;
+	double Scan_Step_Size;
+	int	   Iterations_Per_Step;
+	int    Current_Step;
+	int	   Current_Scan_Value;
+	int	   Analog_Channel;
+	int	   Scan_Mode;
+	int    Row;
+	int    Column;
+	int    Page;
+} AnalogScan;
 #endif
 

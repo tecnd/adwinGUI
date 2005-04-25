@@ -128,6 +128,13 @@ Par_13=Data_1[3]
 FPar_11=Data_2[1]
 FPar_12=Data_2[2]
 FPar_13=Data_2[3]
+DIGOUT_F(2,clock,0)
+DIGOUT_F(2,dataline,0)
+DIGOUT_F(2,ioreset,0)
+DIGOUT_F(2,ioupdate,0)
+DIGOUT_F(2,masterreset,0)
+
+
 EVENT:
 eventcount=eventcount+1
 if(eventcount>leddelay) then
@@ -154,12 +161,24 @@ IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each element for 
 		if(ch=31) then  'AA: is ch=31, then write 2 bits to the DDS
 			if(Data_3[updates]<=3) then	' write 2 bits to the data line of the DDS
 				tempval = Data_3[updates] 'have to convert to long first
+				' on Mar 25, we added opto-couplers to the DDS interfacing
+				' this adds a 500ns (roughly) delay to each update
+				' 3 updates takes 500ns, so each one opto-coupler delay is 
+				'160 ns different from another, timing will be ruined.
+				' so, double each line so pulses are 1us instead
+				DIGOUT_F(2,dataline,SHIFT_RIGHT((tempval and 2),1))
 				DIGOUT_F(2,dataline,SHIFT_RIGHT((tempval and 2),1)) 
-				DIGOUT_F(2,clock,1)
+ 				DIGOUT_F(2,clock,1)
+				DIGOUT_F(2,clock,1)				
+				DIGOUT_F(2,clock,0)
 				DIGOUT_F(2,clock,0)
 				DIGOUT_F(2,dataline,(tempval and 1))
+				DIGOUT_F(2,dataline,(tempval and 1))
+				DIGOUT_F(2,clock,1)
 				DIGOUT_F(2,clock,1)
 				DIGOUT_F(2,clock,0)
+				DIGOUT_F(2,clock,0)
+
 			ELSE 
 				IF(Data_3[updates]=4) then 'write to the i/o update pin to transfer to registers
 					DIGOUT_F(2,ioreset,1)
