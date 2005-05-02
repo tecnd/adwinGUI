@@ -1,8 +1,6 @@
 /************************************************************************
 File Name: ddstranslator.c
 -------
-Date Modified: December 3, 2004 (Ian Leroux)
--------
 Description: Translation of DDS (AD9854 Direct Digital Synthesizer from 
 Analog Devices) settings to ADWIN sequencer commands
 
@@ -10,33 +8,12 @@ Although some comments might be phrased as though this code directly
 controls the DDS, it really only compiles commands that will later
 be sent to the ADWIN.
 
-This file exports three functions:
-
-create_dds_cmd_sequence takes an array of DDSOPTIONS structs describing
-settings such as frequencies, sweeps, signal amplitudes etc. and
-translates it to a set of 1-byte commands to be executed by the ADWIN
-in order to program the DDS for the desired behaviour.
-
-get_dds_cmd is used by the main program in GUIDesign.c to query these
-commands and integrate them into the master ADWIN control array, which is
-then downloaded to the sequencer and executed.
-
-free_dds_cmd_sequence deletes a compiled sequence of commands from memory
-
-
-Commands sent to the ADWIN are of two forms
-0b000000bb, where bb is a 2-bit number:
-	When the ADWIN executes this command it sends the two bits over the
-	serial link to the DDS
-Bigger numbers: represent special actions to be taken directly by the
-	ADWIN
-
-All data transfers to the DDS are in network order:
-Most significant byte first, and most significant bit first within each byte
-
 Modified: Mar 10, 2005 (Stefan Myrskog)
 Fixed a bug where the ramp rate is twice the desired value.
-
+Apr 21, 2005 (Ian Leroux)
+Recommented, renamed to account for the existence of multiple dds's, dropped
+some superfluous configuration of the control register, made sure an update
+clock always strobes the UCLK line etc ...
 *************************************************************************/
 
 #include "ddstranslator.h"
@@ -49,25 +26,18 @@ Fixed a bug where the ramp rate is twice the desired value.
 Command Sequence Manipulation Tools
 ******************************************************************************/
 
-/* for each 1-byte command there is an associated index, which corresponds to
-the time at which the command should be executed, measured in multiples of the
-ADWIN event period
-*/
 typedef struct dds_cmd_sequence_struct {
-	/* the two arrays are always at the same length, cmd_array_size */
-	unsigned char*	cmds;	/* array of compiled cmds */
-	unsigned long*	times;	/* event index for the cmds */
-	unsigned long	array_size;
+	/* the two arrays are always at the same length, array_size */
+	unsigned char*	cmds;	/* to be executed at "time" entry w/ same index */
+	unsigned long*	times;	/* measured in ADWIN event periods */
+	unsigned long	array_size;  /* allocated size of cmds and times */
 	unsigned long	num_written; /* portion of array currently filled */
 } dds_cmd_sequence_struct;
 
-
-
-/* heap-allocate a fresh dds_cmd_sequence_struct, initialised to empty */
 static dds_cmds_ptr new_dds_cmd_sequence () {
 	dds_cmds_ptr newstruct;
 	
-	newstruct = malloc(sizeof(struct dds_cmd_sequence_struct));
+	newstruct = malloc(sizeof(dds_cmd_sequence_struct));
 	newstruct->cmds = NULL;
 	newstruct->times = NULL;
 	newstruct->array_size = 0;
@@ -83,22 +53,13 @@ void free_dds_cmd_sequence (dds_cmds_ptr dead_cmds) {
 		if (dead_cmds->times != NULL) {
 			free(dead_cmds->times);
 		}
-		/* don't bother resetting the struct fields since it's going to get
-		freed immediately */
 		free(dead_cmds);
 	}
 }
 
-/* Fetch the ADWIN command value for the specified index in the sequence,
-or return -1 if none is available
-
-Need to return int to allow for the -1 (search failed flag)
-
-Use binary search, but be careful never to decrement below 0, even in the
-case where the search fails at the zeroth index. Decrementing an unsigned #
-causes wraparound, a bad array index, and then general protection fault.
-
-This function is publicly accessible, so needs to check for NULL pointers
+/* Return the cmd at the specified index (time) or -1 if there is none.
+Need to return (signed) int to allow for the -1 (search failed flag).
+This function is publicly accessible, so needs to check for NULL pointers.
 */
 int get_dds_cmd (dds_cmds_ptr cmd_sequence, unsigned long event_index)
 {
@@ -139,19 +100,16 @@ int get_dds_cmd (dds_cmds_ptr cmd_sequence, unsigned long event_index)
 	return -1;
 }
 
-/* 
-Ensure the cmd_array can contain _at least_ min_size
+/* Ensure the cmd_array can contain _at least_ min_size
 commands. Doubles the array size every time it grows to give amortized
 constant-time performance.
 
-Never pass in a null pointer (the outside world doesn't have access to this
-function, so we can guarantee this just for the code in this file).
+Never pass in a null pointer (locally-maintained invariant).
 */
 static void check_cmd_array_size (dds_cmds_ptr cmd_sequence,
 									unsigned long min_size) {
 	unsigned long new_size;
-	
-	/* fast check for common case, skips rest of function */
+
 	if(min_size > cmd_sequence->array_size) {
 		/* if we need to grow, grow to larger of min_size or 2* current size */
 		new_size = 2 * cmd_sequence->array_size;
@@ -159,9 +117,9 @@ static void check_cmd_array_size (dds_cmds_ptr cmd_sequence,
 		
 		/* realloc to new size */
 		cmd_sequence->cmds = realloc(cmd_sequence->cmds,
-											new_size*sizeof(unsigned char));
+											new_size*sizeof(cmd_sequence->cmds[0]));
 		cmd_sequence->times = realloc(cmd_sequence->times,
-											new_size*sizeof(unsigned long));
+											new_size*sizeof(cmd_sequence->times[0]));
 		cmd_sequence->array_size = new_size;
 	}
 }
@@ -242,6 +200,20 @@ static unsigned long append_serial_byte (dds_cmds_ptr cmd_seq,
 /******************************************************************************
 Wrappers for translating DDS commands
 
+Commands sent to the ADWIN are of two forms
+0b000000bb, where bb is a 2-bit number:
+	When the ADWIN executes this command it sends the two bits over the
+	serial link to the DDS
+Bigger numbers: represent special actions to be taken directly by the
+	ADWIN
+
+All data transfers to the DDS are in network order:
+Most significant byte first, and most significant bit first within each byte
+
+Programming a register on the DDS involves sending 1 instruction byte giving
+the address of the register to be modified, followed by the desired contents
+of the register
+
 Programming a register on the DDS involves sending 1 instruction byte giving
 the address of the register to be modified, followed by the desired contents
 of the register
@@ -264,66 +236,67 @@ A3-A0 define the register to access
 #define MASTER_RESET	0x06
 
 /* serial addresses of the various registers */
-#define ADDR_PHASE_ADJUST_1		0x00
-#define ADDR_PHASE_ADJUST_2		0x01
+#define AD9852_PHASE_ADJUST_1		0x00
+#define AD9852_PHASE_ADJUST_2		0x01
+#define AD9852_FREQ_TUNING_WORD_1	0x02 /* low end of frequency ramp */
+#define AD9852_FREQ_TUNING_WORD_2	0x03 /* high end of frequency ramp */
+#define AD9852_DELTA_FREQ_WORD		0x04 /* frequency ramp step size */
+#define AD9852_UPDATE_CLOCK			0x05
+#define AD9852_RAMPRATE_CLOCK		0x06 /* frequency ramp step time */
+#define AD9852_CONTROL_REGISTER		0x07
+#define AD9852_OSK_MULTIPLIER		0x08 /* output amplitude */
+#define AD9852_OSK_RAMPRATE			0x0A /* output amplitude ramping rate */ 
+#define AD9852_CONTROL_DAC			0x0B
 
-/* low end of frequency ramp */
-#define ADDR_FREQ_TUNING_WORD_1	0x02
-/* high end of frequency ramp */
-#define ADDR_FREQ_TUNING_WORD_2	0x03
-/* frequency ramp step size */
-#define ADDR_DELTA_FREQ_WORD	0x04
-
-#define ADDR_UPDATE_CLOCK		0x05
-
-/* frequency ramp step time */
-#define ADDR_RAMPRATE_CLOCK		0x06
-/* assorted control functions, see below */
-#define ADDR_CONTROL_REGISTER	0x07
-/* output amplitude */
-#define ADDR_OSK_MULTIPLIER		0x08
-/* output amplitude ramping rate */
-#define ADDR_OSK_RAMPRATE		0x0A
-
-#define ADDR_CONTROL_DAC		0x0B
+#define AD9858_CFR		0x00 /* Control Function Register */
+#define AD9858_DFTW		0x01 /* Delta-Frequency Tuning Word */
+#define AD9858_DFRRW	0x02 /* Delta-Frequency Ramp Rate Word */
+#define AD9858_FTW0		0x03 /* Frequency Tuning Word 0 */
+#define AD9858_POW0		0x04 /* Phase Offset Word 0 */
+#define AD9858_FTW1		0x05 /* Frequency Tuning Word 1 */
+#define AD9858_POW1		0x06 /* Phase Offset Word 1 */
+#define AD9858_FTW2		0x07 /* Frequency Tuning Word 2 */
+#define AD9858_POW2		0x08 /* Phase Offset Word 2 */
+#define AD9858_FTW3		0x09 /* Frequency Tuning Word 3 */
+#define AD9858_POW3		0x0A /* Phase Offset Word 3 */
+/* Serial address 0x0B is reserved on the AD9858 */
 
 /* Control Register bit assignments */
 /*31:29	Unused */
-#define CR_BIT_COMPARATOR_PD 28 /* Comparator power down (active high) */
+#define AD9852_CR_COMPARATOR_PD 28 /* Comparator power down (active high) */
 /* 27 Must always be written low! (otherwise DDS stops working) */
-#define CR_BIT_CONTROL_DAC_PD 26 /* Control DAC power down (active high) */
-#define CR_BIT_FULL_DAC_PD 25 /* Full DAC power down affects cosine DAC, 
-								control DAC and reference */
-#define CR_BIT_DIGITAL_PD 24 /* Digital section power down */
+#define AD9852_CR_CONTROL_DAC_PD 26 /* Control DAC power down (active high) */
+#define AD9852_CR_FULL_DAC_PD 25 /* Full DAC power down affects cosine DAC, 
+									control DAC and reference */
+#define AD9852_CR_DIGITAL_PD 24 /* Digital section power down */
 /* 23 Reserved, write 0 */
-#define CR_BIT_PLL_RANGE 22 /* PLL range bit, affects the VCO gain ? */
-#define CR_BIT_PLL_BYPASS 21 /* Use REFCLK directly without PLL multiplier */
-#define CR_BIT_PLL_MULT4 20  /* 20:16 PLL multiplier factor */
-#define CR_BIT_PLL_MULT3 19  /* must be in range [4,20] */
-#define CR_BIT_PLL_MULT2 18
-#define CR_BIT_PLL_MULT1 17
-#define CR_BIT_PLL_MULT0 16
-#define CR_BIT_CLR_ACC1 15 /* Clear accumulator 1 when written high */
-#define CR_BIT_CLR_ACCS 14 /* While high, locks accumulators 1 and 2 to zero */
-#define CR_BIT_TRIANGLE 13 /* Triangle bit: automatically ramp frequency back
-							and forth between the frequency tuning words */
-
+#define AD9852_CR_PLL_RANGE 22 /* PLL range bit, affects the VCO gain ? */
+#define AD9852_CR_PLL_BYPASS 21 /* Use REFCLK directly without PLL multiplier */
+#define AD9852_CR_PLL_MULT4 20  /* 20:16 PLL multiplier factor */
+#define AD9852_CR_PLL_MULT3 19  /* must be in range [4,20] */
+#define AD9852_CR_PLL_MULT2 18
+#define AD9852_CR_PLL_MULT1 17
+#define AD9852_CR_PLL_MULT0 16
+#define AD9852_CR_CLR_ACC1 15 /* Clear accumulator 1 when written high */
+#define AD9852_CR_CLR_ACCS 14 /* While high, locks accs 1 and 2 to zero */
+#define AD9852_CR_TRIANGLE 13 /* Triangle bit: automatically ramp frequency back
+								 and forth between the frequency tuning words */
 /* 12 Don't care */
-#define CR_BIT_MODE2 11 /* 11:9	operating mode, see below */
-#define CR_BIT_MODE1 10 
-#define CR_BIT_MODE0 9
-#define CR_BIT_INTERNAL_UPDATE 8 /*internal update active.
-								We want this low so that _we_ generate the
-								update clock signal */
+#define AD9852_CR_MODE2 11 /* 11:9	operating mode, see below */
+#define AD9852_CR_MODE1 10 
+#define AD9852_CR_MODE0 9
+#define AD9852_CR_INTERNAL_UPDATE 8 /*internal update active.
+									  We want this low so that _we_ generate the
+									  update clock signal */
 /* 7 Reserved, write to 0 */
-#define CR_BIT_INV_SINC_BYPASS 6 /*	inverse sinc filter bypass */
-#define CR_BIT_OSK_ENABLE 5 /* OSK enable bit. Enable amplitude modulation */
-#define CR_BIT_INTERNAL_OSK 4 /* internal OSK override. Leave low so that our
+#define AD9852_CR_INV_SINC_BYPASS 6 /*	inverse sinc filter bypass */
+#define AD9852_CR_OSK_ENABLE 5 /* OSK enable bit. Enable amplitude modulation */
+#define AD9852_CR_INTERNAL_OSK 4 /* internal OSK override. Leave low so that our
 								amplitude settings are respected */
 /* 3:2 Reserved, write 0 */
-#define CR_BIT_LSB_FIRST 1 /* Serial port LSB first bit.
+#define AD9852_CR_LSB_FIRST 1 /* Serial port LSB first bit.
 							Leave to low (MSB first) */
-#define CR_BIT_SDO_ACTIVE 0 /* Serial port SDO active.
+#define AD9852_CR_SDO_ACTIVE 0 /* Serial port SDO active.
 							Leave low as we never read from the DDS. */
 
 /* operating modes */
@@ -333,12 +306,74 @@ A3-A0 define the register to access
 #define MODE_CHIRP 3
 #define MODE_BPSK 4
 
+/* And now for the AD9858 ... */
+/* Frequency-Detect Mode Charge Pump Current */
+#define AD9858_CR_FREQDET_CPI1	31
+#define AD9858_CR_FREQDET_CPI0	30
+/* Final Closed-Loop Mode Charge Pump Output Current */
+#define AD9858_CR_FINALCLOSED_CPI2	29
+#define AD9858_CR_FINALCLOSED_CPI1	28
+#define AD9858_CR_FINALCLOSED_CPI0	27
+/* Wide Closed-Loop Charge Pump Output Current */
+#define AD9858_CR_WIDECLOSED_CPI2	26
+#define AD9858_CR_WIDECLOSED_CPI1	25
+#define AD9858_CR_WIDECLOSED_CPI0	24
+/* Auto-clear frequency accumulator */
+#define AD9858_CR_AUTOCLEARFREQ		23
+/* Auto-clear phase accumulator */
+#define AD9858_CR_AUTOCLEARPHASE	22
+/* Load delta-frequency timer */
+#define AD9858_CR_LOADDELTAFREQ		21
+/* Clear Frequency Accumulator */
+#define AD9858_CR_CLEARFREQ		20
+/* Clear Phase Accumulator */
+#define AD9858_CR_CLEARPHASE	19
+/* The auto-clear bits don't immediately reset or lock the accumulators, they
+just load zero into the accumulators on every strobe of the Frequency Update
+pin, which we don't use. The ordinary Clear Accumulator bits clear and lock the
+respective counter until the bits are cleared */
+
+/* bit 18 is not used in the AD9858's control register */
+/* PLL Fast-Lock Enable */
+#define AD9858_CR_FASTLOCK		17
+/* PLL Fast-Lock considers tuning word */
+#define AD9858_CR_FASTLOCK_TUNING		16
+/* Frequency Sweep Enable */
+#define AD9858_CR_FREQSWEEP	15
+/* Sine/Cosine select bit */
+#define AD9858_CR_SINCOS	14
+/* Charge Pump current offset */
+#define AD9858_CR_CPOFFSET	13
+/* Phase Detector Ref. Input Freq. divider */
+#define AD9858_CR_PDRIFD1	12
+#define AD9858_CR_PDRIFD0	11
+/* Charge Pump Polarity */
+#define AD9858_CR_CPPOLAR	10
+/* Phase Detect. Feedback Input Freq. divider */
+#define AD9858_CR_PDFIFD1	9
+#define AD9858_CR_PDFIFD0	8
+/* bit 7 is not used in the AD9858's control register */
+/* REFCLK divide-by-2 disable */
+#define AD9858_CR_CLKDIV2DIS	6
+/* SYNCLK disable */
+#define AD9858_CR_SYNCLKDIS	5
+/* Analog Mixer Power-down */
+#define AD9858_CR_MIXERPD	4
+/* Phase Detector Power-down */
+#define AD9858_CR_PDPD		3
+/* DDS and DAC Power-down */
+#define AD9858_CR_DDSPD		2
+/* SDIO Input Only (3-wire serial operation) */
+#define AD9858_CR_SDIO		1
+/* LSB-first transmission order */
+#define AD9858_CR_LSBFIRST	0
+
 /* Shadow registers:
 As the command sequence gets built up, these keep track of the state that
 the DDS will be in at each point in the program.
 Whenever any of these values gets changed, we set a flag,
-and a single update_dds routine takes care of programming all the
-flagged registers and sending the UPDATE_CLOCK command.
+and a single update_ad9852 or update_ad9858 routine takes care of programming
+all the flagged registers and sending the UPDATE_CLOCK command.
 
 This way we can accumulate incremental changes (eg to the control register),
 set the flag, and when time comes to make use of those changes only the final
@@ -348,7 +383,7 @@ pays attention to values in the i/o buffers when the UPDATE_CLOCK is sent).
 These arrays hold the most significant byte in the highest-numbered array
 index, for ease in doing bit-addressing arithmetic.
 */
-typedef struct dds_shadow_struct {
+typedef struct ad9852_shadow_struct {
 	unsigned char	phase_adjust_reg_1[2];
 	BOOL			phase_adjust_reg_1_dirty;
 	unsigned char	phase_adjust_reg_2[2];
@@ -371,15 +406,41 @@ typedef struct dds_shadow_struct {
 	BOOL			osk_ramp_rate_dirty;
 	unsigned char	control_dac[2];
 	BOOL			control_dac_dirty;
-} dds_shadow_struct;
+} ad9852_shadow_struct;
+
+typedef struct ad9858_shadow_struct {
+	unsigned char	control_function_reg[4];
+	BOOL			control_function_reg_dirty;
+	unsigned char	delta_freq_tuning_word[4];
+	BOOL			delta_freq_tuning_word_dirty;
+	unsigned char	delta_freq_ramp_rate_word[2];
+	BOOL			delta_freq_ramp_rate_word_dirty;
+	unsigned char	freq_tuning_word_0[4];
+	BOOL			freq_tuning_word_0_dirty;
+	unsigned char	phase_offset_word_0[2];
+	BOOL			phase_offset_word_0_dirty;
+	unsigned char	freq_tuning_word_1[4];
+	BOOL			freq_tuning_word_1_dirty;
+	unsigned char	phase_offset_word_1[2];
+	BOOL			phase_offset_word_1_dirty;
+	unsigned char	freq_tuning_word_2[4];
+	BOOL			freq_tuning_word_2_dirty;
+	unsigned char	phase_offset_word_2[2];
+	BOOL			phase_offset_word_2_dirty;
+	unsigned char	freq_tuning_word_3[4];
+	BOOL			freq_tuning_word_3_dirty;
+	unsigned char	phase_offset_word_3[2];
+	BOOL			phase_offset_word_3_dirty;
+} ad9858_shadow_struct;
 
 /* Append an i/o reset command to cmd_seq, to be executed at "time" (measured in
-event periods.
-Note that this has no effect on the internal state of the DDS.
+event periods. Note that this has no effect on the internal state of the DDS.
 
 Return value: the next available command time
 
 cmd_seq is never NULL (locally maintained invariant)
+
+This function is never used. Remove?
 */
 static unsigned long io_reset (dds_cmds_ptr cmd_seq,
 								unsigned long time)
@@ -395,9 +456,9 @@ Return value: the next available command time
 
 cmd_seq and shadow are never NULL (locally maintained invariants)
 */
-static unsigned long master_reset (dds_cmds_ptr cmd_seq,
+static unsigned long ad9852_master_reset (dds_cmds_ptr cmd_seq,
 									unsigned long time,
-									dds_shadow_struct* shadow)
+									ad9852_shadow_struct* shadow)
 {
 	shadow->phase_adjust_reg_1[0] = 0x00;
 	shadow->phase_adjust_reg_1[1] = 0x00;
@@ -452,6 +513,66 @@ static unsigned long master_reset (dds_cmds_ptr cmd_seq,
 	return append_byte(cmd_seq, time, MASTER_RESET);
 }
 
+static unsigned long ad9858_master_reset (dds_cmds_ptr cmd_seq,
+									unsigned long time,
+									ad9858_shadow_struct* shadow)
+{
+	shadow->control_function_reg[3] = 0x00;
+	shadow->control_function_reg[2] = 0x00;
+	shadow->control_function_reg[1] = 0x00;
+	shadow->control_function_reg[0] = 0x18;
+	shadow->control_function_reg_dirty = FALSE;
+	shadow->freq_tuning_word_0[3] = 0x00;
+	shadow->freq_tuning_word_0[2] = 0x00;
+	shadow->freq_tuning_word_0[1] = 0x00;
+	shadow->freq_tuning_word_0[0] = 0x00;
+	shadow->freq_tuning_word_0_dirty = FALSE;
+	shadow->phase_offset_word_0[1] = 0x00;
+	shadow->phase_offset_word_0[0] = 0x00;
+	shadow->phase_offset_word_0_dirty = FALSE;
+
+	/* the other registers do not have well-defined (or at least
+	 * well-documented) default values.  We don't want to mark them all dirty,
+	 * because that would force a writeout of all kinds of probably meaningless
+	 * data. Instead, give them all impossible values, as the best available
+	 * substitute for "undefined".  Any code that cares about these values will
+	 * write sane numbers, set the dirty flag, and get real values downloaded to
+	 * the DDS */
+	shadow->delta_freq_tuning_word[3] = 0xFF;
+	shadow->delta_freq_tuning_word[2] = 0xFF;
+	shadow->delta_freq_tuning_word[1] = 0xFF;
+	shadow->delta_freq_tuning_word[0] = 0xFF;
+	shadow->delta_freq_tuning_word_dirty = FALSE;
+	shadow->delta_freq_ramp_rate_word[1] = 0xFF;
+	shadow->delta_freq_ramp_rate_word[0] = 0xFF;
+	shadow->delta_freq_ramp_rate_word_dirty = FALSE;
+	shadow->freq_tuning_word_1[3] = 0xFF;
+	shadow->freq_tuning_word_1[2] = 0xFF;
+	shadow->freq_tuning_word_1[1] = 0xFF;
+	shadow->freq_tuning_word_1[0] = 0xFF;
+	shadow->freq_tuning_word_1_dirty = FALSE;
+	shadow->phase_offset_word_1[1] = 0xFF;
+	shadow->phase_offset_word_1[0] = 0xFF;
+	shadow->phase_offset_word_1_dirty = FALSE;
+	shadow->freq_tuning_word_2[3] = 0xFF;
+	shadow->freq_tuning_word_2[2] = 0xFF;
+	shadow->freq_tuning_word_2[1] = 0xFF;
+	shadow->freq_tuning_word_2[0] = 0xFF;
+	shadow->freq_tuning_word_2_dirty = FALSE;
+	shadow->phase_offset_word_2[1] = 0xFF;
+	shadow->phase_offset_word_2[0] = 0xFF;
+	shadow->phase_offset_word_2_dirty = FALSE;
+	shadow->freq_tuning_word_3[3] = 0xFF;
+	shadow->freq_tuning_word_3[2] = 0xFF;
+	shadow->freq_tuning_word_3[1] = 0xFF;
+	shadow->freq_tuning_word_3[0] = 0xFF;
+	shadow->freq_tuning_word_3_dirty = FALSE;
+	shadow->phase_offset_word_0[1] = 0xFF;
+	shadow->phase_offset_word_3[0] = 0xFF;
+	shadow->phase_offset_word_3_dirty = FALSE;
+	
+	return append_byte(cmd_seq, time, MASTER_RESET);
+}
 /* Append to cmd_seq instructions to update all modified registers in the 
 "shadow" bank, followed by an UPDATE_CLOCK command to start using the modified
 values. The instructions will be scheduled to start at "time" (measured in 
@@ -461,31 +582,28 @@ Return value: the next available command time
 
 cmd_seq and shadow are never NULL (locally maintained invariants)
 */
-static unsigned long update_dds (dds_cmds_ptr cmd_seq,
-								unsigned long time,
-								dds_shadow_struct* shadow)
+static unsigned long update_ad9852 (dds_cmds_ptr cmd_seq,
+									unsigned long time,
+									ad9852_shadow_struct* shadow)
 {
-	BOOL any_changes = FALSE;
 	/* for each dirty register in shadow, send out the address & data, MSB first
 	Have to manually keep track of time here because we don't know which
 	register, if any, will be first to be updated
 	*/
 	if (shadow->phase_adjust_reg_1_dirty) {
-		time = append_serial_byte(cmd_seq, time, ADDR_PHASE_ADJUST_1);
+		time = append_serial_byte(cmd_seq, time, AD9852_PHASE_ADJUST_1);
 		time = append_serial_byte(cmd_seq, time, shadow->phase_adjust_reg_1[1]);
 		time = append_serial_byte(cmd_seq, time, shadow->phase_adjust_reg_1[0]);
 		shadow->phase_adjust_reg_1_dirty = FALSE;
-		any_changes = TRUE;
 	}
 	if (shadow->phase_adjust_reg_2_dirty) {
-		time = append_serial_byte(cmd_seq, time, ADDR_PHASE_ADJUST_2);
+		time = append_serial_byte(cmd_seq, time, AD9852_PHASE_ADJUST_2);
 		time = append_serial_byte(cmd_seq, time, shadow->phase_adjust_reg_2[1]);
 		time = append_serial_byte(cmd_seq, time, shadow->phase_adjust_reg_2[0]);
 		shadow->phase_adjust_reg_2_dirty = FALSE;
-		any_changes = TRUE;
 	}
 	if (shadow->freq_tuning_word_1_dirty) {
-		time = append_serial_byte(cmd_seq, time, ADDR_FREQ_TUNING_WORD_1);
+		time = append_serial_byte(cmd_seq, time, AD9852_FREQ_TUNING_WORD_1);
 		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_1[5]);
 		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_1[4]);
 		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_1[3]);
@@ -493,10 +611,9 @@ static unsigned long update_dds (dds_cmds_ptr cmd_seq,
 		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_1[1]);
 		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_1[0]);
 		shadow->freq_tuning_word_1_dirty = FALSE;
-		any_changes = TRUE;
 	}
 	if (shadow->freq_tuning_word_2_dirty) {
-		time = append_serial_byte(cmd_seq, time, ADDR_FREQ_TUNING_WORD_2);
+		time = append_serial_byte(cmd_seq, time, AD9852_FREQ_TUNING_WORD_2);
 		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_2[5]);
 		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_2[4]);
 		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_2[3]);
@@ -504,10 +621,9 @@ static unsigned long update_dds (dds_cmds_ptr cmd_seq,
 		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_2[1]);
 		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_2[0]);
 		shadow->freq_tuning_word_2_dirty = FALSE;
-		any_changes = TRUE;
 	}
 	if (shadow->delta_freq_word_dirty) {
-		time = append_serial_byte(cmd_seq, time, ADDR_DELTA_FREQ_WORD);
+		time = append_serial_byte(cmd_seq, time, AD9852_DELTA_FREQ_WORD);
 		time = append_serial_byte(cmd_seq, time, shadow->delta_freq_word[5]);
 		time = append_serial_byte(cmd_seq, time, shadow->delta_freq_word[4]);
 		time = append_serial_byte(cmd_seq, time, shadow->delta_freq_word[3]);
@@ -515,59 +631,137 @@ static unsigned long update_dds (dds_cmds_ptr cmd_seq,
 		time = append_serial_byte(cmd_seq, time, shadow->delta_freq_word[1]);
 		time = append_serial_byte(cmd_seq, time, shadow->delta_freq_word[0]);
 		shadow->delta_freq_word_dirty = FALSE;
-		any_changes = TRUE;
 	}
 	if (shadow->update_clock_dirty) {
-		time = append_serial_byte(cmd_seq, time, ADDR_UPDATE_CLOCK);
+		time = append_serial_byte(cmd_seq, time, AD9852_UPDATE_CLOCK);
 		time = append_serial_byte(cmd_seq, time, shadow->update_clock[3]);
 		time = append_serial_byte(cmd_seq, time, shadow->update_clock[2]);
 		time = append_serial_byte(cmd_seq, time, shadow->update_clock[1]);
 		time = append_serial_byte(cmd_seq, time, shadow->update_clock[0]);
 		shadow->update_clock_dirty = FALSE;
-		any_changes = TRUE;
 	}
 	if (shadow->ramp_rate_clock_dirty) {
-		time = append_serial_byte(cmd_seq, time, ADDR_RAMPRATE_CLOCK);
+		time = append_serial_byte(cmd_seq, time, AD9852_RAMPRATE_CLOCK);
 		time = append_serial_byte(cmd_seq, time, shadow->ramp_rate_clock[2]);
 		time = append_serial_byte(cmd_seq, time, shadow->ramp_rate_clock[1]);
 		time = append_serial_byte(cmd_seq, time, shadow->ramp_rate_clock[0]);
 		shadow->ramp_rate_clock_dirty = FALSE;
-		any_changes = TRUE;
 	}
 	if (shadow->control_reg_dirty) {
-		time = append_serial_byte(cmd_seq, time, ADDR_CONTROL_REGISTER);
+		time = append_serial_byte(cmd_seq, time, AD9852_CONTROL_REGISTER);
 		time = append_serial_byte(cmd_seq, time, shadow->control_reg[3]);
 		time = append_serial_byte(cmd_seq, time, shadow->control_reg[2]);
 		time = append_serial_byte(cmd_seq, time, shadow->control_reg[1]);
 		time = append_serial_byte(cmd_seq, time, shadow->control_reg[0]);
 		shadow->control_reg_dirty = FALSE;
-		any_changes = TRUE;
 	}
 	if (shadow->osk_multiplier_dirty) {
-		time = append_serial_byte(cmd_seq, time, ADDR_OSK_MULTIPLIER);
+		time = append_serial_byte(cmd_seq, time, AD9852_OSK_MULTIPLIER);
 		time = append_serial_byte(cmd_seq, time, shadow->osk_multiplier[1]);
 		time = append_serial_byte(cmd_seq, time, shadow->osk_multiplier[0]);
 		shadow->osk_multiplier_dirty = FALSE;
-		any_changes = TRUE;
 	}
 	if (shadow->osk_ramp_rate_dirty) {
-		time = append_serial_byte(cmd_seq, time, ADDR_OSK_RAMPRATE);
+		time = append_serial_byte(cmd_seq, time, AD9852_OSK_RAMPRATE);
 		time = append_serial_byte(cmd_seq, time, shadow->osk_ramp_rate[0]);
 		shadow->osk_ramp_rate_dirty = FALSE;
-		any_changes = TRUE;
 	}
 	if (shadow->control_dac_dirty) {
-		time = append_serial_byte(cmd_seq, time, ADDR_CONTROL_DAC);
+		time = append_serial_byte(cmd_seq, time, AD9852_CONTROL_DAC);
 		time = append_serial_byte(cmd_seq, time, shadow->control_dac[1]);
 		time = append_serial_byte(cmd_seq, time, shadow->control_dac[0]);
 		shadow->control_dac_dirty = FALSE;
-		any_changes = TRUE;
 	}
-	if (any_changes) {
-		return append_byte(cmd_seq, time, UPDATE_CLOCK);
-	} else {
-		return time;
+	return append_byte(cmd_seq, time, UPDATE_CLOCK);
+}
+
+static unsigned long update_ad9858(dds_cmds_ptr cmd_seq,
+									unsigned long time,
+									ad9858_shadow_struct* shadow)
+{
+	/* for each dirty register in shadow, send out the address & data, MSB first
+	Have to manually keep track of time here because we don't know which
+	register, if any, will be first to be updated
+	*/
+	if (shadow->control_function_reg_dirty) {
+		time = append_serial_byte(cmd_seq, time, AD9858_CFR);
+		time = append_serial_byte(cmd_seq, time, shadow->control_function_reg[3]);
+		time = append_serial_byte(cmd_seq, time, shadow->control_function_reg[2]);
+		time = append_serial_byte(cmd_seq, time, shadow->control_function_reg[1]);
+		time = append_serial_byte(cmd_seq, time, shadow->control_function_reg[0]);
+		shadow->control_function_reg_dirty = FALSE;
 	}
+	if (shadow->delta_freq_tuning_word_dirty) {
+		time = append_serial_byte(cmd_seq, time, AD9858_DFTW);
+		time = append_serial_byte(cmd_seq, time, shadow->delta_freq_tuning_word[3]);
+		time = append_serial_byte(cmd_seq, time, shadow->delta_freq_tuning_word[2]);
+		time = append_serial_byte(cmd_seq, time, shadow->delta_freq_tuning_word[1]);
+		time = append_serial_byte(cmd_seq, time, shadow->delta_freq_tuning_word[0]);
+		shadow->delta_freq_tuning_word_dirty = FALSE;
+	}
+	if (shadow->delta_freq_ramp_rate_word_dirty) {
+		time = append_serial_byte(cmd_seq, time, AD9858_DFRRW);
+		time = append_serial_byte(cmd_seq, time, shadow->delta_freq_ramp_rate_word[1]);
+		time = append_serial_byte(cmd_seq, time, shadow->delta_freq_ramp_rate_word[0]);
+		shadow->delta_freq_ramp_rate_word_dirty = FALSE;
+	}
+	if (shadow->freq_tuning_word_0_dirty) {
+		time = append_serial_byte(cmd_seq, time, AD9858_FTW0);
+		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_0[3]);
+		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_0[2]);
+		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_0[1]);
+		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_0[0]);
+		shadow->freq_tuning_word_0_dirty = FALSE;
+	}
+	if (shadow->phase_offset_word_0_dirty) {
+		time = append_serial_byte(cmd_seq, time, AD9858_POW0);
+		time = append_serial_byte(cmd_seq, time, shadow->phase_offset_word_0[1]);
+		time = append_serial_byte(cmd_seq, time, shadow->phase_offset_word_0[0]);
+		shadow->phase_offset_word_0_dirty = FALSE;
+	}
+	if (shadow->freq_tuning_word_1_dirty) {
+		time = append_serial_byte(cmd_seq, time, AD9858_FTW1);
+		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_1[3]);
+		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_1[2]);
+		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_1[1]);
+		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_1[0]);
+		shadow->freq_tuning_word_1_dirty = FALSE;
+	}
+	if (shadow->phase_offset_word_1_dirty) {
+		time = append_serial_byte(cmd_seq, time, AD9858_POW1);
+		time = append_serial_byte(cmd_seq, time, shadow->phase_offset_word_1[1]);
+		time = append_serial_byte(cmd_seq, time, shadow->phase_offset_word_1[0]);
+		shadow->phase_offset_word_1_dirty = FALSE;
+	}
+	if (shadow->freq_tuning_word_2_dirty) {
+		time = append_serial_byte(cmd_seq, time, AD9858_FTW2);
+		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_2[3]);
+		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_2[2]);
+		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_2[1]);
+		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_2[0]);
+		shadow->freq_tuning_word_2_dirty = FALSE;
+	}
+	if (shadow->phase_offset_word_2_dirty) {
+		time = append_serial_byte(cmd_seq, time, AD9858_POW2);
+		time = append_serial_byte(cmd_seq, time, shadow->phase_offset_word_2[1]);
+		time = append_serial_byte(cmd_seq, time, shadow->phase_offset_word_2[0]);
+		shadow->phase_offset_word_2_dirty = FALSE;
+	}
+	if (shadow->freq_tuning_word_3_dirty) {
+		time = append_serial_byte(cmd_seq, time, AD9858_FTW3);
+		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_3[3]);
+		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_3[2]);
+		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_3[1]);
+		time = append_serial_byte(cmd_seq, time, shadow->freq_tuning_word_3[0]);
+		shadow->freq_tuning_word_3_dirty = FALSE;
+	}
+	if (shadow->phase_offset_word_3_dirty) {
+		time = append_serial_byte(cmd_seq, time, AD9858_POW3);
+		time = append_serial_byte(cmd_seq, time, shadow->phase_offset_word_3[1]);
+		time = append_serial_byte(cmd_seq, time, shadow->phase_offset_word_3[0]);
+		shadow->phase_offset_word_3_dirty = FALSE;
+	}
+	return append_byte(cmd_seq, time, UPDATE_CLOCK);
 }
 
 /* if necessary, modifies the control register in shadow so that
@@ -575,7 +769,7 @@ control_register[bit] has the same truth value as val
 
 shadow is never NULL
 */
-static void set_control_register_bit (dds_shadow_struct* shadow,
+static void set_ad9852_cr_bit (ad9852_shadow_struct* shadow,
 										int bit,
 										int val)
 {
@@ -592,7 +786,25 @@ static void set_control_register_bit (dds_shadow_struct* shadow,
 	}
 }
 
-static void set_PLL_mult (dds_shadow_struct* shadow, unsigned int pll_mult)
+static void set_ad9858_cr_bit (ad9858_shadow_struct* shadow,
+										int bit,
+										int val)
+{
+	if (val) { /* want bit set */
+		if (!((shadow->control_function_reg[bit/8] >> (bit % 8)) & 0x01)) {
+			shadow->control_function_reg[bit/8] |= 0x01 << (bit %8);
+			shadow->control_function_reg_dirty = TRUE;
+		}
+	} else { /* want bit clear */
+		if (((shadow->control_function_reg[bit/8] >> (bit % 8)) & 0x01)) {
+			shadow->control_function_reg[bit/8] &= ~(0x01 << (bit % 8));
+			shadow->control_function_reg_dirty = TRUE;
+		}
+	}
+}
+
+/* shadow is never NULL (locally maintained invariant) */
+static void set_PLL_mult (ad9852_shadow_struct* shadow, unsigned int pll_mult)
 {
 	/* make sure multiplier value is in range */
 	pll_mult = pll_mult > 20 ? 20 : pll_mult;
@@ -600,23 +812,24 @@ static void set_PLL_mult (dds_shadow_struct* shadow, unsigned int pll_mult)
 	
 	/* set_control_register_bit takes care of the dirty flag, modifies
 	only if necessary */
-	set_control_register_bit(shadow, CR_BIT_PLL_MULT4, (pll_mult>>4) & 0x01);
-	set_control_register_bit(shadow, CR_BIT_PLL_MULT3, (pll_mult>>3) & 0x01);
-	set_control_register_bit(shadow, CR_BIT_PLL_MULT2, (pll_mult>>2) & 0x01);
-	set_control_register_bit(shadow, CR_BIT_PLL_MULT1, (pll_mult>>1) & 0x01);
-	set_control_register_bit(shadow, CR_BIT_PLL_MULT0, pll_mult & 0x01);
+	set_ad9852_cr_bit(shadow, AD9852_CR_PLL_MULT4, (pll_mult>>4) & 0x01);
+	set_ad9852_cr_bit(shadow, AD9852_CR_PLL_MULT3, (pll_mult>>3) & 0x01);
+	set_ad9852_cr_bit(shadow, AD9852_CR_PLL_MULT2, (pll_mult>>2) & 0x01);
+	set_ad9852_cr_bit(shadow, AD9852_CR_PLL_MULT1, (pll_mult>>1) & 0x01);
+	set_ad9852_cr_bit(shadow, AD9852_CR_PLL_MULT0, pll_mult & 0x01);
 }
 
-static void set_operating_mode (dds_shadow_struct* shadow, unsigned int mode)
+/* shadow is never NULL (locally maintained invariant) */
+static void set_op_mode (ad9852_shadow_struct* shadow, unsigned int mode)
 {
 	/* make sure mode value is in range */
 	mode = mode > 4 ? 4 : mode;
 	
-	/* set_control_register_bit takes care of the dirty flag, modifies
+	/* set_ad9852_cr_bit takes care of the dirty flag, modifies
 	only if necessary */
-	set_control_register_bit(shadow, CR_BIT_MODE2, (mode>>2) & 0x01);
-	set_control_register_bit(shadow, CR_BIT_MODE1, (mode>>1) & 0x01);
-	set_control_register_bit(shadow, CR_BIT_MODE0, mode & 0x01);
+	set_ad9852_cr_bit(shadow, AD9852_CR_MODE2, (mode>>2) & 0x01);
+	set_ad9852_cr_bit(shadow, AD9852_CR_MODE1, (mode>>1) & 0x01);
+	set_ad9852_cr_bit(shadow, AD9852_CR_MODE0, mode & 0x01);
 }
 
 /* Modify the shadow settings to give DDS output "amplitude" (where
@@ -624,13 +837,13 @@ MAX_AMPLITUDE corresponds to full output power).
 
 shadow is never NULL (locally maintained invariant)
 */
-static void set_amplitude (dds_shadow_struct* shadow, float amplitude)
+static void set_amplitude (ad9852_shadow_struct* shadow, double amplitude)
 {
 	unsigned long osk_mult_setting;
 
 	/* need manual OSK control for this to work */
-	set_control_register_bit(shadow, CR_BIT_OSK_ENABLE, TRUE);
-	set_control_register_bit(shadow, CR_BIT_INTERNAL_OSK, FALSE);
+	set_ad9852_cr_bit(shadow, AD9852_CR_OSK_ENABLE, TRUE);
+	set_ad9852_cr_bit(shadow, AD9852_CR_INTERNAL_OSK, FALSE);
 
 	if (shadow->osk_ramp_rate[0] >= 3) {
 		/* The Output shaped keying function is really designed to ramp signals
@@ -668,22 +881,22 @@ sysclk is the DDS system clock frequency in MHz (refclk * PLL multiplier)
 
 shadow is never NULL
 */
-static void set_frequency_ramp_rate(dds_shadow_struct* shadow,
-									float delta_time,
-									float sysclk)
+static void set_ad9852_ramp_rate(ad9852_shadow_struct* shadow,
+									double delta_time,
+									double sysclk)
 {
 
 	unsigned long ramp_rate; 
 	unsigned char new_ramprate_reg[3];
 	int i;
 	
-	/* output frequency steps every (ramp_rate + 1) * 2 system clock periods 
+	/* output frequency steps every (ramp_rate + 1) system clock periods 
 	so we want:
-	delta_time * STEP_GRANULARITY = step time = (ramp_rate + 1) * 2 / sysclk
+	delta_time * AD9852_GRANULARITY = step time = (ramp_rate + 1) / sysclk
 	
 	note the unit conversion from MHz to Hz for sysclk
 	*/
-	ramp_rate = (sysclk * 1e6) * delta_time * STEP_GRANULARITY / 1 - 1;
+	ramp_rate = (sysclk * 1e6) * delta_time * AD9852_GRANULARITY - 1;
 	/* casts truncate high bits */
 	new_ramprate_reg[2] = (unsigned char) (ramp_rate >> 16);
 	new_ramprate_reg[1] = (unsigned char) (ramp_rate >> 8);
@@ -697,7 +910,35 @@ static void set_frequency_ramp_rate(dds_shadow_struct* shadow,
 	}
 }
 
-/* Take the desired frequency (in MHz) and set the 6-byte freq_reg to the
+static void set_ad9858_ramp_rate(ad9858_shadow_struct* shadow,
+									double delta_time,
+									double sysclk)
+{
+
+	unsigned int ramp_rate; 
+	unsigned char new_ramprate_word[2];
+	int i;
+	
+	/* output frequency steps every 8*DFRRW system clock periods 
+	so we want:
+	delta_time * AD9858_GRANULARITY = step time = 8*DFRRW / sysclk
+	
+	note the unit conversion from MHz to Hz for sysclk
+	*/
+	ramp_rate = (sysclk * 1e6) * delta_time * AD9852_GRANULARITY / 8;
+	/* casts truncate high bits */
+	new_ramprate_word[1] = (unsigned char) (ramp_rate >> 8);
+   	new_ramprate_word[0] = (unsigned char) ramp_rate;
+   	
+	for (i = 0; i < 2; ++i) {
+		if (shadow->delta_freq_ramp_rate_word[i] != new_ramprate_word[i]) {
+			shadow->delta_freq_ramp_rate_word[i] = new_ramprate_word[i];
+			shadow->delta_freq_ramp_rate_word_dirty = TRUE;
+		}
+	}
+}
+
+/* Take the desired frequency (in MHz) and set the freq_reg to the
 corresponding value.
 
 sysclk is the DDS system clock frequency, also in MHz
@@ -706,9 +947,9 @@ Return TRUE if freq_reg had to be modified, FALSE otherwise
 
 freq_reg is never NULL
 */
-static BOOL convert_freq(unsigned char* freq_reg,
-						float frequency,
-						float sysclk)
+static BOOL ad9852_convert_freq(unsigned char* freq_reg,
+						double frequency,
+						double sysclk)
 {
 	int i;
 	double shift_factor;
@@ -738,16 +979,46 @@ static BOOL convert_freq(unsigned char* freq_reg,
 	return was_modified;
 }
 
+static BOOL ad9858_convert_freq(unsigned char* freq_reg,
+						double frequency,
+						double sysclk)
+{
+	int i;
+	long frequency_ratio;
+	unsigned char new_byte_val;
+	BOOL was_modified = FALSE;
+	
+	/* This case is much simpler: the frequency is a 32-bit fraction (out of
+	 * sysclk), which is either signed (for the delta-frequency word)
+	 * or unsigned (for the frequency tuning words).  Assume 2's complement and
+	 * treat everything as signed, since it makes no sense to specify a
+	 * frequency above Nyquist (one-half sysclk, corresponding to the maximum
+	 * positive signed 32-bit number).
+	*/
+
+	frequency_ratio = frequency*4294967296.0 / sysclk;
+
+	for (i = 0; i < 4; ++i, frequency_ratio >> 8) {
+		/* cast to unsigned char takes care of modulus and truncation */
+		new_byte_val = (unsigned char) frequency_ratio;
+		if (freq_reg[i] != new_byte_val) {
+			freq_reg[i] = new_byte_val;
+			was_modified = TRUE;
+		}
+	}
+	return was_modified;
+}
+
 /* sets up the two frequency tuning words, the delta frequency word and the
 ramp rate clock register
 */
-static void set_frequency_registers(dds_shadow_struct* shadow,
-									float start_frequency,
-									float end_frequency,
-									float ramp_time,
-									float sysclk)
+static void set_ad9852_freq_registers(ad9852_shadow_struct* shadow,
+									double start_frequency,
+									double end_frequency,
+									double ramp_time,
+									double sysclk)
 {
-	float lowfreq, highfreq, freqstep;
+	double lowfreq, highfreq, freqstep;
 
 	
 	if (start_frequency < end_frequency) {
@@ -757,18 +1028,34 @@ static void set_frequency_registers(dds_shadow_struct* shadow,
 		lowfreq = end_frequency;
 		highfreq = start_frequency;
 	}
-	freqstep = (highfreq - lowfreq) * STEP_GRANULARITY;
+	freqstep = (highfreq - lowfreq) * AD9852_GRANULARITY;
 	
 	/* only set the dirty flags if something was modified */	
-	set_frequency_ramp_rate(shadow, ramp_time, sysclk);
+	set_ad9852_ramp_rate(shadow, ramp_time, sysclk);
 	shadow->freq_tuning_word_1_dirty =
-		convert_freq(shadow->freq_tuning_word_1, lowfreq, sysclk);
+		ad9852_convert_freq(shadow->freq_tuning_word_1, lowfreq, sysclk);
 	shadow->freq_tuning_word_2_dirty =
-		convert_freq(shadow->freq_tuning_word_2, highfreq, sysclk);
+		ad9852_convert_freq(shadow->freq_tuning_word_2, highfreq, sysclk);
 	shadow->delta_freq_word_dirty = 
-		convert_freq(shadow->delta_freq_word, freqstep, sysclk);
+		ad9852_convert_freq(shadow->delta_freq_word, freqstep, sysclk);
 }
 
+static void set_ad9858_freq_registers(ad9858_shadow_struct* shadow,
+									double start_frequency,
+									double end_frequency,
+									double ramp_time,
+									double sysclk)
+{
+	double freqstep;
+
+	freqstep = (end_frequency - start_frequency) * AD9858_GRANULARITY;
+
+	set_ad9858_ramp_rate(shadow, ramp_time, sysclk);
+	shadow->freq_tuning_word_0_dirty = 
+		ad9858_convert_freq(shadow->freq_tuning_word_0, start_frequency, sysclk);
+	shadow->delta_freq_ramp_rate_word_dirty = 
+		ad9858_convert_freq(shadow->delta_freq_ramp_rate_word, freqstep, sysclk);
+}
 	
 /* Take a high-level specification dds_options of the behaviour of the
 DDS over a time interval dds_options.delta_time and append to cmd_sequence
@@ -777,11 +1064,11 @@ this behaviour, starting at "time" (measured in event periods)
 
 Return the next available command time
 */
-static unsigned long execute_dds_settings(dds_cmds_ptr cmd_seq,
+static unsigned long execute_ad9852_settings(dds_cmds_ptr cmd_seq,
 											unsigned long time,
-											dds_shadow_struct* shadow,
+											ad9852_shadow_struct* shadow,
 											ddsoptions_struct dds_options,
-											float sysclk)
+											double sysclk)
 {
 	if (dds_options.is_stop) {
 		/* set 0.0 amplitude and power down unused sections of the DDS
@@ -789,25 +1076,23 @@ static unsigned long execute_dds_settings(dds_cmds_ptr cmd_seq,
 		stopped, so we aren't wasting instructions
 		*/
 		set_amplitude(shadow, 0.0);
-		set_control_register_bit(shadow, CR_BIT_CONTROL_DAC_PD, TRUE);
-		set_control_register_bit(shadow, CR_BIT_FULL_DAC_PD, TRUE);
-		set_control_register_bit(shadow, CR_BIT_DIGITAL_PD, TRUE);
-		return update_dds(cmd_seq, time, shadow);
+		set_ad9852_cr_bit(shadow, AD9852_CR_FULL_DAC_PD, TRUE);
+		set_ad9852_cr_bit(shadow, AD9852_CR_DIGITAL_PD, TRUE);
+		update_ad9852(cmd_seq, time, shadow);		
+		return update_ad9852(cmd_seq, NEXT_AVAILABLE, shadow);
 	} else { /* not stopped */
-		set_operating_mode(shadow, MODE_RAMPED_FSK);
-		set_frequency_registers(shadow,
+		set_ad9852_freq_registers(shadow,
 							dds_options.start_frequency,
 							dds_options.end_frequency,
 							dds_options.delta_time,
 							sysclk);
 		set_amplitude(shadow, dds_options.amplitude);
 		/* power up necessary sections of the DDS */
-		set_control_register_bit(shadow, CR_BIT_FULL_DAC_PD, FALSE);
-		set_control_register_bit(shadow, CR_BIT_DIGITAL_PD, FALSE);
-		set_control_register_bit(shadow, CR_BIT_INV_SINC_BYPASS, FALSE);
+		set_ad9852_cr_bit(shadow, AD9852_CR_FULL_DAC_PD, FALSE);
+		set_ad9852_cr_bit(shadow, AD9852_CR_DIGITAL_PD, FALSE);
 		
 		/* reset the phase and frequency accumulators */
-		set_control_register_bit(shadow, CR_BIT_CLR_ACCS, TRUE);
+		set_ad9852_cr_bit(shadow, AD9852_CR_CLR_ACCS, TRUE);
 		
 		/* The comparator output is hard-wired on the DDS board
 		to the FSK/BPSK/HOLD input pin, which controls the sweep.
@@ -823,34 +1108,68 @@ static unsigned long execute_dds_settings(dds_cmds_ptr cmd_seq,
 		Vice-versa for an ascending sweep
 		*/
 		if (dds_options.start_frequency < dds_options.end_frequency) {
-			set_control_register_bit(shadow, CR_BIT_COMPARATOR_PD, TRUE);
-			update_dds(cmd_seq, time, shadow);
+			set_ad9852_cr_bit(shadow, AD9852_CR_COMPARATOR_PD, TRUE);
+			update_ad9852(cmd_seq, time, shadow);
 			
 			/* unlock the accumulators and toggle the FSK input bit to start
 			the ramp to the higher frequency */
-			set_control_register_bit(shadow, CR_BIT_CLR_ACCS, FALSE);
-			set_control_register_bit(shadow, CR_BIT_COMPARATOR_PD, FALSE);
-			return update_dds(cmd_seq, NEXT_AVAILABLE, shadow);
+			set_ad9852_cr_bit(shadow, AD9852_CR_CLR_ACCS, FALSE);
+			set_ad9852_cr_bit(shadow, AD9852_CR_COMPARATOR_PD, FALSE);
+			return update_ad9852(cmd_seq, NEXT_AVAILABLE, shadow);
 		} else { /* descending sweep */
-			set_control_register_bit(shadow, CR_BIT_COMPARATOR_PD, FALSE);
-			update_dds(cmd_seq, time, shadow);
+			set_ad9852_cr_bit(shadow, AD9852_CR_COMPARATOR_PD, FALSE);
+			update_ad9852(cmd_seq, time, shadow);
 			
 			/* unlock the accumulators and toggle the FSK input bit to start
 			the ramp to the lower frequency */
-			set_control_register_bit(shadow, CR_BIT_CLR_ACCS, FALSE);
-			set_control_register_bit(shadow, CR_BIT_COMPARATOR_PD, TRUE);
-			return update_dds(cmd_seq, NEXT_AVAILABLE, shadow);
+			set_ad9852_cr_bit(shadow, AD9852_CR_CLR_ACCS, FALSE);
+			set_ad9852_cr_bit(shadow, AD9852_CR_COMPARATOR_PD, TRUE);
+			return update_ad9852(cmd_seq, NEXT_AVAILABLE, shadow);
 		}
 	}
 }
-		
 
+static unsigned long execute_ad9858_settings(dds_cmds_ptr cmd_seq,
+											 unsigned long time,
+											 ad9858_shadow_struct* shadow,
+											 ddsoptions_struct dds_options,
+											 double sysclk,
+											 double freq_offset)
+{
+	if (dds_options.is_stop) {
+		/* clear and lock phase accumulator to stop waveform */
+		set_ad9858_cr_bit(shadow, AD9858_CR_CLEARPHASE, TRUE);
+		/* power-down unused DDS sections */
+		set_ad9858_cr_bit(shadow, AD9858_CR_MIXERPD, TRUE);
+		set_ad9858_cr_bit(shadow, AD9858_CR_DDSPD, TRUE);
+		return update_ad9858(cmd_seq, time, shadow);
+	} else { /* not stopped */
+		/* power up DDS */
+		set_ad9858_cr_bit(shadow, AD9858_CR_MIXERPD, FALSE);
+		set_ad9858_cr_bit(shadow, AD9858_CR_DDSPD, FALSE);
+		/* set ramp rate and frequency registers */
+		set_ad9858_ramp_rate(shadow, dds_options.delta_time, sysclk);
+		set_ad9858_freq_registers(shadow,
+				dds_options.start_frequency + freq_offset,
+				dds_options.end_frequency + freq_offset,
+				dds_options.delta_time,
+				sysclk);
+		/* unlock phase accumulator and start waveform output */
+		set_ad9858_cr_bit(shadow, AD9858_CR_CLEARPHASE, FALSE);
+		/* reset frequency accumulator */
+		set_ad9858_cr_bit(shadow, AD9858_CR_CLEARFREQ, TRUE);
+		update_ad9858(cmd_seq, time, shadow);
+		/* unlock frequency accumulator to start ramping */
+		set_ad9858_cr_bit(shadow, AD9858_CR_CLEARFREQ, FALSE);
+		return update_ad9858(cmd_seq, NEXT_AVAILABLE, shadow);
+	}
+}
 
 /* Create and return a sequence of 1-byte commands to send to the ADWIN at
 specified times in order to have the DDS execute the high-level behaviour
 specified in dds_settings
 
-The size of the dds_settings array is given by num_settings
+The size of the dds_settings array is given by num_settings + 1 (counts from 1 instead of 0)
 
 PLL_multiplier is the desired DDS clock multiplier (the DDS's system clock
 will run at PLL_multiplier * refclk)
@@ -859,18 +1178,18 @@ refclk is the frequency (in MHz) of the DDS's external oscillator
 
 adwin_event_period is the time (in seconds) between adwin update events
 */
-dds_cmds_ptr create_dds_cmd_sequence(ddsoptions_struct* dds_settings,
-									unsigned long num_settings,
-									unsigned int PLL_multiplier,
-									float refclk,
-									float adwin_event_period)
+dds_cmds_ptr create_ad9852_cmd_sequence(ddsoptions_struct* dds_settings,
+										unsigned long num_settings,
+										unsigned int PLL_multiplier,
+										double refclk,
+										double adwin_event_period)
 {
 	dds_cmds_ptr cmd_sequence = NULL;
-	dds_shadow_struct shadow;
+	ad9852_shadow_struct shadow;
 	
 	long i;
 	double idealtime;
-	float sysclk;
+	double sysclk;
 
 	if (dds_settings == NULL || num_settings < 1) {
 		return NULL;
@@ -882,13 +1201,70 @@ dds_cmds_ptr create_dds_cmd_sequence(ddsoptions_struct* dds_settings,
 
 
 	/* start from a known DDS state */ 
-	master_reset(cmd_sequence, 0, &shadow);
+	ad9852_master_reset(cmd_sequence, 0, &shadow);
 	
 	/* changes from default settings: */
 	set_PLL_mult(&shadow, PLL_multiplier);
-	set_control_register_bit(&shadow, CR_BIT_PLL_BYPASS, FALSE);
+	set_ad9852_cr_bit(&shadow, AD9852_CR_PLL_BYPASS, FALSE);
+	set_op_mode(&shadow, MODE_RAMPED_FSK);
 	/* we want to control the update clock */
-	set_control_register_bit(&shadow, CR_BIT_INTERNAL_UPDATE, FALSE);
+	set_ad9852_cr_bit(&shadow, AD9852_CR_INTERNAL_UPDATE, FALSE);
+ 	//update_ad9852(cmd_sequence, NEXT_AVAILABLE, &shadow);
+
+	idealtime = 0.0;
+	
+	/* Normally settings get scheduled at idealtime, corresponding to the
+	settings on the front panel.  If this is impossible (because previous
+	commands haven't completed), then append_byte will generate a warning.
+	However, we _know_ that the first batch of settings will be delayed until
+	after the initial reset and configuration, so we handle it specially here
+	to avoid the error message.
+	*/
+	execute_ad9852_settings(cmd_sequence, NEXT_AVAILABLE, &shadow,
+									dds_settings[1], sysclk);
+	
+	for (i=2; i<=num_settings; i++) {
+		//set the start time based on the start time
+		//and delta time of the previous element
+		idealtime += dds_settings[i-1].delta_time;
+		
+		execute_ad9852_settings(cmd_sequence, idealtime / adwin_event_period,
+								&shadow, dds_settings[i], sysclk);
+	}
+	
+	return cmd_sequence;
+}
+
+dds_cmds_ptr create_ad9858_cmd_sequence(ddsoptions_struct* dds_settings,
+										unsigned long num_settings,
+										double refclk,
+										double adwin_event_period,
+										double frequency_offset)
+{
+	dds_cmds_ptr cmd_sequence = NULL;
+	ad9858_shadow_struct shadow;
+	
+	long i;
+	double idealtime;
+
+	if (dds_settings == NULL || num_settings < 1) {
+		return NULL;
+	}
+
+	cmd_sequence = new_dds_cmd_sequence();
+
+
+	/* start from a known DDS state */ 
+	ad9858_master_reset(cmd_sequence, 0, &shadow);
+	
+	/* changes from default settings: */
+	set_ad9858_cr_bit(&shadow, AD9858_CR_LOADDELTAFREQ, FALSE);
+	set_ad9858_cr_bit(&shadow, AD9858_CR_FREQSWEEP, TRUE);
+	set_ad9858_cr_bit(&shadow, AD9858_CR_CPPOLAR, FALSE);
+	set_ad9858_cr_bit(&shadow, AD9858_CR_CLKDIV2DIS, FALSE);
+	set_ad9858_cr_bit(&shadow, AD9858_CR_SYNCLKDIS, TRUE);
+	set_ad9858_cr_bit(&shadow, AD9858_CR_MIXERPD, TRUE);
+	set_ad9858_cr_bit(&shadow, AD9858_CR_PDPD, FALSE);
  	
 	idealtime = 0.0;
 	
@@ -899,18 +1275,16 @@ dds_cmds_ptr create_dds_cmd_sequence(ddsoptions_struct* dds_settings,
 	after the initial reset and configuration, so we handle it specially here
 	to avoid the error message.
 	*/
-	execute_dds_settings(cmd_sequence, NEXT_AVAILABLE, &shadow,
-									dds_settings[1], sysclk);
+	execute_ad9858_settings(cmd_sequence, NEXT_AVAILABLE, &shadow,
+									dds_settings[1], refclk, frequency_offset);
 	
 	for (i=2; i<=num_settings; i++) {
 		//set the start time based on the start time
 		//and delta time of the previous element
 		idealtime += dds_settings[i-1].delta_time;
 		
-		execute_dds_settings(cmd_sequence, idealtime / adwin_event_period,
-								&shadow, dds_settings[i], sysclk);
+		execute_ad9858_settings(cmd_sequence, idealtime / adwin_event_period,
+								&shadow, dds_settings[i], refclk, frequency_offset);
 	}
-	
 	return cmd_sequence;
 }
-

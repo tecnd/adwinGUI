@@ -6,7 +6,7 @@
 /************************************************************************
 Macro Definitions
 *************************************************************************/
-																						  
+
 #define DefaultEventPeriod 0.100   // in milliseconds
 #define AdwinTick	0.000025       //Adwin clock cycle, in ms.
 #define NUMBERANALOGCHANNELS 24	   // Number of analog Channels available for control
@@ -72,15 +72,7 @@ struct DigitalChannelProperties{
 	char 	chname[50];	// name of the channel on the panel
 	int 	resettolow;
 	}	DChName[33];
-	
-	
-struct DDSParameters{
-	int		channel;  // "channel" to update	
-	int		FreqWord1;	
-	int		FreqWord2;
-	int		FreqDeltaWord;
-	int		Amplitude;
-	}  DDSTable[17][NUMBEROFPAGES]  ;
+
 double EventPeriod;
 int processnum;
 
@@ -90,7 +82,6 @@ struct DDSClock{
 	double	clock;	
 }	DDSFreq;
 
-//DDSOPTIONS *ddstable[17]; //17 columns (actually only 14, but in case we expand), 10 pages
 ddsoptions_struct ddstable[17][NUMBEROFPAGES]; //17 columns (actually only 14, but in case we expand), 10 pages
 
 struct ScanParameters{
@@ -106,5 +97,6 @@ struct ScanParameters{
 	int    Column;
 	int    Page;
 } AnalogScan;
+	
 #endif
 

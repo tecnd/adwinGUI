@@ -833,7 +833,7 @@ int CVICALLBACK TIMETABLE_CALLBACK (int panel, int control, int event,
 				}
 				
 				//set the delta time value for the dds array
-				ddstable[i][page].delta_time = dval/1000;
+			//	ddstable[i][page].delta_time = dval/1000;
 				
 			}
 			break;
@@ -1666,7 +1666,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 			DDSArray[m].end_frequency=DDSArray[m].end_frequency+DDSoffset;
 		}
 		
-		dds_cmd_seq = create_dds_cmd_sequence(DDSArray, numtimes,DDSFreq.PLLmult, 
+		dds_cmd_seq = create_ad9852_cmd_sequence(DDSArray, numtimes,DDSFreq.PLLmult, 
 		DDSFreq.extclock,EventPeriod/1000);
     
 	//	SaveLastGuiSettings();
