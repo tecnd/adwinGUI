@@ -43,6 +43,7 @@ int pic_off,pic_static,pic_change,pic_don;
 int ischecked[NUMBEROFPAGES],isdimmed;
 BOOL ChangedVals;
 BOOL UseSimpleTiming;
+BOOL Scan_Active;
 struct AnalogTableValues{
 	int		fcn;		//fcn is an integer refering to a function to use.
 						// 1-step, 2-linear, 3- exp, 4- 'S' curve
@@ -90,13 +91,14 @@ struct ScanParameters{
 	double Scan_Step_Size;
 	int	   Iterations_Per_Step;
 	int    Current_Step;
-	int	   Current_Scan_Value;
+	double	   Current_Scan_Value;
+	int	   Current_Iteration;
 	int	   Analog_Channel;
 	int	   Scan_Mode;
 	int    Row;
 	int    Column;
 	int    Page;
 } AnalogScan;
-	
+BOOL ScanDone;	
 #endif
 

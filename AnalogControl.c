@@ -205,9 +205,9 @@ int CVICALLBACK CMD_SCANSETUP_CALLBACK (int panel, int control, int event,
 		{
 		case EVENT_COMMIT:
 	
-			GetCtrlVal(panelHandle4,CTRL_PANEL_RING_CTRLMODE,&AnalogScan.Scan_Mode);		
-			GetCtrlVal(panelHandle4,CTRL_PANEL_NUMFINALVAL,&AnalogScan.End_Of_Scan);
-			GetCtrlVal(panelHandle4,CTRL_PANEL_NUMINITVAL,&AnalogScan.Start_Of_Scan);
+		//	GetCtrlVal(panelHandle4,CTRL_PANEL_RING_CTRLMODE,&AnalogScan.Scan_Mode);		
+		//	GetCtrlVal(panelHandle4,CTRL_PANEL_NUMFINALVAL,&AnalogScan.End_Of_Scan);
+		//	GetCtrlVal(panelHandle4,CTRL_PANEL_NUMINITVAL,&AnalogScan.Start_Of_Scan);
 			ScanSetUp();
 			
 			break;

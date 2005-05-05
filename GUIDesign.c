@@ -1,3 +1,4 @@
+#include "Scan.h"
 #include <userint.h>
 #include "GUIDesign.h"
 #include "GUIDesign2.h"
@@ -853,6 +854,7 @@ int CVICALLBACK CMD_RUN_CALLBACK (int panel, int control, int event,
 	switch (event)
 		{
 		case EVENT_COMMIT:
+			Scan_Active=FALSE;
 			SaveLastGuiSettings();
 			ChangedVals=TRUE;
 			scancount=0;
@@ -867,6 +869,28 @@ int CVICALLBACK CMD_RUN_CALLBACK (int panel, int control, int event,
 			SetCtrlAttribute (panelHandle, PANEL_TIMER, ATTR_ENABLED, 0);
 			//deactivate timer
 			}
+			RunOnce();
+			break;
+		}
+		
+	return 0;
+}
+//*********************************************************************************
+int CVICALLBACK CMD_SCAN_CALLBACK (int panel, int control, int event,
+		void *callbackData, int eventData1, int eventData2)
+{		// basically a copy of CMD_RUN but activate SCAN flag, and reset flag counter
+// maybe we should just integrate scan into run
+		int repeat=0;
+	switch (event)
+		{
+		case EVENT_COMMIT:
+			UpdateScanValue(TRUE); // sending value of 1 resets the scan counter.
+			Scan_Active=TRUE;
+			SaveLastGuiSettings();
+			ChangedVals=TRUE;
+			repeat=TRUE;
+			SetCtrlVal(panelHandle,PANEL_TOGGLEREPEAT,repeat);
+			SetCtrlAttribute (panelHandle, PANEL_TIMER, ATTR_ENABLED, 1);
 			RunOnce();
 			break;
 		}
@@ -976,6 +1000,46 @@ void CVICALLBACK TITLE7_CALLBACK (int menuBar, int menuItem, void *callbackData,
 	}
 }
 
+void CVICALLBACK TITLE8_CALLBACK (int menuBar, int menuItem, void *callbackData,
+		int panel)
+{
+	char buff[80];
+	int status;
+	status=PromptPopup ("Enter control button label", "Enter a new label for Phase 8 control button",buff, sizeof buff-2);
+	if(status==0)
+	{
+		status = SetCtrlAttribute (panelHandle, PANEL_TB_SHOWPHASE8,ATTR_OFF_TEXT, buff);
+		status = SetCtrlAttribute (panelHandle, PANEL_TB_SHOWPHASE8,ATTR_ON_TEXT, buff);
+	}
+}
+
+void CVICALLBACK TITLE9_CALLBACK (int menuBar, int menuItem, void *callbackData,
+		int panel)
+{
+	char buff[80];
+	int status;
+	status=PromptPopup ("Enter control button label", "Enter a new label for Phase 9 control button",buff, sizeof buff-2);
+	if(status==0)
+	{
+		status = SetCtrlAttribute (panelHandle, PANEL_TB_SHOWPHASE9,ATTR_OFF_TEXT, buff);
+		status = SetCtrlAttribute (panelHandle, PANEL_TB_SHOWPHASE9,ATTR_ON_TEXT, buff);
+	}
+}
+
+void CVICALLBACK TITLEX_CALLBACK (int menuBar, int menuItem, void *callbackData,
+		int panel)
+{
+
+  char buff[80];
+	int status;
+	status=PromptPopup ("Enter control button label", "Enter a new label for Phase 10 control button",buff, sizeof buff-2);
+	if(status==0)
+	{
+		status = SetCtrlAttribute (panelHandle, PANEL_TB_SHOWPHASE10,ATTR_OFF_TEXT, buff);
+		status = SetCtrlAttribute (panelHandle, PANEL_TB_SHOWPHASE10,ATTR_ON_TEXT, buff);
+	}
+}
+
 
 
 void CVICALLBACK SETGD5_CALLBACK (int menuBar, int menuItem, void *callbackData,
@@ -1047,7 +1111,7 @@ void RunOnce (void)
 	//****************
 	isdimmed=TRUE;
 	lastpagenum=10;
-	UpdateScanValue();
+	//if(Scan_Active==TRUE) {UpdateScanValue(FALSE);}
 	GetCtrlVal (panelHandle, PANEL_NUM_INSERTIONPAGE, &insertpage);
 	GetCtrlVal (panelHandle, PANEL_NUM_INSERTIONCOL, &insertcolumn);
 	//Lets build the times list first...so we know how long it will be.
@@ -1209,6 +1273,11 @@ int CVICALLBACK TIMER_CALLBACK (int panel, int control, int event,
 			SetCtrlAttribute (panelHandle, PANEL_TIMER, ATTR_ENABLED, 0);
 			//disable timer and re-enable in the runonce (or update list) loop, if the repeat butn is pressed.
 			//reset the timer too and set a timer time of 50ms?
+			
+			if(Scan_Active==TRUE)
+			{
+				UpdateScanValue(FALSE);
+			}
 			RunOnce();
 		 
 			break;
@@ -1634,7 +1703,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
    	tstart=clock();
 	timemult=(int)(1/EventPeriod); //number of adwin events per millisecond
 	GlobalDelay=EventPeriod/AdwinTick; //??
-	ClearListCtrl(panelHandle,PANEL_DEBUG); //clear debug list control
+	//ClearListCtrl(panelHandle,PANEL_DEBUG); //clear debug list control
 		 
 	//make a new time list...using the needed step size.i.e in number of ADWin events
 		
@@ -1644,7 +1713,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		timesum=timesum+NewTimeMat[i]; //total number of Adwin events
 	}
 	
-	cycletime=(double)timesum/(double)timemult/10000;
+	cycletime=(double)timesum/(double)timemult/1000;
 	sprintf(buff,"timesum %d",timesum);
 	InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
 	//dynamically allocate the memory for the time array (instead of using a static array:UpdateNum)
@@ -1931,7 +2000,12 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 	//DisplayPanel(panelHandle);
 	//re-enable the timer if necessary
 	GetCtrlVal(panelHandle,PANEL_TOGGLEREPEAT,&repeat);
-	if(repeat==1)
+	if((Scan_Active==TRUE)&&(ScanDone==TRUE))
+	{
+		repeat=FALSE;  //remember to reset the front panel repeat button
+		SetCtrlVal(panelHandle,PANEL_TOGGLEREPEAT,repeat);
+	}
+	if(repeat==TRUE)
 	{
 		SetCtrlAttribute(panelHandle,PANEL_TIMER,ATTR_ENABLED,1);
 		SetCtrlAttribute (panelHandle, PANEL_TIMER, ATTR_INTERVAL,cycletime);
@@ -2570,6 +2644,7 @@ void CVICALLBACK DDS_OFF_CALLBACK (int menuBar, int menuItem, void *callbackData
 	
 }
 
+//**************************************************************************************************************
 
 
 void CVICALLBACK SIMPLETIMING_CALLBACK (int menuBar, int menuItem, void *callbackData,
@@ -2586,14 +2661,101 @@ void CVICALLBACK SIMPLETIMING_CALLBACK (int menuBar, int menuItem, void *callbac
 		SetMenuBarAttribute (menuHandle, MENU_PREFS_SIMPLETIMING, ATTR_CHECKED, TRUE);
 	}
 }
-void UpdateScanValue(void)
+//**************************************************************************************************************
+//Last Update: May 03, 2005
+// existing problem: if the final value isn't exactly reached by the steps, then the last stage is skipped and the 
+// cycle doesn't end
+// has to do with numsteps.  Should be programmed with ceiling(), not abs
+
+void UpdateScanValue(int Reset)
 {
+  	static int scanstep,iteration;
+  	int cx,cy,cz,numsteps;
+	double tempnumsteps;
+	BOOL LastScan;
+  	static BOOL ScanUp;
+  	static int timesdid;
+  	char buff[400];
+  	cx=AnalogScan.Column;
+  	
+  	cy=AnalogScan.Row;
+  	cz=AnalogScan.Page;
+  	numsteps=ceil(abs(((double)AnalogScan.Start_Of_Scan-(double)AnalogScan.End_Of_Scan)/(double)AnalogScan.Scan_Step_Size));
+  	ScanDone=FALSE;
+  	
+  	if(Reset==TRUE) 
+	{ 
+  	//	printf("numsteps is %d\n",numsteps);
+  	//	pritnf("
+  		//LastVal=FALSE;
+  		timesdid=0;
+  		scanstep=0;
+ 	 	AnalogScan.Current_Step=0;
+  		AnalogScan.Current_Iteration=-1;
+ 	 	AnalogScan.Current_Scan_Value=AnalogScan.Start_Of_Scan;
+  		// determine the sign of the step and correct.
+  		if(AnalogScan.End_Of_Scan>AnalogScan.Start_Of_Scan) 
+  		{ 
+  			ScanUp=TRUE;
+  			if(AnalogScan.Scan_Step_Size<0) {AnalogScan.Scan_Step_Size=-AnalogScan.Scan_Step_Size;} 
+  		}
+  		else 
+  		{
+  			ScanUp=FALSE;	  // ie. we scan downwards
+  			if(AnalogScan.Scan_Step_Size>0) {AnalogScan.Scan_Step_Size=-AnalogScan.Scan_Step_Size;} 
+  		}
+  	}
+    timesdid++;
+  	AnalogScan.Current_Iteration++;
+  	
+	if((AnalogScan.Current_Iteration>=AnalogScan.Iterations_Per_Step)&&(AnalogScan.Current_Step<numsteps)) // update the step at correct time
+	{
+		AnalogScan.Current_Iteration=0;
+		AnalogScan.Current_Step++;
+		AnalogScan.Current_Scan_Value=AnalogScan.Current_Scan_Value+AnalogScan.Scan_Step_Size;
+		ChangedVals=TRUE;
+	//	printf("new val is %f \n",AnalogScan.Current_Scan_Value);
+	}
+	
+	
+	if((AnalogScan.Current_Scan_Value>=AnalogScan.End_Of_Scan)&& (ScanUp==TRUE)) 
+	{
+		AnalogScan.Current_Scan_Value=AnalogScan.End_Of_Scan;
+//		printf("hit limit\n");
+	//	LastVal=TRUE;
+	}
+	if((AnalogScan.Current_Scan_Value<=AnalogScan.End_Of_Scan)&& (ScanUp==FALSE)) 
+	{
+		AnalogScan.Current_Scan_Value=AnalogScan.End_Of_Scan;
+//		printf("hit limit b\n");
+	//	LastVal=TRUE;
+	}
 
 
+	//insert values into table
+	AnalogTable[cx][cy][cz].fval=AnalogScan.Current_Scan_Value;
+	AnalogTable[cx][cy][cz].fcn=AnalogScan.Scan_Mode;
+
+	//end condition
+ 	if(ScanUp)
+ 	{
+ 		if((AnalogScan.Current_Scan_Value>=AnalogScan.End_Of_Scan)&&(AnalogScan.Current_Iteration>=AnalogScan.Iterations_Per_Step-1))	
+		{
+ 			ScanDone=TRUE;  // Flag used in RunOnce() to initiate a stop
+		}
+	}
+	else
+	{
+	 	if((AnalogScan.Current_Scan_Value<=AnalogScan.End_Of_Scan)&&(AnalogScan.Current_Iteration>=AnalogScan.Iterations_Per_Step-1))	
+		{
+ 			ScanDone=TRUE;  // Flag used in RunOnce() to initiate a stop
+		}
+	}
 
 }
-
+//**************************************************************************************************************
 void ScanSetUp(void)
 {
 	InitializeScanPanel();
 }
+

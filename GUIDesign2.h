@@ -39,7 +39,7 @@ void SetDisplayType(int display_setting); //toggle graphic and numeric
 double CheckIfWithinLimits(double OutputVoltage, int linenumber);
 void SaveLastGuiSettings(void);
 void OptimizeTimeLoop(int *,int,int*);
-void UpdateScanValue(void);
+void UpdateScanValue(int);
 void ScanSetUp(void);
 int scancount;
 #endif

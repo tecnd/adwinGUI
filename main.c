@@ -311,6 +311,7 @@ void Initialization()
 	   
 	AnalogScan.Scan_Step_Size=1.0;
 	AnalogScan.Iterations_Per_Step=1;
+	Scan_Active=FALSE;
 	//set to display both analog and digital channels
 	SetChannelDisplayed(1);
 	

@@ -9,6 +9,7 @@ int CVICALLBACK CALLBACK_SCANOK (int panel, int control, int event,
 		case EVENT_COMMIT:
 			ReadScanValues();
 			HidePanel(panelHandle7);
+			HidePanel(panelHandle4);
 			break;
 		}
 	return 0;
@@ -42,6 +43,23 @@ void ReadScanValues(void)
  	GetCtrlVal (panelHandle7, SCANPANEL_NUM_SCANEND, &AnalogScan.End_Of_Scan);
  	GetCtrlVal (panelHandle7, SCANPANEL_NUM_SCANSTEP, &AnalogScan.Scan_Step_Size);
  	GetCtrlVal (panelHandle7, SCANPANEL_NUM_ITERATIONS, &AnalogScan.Iterations_Per_Step);
+	GetCtrlVal (panelHandle7, SCANPANEL_RING_MODE, &AnalogScan.Scan_Mode);	
 	AnalogScan.Current_Step=0;
 	AnalogScan.Current_Scan_Value=AnalogScan.Start_Of_Scan;
+}
+
+
+int CVICALLBACK CALLBACK_SCAN_CANCEL (int panel, int control, int event,
+		void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+		{
+		case EVENT_COMMIT:
+			Scan_Active=FALSE;
+			HidePanel(panelHandle7);
+			HidePanel(panelHandle4);
+			
+			break;
+		}
+	return 0;
 }

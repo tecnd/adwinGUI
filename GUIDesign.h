@@ -49,19 +49,20 @@
 #define  PANEL_TB_SHOWPHASE3             33      /* callback function: TOGGLE3_CALLBACK */
 #define  PANEL_TB_SHOWPHASE2             34      /* callback function: TOGGLE2_CALLBACK */
 #define  PANEL_TB_SHOWPHASE1             35      /* callback function: TOGGLE1_CALLBACK */
-#define  PANEL_CMD_RUN                   36      /* callback function: CMD_RUN_CALLBACK */
-#define  PANEL_DEBUG                     37
-#define  PANEL_TOGGLEREPEAT              38
-#define  PANEL_CMDSTOP                   39      /* callback function: CMDSTOP_CALLBACK */
-#define  PANEL_TGL_NUMERICTABLE          40      /* callback function: TGLNUMERIC_CALLBACK */
-#define  PANEL_DISPLAYDIAL               41      /* callback function: DISPLAYDIAL_CALLBACK */
-#define  PANEL_TBL_ANALOGUNITS           42
-#define  PANEL_TBL_DIGNAMES              43
-#define  PANEL_TBL_ANAMES                44
-#define  PANEL_TIMER                     45      /* callback function: TIMER_CALLBACK */
-#define  PANEL_NUM_INSERTIONCOL          46      /* callback function: NUM_INSERTIONCOL_CALLBACK */
-#define  PANEL_NUM_INSERTIONPAGE         47      /* callback function: NUM_INSERTIONPAGE_CALLBACK */
-#define  PANEL_NUM_DDS_OFFSET            48
+#define  PANEL_CMD_SCAN                  36      /* callback function: CMD_SCAN_CALLBACK */
+#define  PANEL_CMD_RUN                   37      /* callback function: CMD_RUN_CALLBACK */
+#define  PANEL_DEBUG                     38
+#define  PANEL_TOGGLEREPEAT              39
+#define  PANEL_CMDSTOP                   40      /* callback function: CMDSTOP_CALLBACK */
+#define  PANEL_TGL_NUMERICTABLE          41      /* callback function: TGLNUMERIC_CALLBACK */
+#define  PANEL_DISPLAYDIAL               42      /* callback function: DISPLAYDIAL_CALLBACK */
+#define  PANEL_TBL_ANALOGUNITS           43
+#define  PANEL_TBL_DIGNAMES              44
+#define  PANEL_TBL_ANAMES                45
+#define  PANEL_TIMER                     46      /* callback function: TIMER_CALLBACK */
+#define  PANEL_NUM_INSERTIONCOL          47      /* callback function: NUM_INSERTIONCOL_CALLBACK */
+#define  PANEL_NUM_INSERTIONPAGE         48      /* callback function: NUM_INSERTIONPAGE_CALLBACK */
+#define  PANEL_NUM_DDS_OFFSET            49
 
 
      /* Menu Bars, Menus, and Menu Items: */
@@ -86,29 +87,32 @@
 #define  MENU_SETTINGS_CONTROLTEXT_TITLE5 18     /* callback function: TITLE5_CALLBACK */
 #define  MENU_SETTINGS_CONTROLTEXT_TITLE6 19     /* callback function: TITLE6_CALLBACK */
 #define  MENU_SETTINGS_CONTROLTEXT_TITLE7 20     /* callback function: TITLE7_CALLBACK */
-#define  MENU_SETTINGS_DEBUG             21      /* callback function: MENU_DEBUG_CALLBACK */
-#define  MENU_SETTINGS_BOOTADWIN         22      /* callback function: BOOTADWIN_CALLBACK */
-#define  MENU_SETTINGS_CLEARPANEL        23      /* callback function: CLEARPANEL_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO         24      /* callback function: RESETZERO_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO_SUBMENU 25
-#define  MENU_SETTINGS_RESETZERO_SETLOW  26      /* callback function: MENU_ALLLOW_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO_HOLD    27      /* callback function: MENU_HOLD_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO_BYCHNL  28      /* callback function: MENU_BYCHANNEL_CALLBACK */
-#define  MENU_EDITMATRIX                 29
-#define  MENU_EDITMATRIX_INSERTCOLUMN    30      /* callback function: INSERTCOLUMN_CALLBACK */
-#define  MENU_EDITMATRIX_DELETECOLUMN    31      /* callback function: DELETECOLUMN_CALLBACK */
-#define  MENU_EDITMATRIX_COPYCOLUMN      32      /* callback function: COPYCOLUMN_CALLBACK */
-#define  MENU_EDITMATRIX_PASTECOLUMN     33      /* callback function: PASTECOLUMN_CALLBACK */
-#define  MENU_UPDATEPERIOD               34
-#define  MENU_UPDATEPERIOD_SETGD5        35      /* callback function: SETGD5_CALLBACK */
-#define  MENU_UPDATEPERIOD_SETGD10       36      /* callback function: SETGD10_CALLBACK */
-#define  MENU_UPDATEPERIOD_SETGD100      37      /* callback function: SETGD100_CALLBACK */
-#define  MENU_UPDATEPERIOD_SETGD1000     38      /* callback function: SETGD1000_CALLBACK */
-#define  MENU_PREFS                      39
-#define  MENU_PREFS_COMPRESSION          40      /* callback function: COMPRESSION_CALLBACK */
-#define  MENU_PREFS_SIMPLETIMING         41      /* callback function: SIMPLETIMING_CALLBACK */
-#define  MENU_PREFS_SHOWARRAY            42      /* callback function: SHOWARRAY_CALLBACK */
-#define  MENU_PREFS_DDS_OFF              43      /* callback function: DDS_OFF_CALLBACK */
+#define  MENU_SETTINGS_CONTROLTEXT_TITLE8 21     /* callback function: TITLE8_CALLBACK */
+#define  MENU_SETTINGS_CONTROLTEXT_TITLE9 22     /* callback function: TITLE9_CALLBACK */
+#define  MENU_SETTINGS_CONTROLTEXT_TITLEX 23     /* callback function: TITLEX_CALLBACK */
+#define  MENU_SETTINGS_DEBUG             24      /* callback function: MENU_DEBUG_CALLBACK */
+#define  MENU_SETTINGS_BOOTADWIN         25      /* callback function: BOOTADWIN_CALLBACK */
+#define  MENU_SETTINGS_CLEARPANEL        26      /* callback function: CLEARPANEL_CALLBACK */
+#define  MENU_SETTINGS_RESETZERO         27      /* callback function: RESETZERO_CALLBACK */
+#define  MENU_SETTINGS_RESETZERO_SUBMENU 28
+#define  MENU_SETTINGS_RESETZERO_SETLOW  29      /* callback function: MENU_ALLLOW_CALLBACK */
+#define  MENU_SETTINGS_RESETZERO_HOLD    30      /* callback function: MENU_HOLD_CALLBACK */
+#define  MENU_SETTINGS_RESETZERO_BYCHNL  31      /* callback function: MENU_BYCHANNEL_CALLBACK */
+#define  MENU_EDITMATRIX                 32
+#define  MENU_EDITMATRIX_INSERTCOLUMN    33      /* callback function: INSERTCOLUMN_CALLBACK */
+#define  MENU_EDITMATRIX_DELETECOLUMN    34      /* callback function: DELETECOLUMN_CALLBACK */
+#define  MENU_EDITMATRIX_COPYCOLUMN      35      /* callback function: COPYCOLUMN_CALLBACK */
+#define  MENU_EDITMATRIX_PASTECOLUMN     36      /* callback function: PASTECOLUMN_CALLBACK */
+#define  MENU_UPDATEPERIOD               37
+#define  MENU_UPDATEPERIOD_SETGD5        38      /* callback function: SETGD5_CALLBACK */
+#define  MENU_UPDATEPERIOD_SETGD10       39      /* callback function: SETGD10_CALLBACK */
+#define  MENU_UPDATEPERIOD_SETGD100      40      /* callback function: SETGD100_CALLBACK */
+#define  MENU_UPDATEPERIOD_SETGD1000     41      /* callback function: SETGD1000_CALLBACK */
+#define  MENU_PREFS                      42
+#define  MENU_PREFS_COMPRESSION          43      /* callback function: COMPRESSION_CALLBACK */
+#define  MENU_PREFS_SIMPLETIMING         44      /* callback function: SIMPLETIMING_CALLBACK */
+#define  MENU_PREFS_SHOWARRAY            45      /* callback function: SHOWARRAY_CALLBACK */
+#define  MENU_PREFS_DDS_OFF              46      /* callback function: DDS_OFF_CALLBACK */
 
 
      /* Callback Prototypes: */ 
@@ -119,6 +123,7 @@ void CVICALLBACK BOOTADWIN_CALLBACK(int menubar, int menuItem, void *callbackDat
 void CVICALLBACK BOOTLOAD_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK CLEARPANEL_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK CMD_RUN_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+int  CVICALLBACK CMD_SCAN_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK CMDSTOP_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 void CVICALLBACK COMPRESSION_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK CONFIG_EXPORT_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
@@ -157,6 +162,9 @@ void CVICALLBACK TITLE4_CALLBACK(int menubar, int menuItem, void *callbackData, 
 void CVICALLBACK TITLE5_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK TITLE6_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK TITLE7_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
+void CVICALLBACK TITLE8_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
+void CVICALLBACK TITLE9_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
+void CVICALLBACK TITLEX_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK TOGGLE10_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK TOGGLE1_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK TOGGLE2_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
