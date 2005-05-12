@@ -197,7 +197,8 @@ void Initialization()
 	int i=0,cellheight=0,fontsize=0;
 	int j=0,x0,dx;
 	char str_list_val[5];
-	
+	SetCtrlAttribute (panelHandle, PANEL_LABNOTE_TXT, ATTR_VISIBLE, FALSE);
+
 	//Add in any extra rows (if the number of channels increases)
 	InsertTableRows (panelHandle, PANEL_ANALOGTABLE, 16,
 						 NUMBERANALOGCHANNELS-16, VAL_CELL_PICTURE);
@@ -309,9 +310,9 @@ void Initialization()
 		SetTableCellVal (panelHandle, PANEL_TBL_ANAMES, MakePoint(2,i), i);
 	}
 	   
-	AnalogScan.Scan_Step_Size=1.0;
-	AnalogScan.Iterations_Per_Step=1;
-	Scan_Active=FALSE;
+	PScan.Analog.Scan_Step_Size=1.0;
+	PScan.Analog.Iterations_Per_Step=1;
+	PScan.Scan_Active=FALSE;
 	//set to display both analog and digital channels
 	SetChannelDisplayed(1);
 	

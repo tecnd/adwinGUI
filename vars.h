@@ -43,7 +43,6 @@ int pic_off,pic_static,pic_change,pic_don;
 int ischecked[NUMBEROFPAGES],isdimmed;
 BOOL ChangedVals;
 BOOL UseSimpleTiming;
-BOOL Scan_Active;
 struct AnalogTableValues{
 	int		fcn;		//fcn is an integer refering to a function to use.
 						// 1-step, 2-linear, 3- exp, 4- 'S' curve
@@ -85,20 +84,52 @@ struct DDSClock{
 
 ddsoptions_struct ddstable[17][NUMBEROFPAGES]; //17 columns (actually only 14, but in case we expand), 10 pages
 
-struct ScanParameters{
+typedef struct AnalogScanParameters{
 	double Start_Of_Scan;
 	double End_Of_Scan;
 	double Scan_Step_Size;
 	int	   Iterations_Per_Step;
-	int    Current_Step;
-	double	   Current_Scan_Value;
-	int	   Current_Iteration;
 	int	   Analog_Channel;
-	int	   Scan_Mode;
+	int	   Analog_Mode;
+} AnalogScan;
+
+typedef struct TimeScanParameters{
+	double 	Start_Of_Scan;
+	double 	End_Of_Scan;
+	double 	Scan_Step_Size;
+	int	   	Iterations_Per_Step;
+}	TimeScan;
+
+typedef struct DDSScanParameters{
+	double  Base_Freq;
+	double  Start_Of_Scan;
+	double 	End_Of_Scan;
+	double 	Scan_Step_Size;
+	double  Current;
+	int	   	Iterations_Per_Step;
+
+} DDSScan;
+
+struct ScanParameters{
 	int    Row;
 	int    Column;
 	int    Page;
-} AnalogScan;
-BOOL ScanDone;	
+	int    ScanMode;// 0 for Analog, 1 for Time, 2 for DDS
+	BOOL   ScanDone;
+	BOOL   Scan_Active;
+	struct AnalogScanParameters	Analog;
+	struct TimeScanParameters	Time;
+	struct DDSScanParameters   	DDS;
+}  PScan;
+
+struct ScanSet{
+	double Start;
+	double End;
+	double Step;
+	int	   Iterations;
+	int    Current_Step;
+	double Current_Value;
+	int    Current_Iteration;	
+}	ScanVal;
 #endif
 

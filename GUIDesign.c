@@ -210,6 +210,8 @@ int GetPage(void)
 //if isdimmed=0  Draw everything
 //if isdimmed=1  Dim out appropriate columns....
 // Make isdimmed a global I guess...
+// May 12, 2005:  Updated to change color of cell that is active by a parameter scan.  This cell (ANalog, Time or DDS) now 
+//                turns dark yellow. might pick a better color.
 {
 	int i,j,k,cfcn,picmode,page,cmode,pic;
 	int analogtable_visible = 0;
@@ -377,6 +379,22 @@ int GetPage(void)
 	SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, analogtable_visible);
 	SetCtrlAttribute (panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, digtable_visible);
 	SetCtrlAttribute (panelHandle, PANEL_TIMETABLE, ATTR_VISIBLE, 1);
+	
+	if((currentpage==PScan.Page)&&(PScan.Scan_Active==TRUE))//display the cell active for a parameter scan
+	{
+	 	switch(PScan.ScanMode)
+	 	{
+	 		case 0:
+	 			SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(PScan.Column,PScan.Row),ATTR_TEXT_BGCOLOR, VAL_DK_YELLOW);	
+				break;
+			case 1:
+				SetTableCellAttribute(panelHandle,PANEL_TIMETABLE,MakePoint(PScan.Column,1),ATTR_TEXT_BGCOLOR,VAL_DK_YELLOW);
+				break;
+			case 2:
+				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(PScan.Column,25),ATTR_TEXT_BGCOLOR, VAL_DK_YELLOW);	
+				break;
+		}
+	}
 
 	if(currentpage==10)
 	{
@@ -854,7 +872,7 @@ int CVICALLBACK CMD_RUN_CALLBACK (int panel, int control, int event,
 	switch (event)
 		{
 		case EVENT_COMMIT:
-			Scan_Active=FALSE;
+			PScan.Scan_Active=FALSE;
 			SaveLastGuiSettings();
 			ChangedVals=TRUE;
 			scancount=0;
@@ -885,7 +903,7 @@ int CVICALLBACK CMD_SCAN_CALLBACK (int panel, int control, int event,
 		{
 		case EVENT_COMMIT:
 			UpdateScanValue(TRUE); // sending value of 1 resets the scan counter.
-			Scan_Active=TRUE;
+			PScan.Scan_Active=TRUE;
 			SaveLastGuiSettings();
 			ChangedVals=TRUE;
 			repeat=TRUE;
@@ -1274,7 +1292,7 @@ int CVICALLBACK TIMER_CALLBACK (int panel, int control, int event,
 			//disable timer and re-enable in the runonce (or update list) loop, if the repeat butn is pressed.
 			//reset the timer too and set a timer time of 50ms?
 			
-			if(Scan_Active==TRUE)
+			if(PScan.Scan_Active==TRUE)
 			{
 				UpdateScanValue(FALSE);
 			}
@@ -2000,7 +2018,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 	//DisplayPanel(panelHandle);
 	//re-enable the timer if necessary
 	GetCtrlVal(panelHandle,PANEL_TOGGLEREPEAT,&repeat);
-	if((Scan_Active==TRUE)&&(ScanDone==TRUE))
+	if((PScan.Scan_Active==TRUE)&&(PScan.ScanDone==TRUE))
 	{
 		repeat=FALSE;  //remember to reset the front panel repeat button
 		SetCtrlVal(panelHandle,PANEL_TOGGLEREPEAT,repeat);
@@ -2666,6 +2684,7 @@ void CVICALLBACK SIMPLETIMING_CALLBACK (int menuBar, int menuItem, void *callbac
 // existing problem: if the final value isn't exactly reached by the steps, then the last stage is skipped and the 
 // cycle doesn't end
 // has to do with numsteps.  Should be programmed with ceiling(), not abs
+// May 11, 2005:  added capability to change time and DDS settings too.  Redesigned Scan structure
 
 void UpdateScanValue(int Reset)
 {
@@ -2676,79 +2695,108 @@ void UpdateScanValue(int Reset)
   	static BOOL ScanUp;
   	static int timesdid;
   	char buff[400];
-  	cx=AnalogScan.Column;
   	
-  	cy=AnalogScan.Row;
-  	cz=AnalogScan.Page;
-  	numsteps=ceil(abs(((double)AnalogScan.Start_Of_Scan-(double)AnalogScan.End_Of_Scan)/(double)AnalogScan.Scan_Step_Size));
-  	ScanDone=FALSE;
+  	cx=PScan.Column;
+  	cy=PScan.Row;
+  	cz=PScan.Page;
+ 
+  	switch(PScan.ScanMode)
+  	{
+  		case 0: // set to analog
+  			ScanVal.End =		PScan.Analog.End_Of_Scan;
+  			ScanVal.Start =		PScan.Analog.Start_Of_Scan;
+	  		ScanVal.Step =		PScan.Analog.Scan_Step_Size;
+  			ScanVal.Iterations= PScan.Analog.Iterations_Per_Step;
+  			break;
+  		case 1:   // time scan
+  			ScanVal.End=		PScan.Time.End_Of_Scan;
+  			ScanVal.Start=		PScan.Time.Start_Of_Scan;
+  			ScanVal.Step=		PScan.Time.Scan_Step_Size;
+  			ScanVal.Iterations=	PScan.Time.Iterations_Per_Step;
+  			break;
+  		case 2:
+  			ScanVal.End=		PScan.DDS.End_Of_Scan;
+  			ScanVal.Start=		PScan.DDS.Start_Of_Scan;
+  			ScanVal.Step=	   	PScan.DDS.Scan_Step_Size;
+  			ScanVal.Iterations=	PScan.DDS.Iterations_Per_Step;
+  			break;
+  	}
+  	// set to time
+  	// numsteps to depend on mode
+  	numsteps=ceil(abs(((double)ScanVal.Start-(double)ScanVal.End)/(double)ScanVal.Step));
+  	
+  	PScan.ScanDone=FALSE;
   	
   	if(Reset==TRUE) 
 	{ 
-  	//	printf("numsteps is %d\n",numsteps);
-  	//	pritnf("
-  		//LastVal=FALSE;
   		timesdid=0;
   		scanstep=0;
- 	 	AnalogScan.Current_Step=0;
-  		AnalogScan.Current_Iteration=-1;
- 	 	AnalogScan.Current_Scan_Value=AnalogScan.Start_Of_Scan;
+ 	 	ScanVal.Current_Step=0;
+  		ScanVal.Current_Iteration=-1;
+ 	 	ScanVal.Current_Value=ScanVal.Start;
   		// determine the sign of the step and correct.
-  		if(AnalogScan.End_Of_Scan>AnalogScan.Start_Of_Scan) 
+  		if(ScanVal.End>ScanVal.Start) 
   		{ 
   			ScanUp=TRUE;
-  			if(AnalogScan.Scan_Step_Size<0) {AnalogScan.Scan_Step_Size=-AnalogScan.Scan_Step_Size;} 
+  			if(ScanVal.Step<0) {ScanVal.Step=-ScanVal.Step;} 
   		}
   		else 
   		{
   			ScanUp=FALSE;	  // ie. we scan downwards
-  			if(AnalogScan.Scan_Step_Size>0) {AnalogScan.Scan_Step_Size=-AnalogScan.Scan_Step_Size;} 
+  			if(ScanVal.Step>0) {ScanVal.Step=-ScanVal.Step;} 
   		}
   	}
     timesdid++;
-  	AnalogScan.Current_Iteration++;
+  	ScanVal.Current_Iteration++;
   	
-	if((AnalogScan.Current_Iteration>=AnalogScan.Iterations_Per_Step)&&(AnalogScan.Current_Step<numsteps)) // update the step at correct time
+	if((ScanVal.Current_Iteration>=ScanVal.Iterations)&&(ScanVal.Current_Step<numsteps)) // update the step at correct time
 	{
-		AnalogScan.Current_Iteration=0;
-		AnalogScan.Current_Step++;
-		AnalogScan.Current_Scan_Value=AnalogScan.Current_Scan_Value+AnalogScan.Scan_Step_Size;
+		ScanVal.Current_Iteration=0;
+		ScanVal.Current_Step++;
+		ScanVal.Current_Value=ScanVal.Current_Value + ScanVal.Step;
 		ChangedVals=TRUE;
-	//	printf("new val is %f \n",AnalogScan.Current_Scan_Value);
 	}
 	
+	if((ScanVal.Current_Value>=ScanVal.End)&& (ScanUp==TRUE)) 
+	{
+		ScanVal.Current_Value=ScanVal.End;
+	}
 	
-	if((AnalogScan.Current_Scan_Value>=AnalogScan.End_Of_Scan)&& (ScanUp==TRUE)) 
+	if((ScanVal.Current_Value<=ScanVal.End)&& (ScanUp==FALSE)) 
 	{
-		AnalogScan.Current_Scan_Value=AnalogScan.End_Of_Scan;
-//		printf("hit limit\n");
-	//	LastVal=TRUE;
+		ScanVal.Current_Value=ScanVal.End;
 	}
-	if((AnalogScan.Current_Scan_Value<=AnalogScan.End_Of_Scan)&& (ScanUp==FALSE)) 
-	{
-		AnalogScan.Current_Scan_Value=AnalogScan.End_Of_Scan;
-//		printf("hit limit b\n");
-	//	LastVal=TRUE;
-	}
-
-
+	
 	//insert values into table
-	AnalogTable[cx][cy][cz].fval=AnalogScan.Current_Scan_Value;
-	AnalogTable[cx][cy][cz].fcn=AnalogScan.Scan_Mode;
-
+	switch(PScan.ScanMode)
+	{
+		case 0:
+			AnalogTable[cx][cy][cz].fval=ScanVal.Current_Value;
+			AnalogTable[cx][cy][cz].fcn=PScan.Analog.Analog_Mode;
+			break;
+		case 1:
+			TimeArray[cx][cz]=ScanVal.Current_Value;		
+			break;
+		case 2:
+			ddstable[cx][cz].amplitude=PScan.DDS.Current;
+			ddstable[cx][cz].start_frequency=PScan.DDS.Base_Freq;
+			ddstable[cx][cz].end_frequency=ScanVal.Current_Value;
+			break;
+	}
+	
 	//end condition
  	if(ScanUp)
  	{
- 		if((AnalogScan.Current_Scan_Value>=AnalogScan.End_Of_Scan)&&(AnalogScan.Current_Iteration>=AnalogScan.Iterations_Per_Step-1))	
+ 		if((ScanVal.Current_Value>=ScanVal.End)&&(ScanVal.Current_Iteration>=ScanVal.Iterations-1))	
 		{
- 			ScanDone=TRUE;  // Flag used in RunOnce() to initiate a stop
+ 			PScan.ScanDone=TRUE;  // Flag used in RunOnce() to initiate a stop
 		}
 	}
 	else
 	{
-	 	if((AnalogScan.Current_Scan_Value<=AnalogScan.End_Of_Scan)&&(AnalogScan.Current_Iteration>=AnalogScan.Iterations_Per_Step-1))	
+	 	if((ScanVal.Current_Value<=ScanVal.End)&&(ScanVal.Current_Iteration>=ScanVal.Iterations-1))	
 		{
- 			ScanDone=TRUE;  // Flag used in RunOnce() to initiate a stop
+ 			PScan.ScanDone=TRUE;  // Flag used in RunOnce() to initiate a stop
 		}
 	}
 
@@ -2759,3 +2807,21 @@ void ScanSetUp(void)
 	InitializeScanPanel();
 }
 
+void CVICALLBACK SCANSETTING_CALLBACK (int menuBar, int menuItem, void *callbackData,
+		int panel)
+{
+	InitializeScanPanel();
+}
+
+
+void CVICALLBACK NOTECHECK_CALLBACK (int menuBar, int menuItem, void *callbackData,
+		int panel)
+{
+	BOOL status;
+	GetMenuBarAttribute (menuHandle, MENU_SETTINGS_NOTECHECK, ATTR_CHECKED,&status);
+	SetMenuBarAttribute (menuHandle, MENU_SETTINGS_NOTECHECK, ATTR_CHECKED,!status);	
+	SetCtrlAttribute (panelHandle, PANEL_LABNOTE_TXT, ATTR_VISIBLE, !status);
+	//SetCtrlAttribute (panelHandle, MENU_NOTECHECK, ATTR_VISIBLE, !status);
+	
+	
+}
