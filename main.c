@@ -299,6 +299,14 @@ void Initialization()
 	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_9,ATTR_LEFT,x0);x0=x0+dx;
 	SetCtrlAttribute (panelHandle,PANEL_CHECKBOX_10,ATTR_LEFT,x0);x0=x0+dx;
 	
+	
+	// Scan display
+	SetCtrlAttribute (panelHandle, PANEL_DECORATION_BOX, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_SCANVAL, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_SCANSTEP, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_SCANITER, ATTR_VISIBLE, 0);
+	
+	
 	for (i=1;i<=NUMBERDIGITALCHANNELS;i++)
 	{
 		SetTableCellVal (panelHandle, PANEL_TBL_DIGNAMES, MakePoint(2,i), i);

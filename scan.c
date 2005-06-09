@@ -22,12 +22,12 @@ int CVICALLBACK CALLBACK_SCANOK (int panel, int control, int event,
 
 void InitializeScanPanel(void)
 {
- 	SetCtrlVal (panelHandle7,SCANPANEL_NUM_COLUMN,currentx);
- 
- 	SetCtrlVal (panelHandle7,SCANPANEL_NUM_ROW,currenty);
-	SetCtrlVal (panelHandle7,SCANPANEL_NUM_PAGE,currentpage);
- 	SetCtrlVal (panelHandle7,SCANPANEL_NUM_CHANNEL,AChName[currenty].chnum);
- 	SetCtrlVal (panelHandle7,SCANPANEL_NUM_DURATION,TimeArray[currenty][currentpage]);
+ 	SetCtrlVal (panelHandle7,SCANPANEL_NUM_COLUMN,PScan.Column);
+ 	SetCtrlVal (panelHandle7,SCANPANEL_NUM_ROW,PScan.Row);
+	SetCtrlVal (panelHandle7,SCANPANEL_NUM_PAGE,PScan.Page);
+ 	
+ 	SetCtrlVal (panelHandle7,SCANPANEL_NUM_CHANNEL,AChName[PScan.Row].chnum);
+ 	SetCtrlVal (panelHandle7,SCANPANEL_NUM_DURATION,TimeArray[PScan.Column][PScan.Page]);
  
  	SetCtrlVal (panelHandle7, SCANPANEL_RING_MODE,  	PScan.Analog.Analog_Mode); 
  	SetCtrlVal (panelHandle7, SCANPANEL_NUM_SCANSTART, 	PScan.Analog.Start_Of_Scan);
@@ -56,9 +56,9 @@ void InitializeScanPanel(void)
 //               set initial values
 void ReadScanValues(void)
 {
-	PScan.Row=currenty;
-	PScan.Column=currentx;
-	PScan.Page=currentpage;
+//	PScan.Row=currenty;
+//	PScan.Column=currentx;
+//	PScan.Page=currentpage;
 	
 	GetCtrlVal (panelHandle7, SCANPANEL_NUM_SCANSTART, &PScan.Analog.Start_Of_Scan);
  	GetCtrlVal (panelHandle7, SCANPANEL_NUM_SCANEND,   &PScan.Analog.End_Of_Scan);
@@ -111,7 +111,7 @@ int CVICALLBACK CALLBACK_TIMESCANOK (int panel, int control, int event,
 		case EVENT_COMMIT:
 
 			ReadScanValues();
-			PScan.ScanMode=1;// set to Analog scan
+			PScan.ScanMode=1;// set to Time scan
 			HidePanel(panelHandle7);
 			HidePanel(panelHandle4);
 			break;
@@ -130,9 +130,45 @@ int CVICALLBACK CALLBACK_DDSSCANOK (int panel, int control, int event,
 		case EVENT_COMMIT:
 
 			ReadScanValues();
-			PScan.ScanMode=2;// set to Analog scan
+			PScan.ScanMode=2;// set to DDS scan
 			HidePanel(panelHandle7);
 			HidePanel(panelHandle4);
+			break;
+		}
+	return 0;
+}
+
+int CVICALLBACK CMD_GETSCANVALS_CALLBACK (int panel, int control, int event,
+		void *callbackData, int eventData1, int eventData2)
+{
+	int cx=0,cy=0,cz=0;
+	
+	switch (event)
+		{
+		case EVENT_COMMIT:
+			
+			PScan.Column=currentx;
+			PScan.Row=currenty;
+			PScan.Page=currentpage;
+			cx=currentx;cy=currenty;cz=currentpage;	
+			PScan.Analog.Analog_Mode		=AnalogTable[cx][cy][cz].fcn;
+			PScan.Analog.Start_Of_Scan		=AnalogTable[cx][cy][cz].fval;
+			PScan.Analog.End_Of_Scan		=AnalogTable[cx][cy][cz].fval;
+			PScan.Analog.Scan_Step_Size		=0.1;
+			PScan.Analog.Iterations_Per_Step=1;
+			
+			PScan.Time.Start_Of_Scan		=TimeArray[cx][cz];
+			PScan.Time.End_Of_Scan			=TimeArray[cx][cz];
+			PScan.Time.Scan_Step_Size		=0.1;
+			PScan.Time.Iterations_Per_Step	=1;
+		
+			PScan.DDS.Base_Freq				=ddstable[cx][cz].start_frequency;
+			PScan.DDS.Start_Of_Scan			=ddstable[cx][cz].end_frequency;
+			PScan.DDS.End_Of_Scan			=ddstable[cx][cz].end_frequency;
+			PScan.DDS.Iterations_Per_Step	=1;
+			PScan.DDS.Current				=ddstable[cx][cz].amplitude;
+			InitializeScanPanel();
+			DisplayPanel(panelHandle7);
 			break;
 		}
 	return 0;

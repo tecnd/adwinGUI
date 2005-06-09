@@ -2,7 +2,8 @@
 #include <userint.h>
 #include "GUIDesign.h"
 #include "GUIDesign2.h"
-
+#include "AnalogSettings2.h"
+#include "DigitalSettings2.h"
 
 //Clipboard for copy/paste functions
 double TimeClip;
@@ -1210,55 +1211,7 @@ void RunOnce (void)
 	}
 	isdimmed=TRUE;
 	
-/*  Add 1 column to end of the meta array to take care of zeroing etc....
-	mindex++;
-
-	GetMenuBarAttribute (MENU, MENU_ALLLOW, ATTR_CHECKED,&Checked_All_Low );
-	if(Checked_All_Low==TRUE)
-	{
-		for(j=1;j<=NUMBERANALOGCHANNELS:j++)
-		{
-			MetaAnalogArray[j][mindex].fval=0;
-			MetaAnalogArray[j][mindex].fcn=1;//set to step;
-			MetaAnalogArray[j][mindex].tscale=1;
-			MetaDigitalArray[j][mindex]=FALSE;
-		}
-	}
 	
-	GetMenuBarAttribute (MENU, MENU_BYCHANNEL, ATTR_CHECKED,&Checked_By_Value );
-	if(Checked_By_Value==TRUE)
-	{
-		for(j=1;j<=NUMBERANALOGCHANNELS;j++)
-		{
-			if(AChName[j].resettozero==TRUE)
-			{
-				MetaAnalogArray[j][mindex].fval=0;
-			}
-			else
-			{
-				MetaAnalogArray[j][mindex].fval=MetaAnalogArray[j][mindex-1];	
-			}
-			if(DChName[j].resetlow==TRUE)
-			{
-				MetaDigitalArray[j][mindex]=FALSE;
-			}
-			else
-			{
-				MetaDigitalArray[j][mindex]=MetaDigitalArray[j][mindex-1];	
-			}
-		}
-	}
-	
-	GetMenuBarAttribute (MENU, MENU_HOLDVALUE, ATTR_CHECKED,&Checked_Hold_Value );
-	if(Checked_Hold_Value==TRUE)
-	{
-		for(j=1;j<=NUMBERANALOGCHANNELS;j++)
-		{
-				MetaAnalogArray[j][mindex].fval=MetaAnalogArray[j][mindex-1];	
-				MetaDigitalArray[j][mindex]=MetaDigitalArray[j][mindex-1];
-		}
-	}
-*/	
 	DrawNewTable(1);
 	tsize=mindex; //tsize is the number of columns
 	
@@ -1604,7 +1557,8 @@ void LoadArrays(char savedname[500],int csize)
 	SetCtrlAttribute (panelHandle, PANEL_TB_SHOWPHASE7,ATTR_OFF_TEXT, buff2);
 	SetCtrlAttribute (panelHandle, PANEL_TB_SHOWPHASE7,ATTR_ON_TEXT, buff2);
 	fclose(fdata);
-
+	SetAnalogChannels();
+	SetDigitalChannels();
 }
 
 //*****************************************************************************************
@@ -2526,7 +2480,7 @@ void CVICALLBACK MENU_BYCHANNEL_CALLBACK (int menuBar, int menuItem, void *callb
 		int panel)
 {
 }
-
+//**************************************************************************************************************
 void OptimizeTimeLoop(int *UpdateNum,int count, int *newcount)
 {
 	int i=0,k=0; // i is the counter through the original UpdateNum list
@@ -2591,6 +2545,7 @@ void OptimizeTimeLoop(int *UpdateNum,int count, int *newcount)
 	}
 	*newcount=t;
 }
+//**************************************************************************************************************
 
 int CVICALLBACK NUM_INSERTIONPAGE_CALLBACK (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
@@ -2685,7 +2640,7 @@ void CVICALLBACK SIMPLETIMING_CALLBACK (int menuBar, int menuItem, void *callbac
 // cycle doesn't end
 // has to do with numsteps.  Should be programmed with ceiling(), not abs
 // May 11, 2005:  added capability to change time and DDS settings too.  Redesigned Scan structure
-
+//June 7, 2005 :  Completed Scan capability, added on-screen display of scan progress.
 void UpdateScanValue(int Reset)
 {
   	static int scanstep,iteration;
@@ -2700,35 +2655,38 @@ void UpdateScanValue(int Reset)
   	cy=PScan.Row;
   	cz=PScan.Page;
  
-  	switch(PScan.ScanMode)
-  	{
-  		case 0: // set to analog
-  			ScanVal.End =		PScan.Analog.End_Of_Scan;
-  			ScanVal.Start =		PScan.Analog.Start_Of_Scan;
-	  		ScanVal.Step =		PScan.Analog.Scan_Step_Size;
-  			ScanVal.Iterations= PScan.Analog.Iterations_Per_Step;
-  			break;
-  		case 1:   // time scan
-  			ScanVal.End=		PScan.Time.End_Of_Scan;
-  			ScanVal.Start=		PScan.Time.Start_Of_Scan;
-  			ScanVal.Step=		PScan.Time.Scan_Step_Size;
-  			ScanVal.Iterations=	PScan.Time.Iterations_Per_Step;
-  			break;
-  		case 2:
-  			ScanVal.End=		PScan.DDS.End_Of_Scan;
-  			ScanVal.Start=		PScan.DDS.Start_Of_Scan;
-  			ScanVal.Step=	   	PScan.DDS.Scan_Step_Size;
-  			ScanVal.Iterations=	PScan.DDS.Iterations_Per_Step;
-  			break;
-  	}
-  	// set to time
-  	// numsteps to depend on mode
-  	numsteps=ceil(abs(((double)ScanVal.Start-(double)ScanVal.End)/(double)ScanVal.Step));
-  	
-  	PScan.ScanDone=FALSE;
-  	
-  	if(Reset==TRUE) 
-	{ 
+ 
+	// display Scan window
+	SetCtrlAttribute (panelHandle, PANEL_DECORATION_BOX, ATTR_VISIBLE, 1);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_SCANVAL, ATTR_VISIBLE, 1);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_SCANSTEP, ATTR_VISIBLE, 1);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_SCANITER, ATTR_VISIBLE, 1);
+
+	// Initialization on first iteration
+	if(Reset==TRUE) 
+	{
+  		switch(PScan.ScanMode)
+ 	 	{
+  			case 0: // set to analog
+  				ScanVal.End =		PScan.Analog.End_Of_Scan;
+  				ScanVal.Start =		PScan.Analog.Start_Of_Scan;
+		  		ScanVal.Step =		PScan.Analog.Scan_Step_Size;
+  				ScanVal.Iterations= PScan.Analog.Iterations_Per_Step;
+  				break;
+	  		case 1:   // time scan
+  				ScanVal.End=		PScan.Time.End_Of_Scan;
+  				ScanVal.Start=		PScan.Time.Start_Of_Scan;
+  				ScanVal.Step=		PScan.Time.Scan_Step_Size;
+	  			ScanVal.Iterations=	PScan.Time.Iterations_Per_Step;
+  				break;
+	  		case 2:
+  				ScanVal.End=		PScan.DDS.End_Of_Scan;
+  				ScanVal.Start=		PScan.DDS.Start_Of_Scan;
+  				ScanVal.Step=	   	PScan.DDS.Scan_Step_Size;
+ 	 			ScanVal.Iterations=	PScan.DDS.Iterations_Per_Step;
+  				break;
+  		}
+  	 
   		timesdid=0;
   		scanstep=0;
  	 	ScanVal.Current_Step=0;
@@ -2746,6 +2704,11 @@ void UpdateScanValue(int Reset)
   			if(ScanVal.Step>0) {ScanVal.Step=-ScanVal.Step;} 
   		}
   	}
+  	
+  	// numsteps to depend on mode
+  	numsteps=ceil(abs(((double)ScanVal.Start-(double)ScanVal.End)/(double)ScanVal.Step));
+  	
+  	PScan.ScanDone=FALSE;
     timesdid++;
   	ScanVal.Current_Iteration++;
   	
@@ -2784,28 +2747,43 @@ void UpdateScanValue(int Reset)
 			break;
 	}
 	
-	//end condition
+	// display on screen
+	SetCtrlVal (panelHandle, PANEL_NUM_SCANVAL, ScanVal.Current_Value);
+	SetCtrlVal (panelHandle, PANEL_NUM_SCANSTEP, ScanVal.Current_Step);
+	SetCtrlVal (panelHandle, PANEL_NUM_SCANITER, ScanVal.Current_Iteration);
+	
+	//check for end condition
  	if(ScanUp)
  	{
  		if((ScanVal.Current_Value>=ScanVal.End)&&(ScanVal.Current_Iteration>=ScanVal.Iterations-1))	
-		{
+		{   //Done Scan
  			PScan.ScanDone=TRUE;  // Flag used in RunOnce() to initiate a stop
 		}
 	}
 	else
 	{
 	 	if((ScanVal.Current_Value<=ScanVal.End)&&(ScanVal.Current_Iteration>=ScanVal.Iterations-1))	
-		{
+		{   //Done Scan
  			PScan.ScanDone=TRUE;  // Flag used in RunOnce() to initiate a stop
+			
 		}
 	}
-
+	
+	// if the scan is done, then cleanup
+	if(PScan.ScanDone==TRUE)
+	{   // reset initial values in the tables
+		AnalogTable[cx][cy][cz].fval=PScan.Analog.Start_Of_Scan;
+		TimeArray[cx][cz]=PScan.Time.Start_Of_Scan;
+		ddstable[cx][cz].end_frequency=PScan.DDS.Start_Of_Scan;
+		// hide the scan information
+		SetCtrlAttribute (panelHandle, PANEL_DECORATION_BOX, ATTR_VISIBLE, 0);
+		SetCtrlAttribute (panelHandle, PANEL_NUM_SCANVAL, ATTR_VISIBLE, 0);
+		SetCtrlAttribute (panelHandle, PANEL_NUM_SCANSTEP, ATTR_VISIBLE, 0);
+		SetCtrlAttribute (panelHandle, PANEL_NUM_SCANITER, ATTR_VISIBLE, 0);
+	}
+	
 }
 //**************************************************************************************************************
-void ScanSetUp(void)
-{
-	InitializeScanPanel();
-}
 
 void CVICALLBACK SCANSETTING_CALLBACK (int menuBar, int menuItem, void *callbackData,
 		int panel)
@@ -2813,6 +2791,7 @@ void CVICALLBACK SCANSETTING_CALLBACK (int menuBar, int menuItem, void *callback
 	InitializeScanPanel();
 }
 
+//**************************************************************************************************************
 
 void CVICALLBACK NOTECHECK_CALLBACK (int menuBar, int menuItem, void *callbackData,
 		int panel)

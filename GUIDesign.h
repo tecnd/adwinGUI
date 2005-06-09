@@ -64,6 +64,10 @@
 #define  PANEL_NUM_INSERTIONPAGE         48      /* callback function: NUM_INSERTIONPAGE_CALLBACK */
 #define  PANEL_NUM_DDS_OFFSET            49
 #define  PANEL_LABNOTE_TXT               50
+#define  PANEL_NUM_SCANITER              51
+#define  PANEL_NUM_SCANSTEP              52
+#define  PANEL_NUM_SCANVAL               53
+#define  PANEL_DECORATION_BOX            54
 
 
      /* Menu Bars, Menus, and Menu Items: */

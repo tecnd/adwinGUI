@@ -23,7 +23,6 @@
 #define  CTRL_PANEL_STR_CHNAME           7
 #define  CTRL_PANEL_RING_CTRLMODE        8       /* callback function: RING_CTRLMODE_CALLBACK */
 #define  CTRL_PANEL_CMD_ANCANCEL         9       /* callback function: CMD_ANCANCEL_CALLBACK */
-#define  CTRL_PANEL_CMD_SCANSETUP        10      /* callback function: CMD_SCANSETUP_CALLBACK */
 
 
      /* Menu Bars, Menus, and Menu Items: */
@@ -34,7 +33,6 @@
      /* Callback Prototypes: */ 
 
 int  CVICALLBACK CMD_ANCANCEL_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
-int  CVICALLBACK CMD_SCANSETUP_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK CMD_SETANALAOG_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK RING_CTRLMODE_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 

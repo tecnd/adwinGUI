@@ -41,7 +41,8 @@
 #define  SCANPANEL_NUM_DDSCURRENT        25
 #define  SCANPANEL_NUM_DDSITER           26
 #define  SCANPANEL_NUM_DDSSTEP           27
-#define  SCANPANEL_DECORATION_3          28
+#define  SCANPANEL_CMD_GETSCANVALS       28      /* callback function: CMD_GETSCANVALS_CALLBACK */
+#define  SCANPANEL_DECORATION_3          29
 
 
      /* Menu Bars, Menus, and Menu Items: */
@@ -55,6 +56,7 @@ int  CVICALLBACK CALLBACK_DDSSCANOK(int panel, int control, int event, void *cal
 int  CVICALLBACK CALLBACK_SCAN_CANCEL(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK CALLBACK_SCANOK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK CALLBACK_TIMESCANOK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+int  CVICALLBACK CMD_GETSCANVALS_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 
 
 #ifdef __cplusplus
