@@ -32,11 +32,19 @@ typedef struct ddsoptions_struct {
 	float delta_time;
 	BOOL is_stop;
 } ddsoptions_struct;
+
+typedef struct dds2options_struct {
+	float start_frequency; /* in MHz*/
+	float end_frequency;
+	float amplitude;
+	float delta_time;
+	BOOL is_stop;
+} dds2options_struct;
 /************************************************************************
 Global Variables
 *************************************************************************/
 
-int panelHandle,panelHandle2,panelHandle3,panelHandle4,panelHandle5,panelHandle6,panelHandle7;         
+int panelHandle,panelHandle2,panelHandle3,panelHandle4,panelHandle5,panelHandle6,panelHandle7,panelHandle8;         
 int  menuHandle;
 int currentx,currenty,currentpage;
 int pic_off,pic_static,pic_change,pic_don;
@@ -83,6 +91,7 @@ struct DDSClock{
 }	DDSFreq;
 
 ddsoptions_struct ddstable[17][NUMBEROFPAGES]; //17 columns (actually only 14, but in case we expand), 10 pages
+dds2options_struct dds2table[17][NUMBEROFPAGES]; //17 columns (actually only 14, but in case we expand), 10 pages
 
 typedef struct AnalogScanParameters{
 	double Start_Of_Scan;

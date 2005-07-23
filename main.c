@@ -66,6 +66,9 @@ April 7	Fixed a bug where we didn't reach the final value on a ramp, but reached
 April 20 Changed the way that the table cells are coloured.  Now all cells are coloured just considering
 		the information in the cell.  No longer based on the history of that row.
 		Sine wave output now relabels amplitude and frequency on analog control panel. Colours Cyan on table.
+June7   Finalized scan programming.  Now scans in amplitude, time or DDS frequency.
+
+July4   Adding 2nd DDS
 */
 
 #define ALLOC_GLOBALS  
@@ -118,6 +121,9 @@ int main (int argc, char *argv[])
 		return -1;
 	if ((panelHandle7 = LoadPanel (0, "Scan.uir", PANEL)) < 0)
 		return -1;	
+	if ((panelHandle8 = LoadPanel (0, "DDS2Control.uir", PANEL)) < 0)
+		return -1;			
+		
 	//initialize the dds array
 //	for (i=0;i<17;i++)
 //	{
@@ -151,6 +157,12 @@ int main (int argc, char *argv[])
 			ddstable[i][j].amplitude = 0.0;
 			ddstable[i][j].delta_time = 0.0;
 			ddstable[i][j].is_stop = TRUE;
+		
+			dds2table[i][j].start_frequency = 0.0;
+			dds2table[i][j].end_frequency = 0.0;
+			dds2table[i][j].amplitude = 0.0;
+			dds2table[i][j].delta_time = 0.0;
+			dds2table[i][j].is_stop = TRUE;
 		}
 	}
 	
@@ -187,6 +199,7 @@ int main (int argc, char *argv[])
 	for (i=0;i<17;i++)
 	{
 		free(ddstable[i]);
+		free(dds2table[i]);		
 	}
 	
 	return 0;
@@ -200,8 +213,10 @@ void Initialization()
 	SetCtrlAttribute (panelHandle, PANEL_LABNOTE_TXT, ATTR_VISIBLE, FALSE);
 
 	//Add in any extra rows (if the number of channels increases)
+	//July4, added another row for DDS2 
 	InsertTableRows (panelHandle, PANEL_ANALOGTABLE, 16,
-						 NUMBERANALOGCHANNELS-16, VAL_CELL_PICTURE);
+						 NUMBERANALOGCHANNELS-16+4, VAL_CELL_PICTURE);
+						 
 	InsertTableRows (panelHandle, PANEL_DIGTABLE, 16,
 						 NUMBERDIGITALCHANNELS-16, VAL_CELL_PICTURE);
 	
