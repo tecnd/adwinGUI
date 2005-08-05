@@ -23,13 +23,15 @@ dim data_4[30] as long	' a list of which channels are reset to zero on completio
 dim value as float
 dim counts,maxcount,updates,i,j,k as long
 dim ch as long
-dim val as long
+dim val,val_lower,val_upper as long
 dim tempval as long 
 dim dataline,clock, ioupdate,ioreset,masterreset as long
+dim dataline9858,clock9858,ioupdate9858,ioreset9858,masterreset9858 as long
 dim digitallow as long
 dim delay,delayinuse as long
 dim numbertoskip as long
 dim leddelay as float
+dim digitalactive as long
 Function V(value) as float
 	V=(value+10)/20*65535
 ENDFUNCTION
@@ -104,6 +106,12 @@ clock=30				' data clock
 ioupdate=29			' update line.  transfers data from buffer into registers
 ioreset=28			' resets input buffers
 masterreset=27
+'DDS2 digital lines
+dataline9858=26
+clock9858=25
+ioupdate9858=24
+ioreset9858=23
+masterreset9858=22
 DigProg1(1,65535)
 DigProg2(1,65535)
 DigProg1(2,65535)
@@ -136,6 +144,7 @@ DIGOUT_F(2,masterreset,0)
 
 
 EVENT:
+digitalactive=0
 eventcount=eventcount+1
 if(eventcount>leddelay) then
 	eventcount=0			
@@ -147,6 +156,11 @@ if(eventcount>leddelay) then
 endif
 	' Careful with for loops.  They always do at least 1 execution.
 delayinuse=delay
+
+digitalactive=0
+val_lower=0
+val_upper=0
+
 SYNCALL()
 counts=counts+1
 if(Data_1[counts]<0) then
@@ -158,6 +172,7 @@ IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each element for 
 	For i=1 to Data_1[counts] 'B: Loop over number of updates at this time
 		updates=updates+1
 		ch=Data_2[updates]
+'***************************************************DDS1 commands (Rb Evaporation)***********************
 		if(ch=31) then  'AA: is ch=31, then write 2 bits to the DDS
 			if(Data_3[updates]<=3) then	' write 2 bits to the data line of the DDS
 				tempval = Data_3[updates] 'have to convert to long first
@@ -181,8 +196,8 @@ IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each element for 
 
 			ELSE 
 				IF(Data_3[updates]=4) then 'write to the i/o update pin to transfer to registers
-					DIGOUT_F(2,ioreset,1)
-					DIGOUT_F(2,ioreset,0)
+					'DIGOUT_F(2,ioreset,1)
+					'DIGOUT_F(2,ioreset,0)
 				Else 
 					IF(data_3[updates]=5) then
 						DIGOUT_F(2,ioupdate,1)
@@ -196,15 +211,52 @@ IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each element for 
 				endif
 			endif
 		ENDIF	'end AA
-			
-		if(ch=33) then  ' the lower 16digital lines
-			val=Data_3[updates]
-			DIG_WRITELATCH1(2,val)
-		endif	
-		if(ch=34) then  ' the upper 16 digital lines (although only the lower 8 are used)
-			val=Data_3[updates]
-			DIG_WRITELATCH2(2,val)
-		endif	
+'***************************************************DDS2 commands ()***********************			
+		if(ch=32) then  'AA: is ch=31, then write 2 bits to the DDS
+			if(Data_3[updates]<=3) then	' write 2 bits to the data line of the DDS
+				tempval = Data_3[updates] 'have to convert to long first
+				DIGOUT_F(2,dataline9858,SHIFT_RIGHT((tempval and 2),1))
+				DIGOUT_F(2,dataline9858,SHIFT_RIGHT((tempval and 2),1)) 
+ 				DIGOUT_F(2,clock9858,1)
+				DIGOUT_F(2,clock9858,1)				
+				DIGOUT_F(2,clock9858,0)
+				DIGOUT_F(2,clock9858,0)
+				DIGOUT_F(2,dataline9858,(tempval and 1))
+				DIGOUT_F(2,dataline9858,(tempval and 1))
+				DIGOUT_F(2,clock9858,1)
+				DIGOUT_F(2,clock9858,1)
+				DIGOUT_F(2,clock9858,0)
+				DIGOUT_F(2,clock9858,0)
+
+			ELSE 
+				IF(Data_3[updates]=4) then 'write to the i/o update pin to transfer to registers
+					DIGOUT_F(2,ioreset9858,1)
+					DIGOUT_F(2,ioreset9858,0)
+				Else 
+					IF(data_3[updates]=5) then
+						DIGOUT_F(2,ioupdate9858,1)
+						DIGOUT_F(2,ioupdate9858,0)
+					Else 
+						IF(data_3[updates]=6) then
+							DIGOUT_F(2,masterreset9858,1)
+							DIGOUT_F(2,masterreset9858,0)									
+						ENDIF
+					endif
+				endif
+			endif
+		ENDIF	'end AA
+
+		if(ch=33) then
+			val_lower=Data_3[updates]
+	    digitalactive=1	
+		endif
+	  if(ch=34) then
+			val_upper=Data_3[updates]
+			digitalactive=1
+		endif
+		if(digitalactive=1) then
+			DIG_WRITELATCH32(2,val_lower+2^16*val_upper)
+	  endif
 			
 		if((ch>=1)and(ch<=8)) then
 			writedac(1,ch,V(Data_3[updates]))
@@ -228,7 +280,7 @@ FINISH:
 Par_3=counts
 Par_4=maxcount
 
-If (Data_4[27]=0) then
+'If (Data_4[27]=0) then
 	For i =1 to 8
 		if(Data_4[i]=1) then
 			WRITEDAC(1,i,V(0)) 	
@@ -240,11 +292,12 @@ If (Data_4[27]=0) then
 			WRITEDAC(3,i,V(0)) 	
 		ENDIF
 	Next i
-	'digitallow=2^16-1-Data_4[25]  ' should be a 16 bit number
-	digitallow=0
-	DIG_WRITELATCH1(2,digitallow)
-	'digitallow=2^8-1-Data_4[26]   ' should be an 8 bit number, don't want to write to the DDS
-	digitallow=0
-	DIG_WRITELATCH2(2,digitallow)
-ENDIF
-SYNCALL
+'	digitallow=2^16-1-Data_4[25]  ' should be a 16 bit number
+'	DIG_WRITELATCH1(2,digitallow)
+'	digitallow=2^8-1-Data_4[26]   ' should be an 8 bit number
+'	DIG_WRITELATCH2(2,digitallow)
+'
+  'set line 28 high
+	DIG_WRITELATCH32(2,2^28)
+'ENDIF
+SYNCALL()

@@ -63,12 +63,24 @@ Mar 23	Added A Frequency OFfset to the DDS...so the same ramp can be continually
 April 7	Fixed a bug where we didn't reach the final value on a ramp, but reached the value before.
 		Cause: in calculating ramps, i.e determine slope=amplitude/number of steps
 			 	but should be amplitude/number-1
-April 20 Changed the way that the table cells are coloured.  Now all cells are coloured just considering
+April 20 Changed the way that the table cells are coloured.  Now all cells are coloured based on 
 		the information in the cell.  No longer based on the history of that row.
 		Sine wave output now relabels amplitude and frequency on analog control panel. Colours Cyan on table.
-June7   Finalized scan programming.  Now scans in amplitude, time or DDS frequency.
+June7   Finalized scan programming.  Now scans in amplitude, time or DDS frequency. (Only DDS1 so far)
 
-July4   Adding 2nd DDS
+July4   Adding 2nd DDS (interface only, creating dual dds command structure still needs to be done.)
+
+July 18 Added 3rd DDS interface, simplified DDS control by reusing the existing DDS control panel
+	    DDS 2 and 3 clock settings displayed in DDSSettings.uir  Not modifiable. Set using a #define in vars.h
+	 	Save DDS 2,3 info to file.
+	
+TO DO:  Create dds 2,3 output streams...(how to merge with existing DDS)
+		Make necessary changes to Guidesign.c/BuildUpdateList() and ADBasic to actually write to the ADWin/DDS
+JULY 20 commands for DDS2 are now generated, also sent to ADwin now (see new ADBasic code  TransferData_Jul20.BAS)	    
+        Fixed ADBasic software bug.  Turns out that DIG_WRITELATCH1 and DIG_WRITELATCH2 (for lower and upper 16 bits respectively)
+        are incompatible.  Use DIG_WRITELATCH32 instead.
+July 29 Added option to output a history of the Scan values when running a scan.
+		Adding option to stream the panel to text files;
 */
 
 #define ALLOC_GLOBALS  
@@ -121,8 +133,7 @@ int main (int argc, char *argv[])
 		return -1;
 	if ((panelHandle7 = LoadPanel (0, "Scan.uir", PANEL)) < 0)
 		return -1;	
-	if ((panelHandle8 = LoadPanel (0, "DDS2Control.uir", PANEL)) < 0)
-		return -1;			
+		
 		
 	//initialize the dds array
 //	for (i=0;i<17;i++)
@@ -163,6 +174,12 @@ int main (int argc, char *argv[])
 			dds2table[i][j].amplitude = 0.0;
 			dds2table[i][j].delta_time = 0.0;
 			dds2table[i][j].is_stop = TRUE;
+			
+			dds3table[i][j].start_frequency = 0.0;
+			dds3table[i][j].end_frequency = 0.0;
+			dds3table[i][j].amplitude = 0.0;
+			dds3table[i][j].delta_time = 0.0;
+			dds3table[i][j].is_stop = TRUE;
 		}
 	}
 	
@@ -199,7 +216,8 @@ int main (int argc, char *argv[])
 	for (i=0;i<17;i++)
 	{
 		free(ddstable[i]);
-		free(dds2table[i]);		
+		free(dds2table[i]);
+		free(dds3table[i]);
 	}
 	
 	return 0;
@@ -207,18 +225,22 @@ int main (int argc, char *argv[])
 //**********************************************************************************
 void Initialization()
 {
-	int i=0,cellheight=0,fontsize=0;
+	int i=0,cellheight=0,fontsize=0,aname_size,new_aname_size;
 	int j=0,x0,dx;
 	char str_list_val[5];
+	PScan.Scan_Active=FALSE;
 	SetCtrlAttribute (panelHandle, PANEL_LABNOTE_TXT, ATTR_VISIBLE, FALSE);
 
 	//Add in any extra rows (if the number of channels increases)
 	//July4, added another row for DDS2 
-	InsertTableRows (panelHandle, PANEL_ANALOGTABLE, 16,
-						 NUMBERANALOGCHANNELS-16+4, VAL_CELL_PICTURE);
-						 
-	InsertTableRows (panelHandle, PANEL_DIGTABLE, 16,
-						 NUMBERDIGITALCHANNELS-16, VAL_CELL_PICTURE);
+	InsertTableRows (panelHandle, PANEL_ANALOGTABLE, 16,NUMBERANALOGCHANNELS-16+NUMBERDDS-1, VAL_CELL_NUMERIC);
+	InsertTableRows (panelHandle, PANEL_TBL_ANAMES,24+1,NUMBERANALOGCHANNELS-24+NUMBERDDS+1,VAL_CELL_STRING);
+	InsertTableRows (panelHandle, PANEL_DIGTABLE, 16,NUMBERDIGITALCHANNELS-16, VAL_CELL_PICTURE);
+	
+//	GetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_HEIGHT,&aname_size);
+//	new_aname_size=(int)((float)aname_size*27.0/25.0);	
+//	SetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_HEIGHT,100);
+	
 	
 	
 	// Change Analog Settings window
@@ -226,12 +248,11 @@ void Initialization()
 	SetCtrlAttribute (panelHandle2, ANLGPANEL_NUM_ACHANNEL,ATTR_MAX_VALUE, NUMBERANALOGCHANNELS);
 	
 	// change GUI
-	
-	SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERANALOGCHANNELS+1);
+	SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERANALOGCHANNELS+NUMBERDDS);
 	SetCtrlAttribute (panelHandle, PANEL_DIGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERDIGITALCHANNELS);
 
-	SetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_VISIBLE_LINES, NUMBERANALOGCHANNELS+1);
-	SetCtrlAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_VISIBLE_LINES, NUMBERANALOGCHANNELS+1); 
+	SetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_VISIBLE_LINES, NUMBERANALOGCHANNELS+NUMBERDDS);
+	SetCtrlAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_VISIBLE_LINES, NUMBERANALOGCHANNELS+NUMBERDDS); 
 	SetCtrlAttribute (panelHandle, PANEL_TBL_DIGNAMES, ATTR_VISIBLE_LINES, NUMBERDIGITALCHANNELS);
 
 

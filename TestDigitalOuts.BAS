@@ -15,12 +15,11 @@
 #include Adwpda.inc
 #include Adwpdio.inc
 #include adwinpro.inc
-dim state,i,counts,maxcount as long
+dim i,counts,maxcount as long
 INIT:
 counts=0
 maxcount=600000
-state=1
-GlobalDelay=400000
+GlobalDelay=40000
 DigProg1(1,65535)
 DigProg2(1,65535)
 DigProg1(2,65535)
@@ -28,10 +27,8 @@ DigProg2(2,65535)
 i=0
 EVENT:
 'SYNCALL()
-
 if(i=0) then
-		digout_f(1,0,1)
-
+	digout_f(1,0,1)
 	digout_f(2,0,1)
 	DIGOUT_F(2,31,0)
 else
@@ -46,10 +43,6 @@ counts=counts+1
 if (i>31) then
 	i=0
 endif
-
-SETLED(1,dio,state)
-state=absi(state-1)
-
 
 If(counts>=maxcount+1) then end
 

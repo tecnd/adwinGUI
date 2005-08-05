@@ -23,13 +23,14 @@ dim data_4[30] as long	' a list of which channels are reset to zero on completio
 dim value as float
 dim counts,maxcount,updates,i,j,k as long
 dim ch as long
-dim val as long
+dim val,val_lower,val_upper as long
 dim tempval as long 
 dim dataline,clock, ioupdate,ioreset,masterreset as long
 dim digitallow as long
 dim delay,delayinuse as long
 dim numbertoskip as long
 dim leddelay as float
+dim digitalactive as long
 Function V(value) as float
 	V=(value+10)/20*65535
 ENDFUNCTION
@@ -136,6 +137,7 @@ DIGOUT_F(2,masterreset,0)
 
 
 EVENT:
+digitalactive=0
 eventcount=eventcount+1
 if(eventcount>leddelay) then
 	eventcount=0			
@@ -197,14 +199,26 @@ IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each element for 
 			endif
 		ENDIF	'end AA
 			
-		if(ch=33) then  ' the lower 16digital lines
-			val=Data_3[updates]
-			DIG_WRITELATCH1(2,val)
-		endif	
-		if(ch=34) then  ' the upper 16 digital lines (although only the lower 8 are used)
-			val=Data_3[updates]
-			DIG_WRITELATCH2(2,val)
-		endif	
+'		if(ch=33) then  ' the lower 16digital lines
+'			val=Data_3[updates]
+'			DIG_WRITELATCH1(2,val)
+'		endif	
+'		if(ch=34) then  ' the upper 16 digital lines (although only the lower 8 are used)
+'			val=Data_3[updates]
+'			DIG_WRITELATCH2(2,val)
+'		endif	
+
+		if(ch=33) then
+			val_lower=Data_3[updates]
+	    digitalactive=1	
+		endif
+	  if(ch=34) then
+			val_upper=Data_3[updates]
+			digitalactive=1
+		endif
+		if(digitalactive=1) then
+			DIG_WRITELATCH32(2,val_lower+2^16*val_upper)
+	  endif
 			
 		if((ch>=1)and(ch<=8)) then
 			writedac(1,ch,V(Data_3[updates]))
@@ -240,11 +254,11 @@ If (Data_4[27]=0) then
 			WRITEDAC(3,i,V(0)) 	
 		ENDIF
 	Next i
-	'digitallow=2^16-1-Data_4[25]  ' should be a 16 bit number
-	digitallow=0
-	DIG_WRITELATCH1(2,digitallow)
-	'digitallow=2^8-1-Data_4[26]   ' should be an 8 bit number, don't want to write to the DDS
-	digitallow=0
-	DIG_WRITELATCH2(2,digitallow)
+'	digitallow=2^16-1-Data_4[25]  ' should be a 16 bit number
+'	DIG_WRITELATCH1(2,digitallow)
+'	digitallow=2^8-1-Data_4[26]   ' should be an 8 bit number
+'	DIG_WRITELATCH2(2,digitallow)
+'
+	DIG_WRITELATCH32(2,0)
 ENDIF
 SYNCALL

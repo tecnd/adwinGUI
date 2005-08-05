@@ -1,9 +1,9 @@
 [Project Header]
 Version = 600
-Pathname = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/GUIDesign.prj"
+Pathname = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/GUIDesign.prj"
 CVI Dir = "/c/program files/national instruments/measurementstudio/cvi"
 VXIplug&play Framework Dir = "/C/VXIpnp/winnt"
-Number of Files = 39
+Number of Files = 35
 Target Type = "Executable"
 Flags = 16
 
@@ -13,7 +13,7 @@ Res Id = 2
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "Adwin.c"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/Adwin.c"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/Adwin.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
@@ -24,7 +24,7 @@ Res Id = 3
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "Adwin.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/Adwin.h"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/Adwin.h"
 Exclude = False
 Project Flags = 0
 
@@ -34,7 +34,7 @@ Res Id = 1
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogControl.c"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/AnalogControl.c"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/AnalogControl.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
@@ -45,7 +45,7 @@ Res Id = 4
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogControl.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/AnalogControl.h"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/AnalogControl.h"
 Exclude = False
 Project Flags = 0
 
@@ -55,7 +55,7 @@ Res Id = 5
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogControl.uir"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/AnalogControl.uir"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/AnalogControl.uir"
 Exclude = False
 Project Flags = 0
 
@@ -65,7 +65,7 @@ Res Id = 6
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogControl2.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/AnalogControl2.h"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/AnalogControl2.h"
 Exclude = False
 Project Flags = 0
 
@@ -75,7 +75,7 @@ Res Id = 7
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogSettings.c"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/AnalogSettings.c"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/AnalogSettings.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
@@ -86,7 +86,7 @@ Res Id = 8
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogSettings.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/AnalogSettings.h"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/AnalogSettings.h"
 Exclude = False
 Project Flags = 0
 
@@ -96,7 +96,7 @@ Res Id = 9
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogSettings.uir"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/AnalogSettings.uir"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/AnalogSettings.uir"
 Exclude = False
 Project Flags = 0
 
@@ -106,305 +106,264 @@ Res Id = 10
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "AnalogSettings2.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/AnalogSettings2.h"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/AnalogSettings2.h"
 Exclude = False
 Project Flags = 0
 
 [File 0011]
 File Type = "CSource"
-Res Id = 0
+Res Id = 11
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "DDS2Control.c"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/DDS2Control.c"
+Path Rel Path = "DDSControl.c"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/DDSControl.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
 [File 0012]
 File Type = "Include"
-Res Id = 0
+Res Id = 12
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "DDS2Control.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/DDS2Control.h"
+Path Rel Path = "DDSControl.h"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/DDSControl.h"
 Exclude = False
 Project Flags = 0
 
 [File 0013]
 File Type = "User Interface Resource"
-Res Id = 0
+Res Id = 13
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "DDS2Control.uir"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/DDS2Control.uir"
+Path Rel Path = "DDSControl.uir"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/DDSControl.uir"
 Exclude = False
 Project Flags = 0
 
 [File 0014]
 File Type = "Include"
-Res Id = 0
+Res Id = 14
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "DDS2Control2.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/DDS2Control2.h"
+Path Rel Path = "DDSControl2.h"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/DDSControl2.h"
 Exclude = False
 Project Flags = 0
 
 [File 0015]
 File Type = "CSource"
-Res Id = 11
+Res Id = 15
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "DDSControl.c"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/DDSControl.c"
+Path Rel Path = "DDSSettings.c"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/DDSSettings.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
 [File 0016]
 File Type = "Include"
-Res Id = 12
+Res Id = 16
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "DDSControl.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/DDSControl.h"
+Path Rel Path = "DDSSettings.h"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/DDSSettings.h"
 Exclude = False
 Project Flags = 0
 
 [File 0017]
 File Type = "User Interface Resource"
-Res Id = 13
+Res Id = 17
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "DDSControl.uir"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/DDSControl.uir"
+Path Rel Path = "DDSSettings.uir"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/DDSSettings.uir"
 Exclude = False
 Project Flags = 0
 
 [File 0018]
 File Type = "Include"
-Res Id = 14
+Res Id = 18
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "DDSControl2.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/DDSControl2.h"
+Path Rel Path = "DDSSettings2.h"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/DDSSettings2.h"
 Exclude = False
 Project Flags = 0
 
 [File 0019]
 File Type = "CSource"
-Res Id = 15
+Res Id = 19
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "DDSSettings.c"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/DDSSettings.c"
+Path Rel Path = "ddstranslator.c"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/ddstranslator.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
 [File 0020]
 File Type = "Include"
-Res Id = 16
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "DDSSettings.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/DDSSettings.h"
-Exclude = False
-Project Flags = 0
-
-[File 0021]
-File Type = "User Interface Resource"
-Res Id = 17
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "DDSSettings.uir"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/DDSSettings.uir"
-Exclude = False
-Project Flags = 0
-
-[File 0022]
-File Type = "Include"
-Res Id = 18
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "DDSSettings2.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/DDSSettings2.h"
-Exclude = False
-Project Flags = 0
-
-[File 0023]
-File Type = "CSource"
-Res Id = 19
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "ddstranslator.c"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/ddstranslator.c"
-Exclude = False
-Compile Into Object File = False
-Project Flags = 0
-
-[File 0024]
-File Type = "Include"
 Res Id = 20
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "ddstranslator.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/ddstranslator.h"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/ddstranslator.h"
 Exclude = False
 Project Flags = 0
 
-[File 0025]
+[File 0021]
 File Type = "CSource"
 Res Id = 21
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "DigitalSettings.c"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/DigitalSettings.c"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/DigitalSettings.c"
+Exclude = False
+Compile Into Object File = False
+Project Flags = 0
+
+[File 0022]
+File Type = "Include"
+Res Id = 22
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "DigitalSettings.h"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/DigitalSettings.h"
+Exclude = False
+Project Flags = 0
+
+[File 0023]
+File Type = "User Interface Resource"
+Res Id = 23
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "DigitalSettings.uir"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/DigitalSettings.uir"
+Exclude = False
+Project Flags = 0
+
+[File 0024]
+File Type = "Include"
+Res Id = 24
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "DigitalSettings2.h"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/DigitalSettings2.h"
+Exclude = False
+Project Flags = 0
+
+[File 0025]
+File Type = "CSource"
+Res Id = 25
+Path Is Rel = True
+Path Rel To = "Project"
+Path Rel Path = "GUIDesign.c"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/GUIDesign.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
 [File 0026]
 File Type = "Include"
-Res Id = 22
+Res Id = 26
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "DigitalSettings.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/DigitalSettings.h"
+Path Rel Path = "GUIDesign.h"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/GUIDesign.h"
 Exclude = False
 Project Flags = 0
 
 [File 0027]
 File Type = "User Interface Resource"
-Res Id = 23
+Res Id = 27
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "DigitalSettings.uir"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/DigitalSettings.uir"
+Path Rel Path = "GUIDesign.uir"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/GUIDesign.uir"
 Exclude = False
 Project Flags = 0
 
 [File 0028]
 File Type = "Include"
-Res Id = 24
+Res Id = 28
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "DigitalSettings2.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/DigitalSettings2.h"
+Path Rel Path = "GUIDesign2.h"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/GUIDesign2.h"
 Exclude = False
 Project Flags = 0
 
 [File 0029]
 File Type = "CSource"
-Res Id = 25
+Res Id = 29
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "GUIDesign.c"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/GUIDesign.c"
+Path Rel Path = "main.c"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/main.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
 [File 0030]
 File Type = "Include"
-Res Id = 26
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "GUIDesign.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/GUIDesign.h"
-Exclude = False
-Project Flags = 0
-
-[File 0031]
-File Type = "User Interface Resource"
-Res Id = 27
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "GUIDesign.uir"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/GUIDesign.uir"
-Exclude = False
-Project Flags = 0
-
-[File 0032]
-File Type = "Include"
-Res Id = 28
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "GUIDesign2.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/GUIDesign2.h"
-Exclude = False
-Project Flags = 0
-
-[File 0033]
-File Type = "CSource"
-Res Id = 29
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "main.c"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/main.c"
-Exclude = False
-Compile Into Object File = False
-Project Flags = 0
-
-[File 0034]
-File Type = "Include"
 Res Id = 30
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "main.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/main.h"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/main.h"
 Exclude = False
 Project Flags = 0
 
-[File 0035]
+[File 0031]
 File Type = "CSource"
 Res Id = 31
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "scan.c"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/scan.c"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/scan.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
 
-[File 0036]
+[File 0032]
 File Type = "Include"
 Res Id = 32
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "Scan.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/Scan.h"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/Scan.h"
 Exclude = False
 Project Flags = 0
 
-[File 0037]
+[File 0033]
 File Type = "User Interface Resource"
 Res Id = 33
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "Scan.uir"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/Scan.uir"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/Scan.uir"
 Exclude = False
 Project Flags = 0
 
-[File 0038]
+[File 0034]
 File Type = "Include"
 Res Id = 34
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "scan2.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/scan2.h"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/scan2.h"
 Exclude = False
 Project Flags = 0
 
-[File 0039]
+[File 0035]
 File Type = "Include"
 Res Id = 35
 Path Is Rel = True
 Path Rel To = "Project"
 Path Rel Path = "vars.h"
-Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/vars.h"
+Path = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/vars.h"
 Exclude = False
 Project Flags = 0
 
@@ -436,11 +395,11 @@ Include Path 2 = "/c/ADwin/Developer/C"
 Executable File_Debug Is Rel = True
 Executable File_Debug Rel To = "Project"
 Executable File_Debug Rel Path = "GUIDesign_dbg.exe"
-Executable File_Debug = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/GUIDesign_dbg.exe"
+Executable File_Debug = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/GUIDesign_dbg.exe"
 Executable File_Release Is Rel = True
 Executable File_Release Rel To = "Project"
 Executable File_Release Rel Path = "GUIDesign.exe"
-Executable File_Release = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_2nd_DDS/GUIDesign.exe"
+Executable File_Release = "/c/ADWinProgs/AdwinGUI-July4_2005_Add_3rd_DDS/GUIDesign.exe"
 Icon File Is Rel = False
 Icon File = ""
 Application Title = ""

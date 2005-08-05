@@ -1,6 +1,6 @@
 /**************************************************************************/
 /* LabWindows/CVI User Interface Resource (UIR) Include File              */
-/* Copyright (c) National Instruments 2004. All Rights Reserved.          */
+/* Copyright (c) National Instruments 2005. All Rights Reserved.          */
 /*                                                                        */
 /* WARNING: Do not add to, delete from, or otherwise modify the contents  */
 /*          of this include file.                                         */
@@ -21,6 +21,7 @@
 #define  PANEL_CMD_ONOFF                 5       /* callback function: CMD_ONOFF_CALLBACK */
 #define  PANEL_CMD_OK                    6       /* callback function: CMD_OK_CALLBACK */
 #define  PANEL_CMD_CANCEL                7       /* callback function: CMD_CANCEL_CALLBACK */
+#define  PANEL_TXT_DDS_MODE              8
 
 
      /* Menu Bars, Menus, and Menu Items: */

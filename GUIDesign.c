@@ -1,3 +1,4 @@
+#include <utility.h>
 #include "Scan.h"
 #include <userint.h>
 #include "GUIDesign.h"
@@ -15,7 +16,7 @@ struct AnalogTableClip{
 	} AnalogClip[NUMBERANALOGCHANNELS+1];
 int DigClip[NUMBERDIGITALCHANNELS+1];
 ddsoptions_struct ddsclip;
-
+extern int Active_DDS_PANEL;
 
 //******************************************************************
 int CVICALLBACK QuitCallback (int panel, int control, int event,
@@ -117,6 +118,7 @@ void LoadLastSettings(int check)
 		RecallPanelState(PANEL, loadname, 1);
 		LoadArrays(fname,strlen( loadname));
 	}
+	//SetWindowText(cWnd,fname); Figure out this API call some day
 	DrawNewTable(0);
 }
 //*********************************************************************************************
@@ -175,8 +177,11 @@ int CVICALLBACK ANALOGTABLE_CALLBACK (int panel, int control, int event,
 			currentx=cpoint.x;
 			currenty=cpoint.y;
 			currentpage=GetPage();
-			if(currenty==NUMBERANALOGCHANNELS+1) {
-				SetDDSControlPanel();
+			
+			if((currenty>NUMBERANALOGCHANNELS)&&(currenty<=NUMBERANALOGCHANNELS+NUMBERDDS)) {
+			    Active_DDS_Panel=currenty-NUMBERANALOGCHANNELS;
+			    
+				SetDDSControlPanel(Active_DDS_Panel);
 				panel_to_display = panelHandle6;
 			}
 			else {
@@ -314,15 +319,12 @@ int GetPage(void)
 			//Done digital drawing.
 		}
 		
-		//update DDS row
-		
-		SetTableCellVal (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,25), 0);
+//***************update DDS row********************
+/*DDS1*/SetTableCellVal (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,25), 0);
 		//if(ispicture==0)
 		{
 			SetTableCellVal(panelHandle,PANEL_ANALOGTABLE,MakePoint(i,25),ddstable[i][page].start_frequency);
 		}
-		
-		
 		SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,25),ATTR_CELL_DIMMED, 0);
 		SetTableCellAttribute (panelHandle, PANEL_DIGTABLE, MakePoint(i,25),ATTR_CELL_DIMMED, 0);
 		
@@ -344,6 +346,59 @@ int GetPage(void)
 				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,25), ATTR_TEXT_BGCOLOR,VAL_GREEN);      
 			}
 		}
+/*DDS2*/SetTableCellVal (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,26), 0);
+		//if(ispicture==0)
+		{
+			SetTableCellVal(panelHandle,PANEL_ANALOGTABLE,MakePoint(i,26),dds2table[i][page].start_frequency);
+		}
+		SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,26),ATTR_CELL_DIMMED, 0);
+		SetTableCellAttribute (panelHandle, PANEL_DIGTABLE, MakePoint(i,26),ATTR_CELL_DIMMED, 0);
+		
+		if (dds2table[i][page].amplitude == 0.0 || dds2table[i][page].is_stop)
+		{
+			//make grey
+			SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,26), ATTR_TEXT_BGCOLOR,VAL_WHITE);
+		}
+		else
+		{
+			if (dds2table[i][page].start_frequency>dds2table[i][page].end_frequency)
+			{
+				//ramping down
+				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,26), ATTR_TEXT_BGCOLOR,VAL_BLUE);          
+			}
+			else
+			{
+				//ramping up
+				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,26), ATTR_TEXT_BGCOLOR,VAL_GREEN);      
+			}
+		}		
+/*DDS3*/SetTableCellVal (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,27), 0);
+		//if(ispicture==0)
+		{
+			SetTableCellVal(panelHandle,PANEL_ANALOGTABLE,MakePoint(i,27),dds3table[i][page].start_frequency);
+		}
+		SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,27),ATTR_CELL_DIMMED, 0);
+		SetTableCellAttribute (panelHandle, PANEL_DIGTABLE, MakePoint(i,27),ATTR_CELL_DIMMED, 0);
+		
+		if (dds3table[i][page].amplitude == 0.0 || dds3table[i][page].is_stop)
+		{
+			//make grey
+			SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,27), ATTR_TEXT_BGCOLOR,VAL_WHITE);
+		}
+		else
+		{
+			if (dds3table[i][page].start_frequency>dds3table[i][page].end_frequency)
+			{
+				//ramping down
+				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,27), ATTR_TEXT_BGCOLOR,VAL_BLUE);          
+			}
+			else
+			{
+				//ramping up
+				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,27), ATTR_TEXT_BGCOLOR,VAL_GREEN);      
+			}
+		}
+//***************update DDS row********************
 		
 		// update the times row
 		SetTableCellVal(panelHandle,PANEL_TIMETABLE,MakePoint(i,1),TimeArray[i][page]);
@@ -1121,6 +1176,8 @@ void RunOnce (void)
 //		} MetaAnalogArray[16][500];
 	struct AnVals MetaAnalogArray[NUMBERANALOGCHANNELS+1][500];
 	ddsoptions_struct MetaDDSArray[500];
+	dds2options_struct MetaDDS2Array[500];
+	dds3options_struct MetaDDS3Array[500];
 	int i,j,k,mindex,tsize;
 	int insertpage,insertcolumn,x,y,lastpagenum,FinalPageToUse;
 	BOOL nozerofound,nozerofound_2;
@@ -1170,7 +1227,9 @@ void RunOnce (void)
 									MetaAnalogArray[y][mindex].tscale=AnalogTable[x][y][lastpagenum].tscale;
 									MetaDigitalArray[y][mindex]=DigTableValues[x][y][lastpagenum];
 								}
-								MetaDDSArray[mindex] = ddstable[x][lastpagenum];  
+								MetaDDSArray[mindex] = ddstable[x][lastpagenum];
+								MetaDDS2Array[mindex] = dds2table[x][lastpagenum];
+								MetaDDS3Array[mindex] = dds3table[x][lastpagenum];
 							}
 							else if(TimeArray[x][lastpagenum]==0)
 							{
@@ -1198,7 +1257,11 @@ void RunOnce (void)
 					}
 					/* ddsoptions_struct contains floats and ints, so shallow copy is ok */
 					MetaDDSArray[mindex] = ddstable[i][k];
+					MetaDDS2Array[mindex] = dds2table[i][k];
+					MetaDDS3Array[mindex] = dds3table[i][k];
 					MetaDDSArray[mindex].delta_time=TimeArray[i][k]/1000;
+					MetaDDS2Array[mindex].delta_time=TimeArray[i][k]/1000;
+					MetaDDS3Array[mindex].delta_time=TimeArray[i][k]/1000;
 					// Don't know why the preceding line is necessary...
 					// But the time information wasn't always copied in... or it was erased elsewhere
 				}
@@ -1216,7 +1279,7 @@ void RunOnce (void)
 	tsize=mindex; //tsize is the number of columns
 	
 	
-	BuildUpdateList(MetaTimeArray,MetaAnalogArray,MetaDigitalArray,MetaDDSArray,tsize);
+	BuildUpdateList(MetaTimeArray,MetaAnalogArray,MetaDigitalArray,MetaDDSArray,MetaDDS2Array,MetaDDS3Array,tsize);
 
 }
 //*********************************************************************************************************
@@ -1229,7 +1292,11 @@ int CVICALLBACK CMDSTOP_CALLBACK (int panel, int control, int event,
 		case EVENT_COMMIT:
 			SetCtrlAttribute (panelHandle, PANEL_TIMER, ATTR_ENABLED, 0);
 			SetCtrlVal(panelHandle,PANEL_TOGGLEREPEAT,0);
-			
+			//check to see if we need to export a Scan history
+			if(PScan.Scan_Active==TRUE)
+			{
+				ExportScanBuffer();
+			}
 			break;
 		}
 	return 0;
@@ -1556,6 +1623,8 @@ void LoadArrays(char savedname[500],int csize)
 	fread(&buff2,sizeof buff2,1,fdata);
 	SetCtrlAttribute (panelHandle, PANEL_TB_SHOWPHASE7,ATTR_OFF_TEXT, buff2);
 	SetCtrlAttribute (panelHandle, PANEL_TB_SHOWPHASE7,ATTR_ON_TEXT, buff2);
+	fread(&dds2table,sizeof dds2table,1,fdata);
+	fread(&dds3table,sizeof dds3table,1,fdata);
 	fclose(fdata);
 	SetAnalogChannels();
 	SetDigitalChannels();
@@ -1617,12 +1686,15 @@ void SaveArrays(char savedname[500],int csize)
 	fwrite(&buff2,sizeof buff2,1,fdata);
 	GetCtrlAttribute (panelHandle, PANEL_TB_SHOWPHASE7,ATTR_OFF_TEXT, buff2);
 	fwrite(&buff2,sizeof buff2,1,fdata);
+	fwrite(&dds2table,sizeof dds2table,1,fdata);
+	fwrite(&dds3table,sizeof dds3table,1,fdata);	
 	fclose(fdata);
 }
 
 
 //**********************************************************************************
-void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1][500],int DMat[NUMBERDIGITALCHANNELS+1][500],ddsoptions_struct DDSArray[500], int numtimes)
+void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1][500],int DMat[NUMBERDIGITALCHANNELS+1][500],
+     ddsoptions_struct DDSArray[500],dds2options_struct DDS2Array[500],dds3options_struct DDS3Array[500], int numtimes)
 //void BuildUpdateList(double TMatrix[],struct AnVals AMat[16][500],double DMat[16][500])
 
 {
@@ -1630,7 +1702,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 //  	    calculate all step changes.
 //			Loop unitltimes done
 //				calc new changes for nonstep
-	BOOL UseCompression,ArraysToDebug; 
+	BOOL UseCompression,ArraysToDebug,StreamSettings; 
 	int *UpdateNum;
 	int *ChNum;
 	float *ChVal;
@@ -1653,7 +1725,9 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 	int timeused;
 	int tmp_dds;
 	dds_cmds_ptr dds_cmd_seq = NULL;
-	double DDSoffset=0.0;
+	dds_cmds_ptr dds_cmd_seq_AD9858 = NULL;
+	//dds_cmds_ptr dds_cmd_seq = NULL;
+	double DDSoffset=0.0,DDS2offset=0.0,DDS3offset=0.0;
 	int digchannelsum;
 	int newcount=0;
 	// variables for timechannel optimization
@@ -1699,16 +1773,32 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		
 		GetMenuBarAttribute (menuHandle, MENU_PREFS_SIMPLETIMING, ATTR_CHECKED, &UseSimpleTiming);
 
-		// add offset to DDSArray
+		// read offsets to add to DDSArray
+		GetCtrlVal (panelHandle, PANEL_NUM_DDS_OFFSET, &DDSoffset);
+		GetCtrlVal (panelHandle, PANEL_NUM_DDS_OFFSET, &DDSoffset);
 		GetCtrlVal (panelHandle, PANEL_NUM_DDS_OFFSET, &DDSoffset);
 		for(m=1;m<=numtimes;m++)
 		{
 			DDSArray[m].start_frequency=DDSArray[m].start_frequency+DDSoffset;
 			DDSArray[m].end_frequency=DDSArray[m].end_frequency+DDSoffset;
+			/*
+			DDS2Array[m].start_frequency=DDS2Array[m].start_frequency+DDS2offset;
+			DDS2Array[m].end_frequency=DDS2Array[m].end_frequency+DDS2offset;
+			DDS3Array[m].start_frequency=DDS3Array[m].start_frequency+DDS3offset;
+			DDS3Array[m].end_frequency=DDS3Array[m].end_frequency+DDS3offset;
+			*/
 		}
 		
 		dds_cmd_seq = create_ad9852_cmd_sequence(DDSArray, numtimes,DDSFreq.PLLmult, 
 		DDSFreq.extclock,EventPeriod/1000);
+   	  /* dds_cmd_seq_AD9858 = create_ad9858_cmd_sequence(DDS2Array, numtimes,DDS2_CLOCK, 
+		EventPeriod/1000,0);	   // assume frequency offset of 0 MHz
+		
+    	dds_cmd_seq = create_ad9852_cmd_sequence(DDS3Array, numtimes,DDSFreq.PLLmult, 
+		DDSFreq.extclock,EventPeriod/1000);
+   	  */ 	
+    
+    
     
 	//	SaveLastGuiSettings();
 		UpdateNum=calloc((int)((double)timesum*1.2),sizeof(int));
@@ -1817,7 +1907,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 			UpdateNum[count]=nupcurrent;
 			
 			//end of first scan  
-			//now do the remainder of the loop...but just the compicated fcns
+			//now do the remainder of the loop...but just the complicated fcns
 			t=0;
 			while(t<NewTimeMat[i]-1)
 			{
@@ -1833,8 +1923,18 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 					ChNum[nuptotal] = 31; //dummy channel
 					ChVal[nuptotal] = tmp_dds;
 				
-				} //done the DDS
+				} //done the DDS1
+		/*		tmp_dds = get_dds_cmd(dds_cmd_seq_AD9858, count-1-start_offset);  //dds translator(zero base) runs 1 behind this counter
+				if (tmp_dds>=0)
+				{
+					nupcurrent++;
+					nuptotal++;
+					ChNum[nuptotal] = 32; //dummy channel
+					ChVal[nuptotal] = tmp_dds;
 				
+				} //done the DDS2				
+				
+		*/		
 				while(k<usefcn)
 				{
 					k++;
@@ -1955,11 +2055,22 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		// done ealuating channels that are reset to  zero (low)
 		ChangedVals=0;
 	}
+	
 	tstop=clock();         
 	timeused=tstop-tstart;     
 	t=Start_Process(processnum);
 	tstop=clock();         	
 	sprintf(buff,"Time to transfer and start ADwin:   %d",timeused);
+	
+	GetMenuBarAttribute (menuHandle, MENU_PREFS_STREAM_SETTINGS, ATTR_CHECKED,&StreamSettings);
+	if(StreamSettings==TRUE)
+	{
+		//FIll IN
+	
+	}
+	
+	
+	
 	
 	InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
 	memused=(count+2*nuptotal)*4;//in bytes
@@ -2075,7 +2186,7 @@ Parameters: new top, left and height values for the list box
 *************************************************************************/
 void ReshapeAnalogTable( int top,int left,int height)
 {
-	int j,istext=0,celltype=0;
+	int j,istext=0,celltype=0,tempint;
 	
 	
 	
@@ -2091,16 +2202,25 @@ void ReshapeAnalogTable( int top,int left,int height)
 	SetCtrlAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_HEIGHT, height);  
 	SetCtrlAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_TOP, top);
 	SetCtrlAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_LEFT, left+705);  
+
+   	// move the DDS offsets
+	tempint=height/27;
+	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS_OFFSET,ATTR_TOP,top+height-3*tempint-6);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS_OFFSET,ATTR_LEFT,960);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS2_OFFSET,ATTR_TOP,top+height-2*tempint-5);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS2_OFFSET,ATTR_LEFT,960);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS3_OFFSET,ATTR_TOP,top+height-1*tempint-4);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS3_OFFSET,ATTR_LEFT,960);
 	
 
-	for (j=1;j<=NUMBERANALOGCHANNELS+1;j++)
+	for (j=1;j<=NUMBERANALOGCHANNELS+NUMBERDDS;j++)
 	{
 		SetTableRowAttribute (panelHandle, PANEL_ANALOGTABLE, j,ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
-		SetTableRowAttribute (panelHandle, PANEL_ANALOGTABLE, j, ATTR_ROW_HEIGHT, (height)/(NUMBERANALOGCHANNELS+1));
+		SetTableRowAttribute (panelHandle, PANEL_ANALOGTABLE, j, ATTR_ROW_HEIGHT, (height)/(NUMBERANALOGCHANNELS+NUMBERDDS));
 	    SetTableRowAttribute (panelHandle, PANEL_TBL_ANAMES, j,ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
-		SetTableRowAttribute (panelHandle, PANEL_TBL_ANAMES, j, ATTR_ROW_HEIGHT, (height)/(NUMBERANALOGCHANNELS+1));
+		SetTableRowAttribute (panelHandle, PANEL_TBL_ANAMES, j, ATTR_ROW_HEIGHT, (height)/(NUMBERANALOGCHANNELS+NUMBERDDS));
 		SetTableRowAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, j,ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
-		SetTableRowAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, j, ATTR_ROW_HEIGHT, (height)/(NUMBERANALOGCHANNELS+1));
+		SetTableRowAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, j, ATTR_ROW_HEIGHT, (height)/(NUMBERANALOGCHANNELS+NUMBERDDS));
 	}
 }
 
@@ -2210,13 +2330,13 @@ void SetChannelDisplayed(int display_setting)
 	switch (display_setting)   
 		{
 		case 1:		//both
-			heightpos=380;
+			heightpos=410; // 380 for 25 rows works... use 410 for 27 rows
 			toppos1=155;
 			leftpos=170;
 			toppos2=1280-100-heightpos;
 			toppos2=155+380+50; 
 			ReshapeAnalogTable(toppos1,170,heightpos);   //passed top, left and height
-			ReshapeDigitalTable(toppos2,170,heightpos);
+			ReshapeDigitalTable(toppos2,170,heightpos-30);
 								
 			SetCtrlAttribute (panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, 1);
 			SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, 1);
@@ -2287,25 +2407,33 @@ void SaveLastGuiSettings(void)
 void CVICALLBACK EXPORT_PANEL_CALLBACK (int menuBar, int menuItem, void *callbackData,
 		int panel)
 {
+	char fexportname[200];
+	
+	FileSelectPopup ("", "*.export", "", "Export Panel?", VAL_SAVE_BUTTON, 0, 0, 1, 1,fexportname );
+	ExportPanel(fexportname,strlen(fexportname));
+}	
+//******************************************************************************************************
+void ExportPanel(char fexportname[200],int fnamesize)
+{
+	
 	FILE *fexport;
 	int i=0,j=0,k=0;
 	int xval=16,yval=16,zval=10;
-	char buff[500],buff2[100],fexportname[200],buff3[31],bigbuff[2000];
-	char fcnmode[6]="SLEJ";   // step, linear, exponential, const-jerk
+	char buff[500],buff2[100],buff3[31],bigbuff[2000];
+	char fcnmode[6]=" LEJ";   // step, linear, exponential, const-jerk:  Step is assumed if blank
 	double MetaTimeArray[500];
 	int MetaDigitalArray[NUMBERDIGITALCHANNELS+1][500];
 	struct AnVals MetaAnalogArray[NUMBERANALOGCHANNELS+1][500];
 	double DDSfreq1[500], DDSfreq2[500],DDScurrent[500],DDSstop[500];
 	int mindex,nozerofound,tsize;
-	fcnmode[0]='S';fcnmode[1]='L';fcnmode[2]='E';fcnmode[3]='J';
+	fcnmode[0]=' ';fcnmode[1]='L';fcnmode[2]='E';fcnmode[3]='J';
+	isdimmed=1;
 	
-	FileSelectPopup ("", "*.export", "", "Export Panel?", VAL_SAVE_BUTTON, 0, 0, 1, 1,fexportname );
 	if((fexport=fopen(fexportname,"w"))==NULL)
 	{
 		MessagePopup("Save Error","Failed to save configuration file");
 	}
 	
-	isdimmed=1;
 	//Lets build the times list first...so we know how long it will be.
 	//check each page...find used columns and dim out unused....(with 0 or negative values)
 	SetCtrlAttribute(panelHandle,PANEL_ANALOGTABLE,ATTR_TABLE_MODE,VAL_COLUMN); 
@@ -2344,7 +2472,6 @@ void CVICALLBACK EXPORT_PANEL_CALLBACK (int menuBar, int menuItem, void *callbac
 			}
 		}
 	}
-
 	tsize=mindex; //tsize is the number of columns
 	// now write to file
 	// write header
@@ -2372,7 +2499,6 @@ void CVICALLBACK EXPORT_PANEL_CALLBACK (int menuBar, int menuItem, void *callbac
 		fprintf(fexport,bigbuff);
 	}
 	//done analog lines, now write DDS
-	
 	sprintf(bigbuff,"DDS");
 	for(i=1;i<=tsize;i++)
 	{
@@ -2393,11 +2519,10 @@ void CVICALLBACK EXPORT_PANEL_CALLBACK (int menuBar, int menuItem, void *callbac
 			sprintf(buff,"%4.2f",DDSfreq2[i]);
 			strcat(bigbuff,buff);
 		}	
-	
 	}
 	fprintf(fexport,bigbuff);     
 	//done DDS, now do digital
-	for(j=1;j<=24;j++)
+	for(j=1;j<=NUMBERDIGITALCHANNELS;j++)
 	{
 		sprintf(bigbuff,DChName[j].chname);
 		for(i=1;i<=tsize;i++)
@@ -2410,10 +2535,7 @@ void CVICALLBACK EXPORT_PANEL_CALLBACK (int menuBar, int menuItem, void *callbac
 		strcat(bigbuff,"\n");
 		fprintf(fexport,bigbuff);
 	}
-	
-
 	fclose(fexport);
-	
 }
 
 //***********************************************************************************************
@@ -2644,11 +2766,12 @@ void CVICALLBACK SIMPLETIMING_CALLBACK (int menuBar, int menuItem, void *callbac
 void UpdateScanValue(int Reset)
 {
   	static int scanstep,iteration;
-  	int cx,cy,cz,numsteps;
+  	int i,cx,cy,cz,numsteps;
 	double tempnumsteps;
 	BOOL LastScan;
+	int hour,minute,second;
   	static BOOL ScanUp;
-  	static int timesdid;
+  	static int timesdid,counter;
   	char buff[400];
   	
   	cx=PScan.Column;
@@ -2664,7 +2787,14 @@ void UpdateScanValue(int Reset)
 
 	// Initialization on first iteration
 	if(Reset==TRUE) 
-	{
+	{   
+		counter=0;
+		for(i=0;i<1000;i++)
+		{
+		 	ScanBuffer[i].Step=0;
+		 	ScanBuffer[i].Iteration=0;
+		 	ScanBuffer[i].Value=0;
+		}
   		switch(PScan.ScanMode)
  	 	{
   			case 0: // set to analog
@@ -2686,7 +2816,7 @@ void UpdateScanValue(int Reset)
  	 			ScanVal.Iterations=	PScan.DDS.Iterations_Per_Step;
   				break;
   		}
-  	 
+  	    
   		timesdid=0;
   		scanstep=0;
  	 	ScanVal.Current_Step=0;
@@ -2746,7 +2876,13 @@ void UpdateScanValue(int Reset)
 			ddstable[cx][cz].end_frequency=ScanVal.Current_Value;
 			break;
 	}
-	
+	GetSystemTime(&hour,&minute,&second);
+	ScanBuffer[counter].Step=ScanVal.Current_Step;
+	ScanBuffer[counter].Iteration=ScanVal.Current_Iteration;
+	ScanBuffer[counter].Value=ScanVal.Current_Value;
+	ScanBuffer[0].BufferSize=counter;
+	sprintf(ScanBuffer[counter].Time,"%d:%d:%d",hour,minute,second);
+	counter++;
 	// display on screen
 	SetCtrlVal (panelHandle, PANEL_NUM_SCANVAL, ScanVal.Current_Value);
 	SetCtrlVal (panelHandle, PANEL_NUM_SCANSTEP, ScanVal.Current_Step);
@@ -2780,6 +2916,7 @@ void UpdateScanValue(int Reset)
 		SetCtrlAttribute (panelHandle, PANEL_NUM_SCANVAL, ATTR_VISIBLE, 0);
 		SetCtrlAttribute (panelHandle, PANEL_NUM_SCANSTEP, ATTR_VISIBLE, 0);
 		SetCtrlAttribute (panelHandle, PANEL_NUM_SCANITER, ATTR_VISIBLE, 0);
+		ExportScanBuffer();
 	}
 	
 }
@@ -2804,3 +2941,64 @@ void CVICALLBACK NOTECHECK_CALLBACK (int menuBar, int menuItem, void *callbackDa
 	
 	
 }
+
+void CVICALLBACK STREAM_CALLBACK (int menuBar, int menuItem, void *callbackData,
+		int panel)
+{
+	BOOL status;
+	char fstreamdir[250];
+	GetMenuBarAttribute (menuHandle, MENU_PREFS_STREAM_SETTINGS, ATTR_CHECKED,&status);
+	SetMenuBarAttribute (menuHandle, MENU_PREFS_STREAM_SETTINGS, ATTR_CHECKED,!status);
+	if (!status==TRUE)
+	{
+		DirSelectPopup ("","Select Stream Folder", 1, 1,fstreamdir);
+	}
+}
+//**************************************************************************************************************
+void ExportScanBuffer(void)
+{
+	int i,j,status;
+	FILE *fbuffer;
+	char fbuffername[250],buff[500];
+    int  step,iter,mode;
+    double val;
+    char date[100];
+    
+	status=FileSelectPopup("", "*.scan", "", "Save Scan Buffer", VAL_SAVE_BUTTON, 0, 0, 1, 1,fbuffername );
+	if(status>0)
+	{
+		if((fbuffer=fopen(fbuffername,"w"))==NULL)
+		{
+			MessagePopup("Save Error","Failed to save configuration file");	
+		}
+		switch(PScan.ScanMode)
+		{
+			case 0:
+				sprintf(buff,"Analog Scan\nRow,%d,Column,%d,Page,%d\n",PScan.Row,PScan.Column,PScan.Page);
+				break;
+			case 1:
+				sprintf(buff,"Time Scan\nColumn,%d,Page,%d\n",PScan.Column,PScan.Page);
+				break;
+			case 2:
+				sprintf(buff,"DDS Scan\nColumn,%d,Page,%d\n",PScan.Column,PScan.Page);
+				break;
+		}
+		fprintf(fbuffer,buff);
+		sprintf(buff,"Cycle,Value,Step,Iteration,Time\n");
+		fprintf(fbuffer,buff);
+		for(i=0;i<=ScanBuffer[0].BufferSize;i++)
+		{
+			
+			val=ScanBuffer[i].Value;
+			step=ScanBuffer[i].Step;
+			iter=ScanBuffer[i].Iteration;
+			sprintf(date,ScanBuffer[i].Time);
+		 	sprintf(buff,"%d,%f,%d,%d,%s\n",i,val,step,iter,date);
+			fprintf(fbuffer,buff);
+	 	}
+	 }
+	 fclose(fbuffer);
+}
+//**************************************************************************************************************
+
+

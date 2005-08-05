@@ -62,12 +62,14 @@
 #define  PANEL_TIMER                     46      /* callback function: TIMER_CALLBACK */
 #define  PANEL_NUM_INSERTIONCOL          47      /* callback function: NUM_INSERTIONCOL_CALLBACK */
 #define  PANEL_NUM_INSERTIONPAGE         48      /* callback function: NUM_INSERTIONPAGE_CALLBACK */
-#define  PANEL_NUM_DDS_OFFSET            49
-#define  PANEL_LABNOTE_TXT               50
-#define  PANEL_NUM_SCANITER              51
-#define  PANEL_NUM_SCANSTEP              52
-#define  PANEL_NUM_SCANVAL               53
-#define  PANEL_DECORATION_BOX            54
+#define  PANEL_NUM_DDS3_OFFSET           49
+#define  PANEL_NUM_DDS2_OFFSET           50
+#define  PANEL_NUM_DDS_OFFSET            51
+#define  PANEL_LABNOTE_TXT               52
+#define  PANEL_NUM_SCANITER              53
+#define  PANEL_NUM_SCANSTEP              54
+#define  PANEL_NUM_SCANVAL               55
+#define  PANEL_DECORATION_BOX            56
 
 
      /* Menu Bars, Menus, and Menu Items: */
@@ -120,6 +122,7 @@
 #define  MENU_PREFS_SIMPLETIMING         46      /* callback function: SIMPLETIMING_CALLBACK */
 #define  MENU_PREFS_SHOWARRAY            47      /* callback function: SHOWARRAY_CALLBACK */
 #define  MENU_PREFS_DDS_OFF              48      /* callback function: DDS_OFF_CALLBACK */
+#define  MENU_PREFS_STREAM_SETTINGS      49      /* callback function: STREAM_CALLBACK */
 
 
      /* Callback Prototypes: */ 
@@ -161,6 +164,7 @@ void CVICALLBACK SETGD10_CALLBACK(int menubar, int menuItem, void *callbackData,
 void CVICALLBACK SETGD5_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SHOWARRAY_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SIMPLETIMING_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
+void CVICALLBACK STREAM_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK TGLNUMERIC_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK TIMER_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);

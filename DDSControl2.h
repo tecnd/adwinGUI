@@ -10,7 +10,7 @@
 
 
 
-void SetDDSControlPanel(void); 
+void SetDDSControlPanel(int); 
 
 
 #endif

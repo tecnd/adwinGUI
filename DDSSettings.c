@@ -53,7 +53,8 @@ void LoadDDSSettings(void)
 	SetCtrlVal (panelHandle5, DDSPANEL_NUM_DDSCLOCK,DDSFreq.clock);
 	SetCtrlVal (panelHandle5, DDSPANEL_NUM_PLLMULTIPLIER,DDSFreq.PLLmult);
 	SetCtrlVal (panelHandle5, DDSPANEL_NUM_DDSBASEFREQ,DDSFreq.extclock);
-	
+	SetCtrlVal (panelHandle5, DDSPANEL_NUM_DDS2_CLOCK,DDS2CLOCK);
+	SetCtrlVal (panelHandle5, DDSPANEL_NUM_DDS3_CLOCK,DDS3CLOCK);
 	return;
 	
 }
