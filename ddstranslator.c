@@ -998,7 +998,7 @@ static BOOL ad9858_convert_freq(unsigned char* freq_reg,
 
 	frequency_ratio = frequency*4294967296.0 / sysclk;
 
-	for (i = 0; i < 4; ++i, frequency_ratio >> 8) {
+	for (i = 0; i < 4; ++i, frequency_ratio >>= 8) {
 		/* cast to unsigned char takes care of modulus and truncation */
 		new_byte_val = (unsigned char) frequency_ratio;
 		if (freq_reg[i] != new_byte_val) {
@@ -1259,12 +1259,18 @@ dds_cmds_ptr create_ad9858_cmd_sequence(ddsoptions_struct* dds_settings,
 	
 	/* changes from default settings: */
 	set_ad9858_cr_bit(&shadow, AD9858_CR_LOADDELTAFREQ, FALSE);
-	set_ad9858_cr_bit(&shadow, AD9858_CR_FREQSWEEP, TRUE);
+	set_ad9858_cr_bit(&shadow, AD9858_CR_FREQSWEEP, FALSE);
 	set_ad9858_cr_bit(&shadow, AD9858_CR_CPPOLAR, FALSE);
-	set_ad9858_cr_bit(&shadow, AD9858_CR_CLKDIV2DIS, FALSE);
+	set_ad9858_cr_bit(&shadow, AD9858_CR_CLKDIV2DIS, TRUE); /*not dividing clock by 2*/
 	set_ad9858_cr_bit(&shadow, AD9858_CR_SYNCLKDIS, TRUE);
 	set_ad9858_cr_bit(&shadow, AD9858_CR_MIXERPD, TRUE);
-	set_ad9858_cr_bit(&shadow, AD9858_CR_PDPD, FALSE);
+	set_ad9858_cr_bit(&shadow, AD9858_CR_PDPD, FALSE); /*turn on phase detector*/
+	
+	/*turn on the charge pump*/   
+	set_ad9858_cr_bit(&shadow, AD9858_CR_FREQDET_CPI0, TRUE);
+	set_ad9858_cr_bit(&shadow, AD9858_CR_FINALCLOSED_CPI2, TRUE);   
+	set_ad9858_cr_bit(&shadow, AD9858_CR_WIDECLOSED_CPI0, TRUE);  
+	
  	
 	idealtime = 0.0;
 	

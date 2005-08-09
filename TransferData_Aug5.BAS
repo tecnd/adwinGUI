@@ -106,12 +106,12 @@ clock=30				' data clock
 ioupdate=29			' update line.  transfers data from buffer into registers
 ioreset=28			' resets input buffers
 masterreset=27
-'DDS2 digital lines
-dataline9858=26
-clock9858=25
-ioupdate9858=24
-ioreset9858=23
-masterreset9858=22
+'DDS2 digital lines (base 0)
+dataline9858=21
+clock9858=22
+ioupdate9858=19
+'ioreset9858=23
+masterreset9858=18
 DigProg1(1,65535)
 DigProg2(1,65535)
 DigProg1(2,65535)
@@ -230,8 +230,8 @@ IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each element for 
 
 			ELSE 
 				IF(Data_3[updates]=4) then 'write to the i/o update pin to transfer to registers
-					DIGOUT_F(2,ioreset9858,1)
-					DIGOUT_F(2,ioreset9858,0)
+					'DIGOUT_F(2,ioreset9858,1)
+					'DIGOUT_F(2,ioreset9858,0)
 				Else 
 					IF(data_3[updates]=5) then
 						DIGOUT_F(2,ioupdate9858,1)

@@ -28,11 +28,9 @@ i=0
 EVENT:
 'SYNCALL()
 if(i=0) then
-	digout_f(1,0,1)
 	digout_f(2,0,1)
 	DIGOUT_F(2,31,0)
 else
-	digout_f(1,0,0)
 	digout_F(2,i,1)
 	digout_F(2,i-1,0)
 endif

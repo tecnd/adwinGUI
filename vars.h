@@ -24,7 +24,7 @@ Macro Definitions
 									   // to be quick & dirty about it, just change 
 									   //numberofpages to 1 more than actual
 									   
-#define DDS2CLOCK 983.40				  // clock speed of DDS 2 in MHz
+#define DDS2_CLOCK 983.04				  // clock speed of DDS 2 in MHz
 #define DDS3CLOCK 300.0				  // clock speed of DDS 2 in MHz  
 /************************************************************************
 Structure/Typedef Declarations
@@ -107,7 +107,7 @@ struct DDSClock{
 
 
 ddsoptions_struct ddstable[17][NUMBEROFPAGES]; //17 columns (actually only 14, but in case we expand), 10 pages
-dds2options_struct dds2table[17][NUMBEROFPAGES]; //17 columns (actually only 14, but in case we expand), 10 pages
+ddsoptions_struct dds2table[17][NUMBEROFPAGES]; //17 columns (actually only 14, but in case we expand), 10 pages
 dds3options_struct dds3table[17][NUMBEROFPAGES];
 int Active_DDS_Panel; // 1 for Rb evap dds, 2 for K40 evap dds, 3 for HFS dds
 

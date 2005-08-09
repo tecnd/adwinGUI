@@ -1176,7 +1176,7 @@ void RunOnce (void)
 //		} MetaAnalogArray[16][500];
 	struct AnVals MetaAnalogArray[NUMBERANALOGCHANNELS+1][500];
 	ddsoptions_struct MetaDDSArray[500];
-	dds2options_struct MetaDDS2Array[500];
+	ddsoptions_struct MetaDDS2Array[500];
 	dds3options_struct MetaDDS3Array[500];
 	int i,j,k,mindex,tsize;
 	int insertpage,insertcolumn,x,y,lastpagenum,FinalPageToUse;
@@ -1283,10 +1283,17 @@ void RunOnce (void)
 
 }
 //*********************************************************************************************************
-
+//By: Stefan Myrskog
+//Edited: Aug8, 2005
+//Change:  Force all panel controls related to scanning to hide.
 int CVICALLBACK CMDSTOP_CALLBACK (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
 {
+
+	SetCtrlAttribute (panelHandle, PANEL_DECORATION_BOX, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_SCANVAL, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_SCANSTEP, ATTR_VISIBLE, 0);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_SCANITER, ATTR_VISIBLE, 0);
 	switch (event)
 		{
 		case EVENT_COMMIT:
@@ -1694,7 +1701,7 @@ void SaveArrays(char savedname[500],int csize)
 
 //**********************************************************************************
 void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1][500],int DMat[NUMBERDIGITALCHANNELS+1][500],
-     ddsoptions_struct DDSArray[500],dds2options_struct DDS2Array[500],dds3options_struct DDS3Array[500], int numtimes)
+     ddsoptions_struct DDSArray[500],ddsoptions_struct DDS2Array[500],dds3options_struct DDS3Array[500], int numtimes)
 //void BuildUpdateList(double TMatrix[],struct AnVals AMat[16][500],double DMat[16][500])
 
 {
@@ -1775,26 +1782,27 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 
 		// read offsets to add to DDSArray
 		GetCtrlVal (panelHandle, PANEL_NUM_DDS_OFFSET, &DDSoffset);
-		GetCtrlVal (panelHandle, PANEL_NUM_DDS_OFFSET, &DDSoffset);
-		GetCtrlVal (panelHandle, PANEL_NUM_DDS_OFFSET, &DDSoffset);
+		GetCtrlVal (panelHandle, PANEL_NUM_DDS2_OFFSET, &DDS2offset);
+		GetCtrlVal (panelHandle, PANEL_NUM_DDS3_OFFSET, &DDS3offset);
 		for(m=1;m<=numtimes;m++)
 		{
 			DDSArray[m].start_frequency=DDSArray[m].start_frequency+DDSoffset;
 			DDSArray[m].end_frequency=DDSArray[m].end_frequency+DDSoffset;
-			/*
+			
 			DDS2Array[m].start_frequency=DDS2Array[m].start_frequency+DDS2offset;
 			DDS2Array[m].end_frequency=DDS2Array[m].end_frequency+DDS2offset;
-			DDS3Array[m].start_frequency=DDS3Array[m].start_frequency+DDS3offset;
+			/*DDS3Array[m].start_frequency=DDS3Array[m].start_frequency+DDS3offset;
 			DDS3Array[m].end_frequency=DDS3Array[m].end_frequency+DDS3offset;
 			*/
 		}
 		
 		dds_cmd_seq = create_ad9852_cmd_sequence(DDSArray, numtimes,DDSFreq.PLLmult, 
 		DDSFreq.extclock,EventPeriod/1000);
-   	  /* dds_cmd_seq_AD9858 = create_ad9858_cmd_sequence(DDS2Array, numtimes,DDS2_CLOCK, 
+		
+   	    dds_cmd_seq_AD9858 = create_ad9858_cmd_sequence(DDS2Array, numtimes,DDS2_CLOCK, 
 		EventPeriod/1000,0);	   // assume frequency offset of 0 MHz
 		
-    	dds_cmd_seq = create_ad9852_cmd_sequence(DDS3Array, numtimes,DDSFreq.PLLmult, 
+    	/*dds_cmd_seq = create_ad9852_cmd_sequence(DDS3Array, numtimes,DDSFreq.PLLmult, 
 		DDSFreq.extclock,EventPeriod/1000);
    	  */ 	
     
@@ -1924,7 +1932,8 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 					ChVal[nuptotal] = tmp_dds;
 				
 				} //done the DDS1
-		/*		tmp_dds = get_dds_cmd(dds_cmd_seq_AD9858, count-1-start_offset);  //dds translator(zero base) runs 1 behind this counter
+				
+				tmp_dds = get_dds_cmd(dds_cmd_seq_AD9858, count-1-start_offset);  //dds translator(zero base) runs 1 behind this counter
 				if (tmp_dds>=0)
 				{
 					nupcurrent++;
@@ -1934,7 +1943,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 				
 				} //done the DDS2				
 				
-		*/		
+				
 				while(k<usefcn)
 				{
 					k++;
