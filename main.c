@@ -229,6 +229,7 @@ void Initialization()
 	int j=0,x0,dx;
 	char str_list_val[5];
 	PScan.Scan_Active=FALSE;
+	PScan.Use_Scan_List=FALSE;
 	SetCtrlAttribute (panelHandle, PANEL_LABNOTE_TXT, ATTR_VISIBLE, FALSE);
 
 	//Add in any extra rows (if the number of channels increases)
@@ -237,6 +238,7 @@ void Initialization()
 	InsertTableRows (panelHandle, PANEL_TBL_ANAMES,24+1,NUMBERANALOGCHANNELS-24+NUMBERDDS+1,VAL_CELL_STRING);
 	InsertTableRows (panelHandle, PANEL_DIGTABLE, 16,NUMBERDIGITALCHANNELS-16, VAL_CELL_PICTURE);
 	
+	InsertTableRows (panelHandle, PANEL_SCAN_TABLE,1,100,VAL_CELL_NUMERIC);
 //	GetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_HEIGHT,&aname_size);
 //	new_aname_size=(int)((float)aname_size*27.0/25.0);	
 //	SetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_HEIGHT,100);

@@ -69,7 +69,8 @@
 #define  PANEL_NUM_SCANITER              53
 #define  PANEL_NUM_SCANSTEP              54
 #define  PANEL_NUM_SCANVAL               55
-#define  PANEL_DECORATION_BOX            56
+#define  PANEL_SCAN_TABLE                56
+#define  PANEL_DECORATION_BOX            57
 
 
      /* Menu Bars, Menus, and Menu Items: */

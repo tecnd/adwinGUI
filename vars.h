@@ -145,6 +145,7 @@ struct ScanParameters{
 	int    ScanMode;// 0 for Analog, 1 for Time, 2 for DDS
 	BOOL   ScanDone;
 	BOOL   Scan_Active;
+	BOOL   Use_Scan_List;
 	struct AnalogScanParameters	Analog;
 	struct TimeScanParameters	Time;
 	struct DDSScanParameters   	DDS;

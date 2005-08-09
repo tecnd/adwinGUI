@@ -2781,7 +2781,7 @@ void UpdateScanValue(int Reset)
 {
   	static int scanstep,iteration;
   	int i,cx,cy,cz,numsteps;
-	double tempnumsteps,cellval;
+	double tempnumsteps,cellval,nextcell;
 	BOOL LastScan,UseList;
 	int hour,minute,second;
   	static BOOL ScanUp;
@@ -2798,7 +2798,9 @@ void UpdateScanValue(int Reset)
 	SetCtrlAttribute (panelHandle, PANEL_NUM_SCANVAL, ATTR_VISIBLE, 1);
 	SetCtrlAttribute (panelHandle, PANEL_NUM_SCANSTEP, ATTR_VISIBLE, 1);
 	SetCtrlAttribute (panelHandle, PANEL_NUM_SCANITER, ATTR_VISIBLE, 1);
-
+	//Check what source to use for the scan...
+	//if Use_List is checked, then read values off of the SCAN_TABLE on the main panel.
+	GetCtrlVal(panelHandle7,SCANPANEL_CHECK_USE_LIST,&UseList);
 	// Initialization on first iteration
 	if(Reset==TRUE) 
 	{   
@@ -2847,46 +2849,53 @@ void UpdateScanValue(int Reset)
   			ScanUp=FALSE;	  // ie. we scan downwards
   			if(ScanVal.Step>0) {ScanVal.Step=-ScanVal.Step;} 
   		}
-  	}
+  	}//Done resetting values
   	
   	// numsteps to depend on mode
-  	numsteps=ceil(abs(((double)ScanVal.Start-(double)ScanVal.End)/(double)ScanVal.Step));
-  	
-  	PScan.ScanDone=FALSE;
-    timesdid++;
-  	ScanVal.Current_Iteration++;
-  	
-	if((ScanVal.Current_Iteration>=ScanVal.Iterations)&&(ScanVal.Current_Step<numsteps)) // update the step at correct time
+  	if(UseList)// using table of Scan Values
 	{
-		ScanVal.Current_Iteration=0;
-		ScanVal.Current_Step++;
-		ScanVal.Current_Value=ScanVal.Current_Value + ScanVal.Step;
-		ChangedVals=TRUE;
-	}
-	
-	if((ScanVal.Current_Value>=ScanVal.End)&& (ScanUp==TRUE)) 
-	{
-		ScanVal.Current_Value=ScanVal.End;
-	}
-	
-	if((ScanVal.Current_Value<=ScanVal.End)&& (ScanUp==FALSE)) 
-	{
-		ScanVal.Current_Value=ScanVal.End;
-	}
-	//if using the scan table, replace current value with desired value...
-	GetCtrlVal(panelHandle7,SCANPANEL_CHECK_USE_LIST,&UseList);
-	if(UseList)
-	{
-		iteration=ScanVal.Current_Iteration;
-		GetTableCellVal(panelHandle, PANEL_SCAN_TABLE, MakePoint(1,iteration+1), &cellval);
-		SetTableCellAttribute (panelHandle, PANEL_SCAN_TABLE,MakePoint(1,iteration+1), ATTR_TEXT_BGCOLOR,
+		ScanVal.Current_Iteration++;
+		if(ScanVal.Current_Iteration>=ScanVal.Iterations)
+		{
+			ScanVal.Current_Iteration=0;
+			ScanVal.Current_Step++;
+			
+			GetTableCellVal(panelHandle, PANEL_SCAN_TABLE, MakePoint(1,ScanVal.Current_Step+1), &cellval);
+			SetTableCellAttribute (panelHandle, PANEL_SCAN_TABLE,MakePoint(1,ScanVal.Current_Step+1), ATTR_TEXT_BGCOLOR,
 							   VAL_LT_GRAY);
-	    SetTableCellAttribute (panelHandle, PANEL_SCAN_TABLE,MakePoint(1,iteration), ATTR_TEXT_BGCOLOR,
+			SetTableCellAttribute (panelHandle, PANEL_SCAN_TABLE,MakePoint(1,Scan_Val.Current_Step), ATTR_TEXT_BGCOLOR,
 							   VAL_WHITE);
-		ScanVal.Current_Value=cellval;
-	
+			ScanVal.Current_Value=cellval;	
+			ChangedVals=TRUE;
+		}
+
 	}
+
+	else // Use linear scanning
+	{
+		numsteps=ceil(abs(((double)ScanVal.Start-(double)ScanVal.End)/(double)ScanVal.Step));	
+  		PScan.ScanDone=FALSE;
+		timesdid++;
+  		ScanVal.Current_Iteration++;
+  	
+		if((ScanVal.Current_Iteration>=ScanVal.Iterations)&&(ScanVal.Current_Step<numsteps)) // update the step at correct time
+		{
+			ScanVal.Current_Iteration=0;
+			ScanVal.Current_Step++;
+			ScanVal.Current_Value=ScanVal.Current_Value + ScanVal.Step;
+			ChangedVals=TRUE;
+		}
 	
+		if((ScanVal.Current_Value>=ScanVal.End)&& (ScanUp==TRUE)) 
+		{
+			ScanVal.Current_Value=ScanVal.End;
+		}
+	
+		if((ScanVal.Current_Value<=ScanVal.End)&& (ScanUp==FALSE)) 
+		{
+			ScanVal.Current_Value=ScanVal.End;
+		}
+	}	
 	
 	//insert values into table
 	switch(PScan.ScanMode)
@@ -2918,30 +2927,40 @@ void UpdateScanValue(int Reset)
 	SetCtrlVal (panelHandle, PANEL_NUM_SCANITER, ScanVal.Current_Iteration);
 	
 	//check for end condition
- 	if(ScanUp)
- 	{
- 		if((ScanVal.Current_Value>=ScanVal.End)&&(ScanVal.Current_Iteration>=ScanVal.Iterations-1))	
-		{   //Done Scan
- 			PScan.ScanDone=TRUE;  // Flag used in RunOnce() to initiate a stop
-		}
-	}
-	else
+ 	if(UseList)
 	{
-	 	if((ScanVal.Current_Value<=ScanVal.End)&&(ScanVal.Current_Iteration>=ScanVal.Iterations-1))	
-		{   //Done Scan
- 			PScan.ScanDone=TRUE;  // Flag used in RunOnce() to initiate a stop
-			
+		GetTableCellVal(panelHandle, PANEL_SCAN_TABLE, MakePoint(1,ScanVal.Current_Step+2), &nextcell);
+		if((nextcell<=-999)&&(ScanVal.Current_Iteration>=ScanVal.Iterations-1))
+		{ 
+			PScan.ScanDone=TRUE;
 		}
 	}
 	
-	// if the scan is done, then cleanup
+	else//not using the ScanTable
+	{
+		if(ScanUp)
+ 		{
+ 			if((ScanVal.Current_Value>=ScanVal.End)&&(ScanVal.Current_Iteration>=ScanVal.Iterations-1))	
+			{   //Done Scan
+ 				PScan.ScanDone=TRUE;  // Flag used in RunOnce() to initiate a stop
+			}
+		}
+		else
+		{
+		 	if((ScanVal.Current_Value<=ScanVal.End)&&(ScanVal.Current_Iteration>=ScanVal.Iterations-1))	
+			{   //Done Scan
+	 			PScan.ScanDone=TRUE;  // Flag used in RunOnce() to initiate a stop	
+			}
+		}
+	}//done checking the scan is done
+
+		// if the scan is done, then cleanup
 	if(PScan.ScanDone==TRUE)
 	{   // reset initial values in the tables
 		AnalogTable[cx][cy][cz].fval=PScan.Analog.Start_Of_Scan;
 		TimeArray[cx][cz]=PScan.Time.Start_Of_Scan;
 		ddstable[cx][cz].end_frequency=PScan.DDS.Start_Of_Scan;
-		// hide the scan information
-		SetCtrlAttribute (panelHandle, PANEL_DECORATION_BOX, ATTR_VISIBLE, 0);
+		// hide the scan information			SetCtrlAttribute (panelHandle, PANEL_DECORATION_BOX, ATTR_VISIBLE, 0);
 		SetCtrlAttribute (panelHandle, PANEL_NUM_SCANVAL, ATTR_VISIBLE, 0);
 		SetCtrlAttribute (panelHandle, PANEL_NUM_SCANSTEP, ATTR_VISIBLE, 0);
 		SetCtrlAttribute (panelHandle, PANEL_NUM_SCANITER, ATTR_VISIBLE, 0);
