@@ -925,7 +925,7 @@ static void set_ad9858_ramp_rate(ad9858_shadow_struct* shadow,
 	
 	note the unit conversion from MHz to Hz for sysclk
 	*/
-	ramp_rate = (sysclk * 1e6) * delta_time * AD9852_GRANULARITY / 8;
+	ramp_rate = (sysclk * 1e6) * delta_time * AD9858_GRANULARITY / 8;
 	/* casts truncate high bits */
 	new_ramprate_word[1] = (unsigned char) (ramp_rate >> 8);
    	new_ramprate_word[0] = (unsigned char) ramp_rate;
@@ -1053,8 +1053,8 @@ static void set_ad9858_freq_registers(ad9858_shadow_struct* shadow,
 	set_ad9858_ramp_rate(shadow, ramp_time, sysclk);
 	shadow->freq_tuning_word_0_dirty = 
 		ad9858_convert_freq(shadow->freq_tuning_word_0, start_frequency, sysclk);
-	shadow->delta_freq_ramp_rate_word_dirty = 
-		ad9858_convert_freq(shadow->delta_freq_ramp_rate_word, freqstep, sysclk);
+	shadow->delta_freq_tuning_word_dirty = 
+		ad9858_convert_freq(shadow->delta_freq_tuning_word, freqstep, sysclk);
 }
 	
 /* Take a high-level specification dds_options of the behaviour of the
@@ -1258,8 +1258,8 @@ dds_cmds_ptr create_ad9858_cmd_sequence(ddsoptions_struct* dds_settings,
 	ad9858_master_reset(cmd_sequence, 0, &shadow);
 	
 	/* changes from default settings: */
-	set_ad9858_cr_bit(&shadow, AD9858_CR_LOADDELTAFREQ, FALSE);
-	set_ad9858_cr_bit(&shadow, AD9858_CR_FREQSWEEP, FALSE);
+	set_ad9858_cr_bit(&shadow, AD9858_CR_LOADDELTAFREQ, TRUE);
+	set_ad9858_cr_bit(&shadow, AD9858_CR_FREQSWEEP, TRUE);
 	set_ad9858_cr_bit(&shadow, AD9858_CR_CPPOLAR, FALSE);
 	set_ad9858_cr_bit(&shadow, AD9858_CR_CLKDIV2DIS, TRUE); /*not dividing clock by 2*/
 	set_ad9858_cr_bit(&shadow, AD9858_CR_SYNCLKDIS, TRUE);
