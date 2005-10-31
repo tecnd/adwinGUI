@@ -1945,7 +1945,6 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 					nuptotal++;
 					ChNum[nuptotal] = 32; //dummy channel
 					ChVal[nuptotal] = tmp_dds;
-					//printf("%d",tmp_dds);
 				
 				} //done the DDS2				
 				
@@ -2914,9 +2913,11 @@ void UpdateScanValue(int Reset)
 			TimeArray[cx][cz]=ScanVal.Current_Value;		
 			break;
 		case 2:
-			ddstable[cx][cz].amplitude=PScan.DDS.Current;
-			ddstable[cx][cz].start_frequency=PScan.DDS.Base_Freq;
-			ddstable[cx][cz].end_frequency=ScanVal.Current_Value;
+			// temporaryily modify to change offset
+			SetCtrlVal(panelHandle,PANEL_NUM_DDS_OFFSET,ScanVal.Current_Value);
+	//		ddstable[cx][cz].amplitude=PScan.DDS.Current;
+	//		ddstable[cx][cz].start_frequency=PScan.DDS.Base_Freq;
+	//		ddstable[cx][cz].end_frequency=ScanVal.Current_Value;
 			break;
 	}
 	GetSystemTime(&hour,&minute,&second);
@@ -2964,7 +2965,8 @@ void UpdateScanValue(int Reset)
 	{   // reset initial values in the tables
 		AnalogTable[cx][cy][cz].fval=PScan.Analog.Start_Of_Scan;
 		TimeArray[cx][cz]=PScan.Time.Start_Of_Scan;
-		ddstable[cx][cz].end_frequency=PScan.DDS.Start_Of_Scan;
+		SetCtrlVal(panelHandle,PANEL_NUM_DDS_OFFSET,PScan.DDS.Start_Of_Scan);
+		//ddstable[cx][cz].end_frequency=PScan.DDS.Start_Of_Scan;
 		// hide the scan information			SetCtrlAttribute (panelHandle, PANEL_DECORATION_BOX, ATTR_VISIBLE, 0);
 		SetCtrlAttribute (panelHandle, PANEL_NUM_SCANVAL, ATTR_VISIBLE, 0);
 		SetCtrlAttribute (panelHandle, PANEL_NUM_SCANSTEP, ATTR_VISIBLE, 0);
