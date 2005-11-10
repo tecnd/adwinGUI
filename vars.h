@@ -9,12 +9,14 @@ Macro Definitions
 
 #define DefaultEventPeriod 0.100   // in milliseconds
 #define AdwinTick	0.000025       //Adwin clock cycle, in ms.
-#define NUMBERANALOGCHANNELS 24	   // Number of analog Channels available for control
-#define NUMBERDIGITALCHANNELS 24  	// number of digital channels that may 
-									// be user controlled.  Some are reserved
-									// for DDS etc.
+#define NUMBERANALOGCHANNELS 32	   // Number of analog Channels available for control
+#define NUMBERDIGITALCHANNELS 36  	// number of digital channels DISPLAYED!!!
+									// some are not user controlled, e.g. DDS lines
 									// 32 in total.  5 used for DDS1
 									// 5 for DD2 (K40 evap)
+									// reserved for DDS1
+									// reserved for DDS2
+									// reserved for DDS3				  NU
 									
 #define NUMBERDDS 3					// Number of DDS's
 #define NUMBEROFCOLUMNS 17
@@ -26,10 +28,14 @@ Macro Definitions
 									   
 #define DDS2_CLOCK 983.04				  // clock speed of DDS 2 in MHz
 #define DDS3CLOCK 300.0				  // clock speed of DDS 2 in MHz  
+
+#define MAXANALOG 50				 // Need 40 lines, leave room for 48
+#define MAXDIGITAL 70				 // need 64 lines, leave some leeway													 
 /************************************************************************
 Structure/Typedef Declarations
 *************************************************************************/
-
+// expand the array sizes to allow for further growth.  Need 32 analog, leave room for 48
+// digital lines   leave room for 64 (2 digital io cards)
 typedef int  BOOL;
 
 typedef struct ddsoptions_struct {
@@ -60,6 +66,7 @@ Global Variables
 *************************************************************************/
 
 int panelHandle,panelHandle2,panelHandle3,panelHandle4,panelHandle5,panelHandle6,panelHandle7,panelHandle8;         
+int panelHandle_sub1;
 int  menuHandle;
 int currentx,currenty,currentpage;
 int pic_off,pic_static,pic_change,pic_don;
@@ -71,14 +78,14 @@ struct AnalogTableValues{
 						// 1-step, 2-linear, 3- exp, 4- 'S' curve
 	double 	fval;		//the final value
 	double	tscale;		//the timescale to approach final value
-	} AnalogTable[17][NUMBERANALOGCHANNELS+1][NUMBEROFPAGES];
+	} AnalogTable[NUMBEROFCOLUMNS+1][NUMBERANALOGCHANNELS+NUMBERDDS][NUMBEROFPAGES];
 	// the structure is the values/elements contained at each point in the 
 	// analog panel.  The array aval, is set up as [x][y][page]
-int DigTableValues[17][NUMBERDIGITALCHANNELS+1][NUMBEROFPAGES];
-int ChMap[NUMBERANALOGCHANNELS+1];	// The channel mapping (for analog). i.e. if we program line 1 as channel 
+int DigTableValues[NUMBEROFCOLUMNS][MAXDIGITAL][NUMBEROFPAGES];
+int ChMap[MAXANALOG];	// The channel mapping (for analog). i.e. if we program line 1 as channel 
 				// 12, the ChMap[12]=1
 
-double TimeArray[17][NUMBEROFPAGES];
+double TimeArray[NUMBEROFCOLUMNS][NUMBEROFPAGES];
 struct AnalogChannelProperties{
 	int		chnum;		// channel number 1-8 DAC1	9-16 DAC2
 	char    chname[50]; // name to appear on the panel
@@ -88,13 +95,13 @@ struct AnalogChannelProperties{
 	int		resettozero;
 	double  maxvolts;
 	double  minvolts;
-	}  AChName[NUMBERANALOGCHANNELS+1];
+	}  AChName[MAXANALOG+NUMBERDDS];
 
 struct DigitalChannelProperties{
 	int		chnum;		// digital line to control
 	char 	chname[50];	// name of the channel on the panel
 	int 	resettolow;
-	}	DChName[33];
+	}	DChName[MAXDIGITAL];
 
 double EventPeriod;
 int processnum;
@@ -106,9 +113,9 @@ struct DDSClock{
 }	DDSFreq;
 
 
-ddsoptions_struct ddstable[17][NUMBEROFPAGES]; //17 columns (actually only 14, but in case we expand), 10 pages
-ddsoptions_struct dds2table[17][NUMBEROFPAGES]; //17 columns (actually only 14, but in case we expand), 10 pages
-dds3options_struct dds3table[17][NUMBEROFPAGES];
+ddsoptions_struct ddstable[NUMBEROFCOLUMNS][NUMBEROFPAGES]; //17 columns (actually only 14, but in case we expand), 10 pages
+ddsoptions_struct dds2table[NUMBEROFCOLUMNS][NUMBEROFPAGES]; //17 columns (actually only 14, but in case we expand), 10 pages
+dds3options_struct dds3table[NUMBEROFCOLUMNS][NUMBEROFPAGES];
 int Active_DDS_Panel; // 1 for Rb evap dds, 2 for K40 evap dds, 3 for HFS dds
 
 /* Parameter Scan variables*/

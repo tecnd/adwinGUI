@@ -1,6 +1,6 @@
 /**************************************************************************/
 /* LabWindows/CVI User Interface Resource (UIR) Include File              */
-/* Copyright (c) National Instruments 2004. All Rights Reserved.          */
+/* Copyright (c) National Instruments 2005. All Rights Reserved.          */
 /*                                                                        */
 /* WARNING: Do not add to, delete from, or otherwise modify the contents  */
 /*          of this include file.                                         */
@@ -22,6 +22,7 @@
 #define  DIGPANEL_CMD_DIGSETCHANGES      6       /* callback function: CMD_DIGSETCHANGES_CALLBACK */
 #define  DIGPANEL_CMD_DONEDIG            7       /* callback function: CMD_DONEDIG_CALLBACK */
 #define  DIGPANEL_CHK_DIGRESET           8       /* callback function: CHKDIGRESET_CALLBACK */
+#define  DIGPANEL_TEXTMSG                9
 
 
      /* Menu Bars, Menus, and Menu Items: */

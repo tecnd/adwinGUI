@@ -94,25 +94,25 @@ July 29 Added option to output a history of the Scan values when running a scan.
 //#include  <Windows.h>
  
 //**************INITIALIZE GLOBALS***********************************************************************
-
+/*
 extern int currentx=0,currenty=0,currentpage=0;
 extern int ischecked[NUMBEROFPAGES]={0},isdimmed=0;
 extern int ChangedVals=1;
-extern struct AnalogTableValues AnalogTable[17][NUMBERANALOGCHANNELS+1][NUMBEROFPAGES]={1,0,1};
+extern struct AnalogTableValues AnalogTable[NUMBEROFCOLUMNS+1][NUMBERANALOGCHANNELS+NUMBERDDS][NUMBEROFPAGES]={1,0,1};
 	// the structure is the values/elements contained at each point in the 
 	// analog panel.  The array aval, is set up as [x][y][page]
 	
-extern int DigTableValues[17][NUMBERDIGITALCHANNELS+1][NUMBEROFPAGES]={0};
+extern int DigTableValues[NUMBEROFCOLUMNS][NUMBERDIGITALCHANNELS+1][NUMBEROFPAGES]={0};
 extern int ChMap[NUMBERANALOGCHANNELS+1]={0};	// The channel mapping (for analog). i.e. if we program line 1 as channel 
 				// 12, the ChMap[12]=1
 
-extern double TimeArray[17][NUMBEROFPAGES]={0};
-extern struct AnalogChannelProperties AChName[NUMBERANALOGCHANNELS+1]={0,"","",0,1};		
+extern double TimeArray[NUMBEROFCOLUMNS][NUMBEROFPAGES]={0};
+extern struct AnalogChannelProperties AChName[NUMBERANALOGCHANNELS+NUMBERDDS]={0,"","",0,1};		
 
 extern double EventPeriod=DefaultEventPeriod;
 
 extern struct DDSClock DDSFreq = {15.036, 8, 120.288}; 
-
+*/
 //************DONE GLOBALS******************************************************************
 int main (int argc, char *argv[])
 {
@@ -120,6 +120,8 @@ int main (int argc, char *argv[])
 	if (InitCVIRTE (0, argv, 0) == 0)
 		return -1;	/* out of memory */
 	if ((panelHandle = LoadPanel (0, "GUIDesign.uir", PANEL)) < 0)
+		return -1;
+	if ((panelHandle_sub1=LoadPanel(0,"GUIDesign.uir",SUBPANEL1))<0)
 		return -1;
 	if ((panelHandle2 = LoadPanel (0, "AnalogSettings.uir", PANEL)) < 0)
 		return -1;
@@ -148,18 +150,18 @@ int main (int argc, char *argv[])
 		AChName[j].tfcn=1;
 		AChName[j].tbias=0;
 		AChName[j].resettozero=1;
-		for(i=0;i<=16;i++){		// ramp over # of cells per page
+		for(i=0;i<=NUMBEROFCOLUMNS-1;i++){		// ramp over # of cells per page
 			for(k=0;k<NUMBEROFPAGES;k++){	// ramp over pages
 				AnalogTable[i][j][k].fcn=1;
 				AnalogTable[i][j][k].fval=0.0;
 				AnalogTable[i][j][k].tscale=1;
-				if (j<=16) {DigTableValues[i][j][k]=0;}
+				if (j<=NUMBEROFCOLUMNS-1) {DigTableValues[i][j][k]=0;}
 			}
 		}
 	}
 	
 	//initialize ddstable
-	for (i=0;i<17;i++)
+	for (i=0;i<NUMBEROFCOLUMNS;i++)
 	{
 		for (j=0;j<NUMBEROFPAGES;j++)
 		{
@@ -213,7 +215,7 @@ int main (int argc, char *argv[])
 	DiscardPanel (panelHandle);
 	
 	//clean up DDS Table
-	for (i=0;i<17;i++)
+	for (i=0;i<NUMBEROFCOLUMNS;i++)
 	{
 		free(ddstable[i]);
 		free(dds2table[i]);
@@ -230,20 +232,56 @@ void Initialization()
 	char str_list_val[5];
 	PScan.Scan_Active=FALSE;
 	PScan.Use_Scan_List=FALSE;
-	SetCtrlAttribute (panelHandle, PANEL_LABNOTE_TXT, ATTR_VISIBLE, FALSE);
+//	SetCtrlAttribute (panelHandle, PANEL_LABNOTE_TXT, ATTR_VISIBLE, FALSE);
 
 	//Add in any extra rows (if the number of channels increases)
-	//July4, added another row for DDS2 
-	InsertTableRows (panelHandle, PANEL_ANALOGTABLE, 16,NUMBERANALOGCHANNELS-16+NUMBERDDS-1, VAL_CELL_NUMERIC);
-	InsertTableRows (panelHandle, PANEL_TBL_ANAMES,24+1,NUMBERANALOGCHANNELS-24+NUMBERDDS+1,VAL_CELL_STRING);
-	InsertTableRows (panelHandle, PANEL_DIGTABLE, 16,NUMBERDIGITALCHANNELS-16, VAL_CELL_PICTURE);
+	//July4, added another row for DDS2
 	
-	InsertTableRows (panelHandle, PANEL_SCAN_TABLE,1,100,VAL_CELL_NUMERIC);
+	//Build display panels (text/channel num)
+	SetTableColumnAttribute (panelHandle, PANEL_TBL_ANAMES,1,ATTR_CELL_TYPE, VAL_CELL_STRING);
+	SetTableColumnAttribute (panelHandle, PANEL_TBL_ANAMES,2,ATTR_CELL_TYPE, VAL_CELL_NUMERIC);
+	SetTableColumnAttribute (panelHandle, PANEL_TBL_DIGNAMES,1,ATTR_CELL_TYPE, VAL_CELL_STRING);
+	SetTableColumnAttribute (panelHandle, PANEL_TBL_DIGNAMES,2,ATTR_CELL_TYPE, VAL_CELL_NUMERIC);
+	SetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_TABLE_MODE,VAL_COLUMN);
+	SetCtrlAttribute (panelHandle, PANEL_TBL_DIGNAMES, ATTR_TABLE_MODE,VAL_COLUMN);
+	
+	// Build Digital Table
+	InsertTableRows(panelHandle,PANEL_DIGTABLE,-1,NUMBERDIGITALCHANNELS-1,VAL_CELL_PICTURE);
+	InsertTableRows(panelHandle,PANEL_TBL_DIGNAMES,-1,NUMBERDIGITALCHANNELS-1,VAL_CELL_NUMERIC);
+	for (i=1;i<=NUMBERDIGITALCHANNELS;i++)
+	{
+		SetTableCellAttribute (panelHandle, PANEL_TBL_DIGNAMES, MakePoint(1,i),ATTR_CELL_TYPE, VAL_CELL_STRING);
+		SetTableCellAttribute (panelHandle, PANEL_TBL_DIGNAMES, MakePoint(2,i),ATTR_DATA_TYPE, VAL_UNSIGNED_INTEGER);    
+		SetTableCellVal (panelHandle, PANEL_TBL_DIGNAMES, MakePoint(2,i), i);
+	}
+
+	//Build Analog Table
+	SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_TABLE_MODE,VAL_GRID);
+	SetTableColumnAttribute (panelHandle, PANEL_ANALOGTABLE, -1,ATTR_PRECISION, 3);
+
+	InsertTableRows(panelHandle,PANEL_ANALOGTABLE,-1,NUMBERANALOGCHANNELS+NUMBERDDS-1,VAL_CELL_NUMERIC);
+	InsertTableRows(panelHandle,PANEL_TBL_ANAMES,-1,NUMBERANALOGCHANNELS+NUMBERDDS-1,VAL_USE_MASTER_CELL_TYPE);
+	InsertTableRows(panelHandle,PANEL_TBL_ANALOGUNITS,-1,NUMBERANALOGCHANNELS-1,-1);
+	SetAnalogChannels();
+
+	for (i=1;i<=NUMBERANALOGCHANNELS;i++)
+	{   	
+		SetTableCellAttribute (panelHandle, PANEL_TBL_ANAMES, MakePoint(2,i),ATTR_DATA_TYPE, VAL_UNSIGNED_INTEGER);    
+		SetTableCellVal (panelHandle, PANEL_TBL_ANAMES, MakePoint(2,i), i);
+	}
+	
+//	InsertTableRows (panelHandle, PANEL_ANALOGTABLE, 16,NUMBERANALOGCHANNELS-16+NUMBERDDS-1, VAL_CELL_NUMERIC);
+//	InsertTableRows (panelHandle, PANEL_TBL_ANAMES,24+1,NUMBERANALOGCHANNELS-24+NUMBERDDS+1,VAL_CELL_STRING);
+//	InsertTableRows (panelHandle, PANEL_DIGTABLE, 16,NUMBERDIGITALCHANNELS-16, VAL_CELL_PICTURE);
+//	
+//	InsertTableRows (panelHandle, PANEL_SCAN_TABLE,1,100,VAL_CELL_NUMERIC);
 //	GetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_HEIGHT,&aname_size);
 //	new_aname_size=(int)((float)aname_size*27.0/25.0);	
 //	SetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_HEIGHT,100);
 	
-	
+
+		SetTableRowAttribute (panelHandle, PANEL_ANALOGTABLE, -1,ATTR_PRECISION, 3);
+
 	
 	// Change Analog Settings window
 	SetCtrlAttribute (panelHandle2, ANLGPANEL_NUM_ACH_LINE,ATTR_MAX_VALUE, NUMBERANALOGCHANNELS);
@@ -252,7 +290,6 @@ void Initialization()
 	// change GUI
 	SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERANALOGCHANNELS+NUMBERDDS);
 	SetCtrlAttribute (panelHandle, PANEL_DIGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERDIGITALCHANNELS);
-
 	SetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_VISIBLE_LINES, NUMBERANALOGCHANNELS+NUMBERDDS);
 	SetCtrlAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_VISIBLE_LINES, NUMBERANALOGCHANNELS+NUMBERDDS); 
 	SetCtrlAttribute (panelHandle, PANEL_TBL_DIGNAMES, ATTR_VISIBLE_LINES, NUMBERDIGITALCHANNELS);
@@ -268,9 +305,6 @@ void Initialization()
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
-
-
-
 
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_1, ATTR_LEFT, 165);
 	SetCtrlAttribute (panelHandle, PANEL_LABEL_1, ATTR_TOP, 88);
@@ -344,27 +378,22 @@ void Initialization()
 	SetCtrlAttribute (panelHandle, PANEL_NUM_SCANSTEP, ATTR_VISIBLE, 0);
 	SetCtrlAttribute (panelHandle, PANEL_NUM_SCANITER, ATTR_VISIBLE, 0);
 	
-	
-	for (i=1;i<=NUMBERDIGITALCHANNELS;i++)
-	{
-		SetTableCellVal (panelHandle, PANEL_TBL_DIGNAMES, MakePoint(2,i), i);
-	}
+	SetTableColumnAttribute (panelHandle, PANEL_TBL_ANAMES, 2,ATTR_DATA_TYPE, VAL_UNSIGNED_INTEGER);    
+	SetTableColumnAttribute (panelHandle, PANEL_TBL_DIGNAMES, 2,ATTR_DATA_TYPE, VAL_UNSIGNED_INTEGER);    
 
-	SetAnalogChannels();
-	for (i=1;i<=NUMBERANALOGCHANNELS;i++)
-	{
-		SetTableCellVal (panelHandle, PANEL_TBL_ANAMES, MakePoint(2,i), i);
-	}
+	
+	
+
 	   
 	PScan.Analog.Scan_Step_Size=1.0;
 	PScan.Analog.Iterations_Per_Step=1;
 	PScan.Scan_Active=FALSE;
 	//set to display both analog and digital channels
 	SetChannelDisplayed(1);
-	
+//	
 	//set to graphical display
-	SetDisplayType(VAL_CELL_NUMERIC);
-	DrawNewTable(0);
+//	SetDisplayType(VAL_CELL_NUMERIC);
+//	DrawNewTable(0);
 	return;
 	
 }

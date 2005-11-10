@@ -182,12 +182,12 @@ int CVICALLBACK ANALOGTABLE_CALLBACK (int panel, int control, int event,
 			    Active_DDS_Panel=currenty-NUMBERANALOGCHANNELS;
 			    
 				SetDDSControlPanel(Active_DDS_Panel);
-				panel_to_display = panelHandle6;
+				panel_to_display = panelHandle6;	 // Program analog channela
 			}
 			else {
 				
 				SetControlPanel();      
-				panel_to_display = panelHandle4;
+				panel_to_display = panelHandle4;	  // Program DDS
 				
 			}
 			
@@ -224,10 +224,11 @@ int GetPage(void)
 	int digtable_visible = 0;
  	double vlast=0,vnow=0;
  	int dimset=0,nozerofound,val;
+ 	int DDSChannel1,DDSChannel2,DDSChannel3;
  
  	int ispicture=1,celltype=0; //celtype has 3 values.  0=Numerc, 1=String, 2=Picture  
- 	int ColourTable[25]={VAL_BLACK,VAL_GRAY,VAL_GRAY,VAL_GRAY,0x00B0B0B0,0x00B0B0B0,0x00B0B0B0,VAL_GRAY,VAL_GRAY,VAL_GRAY,0x00B0B0B0,0x00B0B0B0,0x00B0B0B0,
- 	VAL_GRAY,VAL_GRAY,VAL_GRAY,0x00B0B0B0,0x00B0B0B0,0x00B0B0B0,VAL_GRAY,VAL_GRAY,VAL_GRAY,0x00B0B0B0,0x00B0B0B0,0x00B0B0B0};
+ 	int ColourTable[37]={VAL_BLACK,VAL_GRAY,VAL_GRAY,VAL_GRAY,0x00B0B0B0,0x00B0B0B0,0x00B0B0B0,VAL_GRAY,VAL_GRAY,VAL_GRAY,0x00B0B0B0,0x00B0B0B0,0x00B0B0B0,
+ 	VAL_GRAY,VAL_GRAY,VAL_GRAY,0x00B0B0B0,0x00B0B0B0,0x00B0B0B0,VAL_GRAY,VAL_GRAY,VAL_GRAY,0x00B0B0B0,0x00B0B0B0,0x00B0B0B0,VAL_GRAY,VAL_GRAY,VAL_GRAY,0x00B0B0B0,0x00B0B0B0,0x00B0B0B0,VAL_GRAY,VAL_GRAY,VAL_GRAY,0x00B0B0B0,0x00B0B0B0,0x00B0B0B0};
  	
  	Point pval={0,0};
  	GetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, &analogtable_visible);
@@ -255,7 +256,7 @@ int GetPage(void)
 		SetCtrlAttribute (panelHandle, PANEL_TIMETABLE, ATTR_DIMMED, 0);
 	}
  	picmode=0;
-	for(i=1;i<=14;i++)
+	for(i=1;i<=NUMBEROFCOLUMNS;i++)
 	{
 		
 		SetTableCellAttribute (panelHandle, PANEL_TIMETABLE, MakePoint(i,1),ATTR_CELL_DIMMED, 0);
@@ -320,82 +321,86 @@ int GetPage(void)
 		}
 		
 //***************update DDS row********************
-/*DDS1*/SetTableCellVal (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,25), 0);
+		
+		DDSChannel1=NUMBERANALOGCHANNELS+1;
+		DDSChannel2=NUMBERANALOGCHANNELS+2; 
+		DDSChannel3=NUMBERANALOGCHANNELS+3; 
+/*DDS1*/SetTableCellVal (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,DDSChannel1), 0);
 		//if(ispicture==0)
 		{
-			SetTableCellVal(panelHandle,PANEL_ANALOGTABLE,MakePoint(i,25),ddstable[i][page].start_frequency);
+			SetTableCellVal(panelHandle,PANEL_ANALOGTABLE,MakePoint(i,DDSChannel1),ddstable[i][page].start_frequency);
 		}
-		SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,25),ATTR_CELL_DIMMED, 0);
-		SetTableCellAttribute (panelHandle, PANEL_DIGTABLE, MakePoint(i,25),ATTR_CELL_DIMMED, 0);
+		SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,DDSChannel1),ATTR_CELL_DIMMED, 0);
+		SetTableCellAttribute (panelHandle, PANEL_DIGTABLE, MakePoint(i,DDSChannel1),ATTR_CELL_DIMMED, 0);
 		
 		if (ddstable[i][page].amplitude == 0.0 || ddstable[i][page].is_stop)
 		{
 			//make grey
-			SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,25), ATTR_TEXT_BGCOLOR,VAL_WHITE);
+			SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,DDSChannel1), ATTR_TEXT_BGCOLOR,VAL_WHITE);
 		}
 		else
 		{
 			if (ddstable[i][page].start_frequency>ddstable[i][page].end_frequency)
 			{
 				//ramping down
-				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,25), ATTR_TEXT_BGCOLOR,VAL_BLUE);          
+				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,DDSChannel1), ATTR_TEXT_BGCOLOR,VAL_BLUE);          
 			}
 			else
 			{
 				//ramping up
-				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,25), ATTR_TEXT_BGCOLOR,VAL_GREEN);      
+				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,DDSChannel1), ATTR_TEXT_BGCOLOR,VAL_GREEN);      
 			}
 		}
-/*DDS2*/SetTableCellVal (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,26), 0);
+/*DDS2*/SetTableCellVal (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,DDSChannel2), 0);
 		//if(ispicture==0)
 		{
-			SetTableCellVal(panelHandle,PANEL_ANALOGTABLE,MakePoint(i,26),dds2table[i][page].start_frequency);
+			SetTableCellVal(panelHandle,PANEL_ANALOGTABLE,MakePoint(i,DDSChannel2),dds2table[i][page].start_frequency);
 		}
-		SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,26),ATTR_CELL_DIMMED, 0);
-		SetTableCellAttribute (panelHandle, PANEL_DIGTABLE, MakePoint(i,26),ATTR_CELL_DIMMED, 0);
+		SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,DDSChannel2),ATTR_CELL_DIMMED, 0);
+		SetTableCellAttribute (panelHandle, PANEL_DIGTABLE, MakePoint(i,DDSChannel2),ATTR_CELL_DIMMED, 0);
 		
 		if (dds2table[i][page].amplitude == 0.0 || dds2table[i][page].is_stop)
 		{
 			//make grey
-			SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,26), ATTR_TEXT_BGCOLOR,VAL_WHITE);
+			SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,DDSChannel2), ATTR_TEXT_BGCOLOR,VAL_WHITE);
 		}
 		else
 		{
 			if (dds2table[i][page].start_frequency>dds2table[i][page].end_frequency)
 			{
 				//ramping down
-				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,26), ATTR_TEXT_BGCOLOR,VAL_BLUE);          
+				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,DDSChannel2), ATTR_TEXT_BGCOLOR,VAL_BLUE);          
 			}
 			else
 			{
 				//ramping up
-				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,26), ATTR_TEXT_BGCOLOR,VAL_GREEN);      
+				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,DDSChannel2), ATTR_TEXT_BGCOLOR,VAL_GREEN);      
 			}
 		}		
-/*DDS3*/SetTableCellVal (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,27), 0);
+/*DDS3*/SetTableCellVal (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,DDSChannel3), 0);
 		//if(ispicture==0)
 		{
-			SetTableCellVal(panelHandle,PANEL_ANALOGTABLE,MakePoint(i,27),dds3table[i][page].start_frequency);
+			SetTableCellVal(panelHandle,PANEL_ANALOGTABLE,MakePoint(i,DDSChannel3),dds3table[i][page].start_frequency);
 		}
-		SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,27),ATTR_CELL_DIMMED, 0);
-		SetTableCellAttribute (panelHandle, PANEL_DIGTABLE, MakePoint(i,27),ATTR_CELL_DIMMED, 0);
+		SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,DDSChannel3),ATTR_CELL_DIMMED, 0);
+		SetTableCellAttribute (panelHandle, PANEL_DIGTABLE, MakePoint(i,DDSChannel3),ATTR_CELL_DIMMED, 0);
 		
 		if (dds3table[i][page].amplitude == 0.0 || dds3table[i][page].is_stop)
 		{
 			//make grey
-			SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,27), ATTR_TEXT_BGCOLOR,VAL_WHITE);
+			SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,DDSChannel3), ATTR_TEXT_BGCOLOR,VAL_WHITE);
 		}
 		else
 		{
 			if (dds3table[i][page].start_frequency>dds3table[i][page].end_frequency)
 			{
 				//ramping down
-				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,27), ATTR_TEXT_BGCOLOR,VAL_BLUE);          
+				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,DDSChannel3), ATTR_TEXT_BGCOLOR,VAL_BLUE);          
 			}
 			else
 			{
 				//ramping up
-				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,27), ATTR_TEXT_BGCOLOR,VAL_GREEN);      
+				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,DDSChannel3), ATTR_TEXT_BGCOLOR,VAL_GREEN);      
 			}
 		}
 //***************update DDS row********************
@@ -407,7 +412,7 @@ int GetPage(void)
 	if(isdimmed==1)
 	{
 		nozerofound=1;
-		for(i=1;i<=14;i++)
+		for(i=1;i<=NUMBEROFCOLUMNS;i++)
 		{
 			dimset=0;
 			if((nozerofound==0)||(TimeArray[i][page]==0))
@@ -436,7 +441,7 @@ int GetPage(void)
 	SetCtrlAttribute (panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, digtable_visible);
 	SetCtrlAttribute (panelHandle, PANEL_TIMETABLE, ATTR_VISIBLE, 1);
 	
-	for(m=1;m<=14;m++)
+	for(m=1;m<=NUMBEROFCOLUMNS;m++)
 	{
 		SetTableCellAttribute(panelHandle,PANEL_TIMETABLE,MakePoint(m,1),ATTR_TEXT_BGCOLOR,VAL_WHITE);
 	}
@@ -895,7 +900,7 @@ int CVICALLBACK TIMETABLE_CALLBACK (int panel, int control, int event,
 		// at a change event seems to work.
 			page=GetPage();
 			
-			for(i=1;i<=14;i++)
+			for(i=1;i<=NUMBEROFCOLUMNS;i++)
 			{
 				oldtime=TimeArray[i][page];
 				GetTableCellVal(PANEL,PANEL_TIMETABLE,MakePoint(i,1),&dval);
@@ -1211,7 +1216,7 @@ void RunOnce (void)
 		if(ischecked[k]==1) //if the page is selected
 		{
 			//go through for each time column
-			for(i=1;i<14;i++)
+			for(i=1;i<NUMBEROFCOLUMNS;i++)
 			{
 	//			printf("%d\t%d\n",k,i);
 				if((i==insertcolumn)&&(k==insertpage)&&(k!=NUMBEROFPAGES-1))
@@ -1219,7 +1224,7 @@ void RunOnce (void)
 					nozerofound_2=TRUE;
 					if(ischecked[lastpagenum]==1)
 					{
-						for(x=1;x<=14;x++)
+						for(x=1;x<=NUMBEROFCOLUMNS;x++)
 						{
 							if((nozerofound==TRUE)&&(nozerofound_2==TRUE)&&(TimeArray[x][lastpagenum]>0))
 							{
@@ -1313,7 +1318,7 @@ int CVICALLBACK CMDSTOP_CALLBACK (int panel, int control, int event,
 		}
 	return 0;
 }
-
+//*********************************************************************************************************
 int CVICALLBACK TIMER_CALLBACK (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
 {
@@ -1334,6 +1339,7 @@ int CVICALLBACK TIMER_CALLBACK (int panel, int control, int event,
 		}
 	return 0;
 }
+//*********************************************************************************************************
 
 void CVICALLBACK BOOTADWIN_CALLBACK (int menuBar, int menuItem, void *callbackData,
 		int panel)
@@ -1342,6 +1348,7 @@ void CVICALLBACK BOOTADWIN_CALLBACK (int menuBar, int menuItem, void *callbackDa
 	Boot("C:\\ADWIN\\ADWIN10.BTL",0);
 	processnum=Load_Process("TransferData.TA1");
 }
+//*********************************************************************************************************
 
 void CVICALLBACK BOOTLOAD_CALLBACK (int menuBar, int menuItem, void *callbackData,
 		int panel)
@@ -1363,7 +1370,7 @@ void CVICALLBACK CLEARPANEL_CALLBACK (int menuBar, int menuItem, void *callbackD
 	if(status==1)
 	{
 		ChangedVals=1;
-		for(i=1;i<=14;i++)
+		for(i=1;i<=NUMBEROFCOLUMNS;i++)
 		{
 			for(j=1;j<=NUMBERANALOGCHANNELS;j++)
 			{
@@ -1436,11 +1443,11 @@ void ShiftColumn(int col, int dir)
 	int i,j,page,xstart,status;
 	page=GetPage();
 	
-	if(dir==1){ xstart=15;}			// set direction of looping
+	if(dir==1){ xstart=NUMBEROFCOLUMNS+1;}			// set direction of looping
 	else {xstart=col;}
 	
 	//shift columns left or right depending on dir
-	for(i=0;i<15-col;i++)
+	for(i=0;i<NUMBEROFCOLUMNS+1-col;i++)
 	{
 		TimeArray[xstart-dir*i][page]=TimeArray[xstart-dir*i-dir][page];		
 		for(j=1;j<=NUMBERANALOGCHANNELS;j++)
@@ -1722,8 +1729,9 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 	int NewTimeMat[500];
 	int i=0,j=0,k=0,m=0,n=0,tau=0,p=0,imax;
 	int nupcurrent=0,nuptotal=0,checkresettozero=0;
-	int usefcn=0,LastDVal=0,LastDVal2=0,digchannel;  //Bool
-	int UsingFcns[NUMBERANALOGCHANNELS+1]={0},count=0,ucounter=0,digval,digval2,counter,channel;
+	int usefcn=0,digchannel;  //Bool
+	int digval,digval2,digval3,digval4,LastDVal=0,LastDVal2=0,LastDVal3=0,LastDVal4=0;
+	int UsingFcns[NUMBERANALOGCHANNELS+1]={0},count=0,ucounter=0,counter,channel;
 	double LastAval[NUMBERANALOGCHANNELS+1]={0},NewAval,TempChVal,TempChVal2;
 	int ResetToZeroAtEnd[30]; //1-24 for analog, ...but for now, if [1]=1 then all zero, else no change
 	int timemult,t,c,bigger;
@@ -1895,16 +1903,25 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 				{
 					digval=digval+DMat[k][i]*pow(2,DChName[k].chnum-1);
 				}
-				if((digchannel>=17)&&(digchannel<=24))
+				if((digchannel>=17)&&(digchannel<=32))
 				{
 					digval2=digval2+DMat[k][i]*pow(2,(DChName[k].chnum-16)-1);
 				}
+				if((digchannel>=33)&&(digchannel<=48))
+				{
+					digval3=digval2+DMat[k][i]*pow(2,(DChName[k].chnum-32)-1);
+				}
+				if((digchannel>=49)&&(digchannel<=64))
+				{
+					digval4=digval2+DMat[k][i]*pow(2,(DChName[k].chnum-48)-1);
+				}
 			}
+		
 			if(!(digval==LastDVal))
 			{
 				nupcurrent++;
 				nuptotal++;
-				ChNum[nuptotal]=33;		   //***********change this!!! to 99, or 98 or 255 or something 
+				ChNum[nuptotal]=101;		   //***********change this!!! to 99, or 98 or 255 or something 
 				ChVal[nuptotal]=digval;		// also update the ADBasic code 
 			}
 			LastDVal=digval;
@@ -1912,10 +1929,29 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 			{
 				nupcurrent++;
 				nuptotal++;
-				ChNum[nuptotal]=34;		   //***********change this!!! to 99, or 98 or 255 or something 
+				ChNum[nuptotal]=102;		   //***********change this!!! to 99, or 98 or 255 or something 
 				ChVal[nuptotal]=digval2;		// also update the ADBasic code 
 			}
 			LastDVal2=digval2;
+			if(!(digval3==LastDVal3))
+			{
+				nupcurrent++;
+				nuptotal++;
+				ChNum[nuptotal]=103;		   //***********change this!!! to 99, or 98 or 255 or something 
+				ChVal[nuptotal]=digval3;		// also update the ADBasic code 
+			}
+			LastDVal3=digval3;
+			if(!(digval4==LastDVal4))
+			{
+				nupcurrent++;
+				nuptotal++;
+				ChNum[nuptotal]=104;		   //***********change this!!! to 99, or 98 or 255 or something 
+				ChVal[nuptotal]=digval4;		// also update the ADBasic code 
+			}
+			LastDVal4=digval4;
+			
+			
+			
 			count++;
 			UpdateNum[count]=nupcurrent;
 			
@@ -1933,7 +1969,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 				{
 					nupcurrent++;
 					nuptotal++;
-					ChNum[nuptotal] = 31; //dummy channel
+					ChNum[nuptotal] = 51; //dummy channel
 					ChVal[nuptotal] = tmp_dds;
 				
 				} //done the DDS1
@@ -1943,7 +1979,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 				{
 					nupcurrent++;
 					nuptotal++;
-					ChNum[nuptotal] = 32; //dummy channel
+					ChNum[nuptotal] = 52; //dummy channel
 					ChVal[nuptotal] = tmp_dds;
 				
 				} //done the DDS2				
@@ -2201,32 +2237,8 @@ Parameters: new top, left and height values for the list box
 void ReshapeAnalogTable( int top,int left,int height)
 {
 	int j,istext=0,celltype=0,tempint;
+	int modheight;
 	
-	
-	
-	//resize the analog table and all it's related list boxes
-  	SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_HEIGHT, height);
-  	SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_LEFT, left);
-	SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_TOP, top);
-	
-	SetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_LEFT, left-165);
-	SetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_HEIGHT, height);
-	SetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_TOP, top);   
-	
-	SetCtrlAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_HEIGHT, height);  
-	SetCtrlAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_TOP, top);
-	SetCtrlAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_LEFT, left+705);  
-
-   	// move the DDS offsets
-	tempint=height/27;
-	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS_OFFSET,ATTR_TOP,top+height-3*tempint-6);
-	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS_OFFSET,ATTR_LEFT,960);
-	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS2_OFFSET,ATTR_TOP,top+height-2*tempint-5);
-	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS2_OFFSET,ATTR_LEFT,960);
-	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS3_OFFSET,ATTR_TOP,top+height-1*tempint-4);
-	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS3_OFFSET,ATTR_LEFT,960);
-	
-
 	for (j=1;j<=NUMBERANALOGCHANNELS+NUMBERDDS;j++)
 	{
 		SetTableRowAttribute (panelHandle, PANEL_ANALOGTABLE, j,ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
@@ -2236,6 +2248,35 @@ void ReshapeAnalogTable( int top,int left,int height)
 		SetTableRowAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, j,ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
 		SetTableRowAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, j, ATTR_ROW_HEIGHT, (height)/(NUMBERANALOGCHANNELS+NUMBERDDS));
 	}
+	modheight=(NUMBERANALOGCHANNELS+NUMBERDDS)*(int)((height)/(NUMBERANALOGCHANNELS+NUMBERDDS))+3;
+
+	//resize the analog table and all it's related list boxes
+  	SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_HEIGHT, modheight);
+  	SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_LEFT, left);
+	SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_TOP, top);
+	
+	SetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_LEFT, left-165);
+	SetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_TOP, top);   
+	SetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_HEIGHT, modheight);
+	
+	SetCtrlAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_HEIGHT,modheight);  
+	SetCtrlAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_TOP, top);
+	SetCtrlAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_LEFT, left+705);  
+
+   	// move the DDS offsets
+	tempint=height/27;
+	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS_OFFSET,ATTR_TOP,top+height-3*tempint-6);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS_OFFSET,ATTR_LEFT,880);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS2_OFFSET,ATTR_TOP,top+height-2*tempint-5);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS2_OFFSET,ATTR_LEFT,880);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS3_OFFSET,ATTR_TOP,top+height-1*tempint-4);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS3_OFFSET,ATTR_LEFT,880);
+	
+
+	
+
+	
+	
 }
 
 
@@ -2263,7 +2304,10 @@ void ReshapeDigitalTable( int top,int left,int height)
 	
 	for (j=1;j<=NUMBERDIGITALCHANNELS;j++)
 	{
+		SetTableRowAttribute (panelHandle, PANEL_DIGTABLE, j, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);  
 		SetTableRowAttribute (panelHandle, PANEL_DIGTABLE, j, ATTR_ROW_HEIGHT, (height)/(NUMBERDIGITALCHANNELS));
+		SetTableRowAttribute (panelHandle, PANEL_TBL_DIGNAMES, j, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);  
+
 		SetTableRowAttribute (panelHandle, PANEL_TBL_DIGNAMES, j, ATTR_ROW_HEIGHT, (height)/(NUMBERDIGITALCHANNELS));
 	}
 
@@ -2302,7 +2346,7 @@ void SetDisplayType(int display_setting)
 	}	
 
 //	printf("called Display Type with value:   %d \n",display_setting);
-	for(i=1;i<=14;i++)
+	for(i=1;i<=NUMBEROFCOLUMNS;i++)
 	{
 		for(j=1;j<=NUMBERANALOGCHANNELS;j++)
 		{
@@ -2344,13 +2388,15 @@ void SetChannelDisplayed(int display_setting)
 	switch (display_setting)   
 		{
 		case 1:		//both
-			heightpos=410; // 380 for 25 rows works... use 410 for 27 rows
+			heightpos=550; // 380 for 25 rows works... use 410 for 27 rows
 			toppos1=155;
 			leftpos=170;
-			toppos2=1280-100-heightpos;
-			toppos2=155+380+50; 
+			toppos2=toppos1+heightpos;
+			//toppos2=1280-100-heightpos;
+			//toppos2=155+380+50; 
+			
 			ReshapeAnalogTable(toppos1,170,heightpos);   //passed top, left and height
-			ReshapeDigitalTable(toppos2,170,heightpos-30);
+			ReshapeDigitalTable(toppos2,170,heightpos-60);
 								
 			SetCtrlAttribute (panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, 1);
 			SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, 1);
@@ -2374,7 +2420,7 @@ void SetChannelDisplayed(int display_setting)
 			
 		
 			 //passed top, left and height
-			ReshapeDigitalTable(155,170,600);
+			ReshapeDigitalTable(155,170,500);
 				
 			SetCtrlAttribute (panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, 1);
 			SetCtrlAttribute (panelHandle, PANEL_TBL_DIGNAMES, ATTR_VISIBLE, 1);		 
@@ -2458,7 +2504,7 @@ void ExportPanel(char fexportname[200],int fnamesize)
 		if(ischecked[k]==1) //if the page is selected
 		{
 		//go through for each time column
-			for(i=1;i<14;i++)
+			for(i=1;i<NUMBEROFCOLUMNS;i++)
 			{
 				if((nozerofound==1)&&(TimeArray[i][k]>0)) 
 				//ignore all columns after the first time=0
@@ -2499,7 +2545,7 @@ void ExportPanel(char fexportname[200],int fnamesize)
 	strcat(bigbuff,"\n");
 	fprintf(fexport,bigbuff);
 	//done header, now write analog lines
-	for(j=1;j<=24;j++)
+	for(j=1;j<=NUMBERANALOGCHANNELS;j++)
 	{
 		sprintf(bigbuff,AChName[j].chname);
 		for(i=1;i<=tsize;i++)
@@ -2578,7 +2624,7 @@ void CVICALLBACK CONFIG_EXPORT_CALLBACK (int menuBar, int menuItem, void *callba
 	fprintf(fconfig,buff);
 	sprintf(buff,"Row,Channel,Name,tbias,tfcn,MaxVolts,MinVolts,Units\n");
 	fprintf(fconfig,buff);
-	for(i=1;i<=24;i++)
+	for(i=1;i<=NUMBERANALOGCHANNELS;i++)
 	{
 		strncpy(buff3,AChName[i].chname,30);
 		sprintf(buff,"%d,%d,%s,%f,%f,%f,%f,%s\n",i,AChName[i].chnum,buff3,AChName[i].tbias
@@ -2591,7 +2637,7 @@ void CVICALLBACK CONFIG_EXPORT_CALLBACK (int menuBar, int menuItem, void *callba
 	sprintf(buff,"Row,Channel,Name\n");
 	fprintf(fconfig,buff);
 	
-	for(i=1;i<=24;i++)
+	for(i=1;i<=NUMBERDIGITALCHANNELS;i++)
 	{
 		sprintf(buff,"%d,%d,%s\n",i,DChName[i].chnum,DChName[i].chname);
 		fprintf(fconfig,buff);
@@ -2991,9 +3037,16 @@ void CVICALLBACK NOTECHECK_CALLBACK (int menuBar, int menuItem, void *callbackDa
 	BOOL status;
 	GetMenuBarAttribute (menuHandle, MENU_SETTINGS_NOTECHECK, ATTR_CHECKED,&status);
 	SetMenuBarAttribute (menuHandle, MENU_SETTINGS_NOTECHECK, ATTR_CHECKED,!status);	
-	SetCtrlAttribute (panelHandle, PANEL_LABNOTE_TXT, ATTR_VISIBLE, !status);
+	//SetCtrlAttribute (panelHandle_sib1, PANEL_LABNOTE_TXT, ATTR_VISIBLE, !status);
 	//SetCtrlAttribute (panelHandle, MENU_NOTECHECK, ATTR_VISIBLE, !status);
-	
+	if(status=1)
+	{ 
+		DisplayPanel(panelHandle_sub1);
+	}	
+	else
+	{	
+		HidePanel(panelHandle_sub1);
+	}
 	
 }
 

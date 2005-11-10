@@ -96,25 +96,29 @@ void SetControlPanel(void)
 	lastvalue=0;
 	while(!FOUNDVAL)
 	{
-		if(TimeArray[cx][cz]==0) {cz++;cx=1;}
-		if(TimeArray[cx][cz]<0) 
+		if(TimeArray[cx][cz]==0) {cz++;cx=1;}       // if you see a 0 time, go to next page
+		if(cz>=NUMBEROFPAGES+1)
+		{
+			FOUNDVAL=TRUE;
+		}
+		if(TimeArray[cx][cz]<0) 					// if you see a negative time, skip to next value
 		{
 			cx++;  
-			if(cx>=14) {cx=1;cz++;}
-		}
-		if(TimeArray[cx][cz]>0)
+			if(cx>=NUMBEROFCOLUMNS) {cx=1;cz++;}
+		}										   
+		if(TimeArray[cx][cz]>0)					    // if positive time, record current val     
 		{	
 			
 			if((cx>=currentx)&&(cz>=currentpage)) 
 			{	
-				FOUNDVAL=TRUE;
+				FOUNDVAL=TRUE;	   // found current value
 			}
 			else
 			{
 				lastvalue=AnalogTable[cx][currenty][cz].fval;
 			}
 			cx++;
-			if(cx>=14) {cx=1;cz++;}
+			if(cx>=NUMBEROFCOLUMNS) {cx=1;cz++;}
 		}
 	}
 	

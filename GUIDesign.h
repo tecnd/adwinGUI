@@ -25,16 +25,16 @@
 #define  PANEL_CHECKBOX_3                9
 #define  PANEL_CHECKBOX_2                10
 #define  PANEL_CHECKBOX                  11
-#define  PANEL_LABEL_7                   12
-#define  PANEL_LABEL_6                   13
-#define  PANEL_LABEL_10                  14
+#define  PANEL_LABEL_6                   12
+#define  PANEL_LABEL_7                   13
+#define  PANEL_LABEL_8                   14
 #define  PANEL_LABEL_9                   15
-#define  PANEL_LABEL_8                   16
-#define  PANEL_LABEL_5                   17
-#define  PANEL_LABEL_4                   18
-#define  PANEL_LABEL_3                   19
-#define  PANEL_LABEL_2                   20
-#define  PANEL_LABEL_1                   21
+#define  PANEL_LABEL_5                   16
+#define  PANEL_LABEL_4                   17
+#define  PANEL_LABEL_3                   18
+#define  PANEL_LABEL_2                   19
+#define  PANEL_LABEL_1                   20
+#define  PANEL_LABEL_10                  21
 #define  PANEL_TIMETABLE                 22      /* callback function: TIMETABLE_CALLBACK */
 #define  PANEL_ANALOGTABLE               23      /* callback function: ANALOGTABLE_CALLBACK */
 #define  PANEL_TB_SHOWPHASE10            24      /* callback function: TOGGLE10_CALLBACK */
@@ -65,12 +65,14 @@
 #define  PANEL_NUM_DDS3_OFFSET           49
 #define  PANEL_NUM_DDS2_OFFSET           50
 #define  PANEL_NUM_DDS_OFFSET            51
-#define  PANEL_LABNOTE_TXT               52
-#define  PANEL_NUM_SCANITER              53
-#define  PANEL_NUM_SCANSTEP              54
-#define  PANEL_NUM_SCANVAL               55
-#define  PANEL_SCAN_TABLE                56
-#define  PANEL_DECORATION_BOX            57
+#define  PANEL_NUM_SCANITER              52
+#define  PANEL_NUM_SCANSTEP              53
+#define  PANEL_NUM_SCANVAL               54
+#define  PANEL_SCAN_TABLE                55
+#define  PANEL_DECORATION_BOX            56
+
+#define  SUBPANEL1                       2
+#define  SUBPANEL1_TEXTBOX               2
 
 
      /* Menu Bars, Menus, and Menu Items: */
