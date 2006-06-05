@@ -22,7 +22,7 @@ struct AnVals{
 void LoadSettings(void);   
 void SaveSettings(void);
 void LoadLastSettings(int check);
-void ShiftColumn(int col,int dir);
+void ShiftColumn3(int col, int page,int dir);    
 void RunOnce(void); 
 int  GetPage(void);
 void DrawNewTable(int dimmed);
@@ -42,6 +42,16 @@ void SaveLastGuiSettings(void);
 void OptimizeTimeLoop(int *,int,int*);
 void UpdateScanValue(int);
 void ScanSetUp(void);
-void ExportScanBuffer(void); 
+void ExportScanBuffer(void);
+
+void MoveCanvasStart(int,int); // start arrow indicator, (x pos,on/off (i.e. True/False));
+void MoveCanvasEnd(int,int); // end arrow indicator, (x pos,on/off (i.e. True/False));
+void DrawLoopIndicators(void);// draw lines to indicate looping region
+
+void CVICALLBACK Dig_Cell_Copy(int panelHandle, int controlID, int MenuItemID, void *callbackData);		  //Right Click
+void CVICALLBACK Dig_Cell_Paste(int panelHandle, int controlID, int MenuItemID, void *callbackData);	  //Menu Copy and
+void CVICALLBACK Analog_Cell_Copy(int panelHandle, int controlID, int MenuItemID, void *callbackData);	  //Paste Features
+void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID, int MenuItemID, void *callbackData);   //
+
 int scancount;
 #endif

@@ -19,7 +19,7 @@ Macro Definitions
 									// reserved for DDS3				  NU
 									
 #define NUMBERDDS 3					// Number of DDS's
-#define NUMBEROFCOLUMNS 17
+#define NUMBEROFCOLUMNS 17			//
 #define TRUE 1
 #define FALSE 0
 #define NUMBEROFPAGES 11				//currently hardwired up to 10
@@ -66,26 +66,39 @@ Global Variables
 *************************************************************************/
 
 int panelHandle,panelHandle2,panelHandle3,panelHandle4,panelHandle5,panelHandle6,panelHandle7,panelHandle8;         
-int panelHandle_sub1;
+int panelHandle_sub1,panelHandle_sub2;
 int  menuHandle;
 int currentx,currenty,currentpage;
 int pic_off,pic_static,pic_change,pic_don;
 int ischecked[NUMBEROFPAGES],isdimmed;
 BOOL ChangedVals;
 BOOL UseSimpleTiming;
+
+struct Switches{
+	BOOL loop_active;
+} Switches;
+
+struct LoopPoints{
+	int startpage;
+	int endpage;
+	int startcol;
+	int endcol;
+} LoopPoints;
+
 struct AnalogTableValues{
 	int		fcn;		//fcn is an integer refering to a function to use.
-						// 1-step, 2-linear, 3- exp, 4- 'S' curve
+						// 1-step, 2-linear, 3- exp, 4- 'S' curve 5-sine 6-"same as last cell"
 	double 	fval;		//the final value
 	double	tscale;		//the timescale to approach final value
-	} AnalogTable[NUMBEROFCOLUMNS+1][NUMBERANALOGCHANNELS+NUMBERDDS][NUMBEROFPAGES];
+	} AnalogTable[NUMBEROFCOLUMNS+1][NUMBERANALOGCHANNELS+NUMBERDDS][NUMBEROFPAGES]; //+1 needed because all code done assumed base 1 arrays...
 	// the structure is the values/elements contained at each point in the 
 	// analog panel.  The array aval, is set up as [x][y][page]
-int DigTableValues[NUMBEROFCOLUMNS][MAXDIGITAL][NUMBEROFPAGES];
+int DigTableValues[NUMBEROFCOLUMNS+1][MAXDIGITAL][NUMBEROFPAGES];
 int ChMap[MAXANALOG];	// The channel mapping (for analog). i.e. if we program line 1 as channel 
 				// 12, the ChMap[12]=1
 
-double TimeArray[NUMBEROFCOLUMNS][NUMBEROFPAGES];
+double TimeArray[NUMBEROFCOLUMNS+1][NUMBEROFPAGES];
+
 struct AnalogChannelProperties{
 	int		chnum;		// channel number 1-8 DAC1	9-16 DAC2
 	char    chname[50]; // name to appear on the panel
@@ -103,7 +116,7 @@ struct DigitalChannelProperties{
 	int 	resettolow;
 	}	DChName[MAXDIGITAL];
 
-double EventPeriod;
+double EventPeriod;  //The Update Period Defined by the pull down menu (in ms)
 int processnum;
 
 struct DDSClock{
@@ -113,9 +126,9 @@ struct DDSClock{
 }	DDSFreq;
 
 
-ddsoptions_struct ddstable[NUMBEROFCOLUMNS][NUMBEROFPAGES]; //17 columns (actually only 14, but in case we expand), 10 pages
-ddsoptions_struct dds2table[NUMBEROFCOLUMNS][NUMBEROFPAGES]; //17 columns (actually only 14, but in case we expand), 10 pages
-dds3options_struct dds3table[NUMBEROFCOLUMNS][NUMBEROFPAGES];
+ddsoptions_struct ddstable[NUMBEROFCOLUMNS+1][NUMBEROFPAGES]; //17 columns (actually only 14, but in case we expand), 10 pages
+ddsoptions_struct dds2table[NUMBEROFCOLUMNS+1][NUMBEROFPAGES]; //17 columns (actually only 14, but in case we expand), 10 pages
+dds3options_struct dds3table[NUMBEROFCOLUMNS+1][NUMBEROFPAGES];
 int Active_DDS_Panel; // 1 for Rb evap dds, 2 for K40 evap dds, 3 for HFS dds
 
 /* Parameter Scan variables*/
@@ -145,6 +158,13 @@ typedef struct DDSScanParameters{
 
 } DDSScan;
 
+typedef struct DDSFloorScanParameters{
+	double 	Floor_Start;
+	double 	Floor_End;
+	double 	Floor_Step;
+	int		Iterations_Per_Step;
+} DDSFloorScan;
+
 struct ScanParameters{
 	int    Row;
 	int    Column;
@@ -156,6 +176,7 @@ struct ScanParameters{
 	struct AnalogScanParameters	Analog;
 	struct TimeScanParameters	Time;
 	struct DDSScanParameters   	DDS;
+	struct DDSFloorScanParameters DDSFloor;
 }  PScan;
 
 struct ScanSet{

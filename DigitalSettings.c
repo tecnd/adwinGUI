@@ -2,13 +2,20 @@
 
 #include "DigitalSettings.h"
 #include "DigitalSettings2.h"
+/*
+Configure the digital lines.  
+For each line we configure 
+ 			chnum: 		channel number (1-32 on first card, 101-132 on second card) 
+            chname:     name of the channel.             
+			resettolow:	Define 
 
+*/
 
 //********************************************************************************************
 int CVICALLBACK NUM_DIG_LINE_CALLBACK (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
 /*  
-Numeric control to update information displayed on the digital settings panel.
+Numeric control to update information displayed on the digital settings panel, based on the current line
 */
 
 {
@@ -29,7 +36,7 @@ int CVICALLBACK CMD_DIGALLOWCHANGE_CALLBACK (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
 /*  
 Button to allow changes to be made to textboxes.
-Changes textbox from dimmed to activate (hot) mode
+Changes textbox from dimmed (indicator) to activate (hot) mode
 */
 {
 	SetCtrlAttribute (panelHandle3, DIGPANEL_CMD_DIGSETCHANGES,   ATTR_VISIBLE, 1);
@@ -72,7 +79,7 @@ Set the digital line information DChName, based on information in text boxes.
 int CVICALLBACK CMD_DONEDIG_CALLBACK (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
 /*
-Turn control bxes into inactive (indicator) mode and hide the panel
+Turn control boxes into inactive (indicator) mode and hide the panel
 */
 {
 	switch (event)

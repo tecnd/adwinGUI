@@ -269,7 +269,8 @@ IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each element for 
 			digital2active=1
 		endif
 		if(digital2active=1) then
-			DIG_WRITELATCH32(2,val_lower2+2^16*val_upper2)
+'			DIG_WRITELATCH32(2,val_lower2)
+      DIG_WRITELATCH32(3,val_lower2+2^16*val_upper2)
 	  endif	
 '*****************Analog outs***********************			
 		if((ch>=1)and(ch<=8)) then

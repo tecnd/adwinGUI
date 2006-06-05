@@ -2,7 +2,10 @@
 #include "DDSSettings.h"
 #include "DDSSettings2.h"
 
-
+/*
+Allows us to change the internal clock frequency of the DDS.
+Really not needed.
+*/
 int CVICALLBACK SETFREQ_CALLBACK (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
 {

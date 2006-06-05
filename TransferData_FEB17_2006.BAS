@@ -11,11 +11,11 @@
 *	 OPT_LEVEL = 0
 *	 SAVECOMPIL = 0
 ****************************************
- #include ADwpad.inc
+#include ADwpad.inc
 #include Adwpda.inc
 #include Adwpdio.inc
 #include adwinpro.inc
-dim i,j,k,lightcount,litup,eventcount as long
+dim i,j,k,lightcount,litup,eventcount,delaymultinuse as long
 dim DATA_1[5000000] as long
 dim DATA_2[5000000] as long
 dim data_3[5000000] as float
@@ -23,7 +23,7 @@ dim data_4[30] as long	' a list of which channels are reset to zero on completio
 dim value as float
 dim counts,maxcount,updates,i,j,k as long
 dim ch as long
-dim val,val_lower,val_upper as long
+dim val,val_lower,val_upper,val_lower2,val_upper2 as long
 dim tempval as long 
 dim dataline,clock, ioupdate,ioreset,masterreset as long
 dim dataline9858,clock9858,ioupdate9858,ioreset9858,masterreset9858 as long
@@ -31,12 +31,12 @@ dim digitallow as long
 dim delay,delayinuse as long
 dim numbertoskip as long
 dim leddelay as float
-dim digitalactive as long
+dim digitalactive,digital2active as long
 Function V(value) as float
 	V=(value+10)/20*65535
 ENDFUNCTION
 
-SUB Light_LED(lit) as 
+SUB Light_LED(lit) as  
 	SELECTCASE lit
 		CASE 1
 			SETLED(2,da,0)
@@ -77,7 +77,20 @@ SUB Light_LED(lit) as
 	ENDSELECT
 ENDSUB
 
+SUB AnalogWrite({achannel, avalue}) 
+
+
+
+ENDSUB
+
+
+
+
+
+
+
 INIT:
+
 'Jan 16/2004
 'expecting 3 arrays.
 'Data_1:  A list which specifies how many channels will be updated per event
@@ -87,10 +100,11 @@ INIT:
 'Data_2 and Data_3 have a 1:1 correspondence.  
 'Stepping through data2 and 3 is controlled by Data 1
 'Computer send an integer to Par_1.  This tells us how many
-'events to write. (Or if we should just run continuously)
-'Channels 1-16 refer to Analog output lines
-'Channel 17 refers to Digital output lines (16 bit word)
-'channel 31 refers to digital output lines controlling the DDS
+'events to write. )
+'Channels 1-32 refer to Analog output lines
+'Channel 101,102 refers to Digital output lines (16 bit word x2)
+'Channel 103,104 refer to Digital output lines (16 bit word X2)
+'channel 51-53 refers to digital output lines controlling the DDS
 'DDS control lines are digital output lines
 'Data line, read clock, io update , reset
 ' 0-3 data
@@ -106,22 +120,27 @@ clock=30				' data clock
 ioupdate=29			' update line.  transfers data from buffer into registers
 ioreset=28			' resets input buffers
 masterreset=27
+
 'DDS2 digital lines (base 0)
 dataline9858=21
 clock9858=22
 ioupdate9858=19
 'ioreset9858=23
 masterreset9858=18
+
 DigProg1(1,65535)
 DigProg2(1,65535)
 DigProg1(2,65535)
 DigProg2(2,65535)
-
+'Configure cards for synchronous output
 SYNCENABLE(1,dio,1)
 SYNCENABLE(2,dio,1)
+SYNCENABLE(3,dio,1)
+
 SYNCENABLE(1,da,1)
 SYNCENABLE(2,da,1)
 SYNCENABLE(3,da,1)
+SYNCENABLE(4,da,1)
 
 numbertoskip=0
 counts=1
@@ -136,6 +155,7 @@ Par_13=Data_1[3]
 FPar_11=Data_2[1]
 FPar_12=Data_2[2]
 FPar_13=Data_2[3]
+' Make sure the DDS lines are low.
 DIGOUT_F(2,clock,0)
 DIGOUT_F(2,dataline,0)
 DIGOUT_F(2,ioreset,0)
@@ -145,7 +165,8 @@ DIGOUT_F(2,masterreset,0)
 
 EVENT:
 digitalactive=0
-eventcount=eventcount+1
+digital2active=0
+eventcount=eventcount+delaymultinuse
 if(eventcount>leddelay) then
 	eventcount=0			
 	if(litup=14) then 
@@ -154,26 +175,32 @@ if(eventcount>leddelay) then
 	litup=litup+1
 	Light_LED(litup)		
 endif
-	' Careful with for loops.  They always do at least 1 execution.
-delayinuse=delay
-
+' Careful with for loops.  They always do at least 1 execution.
+delayinuse=delay   ' reset the GlobalDelay
+' reset the variables controlling digital output.
 digitalactive=0
 val_lower=0
 val_upper=0
+val_lower2=0
+val_upper2=0
 
-SYNCALL()
-counts=counts+1
-if(Data_1[counts]<0) then
+SYNCALL()    'Force synchronized output now.  We are sending out the data programmed in the last cycle.
+' THis way all the outputs are updated at the beginning of an event, which is well timed.
+' Doing Syncall() at the end of an event causes the channel outputs to move around in time, depending on how many channels
+' are being programmed.
+counts=counts+1  'Number of events so far
+if(Data_1[counts]<0) then    ' if we see a negative number, interpret it as a multiplicative factor on the delay
 	delayinuse=delay*(-1*Data_1[counts])
+	delaymultinuse=-1*Data_1[counts]
 endif
 GLOBALDELAY=delayinuse
 
-IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each element for an update
+IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each elementof DATA_1 for an update
 	For i=1 to Data_1[counts] 'B: Loop over number of updates at this time
 		updates=updates+1
 		ch=Data_2[updates]
 '***************************************************DDS1 commands (Rb Evaporation)***********************
-		if(ch=31) then  'AA: is ch=31, then write 2 bits to the DDS
+		if(ch=51) then  'AA: is ch=51, then act on the code to write to the DDS
 			if(Data_3[updates]<=3) then	' write 2 bits to the data line of the DDS
 				tempval = Data_3[updates] 'have to convert to long first
 				' on Mar 25, we added opto-couplers to the DDS interfacing
@@ -195,8 +222,8 @@ IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each element for 
 				DIGOUT_F(2,clock,0)
 
 			ELSE 
-				IF(Data_3[updates]=4) then 'write to the i/o update pin to transfer to registers
-					'DIGOUT_F(2,ioreset,1)
+				IF(Data_3[updates]=4) then 'write to the i/o reset pin to reset the buffer.  
+					'DIGOUT_F(2,ioreset,1)  ' Currently disabled
 					'DIGOUT_F(2,ioreset,0)
 				Else 
 					IF(data_3[updates]=5) then
@@ -204,7 +231,9 @@ IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each element for 
 						DIGOUT_F(2,ioupdate,0)
 					Else 
 						IF(data_3[updates]=6) then
+							DIGOUT_F(2,masterreset,1)  ' Leave this doubled as the reset pulse needs to be > 800ns 
 							DIGOUT_F(2,masterreset,1)
+							DIGOUT_F(2,masterreset,0)							
 							DIGOUT_F(2,masterreset,0)									
 						ENDIF
 					endif
@@ -212,7 +241,7 @@ IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each element for 
 			endif
 		ENDIF	'end AA
 '***************************************************DDS2 commands ()***********************			
-		if(ch=32) then  'AA: is ch=31, then write 2 bits to the DDS
+		if(ch=52) then  'BB: is ch=52, then write 2 bits to the DDS
 			if(Data_3[updates]<=3) then	' write 2 bits to the data line of the DDS
 				tempval = Data_3[updates] 'have to convert to long first
 				DIGOUT_F(2,dataline9858,SHIFT_RIGHT((tempval and 2),1))
@@ -244,20 +273,32 @@ IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each element for 
 					endif
 				endif
 			endif
-		ENDIF	'end AA
-
-		if(ch=33) then
+		ENDIF	'end BB
+'***********************Digital outs**********
+		if(ch=101) then
 			val_lower=Data_3[updates]
 	    digitalactive=1	
 		endif
-	  if(ch=34) then
+	  if(ch=102) then
 			val_upper=Data_3[updates]
 			digitalactive=1
 		endif
 		if(digitalactive=1) then
 			DIG_WRITELATCH32(2,val_lower+2^16*val_upper)
-	  endif
-			
+  endif
+  
+	  if(ch=103) then
+			val_lower2=Data_3[updates]
+	    digital2active=1	
+		endif
+	  if(ch=104) then
+			val_upper2=Data_3[updates]
+			digital2active=1
+		endif
+		if(digital2active=1) then
+      DIG_WRITELATCH32(3,val_lower2+2^16*val_upper2)
+	  endif	
+'*****************Analog outs***********************			
 		if((ch>=1)and(ch<=8)) then
 			writedac(1,ch,V(Data_3[updates]))
 		endif
@@ -269,7 +310,11 @@ IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each element for 
 		if((ch>=17)and(ch<=24)) then
 			writedac(3,ch-16,V(Data_3[updates]))
 		endif
-					
+	  
+		if((ch>=25)and(ch<=32)) then
+			writedac(4,ch-24,V(Data_3[updates]))
+		endif
+'*******done all updates*****							
 	NEXT i						'B for loop	
 ENDIF				'A:
 If(counts>=maxcount+1) then end
@@ -291,13 +336,11 @@ Par_4=maxcount
 		if(Data_4[i+16]=1) then
 			WRITEDAC(3,i,V(0)) 	
 		ENDIF
+	   if(Data_4[i+24]=1) then
+			WRITEDAC(4,i,V(0)) 	
+		ENDIF
 	Next i
-'	digitallow=2^16-1-Data_4[25]  ' should be a 16 bit number
-'	DIG_WRITELATCH1(2,digitallow)
-'	digitallow=2^8-1-Data_4[26]   ' should be an 8 bit number
-'	DIG_WRITELATCH2(2,digitallow)
-'
-  'set line 28 high
+  'set line 28 high... forget why...
 	DIG_WRITELATCH32(2,2^28)
 'ENDIF
 SYNCALL()

@@ -163,7 +163,8 @@ static unsigned long append_byte (dds_cmds_ptr cmd_seq,
 		if(cmd_time < next_avail) {
 			printf("WARNING: tried to send a DDS command before the previous "
 					"one had completed.\n"
-					"Deferring to next available time slot\n");
+					"Deferring to next available time slot\n"  
+					"Tried to write to event %d ",next_avail);
 			cmd_time = next_avail;
 		} /* else specific request was ok, leave it */ 
 	}
