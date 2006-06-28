@@ -114,7 +114,9 @@ int main (int argc, char *argv[])
 	if ((panelHandle6 = LoadPanel (0, "DDSControl.uir", PANEL)) < 0)
 		return -1;
 	if ((panelHandle7 = LoadPanel (0, "Scan.uir", PANEL)) < 0)
-		return -1;	
+		return -1;
+	if ((panelHandle8 = LoadPanel (0, "ScanTableLoader.uir", PANEL)) < 0)
+		return -1;
 		
 
 		
@@ -175,8 +177,6 @@ int main (int argc, char *argv[])
 	
 	// done initializing
 	
-	//@@ default to a 10 microseond update rate switched to above LoadLastSettings() so Saved Update settings are preseved  
-	
 	EventPeriod=DefaultEventPeriod;
 	ClearListCtrl(panelHandle,PANEL_DEBUG);
 	menuHandle=GetPanelMenuBar(panelHandle);
@@ -187,9 +187,8 @@ int main (int argc, char *argv[])
 	SetMenuBarAttribute (menuHandle, MENU_UPDATEPERIOD_SETGD100, ATTR_CHECKED, 0);
 	SetMenuBarAttribute (menuHandle, MENU_UPDATEPERIOD_SETGD1000, ATTR_CHECKED, 0);
 	currentpage=1;
-	//@@
 	
-	//@@LoadLastSettings(1); This doesnt seem needed with the load function
+	//LoadLastSettings(1); //This feature is not fully implemented
 	
 	//Sets the First Page as Active
 	SetCtrlVal (panelHandle, PANEL_TB_SHOWPHASE1, 1);
@@ -275,6 +274,12 @@ void Initialization()
 	InsertTableRows(panelHandle,PANEL_TBL_ANAMES,-1,NUMBERANALOGCHANNELS+NUMBERDDS-1,VAL_USE_MASTER_CELL_TYPE);
 	InsertTableRows(panelHandle,PANEL_TBL_ANALOGUNITS,-1,NUMBERANALOGCHANNELS-1,-1);
 	SetAnalogChannels();
+	
+	//Scan Table RC Menu
+	NewCtrlMenuItem (panelHandle,PANEL_SCAN_TABLE,"Load Values",-1,Scan_Table_Load,0);
+	HideBuiltInCtrlMenuItem (panelHandle,PANEL_SCAN_TABLE,-4);
+	
+
 
 	for (i=1;i<=NUMBERANALOGCHANNELS;i++)
 	{   	

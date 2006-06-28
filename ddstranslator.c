@@ -1081,7 +1081,9 @@ static unsigned long execute_ad9852_settings(dds_cmds_ptr cmd_seq,
 		set_ad9852_cr_bit(shadow, AD9852_CR_DIGITAL_PD, TRUE);
 		update_ad9852(cmd_seq, time, shadow);		
 		return update_ad9852(cmd_seq, NEXT_AVAILABLE, shadow);
-	} else { /* not stopped */
+	} 
+	else 
+	{ /* not stopped */
 		set_ad9852_freq_registers(shadow,
 							dds_options.start_frequency,
 							dds_options.end_frequency,
@@ -1179,6 +1181,8 @@ refclk is the frequency (in MHz) of the DDS's external oscillator
 
 adwin_event_period is the time (in seconds) between adwin update events
 */
+
+//Dave Burns' Additions must be tested still@@
 dds_cmds_ptr create_ad9852_cmd_sequence(ddsoptions_struct* dds_settings,
 										unsigned long num_settings,
 										unsigned int PLL_multiplier,
@@ -1188,6 +1192,10 @@ dds_cmds_ptr create_ad9852_cmd_sequence(ddsoptions_struct* dds_settings,
 	dds_cmds_ptr cmd_sequence = NULL;
 	ad9852_shadow_struct shadow;
 	
+	//when set to 1 DDS is Powered Down (0 when on)
+	int DDS_PD=0;
+	
+	 
 	long i;
 	double idealtime;
 	double sysclk;
@@ -1223,14 +1231,36 @@ dds_cmds_ptr create_ad9852_cmd_sequence(ddsoptions_struct* dds_settings,
 	*/
 	execute_ad9852_settings(cmd_sequence, NEXT_AVAILABLE, &shadow,
 									dds_settings[1], sysclk);
-	
-	for (i=2; i<=num_settings; i++) {
+
+	//Edited by Dave Burns -- attempt to eliminate redundant DDS updates
+	for (i=2; i<=num_settings; i++) 
+	{
 		//set the start time based on the start time
 		//and delta time of the previous element
 		idealtime += dds_settings[i-1].delta_time;
 		
-		execute_ad9852_settings(cmd_sequence, idealtime / adwin_event_period,
+		
+		//DDS is only updated if it is on or if it is about to be turned on/off
+		if(dds_settings[i].is_stop==0||DDS_PD==0)
+		{
+			if(dds_settings[i].is_stop==1)
+				DDS_PD=1;
+			
+		
+			//Unless all the following are true we update 
+			if(!((dds_settings[i].start_frequency==dds_settings[i].end_frequency)&&    //constant freq across interval
+				(dds_settings[i].start_frequency==dds_settings[i-1].end_frequency)&&   //same as previous end freq
+				(dds_settings[i].amplitude==dds_settings[i-1].amplitude)&&			   //amplitude same as previous
+				(dds_settings[i-1].is_stop==0)))									   //was previously on (ie not being turned on)
+			{
+				execute_ad9852_settings(cmd_sequence, idealtime / adwin_event_period,
 								&shadow, dds_settings[i], sysclk);
+			}
+		}
+		else if (dds_settings[i].is_stop=1)
+		{
+			DDS_PD=1;
+		}
 	}
 	
 	return cmd_sequence;

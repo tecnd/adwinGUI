@@ -1,3 +1,5 @@
+#include "ScanTableLoader.h"
+
 //To DO:  add more DDS 'clips' for copy/paste routines
 
 //2006
@@ -278,7 +280,7 @@ void RunOnce (void)
 	
 	//Prints MetaIndexes for testting only
 	
-	printf("UPDATE TIMES\t");
+/*	printf("UPDATE TIMES\t");
 	for(i=1;i<=mindex;i++)
 		printf("%0.1f\t",MetaTimeArray[i]);
 	printf("\nANALOG CHANNEL LINE\n");
@@ -312,7 +314,10 @@ void RunOnce (void)
 			printf("%d\t",MetaDDSArray[i].is_stop);
 	printf("\nAmplitude:\t");
 	for (i=1;i<=mindex;i++)
-			printf("%0.0f\t",MetaDDSArray[i].amplitude);
+			printf("%0.0f\t",MetaDDSArray[i].amplitude);	 
+	printf("\nDelta Time:\t");								  //At this Point all the delta time vals are zero (all conditions)
+	for (i=1;i<=mindex;i++)									  //Not being used???
+			printf("%0.0f\t",MetaDDSArray[i].delta_time);*/ 
 	
 	
 		
@@ -422,7 +427,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		{
 			DDSArray[m].start_frequency=DDSArray[m].start_frequency+DDSoffset;
 			DDSArray[m].end_frequency=DDSArray[m].end_frequency+DDSoffset;
-		// uncomment these as needed. (@@Are these are needed to run DDS2&3?)
+		// uncomment these as needed to run DDS2,3
 		/*	DDS2Array[m].start_frequency=DDS2Array[m].start_frequency+DDS2offset;
 			DDS2Array[m].end_frequency=DDS2Array[m].end_frequency+DDS2offset;
 			DDS3Array[m].start_frequency=DDS3Array[m].start_frequency+DDS3offset;
@@ -469,7 +474,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 			for (j=1;j<=NUMBERANALOGCHANNELS;j++)	
 			{
 				LastAval[j]=-99;
-				if(!(AMat[j][i].fval==AMat[j][i-1].fval))
+				if(AMat[j][i].fval!=AMat[j][i-1].fval)
 				{
 					nupcurrent++;
 					nuptotal++;
@@ -479,7 +484,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
  					TempChVal=AChName[j].tbias+NewAval*AChName[j].tfcn;
  					ChVal[nuptotal]=CheckIfWithinLimits(TempChVal,j);
  					
-					if(!(AMat[j][i].fcn==1))
+					if(AMat[j][i].fcn!=1)
 					{
 						usefcn++;
 						UsingFcns[usefcn]=j;	// mark these lines for special attention..more complex	
@@ -569,7 +574,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 				t++;
 				k=0;
 				nupcurrent=0;
-				//look for a new DDS command
+				//look for a new DDS command, start_offset=0
 				tmp_dds = get_dds_cmd(dds_cmd_seq, count-1-start_offset);  //dds translator(zero base) runs 1 behind this counter
 				if (tmp_dds>=0)
 				{
@@ -629,13 +634,33 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		
 		if(ArraysToDebug)	  // only used if we suspect the ADwin code of being really faulty.
 		{					  // ArraysToDebug is a declare in vars.h
-			imax=newcount;	  // this loop just writes out the first 1000 updates to the DEBUG window
-			if(newcount==0) {imax=count;}
-			if(imax>1000){imax=1000;}
-			for(i=1;i<imax+1;i++)
+			//imax=newcount;	  
+			//if(newcount==0) {imax=count;}
+			//if(imax>1000){imax=1000;}
+			//for(i=1;i<imax+1;i++)
+			
+			
+			// this loop just writes out the first 1000 updates to the stdio window in the format
+			// i  UpdateNum    ChNum   Chval 
+			k=1;
+			for(i=1;i<1000;i++)
 			{
-				sprintf(buff,"%d :  %d    %d    %f",i,UpdateNum[i],ChNum[i],ChVal[i]);
-				InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
+				printf("%-5d%d\t",i,UpdateNum[i]);
+				if(UpdateNum[i]>0)
+				{
+					printf("%d\t%f\n",ChNum[k],ChVal[k]);
+					k++;
+					for(j=1;j<UpdateNum[i];j++)
+					{
+						printf("\t\t%d\t%f\n",ChNum[k],ChVal[k]);
+						k++;
+					}
+				}
+				else
+				{
+					printf("\n");
+				}
+				
 			}
 		}
 		
@@ -664,7 +689,9 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 			processnum=Load_Process("TransferData.TA1");
 			didprocess=1;
 		}
-		//@@ for(p-1;p<=NUMBERANALOGCHANNELS;p++) {ResetToZeroAtEnd[p]=AChName[p].resettozero;} repeated few lines down?
+		
+		//Commented out by Dave June 6, 2006. Reason: repeated few lines down? (access of -1 index?)
+		//for(p-1;p<=NUMBERANALOGCHANNELS;p++) {ResetToZeroAtEnd[p]=AChName[p].resettozero;} 
 	
 		if(UseCompression) 
 		{
@@ -691,13 +718,13 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		{
 			if(DChName[i].resettolow==TRUE) {digchannelsum+=2^(i-1);}	
 		}
-		ResetToZeroAtEnd[25]=digchannelsum;// lower 16 digital channels    	//@@POSSIBLE ERROR 32 Analog Channels! so index26? 
+		ResetToZeroAtEnd[25]=digchannelsum;// lower 16 digital channels    	
 		for(i=17;i<=NUMBERDIGITALCHANNELS;i++)
 		digchannelsum=0;
 		{
 			if(DChName[i].resettolow==TRUE) {digchannelsum+=2^(i-17);}	
 		}
-		ResetToZeroAtEnd[26]=digchannelsum;// digital channels 17-24		 //@@POSSIBLE ERROR 32 Analog Channels! so index26?
+		ResetToZeroAtEnd[26]=digchannelsum;// digital channels 17-24		 
 		//ResetToZeroAtEnd[25]=0;// lower 16 digital channels    
 		//ResetToZeroAtEnd[26]=0;// digital channels 17-24
 		ResetToZeroAtEnd[27]=0;// master override....if ==1 then reset none
@@ -1187,7 +1214,7 @@ Feb 09, 2006   Clear the Debug box before saving. (was causing insanely large sa
  void DrawNewTable(int isdimmed)
 //if isdimmed=0/FALSE  Draw everything, editing mode
 //if isdimmed=1/TRUE   Dim out appropriate columns....
-// Make isdimmed a global I guess...		@@(seems like a bad idea)
+// Make isdimmed a global I guess...		
 // Jan 24,2006:   Now dim/invisible appropriate 'arrows' that indicate loop points.
 // May 12, 2005:  Updated to change color of cell that is active by a parameter scan.  This cell (ANalog, Time or DDS) now 
 //                turns dark yellow. might pick a better color.
@@ -2081,11 +2108,11 @@ int CVICALLBACK TIMETABLE_CALLBACK (int panel, int control, int event,
 			//		AnalogTable[i][j][page].tscale=dval;	  //use this line to force timescale to period
 				}
 				
-				//set the delta time value for the dds array//@@should this be enabled???
-			//	ddstable[i][page].delta_time = dval/1000;
+				//set the delta time value for the dds array 
+				//	ddstable[i][page].delta_time = dval/1000;
 			}
 		
-			/*@@ for testing
+			/* for testing prints TimeArray to STDIO
 			for(i=1;i<=NUMBEROFCOLUMNS;i++)
 				printf("%0.1f\t",TimeArray[i][page]);*/
 			
@@ -2395,6 +2422,7 @@ void ShiftColumn3(int col, int page,int dir)
 //		  last column is lost
 //The new column can be set with all values at 0 or with the attributes previously in place
 
+
 //Replaced Malfunctioning ShiftColumn and ShiftColumn2(see previous AdwinGUI releases)
 {
 	
@@ -2405,7 +2433,7 @@ void ShiftColumn3(int col, int page,int dir)
 		start=NUMBEROFCOLUMNS;
 	else if (dir==1)		//shifts cols left  (deletion)
 		start=col;
-	//@@else print debug error (add in later)
+
 	
 	
 	//shift columns left or right depending on dir
@@ -3517,589 +3545,6 @@ int CVICALLBACK SWITCH_LOOP_CALLBACK (int panel, int control, int event,
 	return 0;
 }
 
-void BuildUpdateList2(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1][500],int DMat[NUMBERDIGITALCHANNELS+1][500],
-     ddsoptions_struct DDSArray[500],ddsoptions_struct DDS2Array[500],dds3options_struct DDS3Array[500], int numtimes)
-{
-	/*
-	TMatrix[update period#] -- stores the interval time of each column
-	AMat[channel#][update period#] -- stores info located in the analog table
-	DMat[channel#][update period#] -- 
-	DDS --
-	
-	all the above have 500 update period elements note that valid elements are base1
-	
-	numtimes = the actual number of valid update period elements.
-
-	
-	
-	
-	Generate the data that is sent to the ADwin and sends the data.
-	From the meta-lists, we generate 3 arrays.  
-	UpdateNum - each entry is the number of channel updates that we perform during the ADwin EVENT, where an 
-				ADwin event is an update cycle, i.e. 10 microseconds, 100 microseconds... etc.  We advance  through this 
-				array once per ADwin Event.  UpdateNum controls how fast we scan through ChNum and ChVal
-	ChNum - 	An array that contains the channel number to be updated. Synchronous with ChVal.  	   Channels listed below
-	ChVal -		An array that contains the value to be written to a channel. Synchronous with ChVal.  	
-		
-	ChNum -     Value 1-32:  Analog lines, 4 cards with 8 lines each.  ChVal is -10V to 10V   
-				Value 51:	 DDS1 line.   ChVal is either a 2-bit value (0-3) to write, or (4-7) a reset signal
-				Value 52:	 DDS2 line.   ChVal is either a 2-bit value (0-3) to write, or (4-7) a reset signal				
-				Value 101, 102  First 16 and last 16 lines on the first DIO card.  ChVal is a 16 bit integer
-				Value 103, 104	First 16 and last 16 lines on the second DIO card. ChVal is a 16 bit integer
-				
-    Mar 09_2006:Added ChNum 201,202   These  are codes to enable/disable looping.
-                Corresponding ChVal is the number of loops. 
-	dds_cmd_seq List of dds commands, parsed into 2-bit sections, or reset lines to be written
-				Commands are listed along with the time they should occur at.	
-	*/
-	BOOL UseCompression,ArraysToDebug,StreamSettings; 
-	int *UpdateNum;
-	int *ChNum;
-	float *ChVal;
-	FILE *fp;
-	int NewTimeMat[500];
-	int i=0,j=0,k=0,m=0,n=0,tau=0,p=0,imax;
-	int nupcurrent=0,nuptotal=0,checkresettozero=0;
-	int usefcn=0,digchannel;  //Bool
-	unsigned int digval,digval2,digval3,digval4,LastDVal=0,LastDVal2=0,LastDVal3=0,LastDVal4=0;
-	int UsingFcns[NUMBERANALOGCHANNELS+1]={0},count=0,ucounter=0,counter,channel;
-	double LastAval[NUMBERANALOGCHANNELS+1]={0},NewAval,TempChVal,TempChVal2;
-	int ResetToZeroAtEnd[30]; //1-24 for analog, ...but for now, if [1]=1 then all zero, else no change
-	int timemult,t,c,bigger;
-	double cycletime=0;
-	int GlobalDelay=40000;
-	char buff[100];
-	int repeat=0,timesum=0;
-	static int didboot=0;
-	static int didprocess=0;
-	int memused;
-	int timeused;
-	int tmp_dds;
-	dds_cmds_ptr dds_cmd_seq = NULL;
-	dds_cmds_ptr dds_cmd_seq_AD9858 = NULL;
-	double DDSoffset=0.0,DDS2offset=0.0,DDS3offset=0.0;
-	int digchannelsum;
-	int newcount=0;
-	// variables for timechannel optimization
-	int ZeroThreshold=50;
-	int lastfound=0;
-	int ii=0,jj=0,kk=0,tt=0; // variables for loops
-	int start_offset=0;
-	time_t tstart,tstop;
-	
-	//Change run button appearance while operating	
-	SetCtrlAttribute (panelHandle, PANEL_CMD_RUN,ATTR_CMD_BUTTON_COLOR, VAL_GREEN);            
-   	tstart=clock();				   // Timing information for debugging purposes
-	timemult=(int)(1/EventPeriod); //number of adwin upates per ms
-	GlobalDelay=EventPeriod/AdwinTick; // AdwintTick=0.000025ms=AW clock cycle (Gives #of clock cycles/update)
-		 
-	//make a new time list...converting the TimeTable from milliseconds to number of events (numtimes=total #of columns)
-	for (i=1;i<=numtimes;i++) 
-	{
-		NewTimeMat[i]=(int)(TMatrix[i]*timemult); //number of Adwin events in column i
-		timesum=timesum+NewTimeMat[i];            //total number of Adwin events
-	}
-	
-	cycletime=(double)timesum/(double)timemult/1000;	// Total duration of the cycle, in seconds
-
-	sprintf(buff,"timesum %d",timesum);					// Print more debug info
-	InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
-
-	if(ChangedVals==TRUE) //reupdate the ADWIN array if the user values have changed
-    {	
-    	/* Update the array of DDS commands
-		EventPeriod is in ms, create_command_array in s, so convert units */
-		GetMenuBarAttribute (menuHandle, MENU_PREFS_SIMPLETIMING, ATTR_CHECKED, &UseSimpleTiming);
-		GetCtrlVal (panelHandle, PANEL_NUM_DDS_OFFSET, &DDSoffset);
-		GetCtrlVal (panelHandle, PANEL_NUM_DDS2_OFFSET, &DDS2offset);
-		GetCtrlVal (panelHandle, PANEL_NUM_DDS3_OFFSET, &DDS3offset);
-		// read offsets to add to DDSArray
-		for(m=1;m<=numtimes;m++)
-		{
-			DDSArray[m].start_frequency=DDSArray[m].start_frequency+DDSoffset;
-			DDSArray[m].end_frequency=DDSArray[m].end_frequency+DDSoffset;
-		// uncomment these as needed. (@@Are these are needed to run DDS2&3?)
-		/*	DDS2Array[m].start_frequency=DDS2Array[m].start_frequency+DDS2offset;
-			DDS2Array[m].end_frequency=DDS2Array[m].end_frequency+DDS2offset;
-			DDS3Array[m].start_frequency=DDS3Array[m].start_frequency+DDS3offset;
-			DDS3Array[m].end_frequency=DDS3Array[m].end_frequency+DDS3offset;
-			*/
-		}
-		
-		
-		dds_cmd_seq = create_ad9852_cmd_sequence(DDSArray, numtimes,DDSFreq.PLLmult, 
-		DDSFreq.extclock,EventPeriod/1000);
-		// again, uncomment as needed
-   	    /*  dds_cmd_seq_AD9858 = create_ad9858_cmd_sequence(DDS2Array, numtimes,DDS2_CLOCK, 
-		EventPeriod/1000,0);	   // assume frequency offset of 0 MHz
-	    */	
-    	/*dds_cmd_seq = create_ad9852_cmd_sequence(DDS3Array, numtimes,DDSFreq.PLLmult, 
-		DDSFreq.extclock,EventPeriod/1000);
-   	    */ 	
-    	//dynamically allocate the memory for the time array (instead of using a static array:UpdateNum)
-	    //We are making an assumption about how many programmable points we may need to use.
-	    //For now assume that number of channel updates <= 4* #of events, serious overestimate
-
-		UpdateNum=calloc((int)((double)timesum*1.2),sizeof(int));
-		if(!UpdateNum){ exit(1); }
-		ChNum=calloc((int)((double)timesum*4),sizeof(int));
-		if(!ChNum){ exit(1); }
-		ChVal=calloc((int)((double)timesum*4),sizeof(double));
-		if(!ChVal){ exit(1); }
-
-		
-		//Go through for each column that needs to be updated
-		
-		//Important Variables:
-		//count: Number of Adwin events until the current position
-		//nupcurrent: number of updates for the current Adwin event
-		//nuptotal: current position in the channel/value column
-		for (i=1;i<=numtimes;i++)
-		{
-			// find out how many channels need updating this round...
-			// if it's a non-step fcn, then keep a list of UsingFcns, and change it now
-			nupcurrent=0;
-			usefcn=0;
-			
-			// scan over the analog channel..find updated values by comparing to old values.
-			for (j=1;j<=NUMBERANALOGCHANNELS;j++)	
-			{
-				LastAval[j]=-99;
-				if(!(AMat[j][i].fval==AMat[j][i-1].fval))
-				{
-					nupcurrent++;
-					nuptotal++;
-					ChNum[nuptotal]=AChName[j].chnum;
-					NewAval=CalcFcnValue(AMat[j][i].fcn,AMat[j][i-1].fval,AMat[j][i].fval,AMat[j][i].tscale,0.0,TMatrix[i]);
-
- 					TempChVal=AChName[j].tbias+NewAval*AChName[j].tfcn;
- 					ChVal[nuptotal]=CheckIfWithinLimits(TempChVal,j);
- 					
-					if(!(AMat[j][i].fcn==1))
-					{
-						usefcn++;
-						UsingFcns[usefcn]=j;	// mark these lines for special attention..more complex	
-					}
-				}
-			}//done scanning the analog values.
-			//*********now the digital value
-			digval=0;
-			digval2=0;
-			digval3=0;
-			digval4=0;
-			for(k=1;k<=NUMBERDIGITALCHANNELS;k++)
-			{
-				digchannel=DChName[k].chnum;
-			
-				if(digchannel<=32)
-				{
-					digval=digval+DMat[k][i]*pow(2,DChName[k].chnum-1);
-				}					
-				if((digchannel>=101)&&(digchannel<=132))
-				{
-					digval2=digval2+DMat[k][i]*pow(2,(DChName[k].chnum-100)-1);
-				}
-/*		
-				if(digchannel<=16)
-				{
-					digval=digval+DMat[k][i]*pow(2,DChName[k].chnum-1);
-				}
-				if((digchannel>=17)&&(digchannel<=32))
-				{
-					digval2=digval2+DMat[k][i]*pow(2,(DChName[k].chnum-16)-1);
-				}
-				if((digchannel>=101)&&(digchannel<=116))// starting on card 2.  Channels run from 101-132 (1-32)
-				{
-					digval3=digval3+DMat[k][i]*pow(2,(DChName[k].chnum-100)-1);
-				}
-				if((digchannel>=117)&&(digchannel<=132))
-				{
-					digval4=digval4+DMat[k][i]*pow(2,(DChName[k].chnum-116)-1);
-				}
-*/			
-			}// finished computing current digital data
-		
-			if(!(digval==LastDVal))
-			{
-				nupcurrent++;
-				nuptotal++;
-				ChNum[nuptotal]=101;		   
-				ChVal[nuptotal]=digval;		
-			}
-			LastDVal=digval;
-			if(!(digval2==LastDVal2))
-			{
-				nupcurrent++;
-				nuptotal++;
-				ChNum[nuptotal]=102;		   
-				ChVal[nuptotal]=digval2;		
-			}
-			LastDVal2=digval2;
-
-/*			if(!(digval3==LastDVal3))
-			{
-				nupcurrent++;
-				nuptotal++;
-				ChNum[nuptotal]=103;		   
-				ChVal[nuptotal]=digval3;		
-			}
-			LastDVal3=digval3;
-			if(!(digval4==LastDVal4))
-			{
-				nupcurrent++;
-				nuptotal++;
-				ChNum[nuptotal]=104;		   
-				ChVal[nuptotal]=digval4;		
-			}
-			LastDVal4=digval4;
-*/			
-			count++;
-			UpdateNum[count]=nupcurrent;
-			
-			//end of first scan  
-			//now do the remainder of the loop...but just the complicated fcns, i.e. ramps, sine wave
-			
-			t=0;
-			while(t<NewTimeMat[i]-1)
-			{
-				t++;
-				k=0;
-				nupcurrent=0;
-				//look for a new DDS command
-				tmp_dds = get_dds_cmd(dds_cmd_seq, count-1-start_offset);  //dds translator(zero base) runs 1 behind this counter
-				if (tmp_dds>=0)
-				{
-					nupcurrent++;
-					nuptotal++;
-					ChNum[nuptotal] = 51; //DDS1 dummy channel
-					ChVal[nuptotal] = tmp_dds;
-				
-				} //done the DDS1
-				
-		/*		tmp_dds = get_dds_cmd(dds_cmd_seq_AD9858, count-1-start_offset);  //dds translator(zero base) runs 1 behind this counter
-				if (tmp_dds>=0)
-				{
-					nupcurrent++;
-					nuptotal++;
-					ChNum[nuptotal] = 52; //dummy channel
-					ChVal[nuptotal] = tmp_dds;
-				
-				} //done the DDS2				
-		*/		
-				
-				while(k<usefcn)
-				{
-					k++;
-					c=UsingFcns[k];
-					NewAval=CalcFcnValue(AMat[c][i].fcn,AMat[c][i-1].fval,AMat[c][i].fval,AMat[c][i].tscale,t,TMatrix[i]);
-					TempChVal=AChName[c].tbias+NewAval*AChName[c].tfcn;
-					TempChVal2=CheckIfWithinLimits(TempChVal,c);
-					if(fabs(TempChVal2-LastAval[k])>0.0003) // only update if the ADwin will output a new value.
-					// ADwin is 16 bit, +/-10 V, to 1 bit resolution implies dV=20V/2^16 ~=  0.3mV
-					{
-						nupcurrent++;
-						nuptotal++;
-						ChNum[nuptotal]=AChName[c].chnum;
-						ChVal[nuptotal]=AChName[c].tbias+NewAval*AChName[c].tfcn;
-						LastAval[k]=TempChVal2;
-					}
-				}
-				count++;
-				UpdateNum[count]=nupcurrent;
-			}//Done this element of the TMatrix
-		}//done scanning over times array
-		
-		//Find the largest of the arrays
-//		bigger=count;
-//		if(nuptotal>bigger) {bigger=nuptotal;}
-		
-		// read some menu options
-		GetMenuBarAttribute (menuHandle, MENU_PREFS_COMPRESSION, ATTR_CHECKED, &UseCompression);     
-		GetMenuBarAttribute (menuHandle, MENU_PREFS_SHOWARRAY, ATTR_CHECKED, &ArraysToDebug);     		
-		newcount=0;
-		
-		if(UseCompression)
-		{
-			OptimizeTimeLoop(UpdateNum,count,&newcount);
-		}
-		
-		if(ArraysToDebug)	  // only used if we suspect the ADwin code of being really faulty.
-		{					  // ArraysToDebug is a declare in vars.h
-			imax=newcount;	  // this loop just writes out the first 1000 updates to the DEBUG window
-			if(newcount==0) {imax=count;}
-			if(imax>1000){imax=1000;}
-			for(i=1;i<imax+1;i++)
-			{
-				sprintf(buff,"%d :  %d    %d    %f",i,UpdateNum[i],ChNum[i],ChVal[i]);
-				InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
-			}
-		}
-		
-		
-		tstop=clock();
-		
-		#ifdef PRINT_TO_DEBUG
-			sprintf(buff,"count %d",count);
-			InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
-			sprintf(buff,"compressed count %d",newcount);
-			InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
-			sprintf(buff,"updates %d",nuptotal);
-			InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
-			sprintf(buff,"time to generate arrays:   %d",tstop-tstart);
-			InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
-			
-		#endif
-		
-		if(didboot==FALSE) // is the ADwin booted?  if not, then boot
-		{
-			Boot("C:\\ADWIN\\ADWIN10.BTL",0);           
-			didboot=1;
-		}
-		if (didprocess==FALSE) // is the ADwin process already loaded?
-		{
-			processnum=Load_Process("TransferData.TA1");
-			didprocess=1;
-		}
-		for(p-1;p<=NUMBERANALOGCHANNELS;p++) {ResetToZeroAtEnd[p]=AChName[p].resettozero;}
-	
-		if(UseCompression) 
-		{
-			SetPar(1,newcount);  	//Let ADwin know how many counts (read as Events) we will be using.		
-			SetData_Long(1,UpdateNum,1,newcount+1);
-		}
-		else
-		{
-		  	SetPar(1,count);  	//Let ADwin know how many counts (read as Events) we will be using.
-			SetData_Long(1,UpdateNum,1,count+1);
-		}
-		
-		SetPar(2,GlobalDelay);
-		SetData_Long(2,ChNum,1,nuptotal+1);
-		SetData_Float(3,ChVal,1,nuptotal+1);
-		// determine if we should reset values to zero after a cycle
-		GetMenuBarAttribute (menuHandle, MENU_SETTINGS_RESETZERO, ATTR_CHECKED,&checkresettozero);
-		for(i=1;i<=NUMBERANALOGCHANNELS;i++)
-		{	
-			ResetToZeroAtEnd[i]=AChName[i].resettozero;
-		}
-		digchannelsum=0;
-		for(i=1;i<=16;i++)
-		{
-			if(DChName[i].resettolow==TRUE) {digchannelsum+=2^(i-1);}	
-		}
-		ResetToZeroAtEnd[25]=digchannelsum;// lower 16 digital channels    	//@@POSSIBLE ERROR 32 Analog Channels! so index26? 
-		for(i=17;i<=NUMBERDIGITALCHANNELS;i++)
-		digchannelsum=0;
-		{
-			if(DChName[i].resettolow==TRUE) {digchannelsum+=2^(i-17);}	
-		}
-		ResetToZeroAtEnd[26]=digchannelsum;// digital channels 17-24		 //@@POSSIBLE ERROR 32 Analog Channels! so index26?
-		//ResetToZeroAtEnd[25]=0;// lower 16 digital channels    
-		//ResetToZeroAtEnd[26]=0;// digital channels 17-24
-		ResetToZeroAtEnd[27]=0;// master override....if ==1 then reset none
-		if(checkresettozero==0) { ResetToZeroAtEnd[27]=1;}
-
-		SetData_Long(4,ResetToZeroAtEnd,1,NUMBERANALOGCHANNELS+6);
-		// done evaluating channels that are reset to  zero (low)
-		ChangedVals=0;
-	}
-	// more debug info
-	tstop=clock();         
-	timeused=tstop-tstart;     
-	t=Start_Process(processnum);
-	tstop=clock();         	
-	sprintf(buff,"Time to transfer and start ADwin:   %d",timeused);
-	
-	GetMenuBarAttribute (menuHandle, MENU_PREFS_STREAM_SETTINGS, ATTR_CHECKED,&StreamSettings);
-	if(StreamSettings==TRUE)
-	{
-		//Fill IN
-	
-	}
-	
-	// even more debug info
-	InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
-	memused=(count+2*nuptotal)*4;//in bytes
-	sprintf(buff,"MB of data sent:   %f",(double)memused/1000000);
-	InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
-	sprintf(buff,"Transfer Rate:   %f   MB/s",(double)memused/(double)timeused/1000);
-	InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
-
-	
-	SetCtrlAttribute (panelHandle, PANEL_CMD_RUN,ATTR_CMD_BUTTON_COLOR, 0x00B0B0B0);
-	//re-enable the timer if necessary
-	GetCtrlVal(panelHandle,PANEL_TOGGLEREPEAT,&repeat);
-	if((PScan.Scan_Active==TRUE)&&(PScan.ScanDone==TRUE))
-	{
-		repeat=FALSE;  //remember to reset the front panel repeat button
-		SetCtrlVal(panelHandle,PANEL_TOGGLEREPEAT,repeat);
-	}
-	if(repeat==TRUE)
-	{
-		SetCtrlAttribute(panelHandle,PANEL_TIMER,ATTR_ENABLED,1);
-		SetCtrlAttribute (panelHandle, PANEL_TIMER, ATTR_INTERVAL,cycletime);
-		ResetTimer(panelHandle,PANEL_TIMER);
-	}
-	free(UpdateNum);
-	free(ChNum);
-	free(ChVal);
-}
-
-
-void RunOnce2 (void)
-//Converts the 10 'pages' (3D array) into single 2D array 'metatables'
-//Ignores dimmed out columns and pages
-{
-	//could/should change these following defs and use malloc instead, but they should never exceed.. 170 or so.
-	double MetaTimeArray[500];
-	int MetaDigitalArray[NUMBERDIGITALCHANNELS+1][500];
-	struct AnVals MetaAnalogArray[NUMBERANALOGCHANNELS+1][500];
-	ddsoptions_struct MetaDDSArray[500];
-	ddsoptions_struct MetaDDS2Array[500];
-	dds3options_struct MetaDDS3Array[500];
-	int i,j,k,mindex,tsize;
-	int insertpage,insertcolumn,x,y,lastpagenum,FinalPageToUse;
-	BOOL nozerofound,nozerofound_2;
-	int ResetToZeroAtEnd[30];
-	
-
-	isdimmed=TRUE;
-	lastpagenum=10;
-	// Find the position of the imaging panel (last panel on the GUI), this panel can be positioned inside other panels
-	GetCtrlVal (panelHandle, PANEL_NUM_INSERTIONPAGE, &insertpage);
-	GetCtrlVal (panelHandle, PANEL_NUM_INSERTIONCOL, &insertcolumn);
-	
-	//Lets build the times list first...so we know how long it will be.
-	//check each page...find columns in use and dim out unused....(with 0 or negative time values)
-	SetCtrlAttribute(panelHandle,PANEL_ANALOGTABLE,ATTR_TABLE_MODE,VAL_COLUMN); 
-	mindex=0;
-	FinalPageToUse=NUMBEROFPAGES-2;//issues with '0 or 1 indexing'.  If there are 10 pages, we end at 9.  
-	//Page 10(imaging) handled separately.
-	
-	if(insertpage==NUMBEROFPAGES-1) //if the imaging page is set for 10, then set the final page as 10.
-	{
-		FinalPageToUse++;
-	}
-	//go through for each page
-	for(k=1;k<=FinalPageToUse;k++)// numberofpages-1 because last page is 'mobile'
-	{
-		nozerofound=TRUE;
-		if(ischecked[k]==1) //if the page is selected (checkbox is checked)
-		{
-			//go through for each time column
-			for(i=1;i<NUMBEROFCOLUMNS;i++)
-			{
-				if((i==insertcolumn)&&(k==insertpage)&&(k!=NUMBEROFPAGES-1))
-				{
-					nozerofound_2=TRUE;
-					if(ischecked[lastpagenum]==1)
-					{
-						for(x=1;x<=NUMBEROFCOLUMNS;x++)
-						{
-							if((nozerofound==TRUE)&&(nozerofound_2==TRUE)&&(TimeArray[x][lastpagenum]>0))
-							{
-								mindex++;
-								MetaTimeArray[mindex]=TimeArray[x][lastpagenum];
-								for(y=1;y<=NUMBERANALOGCHANNELS;y++)
-								{
-									MetaAnalogArray[y][mindex].fcn=AnalogTable[x][y][lastpagenum].fcn;
-									MetaAnalogArray[y][mindex].fval=AnalogTable[x][y][lastpagenum].fval;
-									MetaAnalogArray[y][mindex].tscale=AnalogTable[x][y][lastpagenum].tscale;
-								}
-								for(y=1;y<=NUMBERDIGITALCHANNELS;y++)
-								{
-									MetaDigitalArray[y][mindex]=DigTableValues[x][y][lastpagenum];   
-								}
-								MetaDDSArray[mindex] = ddstable[x][lastpagenum];
-								MetaDDS2Array[mindex] = dds2table[x][lastpagenum];
-								MetaDDS3Array[mindex] = dds3table[x][lastpagenum];
-							}
-							else if(TimeArray[x][lastpagenum]==0)
-							{
-								nozerofound_2=0;
-							}
-						}
-					}
-					
-/*end A */		}
-				
-			
-				if((nozerofound==1)&&(TimeArray[i][k]>0)) 
-				//ignore all columns after the first
-				// time 0 (for that page)
-				{
-					mindex++; //increase the number of columns counter
-					MetaTimeArray[mindex]=TimeArray[i][k];
-					//go through for each analog channel
-					for(j=1;j<=NUMBERANALOGCHANNELS;j++)
-					{
-						MetaAnalogArray[j][mindex].fcn=AnalogTable[i][j][k].fcn;
-						MetaAnalogArray[j][mindex].fval=AnalogTable[i][j][k].fval;
-						MetaAnalogArray[j][mindex].tscale=AnalogTable[i][j][k].tscale;
-					}
-					for(j=1;j<=NUMBERDIGITALCHANNELS;j++)  
-					{
-						MetaDigitalArray[j][mindex]=DigTableValues[i][j][k];
-					}
-					/* ddsoptions_struct contains floats and ints, so shallow copy is ok */
-					MetaDDSArray[mindex] = ddstable[i][k];
-					MetaDDS2Array[mindex] = dds2table[i][k];
-					MetaDDS3Array[mindex] = dds3table[i][k];
-					MetaDDSArray[mindex].delta_time=TimeArray[i][k]/1000;
-					MetaDDS2Array[mindex].delta_time=TimeArray[i][k]/1000;
-					MetaDDS3Array[mindex].delta_time=TimeArray[i][k]/1000;
-					// Don't know why the preceding line is necessary...
-					// But the time information wasn't always copied in... or it was erased elsewhere
-				}
-				else if (TimeArray[i][k]==0) 
-				{
-					nozerofound=FALSE;
-				}
-			}
-		}
-	}
-	isdimmed=TRUE;
-	
-	DrawNewTable(TRUE);
-	tsize=mindex; //tsize is the number of columns
-	
-    // Send the new arrays to BuildUpdateList()	
-	BuildUpdateList(MetaTimeArray,MetaAnalogArray,MetaDigitalArray,MetaDDSArray,MetaDDS2Array,MetaDDS3Array,tsize);
-
-}
-
-/*
-double TimeClip;
-int ClipColumn=-1;
-struct AnalogTableClip{
-	int		fcn;		//fcn is an integer refering to a function to use.
-						// 0-step, 1-linear, 2- exp, 3- 'S' curve, 4 sine wave
-	double 	fval;		//the final value
-	double	tscale;		//the timescale to approach final value
-	} AnalogClip[NUMBERANALOGCHANNELS+1];
-int DigClip[NUMBERDIGITALCHANNELS+1];
-ddsoptions_struct ddsclip,dds2clip,dds3clip;
-
-
-int status=0,i_pict=0,page,digval;
-	Point pval={0,0};
-	
-	ChangedVals=TRUE;
-	page=GetPage();
-	switch (event)
-		{
-		case EVENT_LEFT_DOUBLE_CLICK:
-			GetActiveTableCell(PANEL,PANEL_DIGTABLE,&pval);
-			digval=DigTableValues[pval.x][pval.y][page];			
-			if(digval==0)
-			{
-				SetTableCellAttribute (panelHandle, PANEL_DIGTABLE,pval, ATTR_TEXT_BGCOLOR,VAL_RED);
-				DigTableValues[pval.x][pval.y][page]=1;
-			}
-			else  */
-			
-//DigClip[j]=DigTableValues[cpoint.x][j][page];
-
 void CVICALLBACK Dig_Cell_Copy(int panelHandle, int controlID, int MenuItemID, void *callbackData)
 {
 	//Copies the value of the active DigitalTabel value into the clipboard
@@ -4285,3 +3730,10 @@ void CVICALLBACK EXIT (int menuBar, int menuItem, void *callbackData,int panel)
 		QuitUserInterface(1);		// kills the GUI and ends program
 	
 }
+
+//Open Scan Table Loader Panel
+void CVICALLBACK Scan_Table_Load(int panelHandle, int controlID, int MenuItemID, void *callbackData)
+{		
+		DisplayPanel (panelHandle8);
+}
+
