@@ -65,7 +65,8 @@ typedef struct dds3options_struct {
 Global Variables
 *************************************************************************/
 
-int panelHandle,panelHandle2,panelHandle3,panelHandle4,panelHandle5,panelHandle6,panelHandle7,panelHandle8;         
+//panelHandles: 8: ScanTableLoader 9:NumSet
+int panelHandle,panelHandle2,panelHandle3,panelHandle4,panelHandle5,panelHandle6,panelHandle7,panelHandle8,panelHandle9;         
 int panelHandle_sub1,panelHandle_sub2;
 int  menuHandle;
 int currentx,currenty,currentpage;

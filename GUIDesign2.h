@@ -53,6 +53,7 @@ void CVICALLBACK Dig_Cell_Paste(int panelHandle, int controlID, int MenuItemID, 
 void CVICALLBACK Analog_Cell_Copy(int panelHandle, int controlID, int MenuItemID, void *callbackData);	  //Paste Features
 void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID, int MenuItemID, void *callbackData);   //
 void CVICALLBACK Scan_Table_Load(int panelHandle, int controlID, int MenuItemID, void *callbackData);  
+void CVICALLBACK Scan_Table_NumSet_Load(int panelHandle, int controlID, int MenuItemID, void *callbackData);
 
 int scancount;
 #endif

@@ -71,18 +71,23 @@ int CVICALLBACK CMD_RUN_CALLBACK (int panel, int control, int event,
 int CVICALLBACK CMD_SCAN_CALLBACK (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
 {		
-	int repeat=0;
+	int repeat=0,status;
 	switch (event)
 		{
 		case EVENT_COMMIT:
-			UpdateScanValue(TRUE); // sending value of 1 resets the scan counter.
-			PScan.Scan_Active=TRUE;
-			SaveLastGuiSettings();
-			ChangedVals=TRUE;
-			repeat=TRUE;
-			SetCtrlVal(panelHandle,PANEL_TOGGLEREPEAT,repeat); 		//sets "repeat" button to active
-			SetCtrlAttribute (panelHandle, PANEL_TIMER, ATTR_ENABLED, 1);   //Turn on the timer
-			RunOnce();		// starts the routine to build the ADwin data.
+			
+			status = ConfirmPopup ("Confirm Scan", "Confirm: Begin Experiment using Parameter Scan?");			
+			if (status==1)
+			{
+				UpdateScanValue(TRUE); // sending value of 1 resets the scan counter.
+				PScan.Scan_Active=TRUE;
+				SaveLastGuiSettings();
+				ChangedVals=TRUE;
+				repeat=TRUE;
+				SetCtrlVal(panelHandle,PANEL_TOGGLEREPEAT,repeat); 		//sets "repeat" button to active
+				SetCtrlAttribute (panelHandle, PANEL_TIMER, ATTR_ENABLED, 1);   //Turn on the timer
+				RunOnce();		// starts the routine to build the ADwin data.
+			}
 			break;
 		}
 		
@@ -106,8 +111,9 @@ int CVICALLBACK TIMER_CALLBACK (int panel, int control, int event,
 			{
 				UpdateScanValue(FALSE);  
 			}
-			RunOnce();
-		 
+			if(PScan.ScanDone==FALSE||PScan.Scan_Active==FALSE)
+				RunOnce();
+			
 			break;
 		}
 	return 0;
@@ -198,7 +204,7 @@ void RunOnce (void)
 									//Sets MetaArray with appropriate fcn val when "same" selected
 									if(AnalogTable[x][y][lastpagenum].fcn==6)
 									{
-										MetaAnalogArray[y][mindex].fcn=MetaAnalogArray[y][mindex-1].fcn;
+										MetaAnalogArray[y][mindex].fcn=1; ///Use code on right to mirror prev fncn MetaAnalogArray[y][mindex].fcn=MetaAnalogArray[y][mindex-1].fcn;
 										MetaAnalogArray[y][mindex].fval=MetaAnalogArray[y][mindex-1].fval;
 										MetaAnalogArray[y][mindex].tscale=MetaAnalogArray[y][mindex-1].tscale;
 									
@@ -240,7 +246,7 @@ void RunOnce (void)
 						//Sets MetaArray with appropriate fcn val when "same" selected
 						if(AnalogTable[i][j][k].fcn==6)
 						{
-							MetaAnalogArray[j][mindex].fcn=MetaAnalogArray[j][mindex-1].fcn;
+							MetaAnalogArray[j][mindex].fcn=1; //Use code on right to mirror prev fncn MetaAnalogArray[j][mindex].fcn=MetaAnalogArray[j][mindex-1].fcn;
 							MetaAnalogArray[j][mindex].fval=MetaAnalogArray[j][mindex-1].fval;
 							MetaAnalogArray[j][mindex].tscale=MetaAnalogArray[j][mindex-1].tscale;
 						}
@@ -276,6 +282,10 @@ void RunOnce (void)
 	
 	DrawNewTable(TRUE);
 	tsize=mindex; //tsize is the number of columns
+
+	//Scan Table Testing @@
+	
+	//printf("A[1][1].Val: %f\n",MetaAnalogArray[1][1].fval);
 
 	
 	//Prints MetaIndexes for testting only
@@ -704,35 +714,44 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 			SetData_Long(1,UpdateNum,1,count+1);
 		}
 		
+
+	// Send the Array to the AdWin Sequencer
+// ------------------------------------------------------------------------------------------------------------------
 		SetPar(2,GlobalDelay);
 		SetData_Long(2,ChNum,1,nuptotal+1);
 		SetData_Float(3,ChVal,1,nuptotal+1);
+// ------------------------------------------------------------------------------------------------------------------
+
 		// determine if we should reset values to zero after a cycle
 		GetMenuBarAttribute (menuHandle, MENU_SETTINGS_RESETZERO, ATTR_CHECKED,&checkresettozero);
 		for(i=1;i<=NUMBERANALOGCHANNELS;i++)
 		{	
-			ResetToZeroAtEnd[i]=AChName[i].resettozero;
+			ResetToZeroAtEnd[i-1]=AChName[i].resettozero;
+//			printf("Analog Chn = %d, Reset-to-zero = %d \n", i, ResetToZeroAtEnd[i-1]); 
+		
 		}
 		digchannelsum=0;
 		for(i=1;i<=16;i++)
 		{
 			if(DChName[i].resettolow==TRUE) {digchannelsum+=2^(i-1);}	
 		}
-		ResetToZeroAtEnd[25]=digchannelsum;// lower 16 digital channels    	
+//		ResetToZeroAtEnd[101]=digchannelsum;// lower 16 digital channels    	
 		for(i=17;i<=NUMBERDIGITALCHANNELS;i++)
 		digchannelsum=0;
 		{
 			if(DChName[i].resettolow==TRUE) {digchannelsum+=2^(i-17);}	
 		}
-		ResetToZeroAtEnd[26]=digchannelsum;// digital channels 17-24		 
+//		ResetToZeroAtEnd[102]=digchannelsum;// digital channels 17-24		 
 		//ResetToZeroAtEnd[25]=0;// lower 16 digital channels    
 		//ResetToZeroAtEnd[26]=0;// digital channels 17-24
-		ResetToZeroAtEnd[27]=0;// master override....if ==1 then reset none
-		if(checkresettozero==0) { ResetToZeroAtEnd[27]=1;}
+//		ResetToZeroAtEnd[27]=0;// master override....if ==1 then reset none
+//		if(checkresettozero==0) { ResetToZeroAtEnd[27]=1;}
 
-		SetData_Long(4,ResetToZeroAtEnd,1,NUMBERANALOGCHANNELS+6);
+		SetData_Long(4,ResetToZeroAtEnd,1,NUMBERANALOGCHANNELS);
 		// done evaluating channels that are reset to  zero (low)
 		ChangedVals=0;
+
+	
 	}
 	// more debug info
 	tstop=clock();         
@@ -925,6 +944,7 @@ void UpdateScanValue(int Reset)
 	// Initialization on first iteration
 	if(Reset==TRUE) 
 	{   
+		PScan.ScanDone=FALSE; // added by dave @@
 		counter=0;
 		for(i=0;i<1000;i++)
 		{
@@ -1003,15 +1023,21 @@ void UpdateScanValue(int Reset)
 							   VAL_WHITE);
 			ScanVal.Current_Value=cellval;	
 			ChangedVals=TRUE;
+			
+			//check for end condition
+ 			// Scanning ends if we program -999 into a cell of the Scan List
+			if (ScanVal.Current_Value<=-999.0)
+				PScan.ScanDone=TRUE;
+			
 		}
-
 	}
-
+	
+	
 
 	else // UseList=FALSE.... therefor assume linear scanning
 	{
 		// calculate number of steps in the ramp
-		numsteps=ceil(abs(((double)ScanVal.Start-(double)ScanVal.End)/(double)ScanVal.Step));	
+		numsteps=(int)ceil(abs(((double)ScanVal.Start-(double)ScanVal.End)/(double)ScanVal.Step));	
   		PScan.ScanDone=FALSE;
 		timesdid++;
   		ScanVal.Current_Iteration++;
@@ -1024,15 +1050,15 @@ void UpdateScanValue(int Reset)
 			ChangedVals=TRUE;
 		}
 		//if we are at the last step, then set the scan value to the last value (in case the step size causes the scan to go too far
-		if((ScanVal.Current_Value>=ScanVal.End)&& (ScanUp==TRUE)) 
+		if((ScanVal.Current_Step==numsteps)&&(ScanVal.Current_Iteration>=ScanVal.Iterations)) //ScanVal.Current_Value>=ScanVal.End
 		{
+			ScanVal.Current_Step++;
+			ScanVal.Current_Iteration=0;
 			ScanVal.Current_Value=ScanVal.End;
 		}
-	
-		if((ScanVal.Current_Value<=ScanVal.End)&& (ScanUp==FALSE)) 
-		{
-			ScanVal.Current_Value=ScanVal.End;
-		}
+		if((ScanVal.Current_Step>numsteps)&&(ScanVal.Current_Iteration>=ScanVal.Iterations))
+			PScan.ScanDone=TRUE;
+		
 	}	
 	
 	//insert current scan values into the tables , so they are included in the next BuildUpdateList
@@ -1069,45 +1095,34 @@ void UpdateScanValue(int Reset)
 	SetCtrlVal (panelHandle_sub2, SUBPANEL2_NUM_SCANSTEP, ScanVal.Current_Step);
 	SetCtrlVal (panelHandle_sub2, SUBPANEL2_NUM_SCANITER, ScanVal.Current_Iteration);
 	
-	//check for end condition
- 	if(UseList)   // Scanning ends if we program -999 into a cell of the Scan List
-	{
-		GetTableCellVal(panelHandle, PANEL_SCAN_TABLE, MakePoint(1,ScanVal.Current_Step+2), &nextcell);
-		if((nextcell<=-999)&&(ScanVal.Current_Iteration>=ScanVal.Iterations-1))
-		{ 
-			PScan.ScanDone=TRUE;
-		}
-	}
 	
-	else//not using the ScanTable
-	{
-		if(ScanUp)
- 		{
- 			if((ScanVal.Current_Value>=ScanVal.End)&&(ScanVal.Current_Iteration>=ScanVal.Iterations-1))	
-			{   //Done Scan
- 				PScan.ScanDone=TRUE;  // Flag used in RunOnce() to initiate a stop
-			}
-		}
-		else
-		{
-		 	if((ScanVal.Current_Value<=ScanVal.End)&&(ScanVal.Current_Iteration>=ScanVal.Iterations-1))	
-			{   //Done Scan
-	 			PScan.ScanDone=TRUE;  // Flag used in RunOnce() to initiate a stop	
-			}
-		}
-	}//done checking the scan is done
 
-		// if the scan is done, then cleanup and write the starting values back into the tables
+    // if the scan is done, then cleanup and write the starting values back into the tables
 	if(PScan.ScanDone==TRUE)
 	{   // reset initial values in the tables
-		AnalogTable[cx][cy][cz].fval=PScan.Analog.Start_Of_Scan;
-		TimeArray[cx][cz]=PScan.Time.Start_Of_Scan;
-		SetCtrlVal(panelHandle,PANEL_NUM_DDS_OFFSET,PScan.DDSFloor.Floor_Start);
-		ddstable[cx][cz].end_frequency=PScan.DDS.Start_Of_Scan;
+		switch(PScan.ScanMode)
+		{
+			case 0:// Analog value
+				AnalogTable[cx][cy][cz].fval=PScan.Analog.Start_Of_Scan;
+				break;
+			case 1:// Time duration
+				TimeArray[cx][cz]=PScan.Time.Start_Of_Scan;		
+				break;
+			case 2:// DDS frequency
+				ddstable[cx][cz].end_frequency=PScan.DDS.Start_Of_Scan;
+				break;
+			case 3: // DDS offset/floor
+				SetCtrlVal(panelHandle,PANEL_NUM_DDS_OFFSET,PScan.DDSFloor.Floor_Start);
+				break;
+		}
 		
 		//hide the information panel
 		SetCtrlAttribute (panelHandle_sub2,SUBPANEL2,ATTR_VISIBLE,0);
 		ExportScanBuffer();// prompt to write out information
+		
+		//Redraw Table
+		ChangedVals=TRUE;
+		DrawNewTable(1);
 	}
 	
 }
@@ -2427,7 +2442,7 @@ void ShiftColumn3(int col, int page,int dir)
 {
 	
 	int i,j,status,start,zerocol;
-	printf("col %d",col);
+	//printf("col %d",col);
 	
 	if (dir==-1)			//shifts cols right (insertion)
 		start=NUMBEROFCOLUMNS;
@@ -3735,5 +3750,10 @@ void CVICALLBACK EXIT (int menuBar, int menuItem, void *callbackData,int panel)
 void CVICALLBACK Scan_Table_Load(int panelHandle, int controlID, int MenuItemID, void *callbackData)
 {		
 		DisplayPanel (panelHandle8);
+}
+
+void CVICALLBACK Scan_Table_NumSet_Load(int panelHandle, int controlID, int MenuItemID, void *callbackData)
+{		
+		DisplayPanel (panelHandle9);
 }
 

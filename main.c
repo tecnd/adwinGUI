@@ -117,6 +117,8 @@ int main (int argc, char *argv[])
 		return -1;
 	if ((panelHandle8 = LoadPanel (0, "ScanTableLoader.uir", PANEL)) < 0)
 		return -1;
+	if ((panelHandle9 = LoadPanel (0, "NumSet.uir", PANEL)) < 0)
+		return -1;
 		
 
 		
@@ -277,10 +279,10 @@ void Initialization()
 	
 	//Scan Table RC Menu
 	NewCtrlMenuItem (panelHandle,PANEL_SCAN_TABLE,"Load Values",-1,Scan_Table_Load,0);
+	NewCtrlMenuItem (panelHandle,PANEL_SCAN_TABLE,"Set Number of Cells",-1,Scan_Table_NumSet_Load,0);
 	HideBuiltInCtrlMenuItem (panelHandle,PANEL_SCAN_TABLE,-4);
 	
-
-
+	
 	for (i=1;i<=NUMBERANALOGCHANNELS;i++)
 	{   	
 		SetTableCellAttribute (panelHandle, PANEL_TBL_ANAMES, MakePoint(2,i),ATTR_DATA_TYPE, VAL_UNSIGNED_INTEGER);    
