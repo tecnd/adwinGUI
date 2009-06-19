@@ -61,7 +61,10 @@ void InitializeScanPanel(void)
 	SetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSFLOORSTEP,  PScan.DDSFloor.Floor_Step);
 	SetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSFLOORITER,  PScan.DDSFloor.Iterations_Per_Step);
 	
-	
+	SetCtrlVal (panelHandle7, SCANPANEL_NUM_LASSTART, PScan.Laser.Start_Of_Scan);
+	SetCtrlVal (panelHandle7, SCANPANEL_NUM_LASEND,   PScan.Laser.End_Of_Scan);
+	SetCtrlVal (panelHandle7, SCANPANEL_NUM_LASSTEP,  PScan.Laser.Scan_Step_Size);
+	SetCtrlVal (panelHandle7, SCANPANEL_NUM_LASITER,  PScan.Laser.Iterations_Per_Step);
 	DisplayPanel(panelHandle7);
 }
 
@@ -100,6 +103,12 @@ void ReadScanValues(void)
 	GetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSFLOORSTEP,  &PScan.DDSFloor.Floor_Step);
 	GetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSFLOORITER,  &PScan.DDSFloor.Iterations_Per_Step);
 	
+	GetCtrlVal (panelHandle7, SCANPANEL_NUM_LASSTART, &PScan.Laser.Start_Of_Scan);
+	GetCtrlVal (panelHandle7, SCANPANEL_NUM_LASEND,   &PScan.Laser.End_Of_Scan);
+	GetCtrlVal (panelHandle7, SCANPANEL_NUM_LASSTEP,  &PScan.Laser.Scan_Step_Size);
+	GetCtrlVal (panelHandle7, SCANPANEL_NUM_LASITER,  &PScan.Laser.Iterations_Per_Step);
+	
+
 	ScanVal.Current_Step=0;
 
 	
@@ -182,12 +191,30 @@ int CVICALLBACK CALLBACK_DDSFLOORSCANOK (int panel, int control, int event,
 	return 0;
 }
 //********************************************************************************************************
+//Added Aug 09, 2006
+int CVICALLBACK CALLBACK_LASSCANOK (int panel, int control, int event,
+		void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+		{
+		case EVENT_COMMIT:
+			ReadScanValues();
+			PScan.ScanMode=4;//set to laser scan
+			HidePanel(panelHandle7);
+			HidePanel(panelHandle4);
+			break;
+		}
+	return 0;
+}
+
+//********************************************************************************************************
 
 int CVICALLBACK CMD_GETSCANVALS_CALLBACK (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
 {
-	int cx=0,cy=0,cz=0;
+	int cx=0,cy=0,cz=0,laserNum;
 	double dtemp;
+	
 	switch (event)
 		{
 		case EVENT_COMMIT:
@@ -195,7 +222,10 @@ int CVICALLBACK CMD_GETSCANVALS_CALLBACK (int panel, int control, int event,
 			PScan.Column=currentx;
 			PScan.Row=currenty;
 			PScan.Page=currentpage;
-			cx=currentx;cy=currenty;cz=currentpage;	
+			cx=currentx;cy=currenty;cz=currentpage;
+			laserNum=cy-NUMBERANALOGCHANNELS-NUMBERDDS-1;
+			
+			
 			PScan.Analog.Analog_Mode		=AnalogTable[cx][cy][cz].fcn;
 			PScan.Analog.Start_Of_Scan		=AnalogTable[cx][cy][cz].fval;
 			PScan.Analog.End_Of_Scan		=AnalogTable[cx][cy][cz].fval;
@@ -212,6 +242,15 @@ int CVICALLBACK CMD_GETSCANVALS_CALLBACK (int panel, int control, int event,
 			PScan.DDS.End_Of_Scan			=ddstable[cx][cz].end_frequency;
 			PScan.DDS.Iterations_Per_Step	=1;
 			PScan.DDS.Current				=ddstable[cx][cz].amplitude;
+			
+			if (laserNum>=0&&laserNum<NUMBERLASERS)
+			{
+				PScan.Laser.Start_Of_Scan		=LaserTable[laserNum][cx][cz].fval;
+				PScan.Laser.End_Of_Scan			=PScan.Laser.Start_Of_Scan+10.0;
+				PScan.Laser.Scan_Step_Size		=10.0;
+				PScan.Laser.Iterations_Per_Step =1;
+				SetCtrlVal(panelHandle7,SCANPANEL_TXT_LASIDENT,LaserProperties[laserNum].Name);
+			}
 			
 			GetCtrlVal (panelHandle, PANEL_NUM_DDS_OFFSET, &dtemp);
 			PScan.DDSFloor.Floor_Start		=dtemp;

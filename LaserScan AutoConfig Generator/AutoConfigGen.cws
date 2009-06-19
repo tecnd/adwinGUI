@@ -1,0 +1,158 @@
+[Workspace Header]
+Version = 711
+Pathname Line0001 = "/c/ADWinProgs/AdwinGUI V13.0 LaserLock/LaserScan AutoConfig Generator/AutoConfig"
+Pathname Line0002 = "Gen.cws"
+CVI Dir = "/c/program files/national instruments7.11/cvi71"
+IVI Standard Root Dir = "/C/Program Files/IVI"
+VXIplug&play Framework Dir = "/C/VXIpnp/winnt"
+Number of Projects = 1
+Active Project = 1
+Project 0001 = "AutoConfigGen.prj"
+Drag Bar Left = 240
+Window Top = 40
+Window Left = 22
+Window Bottom = 542
+Window Right = 812
+Maximized = False
+Maximized Children = True
+Max Number Of Errors = 20
+Track Include File Dependencies = True
+Prompt For Missing Includes = True
+Stop On First Error File = False
+Bring Up Err Win For Warnings = True
+Show Build Dialog = False
+Save Changes Before Running = "Always"
+Hide Windows = False
+Global Hot Key = False
+Break At First Statement = False
+Sort Type = "File Name"
+Number of Opened Files = 6
+Window Confinement Region Enabled = True
+MainColumnWidth = 221
+FileDateColumnWidth = 70
+FileSizeColumnWidth = 70
+StatusColumnWidth = 70
+
+[Project Header 0001]
+Version = 711
+Platform Code = 4
+Build Configuration = "Release"
+Warn User If Debugging Release = 1
+Batch Build Release = False
+Batch Build Debug = False
+
+[File 0001]
+Path = "/c/ADWinProgs/AdwinGUI V13.0 LaserLock/Laser Tuning/LaserSettings.uir"
+File Type = "User Interface Resource"
+Disk Date = 3236858388
+In Projects = ""
+Window Top = 152
+Window Left = 70
+Window Height = 349
+Window Width = 676
+Window Z-Order = 6
+
+[File 0002]
+Path = "/c/ADWinProgs/AdwinGUI V13.0 LaserLock/Laser Tuning/LaserSettings.c"
+File Type = "CSource"
+Disk Date = 3238414041
+In Projects = ""
+Window Top = 182
+Window Left = 86
+Window Z-Order = 5
+Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,25,0,0,0,0,349,676,1,0,"
+
+[File 0003]
+Path Line0001 = "/c/ADWinProgs/AdwinGUI V13.0 LaserLock/LaserScan AutoConfig Generator/AutoConfig"
+Path Line0002 = "Gen.c"
+File Type = "CSource"
+Disk Date = 3239900496
+In Projects = "1,"
+Window Top = 32
+Window Left = 6
+Window Z-Order = 2
+Source Window State = "1,0,0,0,0,0,0,0,0,60,0,0,0,0,0,19,0,0,0,0,271,516,1,0,"
+
+[File 0004]
+Path = "/c/ADWinProgs/AdwinGUI V13.0 LaserLock/LaserScan AutoConfig Generator/vars.h"
+File Type = "Include"
+Disk Date = 3239884344
+In Projects = "1,"
+Window Top = 122
+Window Left = 54
+Window Z-Order = 3
+Source Window State = "1,33,45,33,0,8160,1,1,0,80,0,0,0,0,0,25,0,0,29,33,349,676,1,0,"
+
+[File 0005]
+Path Line0001 = "/c/ADWinProgs/AdwinGUI V13.0 LaserLock/LaserScan AutoConfig Generator/AutoConfig"
+Path Line0002 = "Gen.uir"
+File Type = "User Interface Resource"
+Disk Date = 3239280502
+In Projects = "1,"
+Window Top = 242
+Window Left = 118
+Window Height = 349
+Window Width = 676
+Window Z-Order = 4
+
+[File 0006]
+Path Line0001 = "/c/ADWinProgs/AdwinGUI V13.0 LaserLock/LaserScan AutoConfig Generator/RabbitCom9"
+Path Line0002 = "858.h"
+File Type = "Include"
+Disk Date = 3239742394
+In Projects = "1,"
+Window Top = 92
+Window Left = 38
+Window Z-Order = 1
+Source Window State = "1,57,57,57,28,29,28,1,0,65,0,0,0,0,0,32,45,0,60,11,349,676,1,0,"
+
+[File 0007]
+Path Line0001 = "/c/ADWinProgs/AdwinGUI V13.0 LaserLock/LaserScan AutoConfig Generator/AutoConfig"
+Path Line0002 = "Gen.h"
+File Type = "Include"
+Disk Date = 3239280502
+In Projects = "1,"
+Window Top = 152
+Window Left = 70
+Source Window State = "1,55,55,55,17,36,36,1,3,0,0,0,0,0,0,0,13,0,55,17,349,676,1,0,"
+
+[File 0008]
+Path Line0001 = "/c/ADWinProgs/AdwinGUI V13.0 LaserLock/LaserScan AutoConfig Generator/AutoConfig"
+Path Line0002 = "Gen2.h"
+File Type = "Include"
+Disk Date = 3238069573
+In Projects = "1,"
+Window Top = 362
+Window Left = 182
+Source Window State = "1,11,11,11,0,4,4,1,0,0,0,0,0,0,0,0,0,0,11,3,349,676,1,0,"
+
+[Build Options 0001]
+Generate Browse Info = True
+Enable Uninitialized Locals Runtime Warning = True
+Debugging Level = "Standard"
+Break On Library Errors = True
+Break On First Chance Exceptions = False
+Enable Remote Debugging = False
+Remote Debugger Address = "localhost"
+Remote Target Address = ""
+Remote Debugging Port = 3291
+
+[SCC Options 0001]
+Use global settings = True
+SCC Provider = ""
+SCC Project = ""
+Local Path = ""
+Auxiliary Path = ""
+Perform Same Action For .h File As For .uir File = "Ask"
+Username = ""
+Comment = ""
+Use Default Username = False
+Use Default Comment = True
+Suppress CVI Error Messages = False
+
+[DLL Debugging Support 0001]
+External Process Path = ""
+
+[Command Line Args 0001]
+Command Line Args = ""
+

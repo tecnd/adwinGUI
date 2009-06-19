@@ -1,0 +1,25 @@
+RabbitControlGUI
+
+Author: David Burns, July 2006.
+Purpose: Testing TCP Commands for Rabbit control of AD9858 DDS
+
+This tool presents a simple framework for adding and testing new TCP commands.
+
+Instructions.
+
+1.	Open TCP socket with Rabbit using Connect button.
+2. 	Flashing Heartbeat and solid green Connection Indicator indicate good link.
+3.	Enter Decimal Value of command into CMD Numeric.
+4.	CMD parameters passed to RabbitCom9858 functions from data1-date3 numerics.
+	See RabbitControlGUI Protocol Guide.xls for list of CMD values and reqd numeric 
+	entries for each command. 
+
+TroubleShooting.
+
+-	Ensure Rabbit IP and Port are entered correctly in source. (That is they 
+	correspond to the scoket being opened by the Rabbit).
+
+-	Ensure Static IP is within an acceptable range for your LAN and is not being 
+	used by another machine.
+
+-	Ensure DDS Core is powered up CMD 160:1. It is powered down by default.

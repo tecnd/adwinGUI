@@ -18,6 +18,7 @@
 #define  NS_PANEL_SETNUM                 2
 #define  NS_PANEL_NS_OK                  3       /* callback function: NumSet_Ok */
 #define  NS_PANEL_NS_CANCEL              4       /* callback function: NumSet_Cancel */
+#define  NS_PANEL_TEXTMSG                5
 
 
      /* Menu Bars, Menus, and Menu Items: */

@@ -34,12 +34,13 @@ NOT DONE:  IF TIMESCALE IS TOO LONG THEN OVERWRITE THE FOLLOWING CELL
 									// valuesgood=1 if okay to write data to AnalogTable array..sets to 0 if prompt denied
 	double dtemp,ttemp,usedtimescale; //usedtimescale=timescale written in AnalogTable to control ramping, exponential etc.
 	double timematrixlength;		// duration of the current column.
+	double max,min;					// max and min acceptable values used for coercive range checking
 	Point pval;
 	switch (event)
 		{
 								 
 		case EVENT_COMMIT:
-			valuesgood=1;
+			valuesgood=0;
 			
 			//Retrieve Control/Data Values from Panel
 			GetCtrlVal (panelHandle4,CTRL_PANEL_RING_CTRLMODE, &itemp);
@@ -55,8 +56,19 @@ NOT DONE:  IF TIMESCALE IS TOO LONG THEN OVERWRITE THE FOLLOWING CELL
 				AnalogTable[currentx][currenty][currentpage].tscale=ttemp;
 			}
 		
+			
+			max=(AChName[currenty].maxvolts-AChName[currenty].tbias)/AChName[currenty].tfcn;
+			min=(AChName[currenty].minvolts-AChName[currenty].tbias)/AChName[currenty].tfcn;
 			GetCtrlVal (panelHandle4,CTRL_PANEL_NUMFINALVAL, &dtemp);
-			AnalogTable[currentx][currenty][currentpage].fval=dtemp;			
+			if(dtemp>max)
+				SetCtrlVal (panelHandle4,CTRL_PANEL_NUMFINALVAL, max);  	
+			else if (dtemp<min)
+				SetCtrlVal (panelHandle4,CTRL_PANEL_NUMFINALVAL, min); 
+			else
+			{
+				AnalogTable[currentx][currenty][currentpage].fval=dtemp;			
+				valuesgood=1;
+			}
 			
 			GetCtrlVal (panelHandle4,CTRL_PANEL_NUMTIMESCALE, &dtemp);
 			usedtimescale=dtemp;
@@ -75,7 +87,7 @@ NOT DONE:  IF TIMESCALE IS TOO LONG THEN OVERWRITE THE FOLLOWING CELL
 			if (docheck==1)
 			{
 				//valuesgood=ConfirmPopup("Overlong array selected","Do you want to overwrite the following array?");	
-				valuesgood=1;  // just assume timing is right.
+				//valuesgood=1;  // just assume timing is right.
 				if(valuesgood==1)
 				{
 				 //code to update the 2 columns
@@ -96,50 +108,19 @@ NOT DONE:  IF TIMESCALE IS TOO LONG THEN OVERWRITE THE FOLLOWING CELL
 //***************************************************************************
 void SetControlPanel(void)
 {
-	// Reads the value of the last active column before this one and displays it on the panel.
-	double lastvalue;
-	BOOL FOUNDVAL=0;
-	int cx,cy,cz;
+	// Sets all relevant info into the DDS Control Panel based on the current cell selection
 	
 	SetCtrlVal(panelHandle4,CTRL_PANEL_STRUNITS, AChName[currenty].units);
 	SetCtrlVal(panelHandle4,CTRL_PANEL_STR_CHNAME,AChName[currenty].chname);
-	SetCtrlVal (panelHandle4,CTRL_PANEL_NUMFINALVAL, AnalogTable[currentx][currenty][currentpage].fval);
-	SetCtrlVal (panelHandle4,CTRL_PANEL_NUMTIMESCALE, AnalogTable[currentx][currenty][currentpage].tscale);
 	SetCtrlVal (panelHandle4,CTRL_PANEL_RING_CTRLMODE,AnalogTable[currentx][currenty][currentpage].fcn);
-
-	// find the last value
-	cx=1;
-	cz=1;
-	lastvalue=0;
-	while(!FOUNDVAL)
-	{
-		if(TimeArray[cx][cz]==0) {cz++;cx=1;}       // if you see a 0 time, go to next page
-		if(cz>=NUMBEROFPAGES+1)
-		{
-			FOUNDVAL=TRUE;
-		}
-		if(TimeArray[cx][cz]<0) 					// if you see a negative time, skip to next value
-		{
-			cx++;  
-			if(cx>=NUMBEROFCOLUMNS) {cx=1;cz++;}
-		}										   
-		if(TimeArray[cx][cz]>0)					    // if positive time, record current val     
-		{	
-			
-			if((cx>=currentx)&&(cz>=currentpage)) 
-			{	
-				FOUNDVAL=TRUE;	   // found current value
-			}
-			else
-			{
-				lastvalue=AnalogTable[cx][currenty][cz].fval;
-			}
-			cx++;
-			if(cx>=NUMBEROFCOLUMNS) {cx=1;cz++;}
-		}
-	}
 	
-	SetCtrlVal(panelHandle4,CTRL_PANEL_NUMINITVAL,lastvalue);
+	if(AnalogTable[currentx][currenty][currentpage].fcn!=6)
+		SetCtrlVal (panelHandle4,CTRL_PANEL_NUMFINALVAL, AnalogTable[currentx][currenty][currentpage].fval);
+	else
+		SetCtrlVal (panelHandle4,CTRL_PANEL_NUMFINALVAL,findLastVal(currenty,currentx, currentpage));	
+	
+	SetCtrlVal (panelHandle4,CTRL_PANEL_NUMTIMESCALE, AnalogTable[currentx][currenty][currentpage].tscale);
+	SetCtrlVal(panelHandle4,CTRL_PANEL_NUMINITVAL,findLastVal(currenty,currentx, currentpage));
 }
 
 //***************************************************************************

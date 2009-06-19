@@ -28,9 +28,13 @@ int  GetPage(void);
 void DrawNewTable(int dimmed);
 void CheckActivePages(void);
 void SaveArrays(char*,int);
+void LoadLaserData(char *,int nameSize);
+void SaveLaserData(char *,int nameSize);
 void LoadArrays(char*,int);
 void ExportPanel(char*,int);
-void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1][500],int DMat[NUMBERDIGITALCHANNELS+1][500],ddsoptions_struct DDSArray[500],ddsoptions_struct DDS2Array[500],dds3options_struct DDS3Array[500], int tsize); 
+void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1][500],int DMat[NUMBERDIGITALCHANNELS+1][500],ddsoptions_struct DDSArray[500],ddsoptions_struct DDS2Array[500],dds3options_struct DDS3Array[500],unsigned int LaserTriggerArray[NUMBERLASERS][500],int numtimes);
+void SeqError(char * msg);
+int int_power(int base, int power);
 double CalcFcnValue(int fcn,double Vinit,double Vfinal, double timescale,double telapsed,double celltime);
 
 void ReshapeAnalogTable(int,int,int);
@@ -43,6 +47,7 @@ void OptimizeTimeLoop(int *,int,int*);
 void UpdateScanValue(int);
 void ScanSetUp(void);
 void ExportScanBuffer(void);
+double findLastVal(int row, int column, int page);
 
 void MoveCanvasStart(int,int); // start arrow indicator, (x pos,on/off (i.e. True/False));
 void MoveCanvasEnd(int,int); // end arrow indicator, (x pos,on/off (i.e. True/False));
@@ -54,6 +59,7 @@ void CVICALLBACK Analog_Cell_Copy(int panelHandle, int controlID, int MenuItemID
 void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID, int MenuItemID, void *callbackData);   //
 void CVICALLBACK Scan_Table_Load(int panelHandle, int controlID, int MenuItemID, void *callbackData);  
 void CVICALLBACK Scan_Table_NumSet_Load(int panelHandle, int controlID, int MenuItemID, void *callbackData);
+void CVICALLBACK Scan_Table_Shuffle(int panelHandle, int controlID, int MenuItemID, void *callbackData);
 
 int scancount;
 #endif
