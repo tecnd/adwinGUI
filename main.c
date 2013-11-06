@@ -13,6 +13,10 @@ C (LabWindows) is base 0 for arrays,
 however some controls for LabWindows are base 1   : Tables
 and some are base 0								  : Listboxes
 
+2010:
+Aug 2:  change to the "ADbasic binary file: "TransferData_August02_2010.TB1"
+		purpose: activate DIO 1 and DIO 2 outputs for Aubin Lab (W&M) sequencer.
+
 2006:
 Mar 9:  Added the ability to loop between 2 columns of the panel, spanning pages if necessary.  Could be used
         for repetitive outputs.. e.g. cycling between MOT and an optical probe. 
@@ -87,7 +91,6 @@ Dec16	Made the last panel mobile, such that it can be inserted into other pages.
 #include <time.h>
 #define VAR_DECLS 1
 #include "vars.h"
-#include "LaserSettings2.h"
 //#include <userint.h>
 //#include <stdio.h>
 //#include  <Windows.h>
@@ -103,6 +106,7 @@ int main (int argc, char *argv[])
 		return -1;
 	if ((panelHandle_sub2=LoadPanel(0,"GUIDesign.uir",SUBPANEL2))<0)
 		return -1;
+		
 	if ((panelHandle2 = LoadPanel (0, "AnalogSettings.uir", PANEL)) < 0)
 		return -1;
 	if ((panelHandle3 = LoadPanel (0, "DigitalSettings.uir", PANEL)) < 0)
@@ -117,15 +121,8 @@ int main (int argc, char *argv[])
 		return -1;
 	if ((panelHandle8 = LoadPanel (0, "ScanTableLoader.uir", PANEL)) < 0)
 		return -1;
-	if ((panelHandle9 = LoadPanel (0, "NumSet.uir", PANEL)) < 0)
-		return -1;
-	if ((panelHandle10 = LoadPanel (0, "Laser Tuning\\LaserSettings.uir", PANEL)) < 0)
-		return -1;
-	if ((panelHandle11 = LoadPanel (0, "Laser Tuning\\LaserControl.uir", PANEL)) < 0)
-		return -1;
-	
-	
-	
+		
+
 		
 	SetCtrlAttribute (panelHandle, PANEL_DEBUG, ATTR_VISIBLE, 0);
 	// Initialize arrays (to avoid undefined elements causing -99 to be written)
@@ -155,15 +152,6 @@ int main (int argc, char *argv[])
 				DigTableValues[i][j][k]=0;
 		}
 	}
-	
-	
-	/* Initialize laser arrays - everything set to hold last value (default) 1st set to step */
-	LaserTable[0][1][1].fcn=1;
-	LaserTable[1][1][1].fcn=1;
-	LaserTable[2][1][1].fcn=1;
-	LaserTable[3][1][1].fcn=1;
-	
-	
 	
 	
 	//initialize dds_tables, don't assume anything...
@@ -217,7 +205,7 @@ int main (int argc, char *argv[])
 
 
 	// autochange the size of the analog table on main panel
-	
+	//	DrawNewTable(0);
 	
 	 
 	Initialization();  
@@ -244,8 +232,6 @@ void Initialization()
 	int i=0,cellheight=0,fontsize=0,aname_size,new_aname_size;
 	int j=0,x0,dx;
 	char str_list_val[5];
-	char buff[200];
-	
 	PScan.Scan_Active=FALSE;
 	PScan.Use_Scan_List=FALSE;
 	//
@@ -280,18 +266,7 @@ void Initialization()
 		SetTableCellVal (panelHandle, PANEL_TBL_DIGNAMES, MakePoint(2,i), i);
 	}
 
-	/* Build Analog Table */
-	//disable interactive row and column sizing on analog table,digtable nd timetable
-	SetCtrlAttribute(panelHandle,PANEL_ANALOGTABLE,ATTR_ENABLE_ROW_SIZING,0);
-	SetCtrlAttribute(panelHandle,PANEL_ANALOGTABLE,ATTR_ENABLE_COLUMN_SIZING,0); 
-	SetCtrlAttribute(panelHandle,PANEL_DIGTABLE,ATTR_ENABLE_ROW_SIZING,0);
-	SetCtrlAttribute(panelHandle,PANEL_DIGTABLE,ATTR_ENABLE_COLUMN_SIZING,0); 
-	SetCtrlAttribute(panelHandle,PANEL_TIMETABLE,ATTR_ENABLE_ROW_SIZING,0);
-	SetCtrlAttribute(panelHandle,PANEL_TIMETABLE,ATTR_ENABLE_COLUMN_SIZING,0); 
-	
-	
-	
-	//Add menu items for copy and paster functions	
+	//Build Analog Table
 	NewCtrlMenuItem (panelHandle,PANEL_ANALOGTABLE,"Copy",-1,Analog_Cell_Copy,0);
 	NewCtrlMenuItem (panelHandle,PANEL_ANALOGTABLE,"Paste",-1,Analog_Cell_Paste,0);
 	HideBuiltInCtrlMenuItem (panelHandle,PANEL_ANALOGTABLE,-4); //Hides Sort Command
@@ -299,26 +274,22 @@ void Initialization()
 	SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_TABLE_MODE,VAL_GRID);
 	SetTableColumnAttribute (panelHandle, PANEL_ANALOGTABLE, -1,ATTR_PRECISION, 3);
 
-	InsertTableRows(panelHandle,PANEL_ANALOGTABLE,-1,NUMBERANALOGCHANNELS+NUMBERDDS+NUMBERLASERS-1,VAL_CELL_NUMERIC);
-	InsertTableRows(panelHandle,PANEL_TBL_ANAMES,-1,NUMBERANALOGCHANNELS+NUMBERDDS+NUMBERLASERS-1,VAL_USE_MASTER_CELL_TYPE);
+	InsertTableRows(panelHandle,PANEL_ANALOGTABLE,-1,NUMBERANALOGCHANNELS+NUMBERDDS-1,VAL_CELL_NUMERIC);
+	InsertTableRows(panelHandle,PANEL_TBL_ANAMES,-1,NUMBERANALOGCHANNELS+NUMBERDDS-1,VAL_USE_MASTER_CELL_TYPE);
 	InsertTableRows(panelHandle,PANEL_TBL_ANALOGUNITS,-1,NUMBERANALOGCHANNELS-1,-1);
 	SetAnalogChannels();
 	
-	//Set default analog channel names
+	//Scan Table RC Menu
+	NewCtrlMenuItem (panelHandle,PANEL_SCAN_TABLE,"Load Values",-1,Scan_Table_Load,0);
+	HideBuiltInCtrlMenuItem (panelHandle,PANEL_SCAN_TABLE,-4);
+	
+
+
 	for (i=1;i<=NUMBERANALOGCHANNELS;i++)
 	{   	
 		SetTableCellAttribute (panelHandle, PANEL_TBL_ANAMES, MakePoint(2,i),ATTR_DATA_TYPE, VAL_UNSIGNED_INTEGER);    
 		SetTableCellVal (panelHandle, PANEL_TBL_ANAMES, MakePoint(2,i), i);
 	}
-	
-	
-	//Scan Table Right Click Menu Additions
-	NewCtrlMenuItem (panelHandle,PANEL_SCAN_TABLE,"Load Values",-1,Scan_Table_Load,0);
-	NewCtrlMenuItem (panelHandle,PANEL_SCAN_TABLE,"Set Number of Cells",-1,Scan_Table_NumSet_Load,0);
-	NewCtrlMenuItem (panelHandle,PANEL_SCAN_TABLE,"Shuffle Entries",-1,Scan_Table_Shuffle,0);
-	HideBuiltInCtrlMenuItem (panelHandle,PANEL_SCAN_TABLE,-4);
-	
-	
 	
 //	InsertTableRows (panelHandle, PANEL_ANALOGTABLE, 16,NUMBERANALOGCHANNELS-16+NUMBERDDS-1, VAL_CELL_NUMERIC);
 //	InsertTableRows (panelHandle, PANEL_TBL_ANAMES,24+1,NUMBERANALOGCHANNELS-24+NUMBERDDS+1,VAL_CELL_STRING);
@@ -330,18 +301,18 @@ void Initialization()
 //	SetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_HEIGHT,100);
 	
 
-	SetTableRowAttribute (panelHandle, PANEL_ANALOGTABLE, -1,ATTR_PRECISION, 3);
+		SetTableRowAttribute (panelHandle, PANEL_ANALOGTABLE, -1,ATTR_PRECISION, 3);
 
 	
-	// Change Analog Settings window sets maximums on channel number and channel line
+	// Change Analog Settings window
 	SetCtrlAttribute (panelHandle2, ANLGPANEL_NUM_ACH_LINE,ATTR_MAX_VALUE, NUMBERANALOGCHANNELS);
 	SetCtrlAttribute (panelHandle2, ANLGPANEL_NUM_ACHANNEL,ATTR_MAX_VALUE, NUMBERANALOGCHANNELS);
 	
 	// change GUI
-	SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERANALOGCHANNELS+NUMBERDDS+NUMBERLASERS);
+	SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERANALOGCHANNELS+NUMBERDDS);
 	SetCtrlAttribute (panelHandle, PANEL_DIGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERDIGITALCHANNELS);
-	SetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_VISIBLE_LINES, NUMBERANALOGCHANNELS+NUMBERDDS+NUMBERLASERS);
-	SetCtrlAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_VISIBLE_LINES, NUMBERANALOGCHANNELS); 
+	SetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_VISIBLE_LINES, NUMBERANALOGCHANNELS+NUMBERDDS);
+	SetCtrlAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_VISIBLE_LINES, NUMBERANALOGCHANNELS+NUMBERDDS); 
 	SetCtrlAttribute (panelHandle, PANEL_TBL_DIGNAMES, ATTR_VISIBLE_LINES, NUMBERDIGITALCHANNELS);
 
 
@@ -432,12 +403,14 @@ void Initialization()
 	SetTableColumnAttribute (panelHandle, PANEL_TBL_ANAMES, 2,ATTR_DATA_TYPE, VAL_UNSIGNED_INTEGER);    
 	SetTableColumnAttribute (panelHandle, PANEL_TBL_DIGNAMES, 2,ATTR_DATA_TYPE, VAL_UNSIGNED_INTEGER);    
 
+	
+	
+
+	   
 	PScan.Analog.Scan_Step_Size=1.0;
 	PScan.Analog.Iterations_Per_Step=1;
 	PScan.Scan_Active=FALSE;
-	
-	// set to display both analog and digital channels also changes a bunch of their shape/position properties
-	// Note the Scan table is not fixed in the source code, to change its position move it in the GUIDesign.uir file
+	//set to display both analog and digital channels
 	SetChannelDisplayed(1);
 	DrawCanvasArrows();
 //	
@@ -447,17 +420,7 @@ void Initialization()
 
 
 
-	
-	//Initialize Settings Tables (with zeroes) and sets Laser Digital comm channels
-	LaserSettingsInit();
-	
-	//Display Sequencer Version Number on Main Panel Title
-	strcpy (buff,SEQUENCER_VERSION);
-	strcat (buff,"untitled panel");
-	SetPanelAttribute (panelHandle, ATTR_TITLE, buff);
-	CycleTime=-1.0;
-	
-	
+
 	return;
 	
 }

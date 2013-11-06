@@ -1,4 +1,8 @@
-#include "toolbox.h"
+// Modified by Seth Aubin on August 2, 2010
+//  change to the "ADbasic binary file: "TransferData_August02_2010.TB1"
+//  purpose: activate DIO 1 and DIO 2 outputs.
+
+
 #include "ScanTableLoader.h"
 
 //To DO:  add more DDS 'clips' for copy/paste routines
@@ -14,11 +18,6 @@
 #include "GUIDesign2.h"
 #include "AnalogSettings2.h"
 #include "DigitalSettings2.h"
-#include "LaserSettings2.h"
-#include "LaserControl2.h"
-#include "LaserTuning.h"
-
-   
 
 //Clipboard for copy/paste functions
 double TimeClip;
@@ -32,10 +31,6 @@ struct AnalogTableClip{
 int DigClip[NUMBERDIGITALCHANNELS+1];
 ddsoptions_struct ddsclip,dds2clip,dds3clip;
 
-struct LaserTableClip{
-	int fcn;
-	double fval;
-}LaserClip[NUMBERLASERS+1];
 
 
 extern int Active_DDS_PANEL;
@@ -51,7 +46,6 @@ int CVICALLBACK CMD_RUN_CALLBACK (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
 {
 	int repeat=0;
-	
 	switch (event)
 		{
 		case EVENT_COMMIT:
@@ -82,23 +76,18 @@ int CVICALLBACK CMD_RUN_CALLBACK (int panel, int control, int event,
 int CVICALLBACK CMD_SCAN_CALLBACK (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
 {		
-	int repeat=0,status;
+	int repeat=0;
 	switch (event)
 		{
 		case EVENT_COMMIT:
-			
-			status = ConfirmPopup ("Confirm Scan", "Confirm: Begin Experiment using Parameter Scan?");			
-			if (status==1)
-			{
-				UpdateScanValue(TRUE); // sending value of 1 resets the scan counter.
-				PScan.Scan_Active=TRUE;
-				SaveLastGuiSettings();
-				ChangedVals=TRUE;
-				repeat=TRUE;
-				SetCtrlVal(panelHandle,PANEL_TOGGLEREPEAT,repeat); 		//sets "repeat" button to active
-				SetCtrlAttribute (panelHandle, PANEL_TIMER, ATTR_ENABLED, 1);   //Turn on the timer
-				RunOnce();		// starts the routine to build the ADwin data.
-			}
+			UpdateScanValue(TRUE); // sending value of 1 resets the scan counter.
+			PScan.Scan_Active=TRUE;
+			SaveLastGuiSettings();
+			ChangedVals=TRUE;
+			repeat=TRUE;
+			SetCtrlVal(panelHandle,PANEL_TOGGLEREPEAT,repeat); 		//sets "repeat" button to active
+			SetCtrlAttribute (panelHandle, PANEL_TIMER, ATTR_ENABLED, 1);   //Turn on the timer
+			RunOnce();		// starts the routine to build the ADwin data.
 			break;
 		}
 		
@@ -116,17 +105,14 @@ int CVICALLBACK TIMER_CALLBACK (int panel, int control, int event,
 		{
 		case EVENT_TIMER_TICK:
 			SetCtrlAttribute (panelHandle, PANEL_TIMER, ATTR_ENABLED, FALSE);
-			//disable timer and re-enable in the update list loop, if the repeat butn is pressed.
+			//disable timer and re-enable in the runonce (or update list) loop, if the repeat butn is pressed.
 			//reset the timer too and set a timer time of 50ms?
 			if(PScan.Scan_Active==TRUE)
 			{
 				UpdateScanValue(FALSE);  
 			}
-			if(PScan.ScanDone==FALSE||PScan.Scan_Active==FALSE)
-			{	
-				RunOnce();
-			}
-			
+			RunOnce();
+		 
 			break;
 		}
 	return 0;
@@ -170,17 +156,10 @@ void RunOnce (void)
 	ddsoptions_struct MetaDDSArray[500];
 	ddsoptions_struct MetaDDS2Array[500];
 	dds3options_struct MetaDDS3Array[500];
-	struct LaserTableValues	MetaLaserArray[NUMBERLASERS][500];
-	unsigned int MetaTriggerArray[NUMBERLASERS][500];
-	char errorBuff[200];
-	
 	int i,j,k,mindex,tsize;
 	int insertpage,insertcolumn,x,y,lastpagenum,FinalPageToUse;
 	BOOL nozerofound,nozerofound_2;
 	int ResetToZeroAtEnd[30];
-	
-	SeqErrorCount=0;  // For each run reset error count ot zero
-	
 	
 	isdimmed=TRUE;
 	lastpagenum=10;
@@ -208,7 +187,7 @@ void RunOnce (void)
 			//go through for each time column
 			for(i=1;i<=NUMBEROFCOLUMNS;i++)
 			{
-				if((i==insertcolumn)&&(k==insertpage)&&(k!=NUMBEROFPAGES-1))  //NUMBEROFPAGES-1 is 10 ie the insert page itself
+				if((i==insertcolumn)&&(k==insertpage)&&(k!=NUMBEROFPAGES-1))
 				{
 					nozerofound_2=TRUE;
 					if(ischecked[lastpagenum]==1)
@@ -224,7 +203,7 @@ void RunOnce (void)
 									//Sets MetaArray with appropriate fcn val when "same" selected
 									if(AnalogTable[x][y][lastpagenum].fcn==6)
 									{
-										MetaAnalogArray[y][mindex].fcn=1; ///Use code on right to mirror prev fncn MetaAnalogArray[y][mindex].fcn=MetaAnalogArray[y][mindex-1].fcn;
+										MetaAnalogArray[y][mindex].fcn=1; //on the right for repeat function, currently set to hold val //MetaAnalogArray[y][mindex].fcn=MetaAnalogArray[y][mindex-1].fcn;
 										MetaAnalogArray[y][mindex].fval=MetaAnalogArray[y][mindex-1].fval;
 										MetaAnalogArray[y][mindex].tscale=MetaAnalogArray[y][mindex-1].tscale;
 									
@@ -236,15 +215,6 @@ void RunOnce (void)
 										MetaAnalogArray[y][mindex].tscale=AnalogTable[x][y][lastpagenum].tscale;
 									}
 								}
-								
-								for(y=0;y<NUMBERLASERS;y++)
-								{
-									if(LaserTable[y][x][lastpagenum].fcn!=0)
-										MetaLaserArray[y][mindex]=LaserTable[y][x][lastpagenum];
-									else
-										MetaLaserArray[y][mindex]=MetaLaserArray[y][mindex-1];
-								}
-								
 								for(y=1;y<=NUMBERDIGITALCHANNELS;y++)
 								{
 									MetaDigitalArray[y][mindex]=DigTableValues[x][y][lastpagenum];   
@@ -275,7 +245,7 @@ void RunOnce (void)
 						//Sets MetaArray with appropriate fcn val when "same" selected
 						if(AnalogTable[i][j][k].fcn==6)
 						{
-							MetaAnalogArray[j][mindex].fcn=1; //Use code on right to mirror prev fncn MetaAnalogArray[j][mindex].fcn=MetaAnalogArray[j][mindex-1].fcn;
+							MetaAnalogArray[j][mindex].fcn=1; //on the right for repeat function, currently set to hold val ////MetaAnalogArray[j][mindex].fcn=MetaAnalogArray[j][mindex-1].fcn;
 							MetaAnalogArray[j][mindex].fval=MetaAnalogArray[j][mindex-1].fval;
 							MetaAnalogArray[j][mindex].tscale=MetaAnalogArray[j][mindex-1].tscale;
 						}
@@ -286,16 +256,6 @@ void RunOnce (void)
 							MetaAnalogArray[j][mindex].tscale=AnalogTable[i][j][k].tscale;
 						}
 					}
-					
-					for(j=0;j<NUMBERLASERS;j++)
-					{
-						if(LaserTable[j][i][k].fcn!=0)
-							MetaLaserArray[j][mindex]=LaserTable[j][i][k];
-						else
-							MetaLaserArray[j][mindex]=MetaLaserArray[j][mindex-1];
-					}
-					
-					
 					for(j=1;j<=NUMBERDIGITALCHANNELS;j++)  
 					{
 						MetaDigitalArray[j][mindex]=DigTableValues[i][j][k];
@@ -321,10 +281,6 @@ void RunOnce (void)
 	
 	DrawNewTable(TRUE);
 	tsize=mindex; //tsize is the number of columns
-
-	//Scan Table Testing 
-	
-	//printf("A[1][1].Val: %f\n",MetaAnalogArray[1][1].fval);
 
 	
 	//Prints MetaIndexes for testting only
@@ -368,33 +324,16 @@ void RunOnce (void)
 	for (i=1;i<=mindex;i++)									  //Not being used???
 			printf("%0.0f\t",MetaDDSArray[i].delta_time);*/ 
 	
-	// Programs Rabbit
-	BuildLaserUpdates(MetaLaserArray,MetaTimeArray,MetaTriggerArray,tsize);
-    
+	
+		
+	
     // Send the new arrays to BuildUpdateList()	
-    if (SeqErrorCount>0)
-    {
-			sprintf(errorBuff,"Bad Setting in Sequence.\nView %d Error[s]?",SeqErrorCount);
-			if(ConfirmPopup ("Sequence Setting Error",errorBuff))
-			{
-				for(j=0;j<SeqErrorCount;j++)
-				{
-					sprintf(errorBuff,"Error %d",j);
-					MessagePopup (errorBuff, SeqErrorBuffer[j]);
-				}
-			
-			}
-			if (ConfirmPopup("Error Directive","Execute Sequence Anyways?\n(not recommened)"));
-				BuildUpdateList(MetaTimeArray,MetaAnalogArray,MetaDigitalArray,MetaDDSArray,MetaDDS2Array,MetaDDS3Array,MetaTriggerArray,tsize);
-	}
-	else
-		BuildUpdateList(MetaTimeArray,MetaAnalogArray,MetaDigitalArray,MetaDDSArray,MetaDDS2Array,MetaDDS3Array,MetaTriggerArray,tsize);
+	BuildUpdateList(MetaTimeArray,MetaAnalogArray,MetaDigitalArray,MetaDDSArray,MetaDDS2Array,MetaDDS3Array,tsize);
 
 }
 //*****************************************************************************************
 void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1][500],int DMat[NUMBERDIGITALCHANNELS+1][500],
-     ddsoptions_struct DDSArray[500],ddsoptions_struct DDS2Array[500],dds3options_struct DDS3Array[500],
-     unsigned int LaserTriggerArray[NUMBERLASERS][500],int numtimes)
+     ddsoptions_struct DDSArray[500],ddsoptions_struct DDS2Array[500],dds3options_struct DDS3Array[500], int numtimes)
 {
 	/*
 		
@@ -436,13 +375,13 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 	int i=0,j=0,k=0,m=0,n=0,tau=0,p=0,imax;
 	int nupcurrent=0,nuptotal=0,checkresettozero=0;
 	int usefcn=0,digchannel;  //Bool
-	unsigned int digval,digval2,digval3,digval4,LastDVal=0,LastDVal2=0,LastDVal3=0,LastDVal4=0,lasTrigVal=0;  
+	unsigned int digval,digval2,digval3,digval4,LastDVal=0,LastDVal2=0,LastDVal3=0,LastDVal4=0;
 	int UsingFcns[NUMBERANALOGCHANNELS+1]={0},count=0,ucounter=0,counter,channel;
 	double LastAval[NUMBERANALOGCHANNELS+1]={0},NewAval,TempChVal,TempChVal2;
-	int ResetToZeroAtEnd[30]; //1-24 for analog, ...but for now, if [1]=1 then all zero, else no change
+	long ResetToZeroAtEnd[NUMBERANALOGCHANNELS+6]; //1-24 for analog, ...but for now, if [1]=1 then all zero, else no change
 	int timemult,t,c,bigger;
 	double cycletime=0;
-	int GlobalDelay=40000;
+	int GlobalDelay=300000;		//Updated July 14 2009 - Ben Sofka (303030 corresponds to 1ms on T11 processor)
 	char buff[100];
 	int repeat=0,timesum=0;
 	static int didboot=0;
@@ -461,13 +400,12 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 	int ii=0,jj=0,kk=0,tt=0; // variables for loops
 	int start_offset=0;
 	time_t tstart,tstop;
-							
 	
 	//Change run button appearance while operating	
 	SetCtrlAttribute (panelHandle, PANEL_CMD_RUN,ATTR_CMD_BUTTON_COLOR, VAL_GREEN);            
    	tstart=clock();				   // Timing information for debugging purposes
 	timemult=(int)(1/EventPeriod); //number of adwin upates per ms
-	GlobalDelay=EventPeriod/AdwinTick; // AdwintTick=0.000025ms=AW clock cycle (Gives #of clock cycles/update)
+	GlobalDelay=(int)(EventPeriod/0.00000333333333333333333333333333333333333333333333333333333333333333333333333333333333333333); // AdwintTick=0.0000033ms=AW clock cycle (Gives #of clock cycles/update) Updated July 2 2009 - Ben Sofka
 		 
 	//make a new time list...converting the TimeTable from milliseconds to number of events (numtimes=total #of columns)
 	for (i=1;i<=numtimes;i++) 
@@ -522,7 +460,6 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		if(!ChNum){ exit(1); }
 		ChVal=calloc((int)((double)timesum*4),sizeof(double));
 		if(!ChVal){ exit(1); }
-
 		
 		//Go through for each column that needs to be updated
 		
@@ -569,14 +506,30 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 			
 				if(digchannel<=32)
 				{
-					digval=digval+DMat[k][i]*int_power(2,DChName[k].chnum-1);
-				}
-			
+					digval=digval+DMat[k][i]*pow(2,DChName[k].chnum-1);
+				}					
 				if((digchannel>=101)&&(digchannel<=132))
 				{
-					digval2=digval2+DMat[k][i]*int_power(2,(DChName[k].chnum-100)-1);
+					digval2=digval2+DMat[k][i]*pow(2,(DChName[k].chnum-100)-1);
 				}
-
+/*		
+				if(digchannel<=16)
+				{
+					digval=digval+DMat[k][i]*pow(2,DChName[k].chnum-1);
+				}
+				if((digchannel>=17)&&(digchannel<=32))
+				{
+					digval2=digval2+DMat[k][i]*pow(2,(DChName[k].chnum-16)-1);
+				}
+				if((digchannel>=101)&&(digchannel<=116))// starting on card 2.  Channels run from 101-132 (1-32)
+				{
+					digval3=digval3+DMat[k][i]*pow(2,(DChName[k].chnum-100)-1);
+				}
+				if((digchannel>=117)&&(digchannel<=132))
+				{
+					digval4=digval4+DMat[k][i]*pow(2,(DChName[k].chnum-116)-1);
+				}
+*/			
 			}// finished computing current digital data
 		
 			if(digval!=LastDVal)
@@ -587,27 +540,15 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 				ChVal[nuptotal]=digval;		
 			}
 			LastDVal=digval;
-			
-			/*** Check if any Lasers need triggering */
-			lasTrigVal=0;
-			for(k=0;k<NUMBERLASERS;k++)
-			{
-				if(LaserTriggerArray[k][i]>0)
-				{
-					lasTrigVal+=int_power(2,(LaserProperties[k].DigitalChannel-100)-1);
-				}
-			}
-			
-			if(digval2!=LastDVal2||lasTrigVal>0)
+			if(digval2!=LastDVal2)
 			{
 				nupcurrent++;
 				nuptotal++;
 				ChNum[nuptotal]=102;		   
-				ChVal[nuptotal]=digval2+lasTrigVal;		
-				LastDVal2=digval2;
+				ChVal[nuptotal]=digval2;		
 			}
-			
-		
+			LastDVal2=digval2;
+
 /*			if(!(digval3==LastDVal3))
 			{
 				nupcurrent++;
@@ -625,7 +566,6 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 			}
 			LastDVal4=digval4;
 */			
-
 			count++;
 			UpdateNum[count]=nupcurrent;
 			
@@ -633,22 +573,11 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 			//now do the remainder of the loop...but just the complicated fcns, i.e. ramps, sine wave
 			
 			t=0;
-			while(t<NewTimeMat[i]-1)	   //-1 because the first event is dedicated to steps+digital chans
+			while(t<NewTimeMat[i]-1)
 			{
 				t++;
 				k=0;
 				nupcurrent=0;
-			
-				// If there were laser triggers we must set them low 
-				if(lasTrigVal>0)
-				{
-					nupcurrent++;
-					nuptotal++;
-					ChNum[nuptotal]=102;		   
-					ChVal[nuptotal]=LastDVal2;		
-					lasTrigVal=0;
-				}
-					
 				//look for a new DDS command, start_offset=0
 				tmp_dds = get_dds_cmd(dds_cmd_seq, count-1-start_offset);  //dds translator(zero base) runs 1 behind this counter
 				if (tmp_dds>=0)
@@ -657,9 +586,8 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 					nuptotal++;
 					ChNum[nuptotal] = 51; //DDS1 dummy channel
 					ChVal[nuptotal] = tmp_dds;
-					
 				
-				} 
+				} //done the DDS1
 				
 		/*		tmp_dds = get_dds_cmd(dds_cmd_seq_AD9858, count-1-start_offset);  //dds translator(zero base) runs 1 behind this counter
 				if (tmp_dds>=0)
@@ -689,12 +617,9 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 						LastAval[k]=TempChVal2;
 					}
 				}
-				
 				count++;
 				UpdateNum[count]=nupcurrent;
-				
 			}//Done this element of the TMatrix
-			
 		}//done scanning over times array
 		
 		//Find the largest of the arrays
@@ -760,15 +685,12 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		
 		if(didboot==FALSE) // is the ADwin booted?  if not, then boot
 		{
-			Boot("C:\\Documents and Settings\\labadmin\\Desktop\\ADwinGUI\\AdwinGUI_15Sept2006\\ADWinProgs\\AdwinGUI V13.0 LaserLock\\ADWIN11.BTL",0);           
+			Boot("C:\\ADWIN\\ADWIN11.BTL",0);      //Updated July 14 2009 - Ben Sofka     
 			didboot=1;
 		}
 		if (didprocess==FALSE) // is the ADwin process already loaded?
 		{
-			processnum=Load_Process("TransferData_10Vtest.TB1");
-
-			printf("loadprocess=%d\n", processnum);
-
+			processnum=Load_Process("TransferData_August02_2010.TB1");	 //Updated August 2, 2010 - Seth Aubin
 			didprocess=1;
 		}
 		
@@ -787,7 +709,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		}
 		
 
-	// Send the Array to the AdWin Sequencer
+// Send the Array to the AdWin Sequencer
 // ------------------------------------------------------------------------------------------------------------------
 		SetPar(2,GlobalDelay);
 		SetData_Long(2,ChNum,1,nuptotal+1);
@@ -822,7 +744,6 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		SetData_Long(4,ResetToZeroAtEnd,1,NUMBERANALOGCHANNELS);
 		// done evaluating channels that are reset to  zero (low)
 		ChangedVals=0;
-
 	}
 	// more debug info
 	tstop=clock();         
@@ -1015,7 +936,6 @@ void UpdateScanValue(int Reset)
 	// Initialization on first iteration
 	if(Reset==TRUE) 
 	{   
-		PScan.ScanDone=FALSE; 
 		counter=0;
 		for(i=0;i<1000;i++)
 		{
@@ -1050,14 +970,6 @@ void UpdateScanValue(int Reset)
   				ScanVal.Start=		PScan.DDSFloor.Floor_Start;
 				ScanVal.Step=		PScan.DDSFloor.Floor_Step;
 				ScanVal.Iterations=	PScan.DDSFloor.Iterations_Per_Step;
-			case 4: //Laser Scan
-  				ScanVal.End=		PScan.Laser.End_Of_Scan;						 
-  				ScanVal.Start=		PScan.Laser.Start_Of_Scan;
-				ScanVal.Step=		PScan.Laser.Scan_Step_Size;
-				ScanVal.Iterations=	PScan.Laser.Iterations_Per_Step;
-			break;
-				
-				
   		}
 
   	    if(UseList)// if we are set to use the scan list instead of a linear scan, then read first value
@@ -1102,21 +1014,15 @@ void UpdateScanValue(int Reset)
 							   VAL_WHITE);
 			ScanVal.Current_Value=cellval;	
 			ChangedVals=TRUE;
-			
-			//check for end condition
- 			// Scanning ends if we program -999 into a cell of the Scan List
-			if (ScanVal.Current_Value<=-999.0)
-				PScan.ScanDone=TRUE;
-			
 		}
+
 	}
-	
-	
+
 
 	else // UseList=FALSE.... therefor assume linear scanning
 	{
 		// calculate number of steps in the ramp
-		numsteps=(int)ceil(abs(((double)ScanVal.Start-(double)ScanVal.End)/(double)ScanVal.Step));	
+		numsteps=ceil(abs(((double)ScanVal.Start-(double)ScanVal.End)/(double)ScanVal.Step));	
   		PScan.ScanDone=FALSE;
 		timesdid++;
   		ScanVal.Current_Iteration++;
@@ -1129,15 +1035,15 @@ void UpdateScanValue(int Reset)
 			ChangedVals=TRUE;
 		}
 		//if we are at the last step, then set the scan value to the last value (in case the step size causes the scan to go too far
-		if((ScanVal.Current_Step==numsteps)&&(ScanVal.Current_Iteration>=ScanVal.Iterations)) //ScanVal.Current_Value>=ScanVal.End
+		if((ScanVal.Current_Value>=ScanVal.End)&& (ScanUp==TRUE)) 
 		{
-			ScanVal.Current_Step++;
-			ScanVal.Current_Iteration=0;
 			ScanVal.Current_Value=ScanVal.End;
 		}
-		if((ScanVal.Current_Step>numsteps)&&(ScanVal.Current_Iteration>=ScanVal.Iterations))
-			PScan.ScanDone=TRUE;
-		
+	
+		if((ScanVal.Current_Value<=ScanVal.End)&& (ScanUp==FALSE)) 
+		{
+			ScanVal.Current_Value=ScanVal.End;
+		}
 	}	
 	
 	//insert current scan values into the tables , so they are included in the next BuildUpdateList
@@ -1158,9 +1064,6 @@ void UpdateScanValue(int Reset)
 		case 3: // DDS offset/floor
 			SetCtrlVal(panelHandle,PANEL_NUM_DDS_OFFSET,ScanVal.Current_Value);
 			break;
-		case 4: //LaserFreq
-			LaserTable[cy-NUMBERANALOGCHANNELS-NUMBERDDS-1][cx][cz].fval=ScanVal.Current_Value; 
-			break;
 	}
 	
 	// Record current scan information into a string buffer, so we can write it to disk later.
@@ -1177,38 +1080,45 @@ void UpdateScanValue(int Reset)
 	SetCtrlVal (panelHandle_sub2, SUBPANEL2_NUM_SCANSTEP, ScanVal.Current_Step);
 	SetCtrlVal (panelHandle_sub2, SUBPANEL2_NUM_SCANITER, ScanVal.Current_Iteration);
 	
+	//check for end condition
+ 	if(UseList)   // Scanning ends if we program -999 into a cell of the Scan List
+	{
+		GetTableCellVal(panelHandle, PANEL_SCAN_TABLE, MakePoint(1,ScanVal.Current_Step+2), &nextcell);
+		if((nextcell<=-999)&&(ScanVal.Current_Iteration>=ScanVal.Iterations-1))
+		{ 
+			PScan.ScanDone=TRUE;
+		}
+	}
 	
+	else//not using the ScanTable
+	{
+		if(ScanUp)
+ 		{
+ 			if((ScanVal.Current_Value>=ScanVal.End)&&(ScanVal.Current_Iteration>=ScanVal.Iterations-1))	
+			{   //Done Scan
+ 				PScan.ScanDone=TRUE;  // Flag used in RunOnce() to initiate a stop
+			}
+		}
+		else
+		{
+		 	if((ScanVal.Current_Value<=ScanVal.End)&&(ScanVal.Current_Iteration>=ScanVal.Iterations-1))	
+			{   //Done Scan
+	 			PScan.ScanDone=TRUE;  // Flag used in RunOnce() to initiate a stop	
+			}
+		}
+	}//done checking the scan is done
 
-    // if the scan is done, then cleanup and write the starting values back into the tables
+		// if the scan is done, then cleanup and write the starting values back into the tables
 	if(PScan.ScanDone==TRUE)
 	{   // reset initial values in the tables
-		switch(PScan.ScanMode)
-		{
-			case 0:// Analog value
-				AnalogTable[cx][cy][cz].fval=PScan.Analog.Start_Of_Scan;
-				break;
-			case 1:// Time duration
-				TimeArray[cx][cz]=PScan.Time.Start_Of_Scan;		
-				break;
-			case 2:// DDS frequency
-				ddstable[cx][cz].end_frequency=PScan.DDS.Start_Of_Scan;
-				break;
-			case 3: // DDS offset/floor
-				SetCtrlVal(panelHandle,PANEL_NUM_DDS_OFFSET,PScan.DDSFloor.Floor_Start);
-				break;
-			case 4:
-				LaserTable[cy-NUMBERANALOGCHANNELS-NUMBERDDS-1][cx][cz].fval=PScan.Laser.Start_Of_Scan; 
-				break;
-				
-		}
+		AnalogTable[cx][cy][cz].fval=PScan.Analog.Start_Of_Scan;
+		TimeArray[cx][cz]=PScan.Time.Start_Of_Scan;
+		SetCtrlVal(panelHandle,PANEL_NUM_DDS_OFFSET,PScan.DDSFloor.Floor_Start);
+		ddstable[cx][cz].end_frequency=PScan.DDS.Start_Of_Scan;
 		
 		//hide the information panel
 		SetCtrlAttribute (panelHandle_sub2,SUBPANEL2,ATTR_VISIBLE,0);
 		ExportScanBuffer();// prompt to write out information
-		
-		//Redraw Table
-		ChangedVals=TRUE;
-		DrawNewTable(1);
 	}
 	
 }
@@ -1219,7 +1129,7 @@ void LoadSettings(void)
 	//If .ini exists, then open the file dialog.  Else just open the file dialog.  Add a method to load 
 	//last used settings on program startup.
 	FILE *fpini;
-	char fname[100]="",c,fsavename[500]="",buff[600];
+	char fname[100]="",c,fsavename[500]="";
 	static char defaultdir[200]="C:\\UserDate\\Data"; 
 	int i=0,j=0,k=0,inisize=0;
 	
@@ -1236,18 +1146,6 @@ void LoadSettings(void)
 	{
 		RecallPanelState(PANEL, fsavename, 1);
 		LoadArrays(fsavename,strlen(fsavename));
-		LoadLaserData(fsavename,strlen(fsavename));
-		LaserSettingsInit();
-		
-		//edit panel title
-		i=500;
-		while(i>=0&&fsavename[i]!='\\')
-			i--;
-		
-		strcpy(buff,SEQUENCER_VERSION);
-		strcat(buff,&fsavename[i+1]);
-		SetPanelAttribute (panelHandle, ATTR_TITLE, buff);
-		
 	}
 	else
 	{
@@ -1264,7 +1162,7 @@ void LoadLastSettings(int check)
 	//If .ini exists, then open the file dialog.  Else just open the file dialog.  Add a method to load 
 	//last used settings on program startup.
 	FILE *fpini;
-	char fname[100]="",c,fsavename[500]="",loadname[100]="",buff[600];
+	char fname[100]="",c,fsavename[500]="",loadname[100]="";
 	int i=0,j=0,k=0,inisize=0;
 	//Check if .ini file exists.  Load it if it does.
 	if(!(fpini=fopen("gui.ini","r"))==NULL)		
@@ -1279,17 +1177,6 @@ void LoadLastSettings(int check)
 	{
 		RecallPanelState(PANEL, loadname, 1);
 		LoadArrays(fname,strlen( loadname));
-		LoadLaserData(fname,strlen( loadname));
-		LaserSettingsInit();		
-		
-		i=500;
-		while(i>=0&&fsavename[i]!='\\')
-			i--;
-		
-		strcpy(buff,SEQUENCER_VERSION);
-		strcat(buff,&fsavename[i+1]);
-		SetPanelAttribute (panelHandle, ATTR_TITLE, buff);
-		
 	}
 	DrawNewTable(0);
 }
@@ -1303,7 +1190,7 @@ Feb 09, 2006   Clear the Debug box before saving. (was causing insanely large sa
 	// Save settings:  First look for file .ini  This will be a simple 1 line file staating the name of the last file
 	//saved.  Load this up and use as the starting name in the file dialog.
 	FILE *fpini;
-	char fname[100]="",c,fsavename[500]="",buff[600];
+	char fname[100]="",c,fsavename[500]="";
 	static char defaultdir[200]="C:\\UserDate\\Data";
 	int i=0,j=0,k=0,inisize=0,status,loadonboot=0;
 	//Check if .ini file exists.  Load it if it does.
@@ -1326,15 +1213,6 @@ Feb 09, 2006   Clear the Debug box before saving. (was causing insanely large sa
 		}
 		fclose(fpini);	
 		SaveArrays(fsavename, strlen(fsavename));
-		SaveLaserData(fsavename,strlen(fsavename));
-		
-		i=500;
-		while(i>=0&&fsavename[i]!='\\')
-			i--;
-		
-		strcpy(buff,SEQUENCER_VERSION);
-		strcat(buff,&fsavename[i+1]);
-		SetPanelAttribute (panelHandle, ATTR_TITLE, buff);
 	}
 	else
 	{
@@ -1424,7 +1302,8 @@ Feb 09, 2006   Clear the Debug box before saving. (was causing insanely large sa
 				AnalogTable[1][j][1].tscale=0.0;
 			}
 			else 
-				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,j),ATTR_CTRL_VAL, findLastVal(j,i,page));
+				//888 indicates cell will take value of previous cell
+				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,j),ATTR_CTRL_VAL, 888.0);
 			
 			SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,j),ATTR_CELL_DIMMED, 0);
 			SetTableCellAttribute (panelHandle, PANEL_DIGTABLE, MakePoint(i,j),ATTR_CELL_DIMMED, 0);
@@ -1573,51 +1452,6 @@ Feb 09, 2006   Clear the Debug box before saving. (was causing insanely large sa
 		// update the times row
 		SetTableCellVal(panelHandle,PANEL_TIMETABLE,MakePoint(i,1),TimeArray[i][page]);
 	}
-
-/* Draw Laser Tables */
-	
-	for(i=1;i<=NUMBEROFCOLUMNS;i++)  // scan over the columns
-	{
-		for(j=NUMBERANALOGCHANNELS+NUMBERDDS+1;j<=NUMBERANALOGCHANNELS+NUMBERDDS+NUMBERLASERS;j++)
-		{
-			cmode=LaserTable[j-(NUMBERANALOGCHANNELS+NUMBERDDS+1)][i][page].fcn;
-			vnow=LaserTable[j-(NUMBERANALOGCHANNELS+NUMBERDDS+1)][i][page].fval;	
-			
-			
-			if(cmode!=0)
-				 // write the ending value into the cell
-				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,j),ATTR_CTRL_VAL, vnow);
-			else if((cmode==0)&&(i==1)&&(page==1))
-			{
-				ConfirmPopup("User Error","Do not use \"Same as Previous\" Setting for Column 1 Page 1.\nThis results in unstable behaviour.\nResetting Cell Function to default: step");
-				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,j),ATTR_CTRL_VAL, 0.0);
-				cmode=1;
-				LaserTable[j-(NUMBERANALOGCHANNELS+NUMBERDDS+1)][1][1].fcn=cmode;
-				LaserTable[j-(NUMBERANALOGCHANNELS+NUMBERDDS+1)][1][1].fval=0.0;
-			}
-			else
-			{
-				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(i,j),ATTR_CTRL_VAL, findLastVal(j,i,page));
-			}
-			
-			switch(cmode)
-			{
-				case 1:		//step
-					SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,j), ATTR_TEXT_BGCOLOR,VAL_RED);
-					break;
-				case 2:		//linear ramp		
-					SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,j), ATTR_TEXT_BGCOLOR,VAL_GREEN);
-					break;
-				case 0:		//hold previous
-					SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE,MakePoint(i,j), ATTR_TEXT_BGCOLOR,VAL_WHITE);
-					break;
-			}
-		}	 
-	}/* Done drawing laser tables */
-	
-	
-	
-	
 	// So far, all columns are undimmed
 	//now check if we need to dim out any columns(of timetable,AnalogTable and DigTable
 	if(isdimmed==TRUE)
@@ -1669,9 +1503,6 @@ Feb 09, 2006   Clear the Debug box before saving. (was causing insanely large sa
 				break;
 			case 2:
 				SetTableCellAttribute (panelHandle, PANEL_ANALOGTABLE, MakePoint(PScan.Column,25),ATTR_TEXT_BGCOLOR, VAL_DK_YELLOW);	
-				break;
-			case 4:
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(PScan.Column,PScan.Row),ATTR_TEXT_BGCOLOR, VAL_DK_YELLOW);	
 				break;
 		}
 	}
@@ -1745,23 +1576,17 @@ int CVICALLBACK ANALOGTABLE_CALLBACK (int panel, int control, int event,
 			currenty=cpoint.y;
 			currentpage=GetPage();
 			
-			if((currenty>NUMBERANALOGCHANNELS)&&(currenty<=NUMBERANALOGCHANNELS+NUMBERDDS)) 
-			{
+			if((currenty>NUMBERANALOGCHANNELS)&&(currenty<=NUMBERANALOGCHANNELS+NUMBERDDS)) {
 			    Active_DDS_Panel=currenty-NUMBERANALOGCHANNELS;
 			    
 				SetDDSControlPanel(Active_DDS_Panel);
 				panel_to_display = panelHandle6;	 // Program DDS
 			}
-			else if (currenty<=NUMBERANALOGCHANNELS){
+			else {
 				
 				SetControlPanel();      
 				panel_to_display = panelHandle4;	  // Program Analog Channel
 				
-			}
-			else if ((currenty>NUMBERANALOGCHANNELS+NUMBERDDS)&&(currenty<=NUMBERANALOGCHANNELS+NUMBERDDS+NUMBERLASERS))
-			{
-				SetLaserControlPanel(currenty-NUMBERANALOGCHANNELS-NUMBERDDS-1);	
-				panel_to_display = panelHandle11;
 			}
 			
 			sprintf(buff,"x:%d   y:%d    z:%d",currentx,currenty,currentpage);
@@ -2505,9 +2330,9 @@ void CVICALLBACK SETGD1000_CALLBACK (int menuBar, int menuItem, void *callbackDa
 void CVICALLBACK BOOTADWIN_CALLBACK (int menuBar, int menuItem, void *callbackData,
 		int panel)
 {
-																  
-	Boot("C:\\Documents and Settings\\labadmin\\Desktop\\ADwinGUI\\AdwinGUI_15Sept2006\\ADWinProgs\\AdwinGUI V13.0 LaserLock\\ADWIN11.BTL",0);
-	processnum=Load_Process("TransferData_10Vtest.TB1");
+
+	Boot("C:\\ADWIN\\ADWIN11.BTL",0); 
+	processnum=Load_Process("TransferData_August02_2010.TB1");		//Updated August 2, 2010 - Seth Aubin
 }
 //*********************************************************************************************************
 
@@ -2613,7 +2438,7 @@ void ShiftColumn3(int col, int page,int dir)
 {
 	
 	int i,j,status,start,zerocol;
-	//printf("col %d",col);
+	printf("col %d",col);
 	
 	if (dir==-1)			//shifts cols right (insertion)
 		start=NUMBEROFCOLUMNS;
@@ -2635,12 +2460,6 @@ void ShiftColumn3(int col, int page,int dir)
 		
 		for(j=1;j<=NUMBERDIGITALCHANNELS;j++)
 			DigTableValues[start+dir*i][j][page]=DigTableValues[start+dir*(i+1)][j][page]; 
-			
-		for(j=0;j<NUMBERLASERS;j++)
-		{
-			LaserTable[j][start+dir*i][page].fcn=LaserTable[j][start+dir*(i+1)][page].fcn;
-			LaserTable[j][start+dir*i][page].fval=LaserTable[j][start+dir*(i+1)][page].fval;
-		}
 		
 		ddstable[start+dir*i][page].start_frequency=ddstable[start+dir*(i+1)][page].start_frequency;
 		ddstable[start+dir*i][page].end_frequency=ddstable[start+dir*(i+1)][page].end_frequency;
@@ -2685,12 +2504,6 @@ void ShiftColumn3(int col, int page,int dir)
 			AnalogTable[zerocol][j][page].fcn=1;
 			AnalogTable[zerocol][j][page].fval=0;
 			AnalogTable[zerocol][j][page].tscale=1;
-		}
-		
-		for(j=0;j<NUMBERLASERS;j++) //Lasers set to hold last value
-		{
-			LaserTable[j][zerocol][page].fcn=0;
-			LaserTable[j][zerocol][page].fval=0;
 		}
 		
 		for(j=1;j<=NUMBERDIGITALCHANNELS;j++)
@@ -2748,13 +2561,6 @@ void CVICALLBACK COPYCOLUMN_CALLBACK (int menuBar, int menuItem, void *callbackD
 	
 		for(j=1;j<=NUMBERDIGITALCHANNELS;j++)
 			DigClip[j]=DigTableValues[cpoint.x][j][page];      
-		
-		for (j=1;j<=NUMBERLASERS;j++)
-		{
-			LaserClip[j].fcn=LaserTable[j-1][cpoint.x][page].fcn;
-			LaserClip[j].fval=LaserTable[j-1][cpoint.x][page].fval;
-			
-		}
 	
 	
 		ddsclip.start_frequency=ddstable[cpoint.x][page].start_frequency;
@@ -2807,19 +2613,8 @@ void CVICALLBACK PASTECOLUMN_CALLBACK (int menuBar, int menuItem, void *callback
 				AnalogTable[cpoint.x][j][page].fcn=AnalogClip[j].fcn;	
 				AnalogTable[cpoint.x][j][page].fval=AnalogClip[j].fval;
 				AnalogTable[cpoint.x][j][page].tscale=AnalogClip[j].tscale;
+				DigTableValues[cpoint.x][j][page]=DigClip[j];
 			}
-			for(j=1;j<=NUMBERDIGITALCHANNELS;j++)
-			{
-				DigTableValues[cpoint.x][j][page]=DigClip[j];  
-			}
-			
-			for (j=1;j<=NUMBERLASERS;j++)
-			{
-				LaserTable[j-1][cpoint.x][page].fcn=LaserClip[j].fcn;
-				LaserTable[j-1][cpoint.x][page].fval=LaserClip[j].fval;
-			}
-	
-
 			ddstable[cpoint.x][page].start_frequency=ddsclip.start_frequency;
 			ddstable[cpoint.x][page].end_frequency=ddsclip.end_frequency;
 			ddstable[cpoint.x][page].amplitude=ddsclip.amplitude;
@@ -2839,7 +2634,7 @@ void CVICALLBACK PASTECOLUMN_CALLBACK (int menuBar, int menuItem, void *callback
 		}
 	}
 	else
-		ConfirmPopup("Copy Column","No Column Selected");  
+	ConfirmPopup("Copy Column","No Column Selected");  
 }
 //**********************************************************************************
 
@@ -2874,18 +2669,11 @@ void CVICALLBACK DDSSETUP_CALLBACK (int menuBar, int menuItem, void *callbackDat
 	LoadDDSSettings();
 	DisplayPanel(panelHandle5);
 }
-//**********************************************************************************
-void CVICALLBACK LASERSET_CALLBACK(int menubar, int menuItem, void *callbackData, int panel)
-/* Callback function for menu selection of Settings --> Laser Setup, opens LaserSettings.uir and centers it*/
-{
-	DisplayPanel(panelHandle10);
-	SetPanelPos (panelHandle10, VAL_AUTO_CENTER, VAL_AUTO_CENTER);
-}
 
 //**********************************************************************************
 void LoadArrays(char savedname[500],int csize)
 {
-	/* Loads all Panel attributes and values which are not saved automatically by the NI function SavePanelState.
+	/* Laods all Panel attributes and values which are not saved automatically by the NI function SavePanelState.
 	   the values are stored in the .arr file by SaveArrays
 	   x,y, and zval give the 3D table dimensions but are not critical to the saving/loading operation
 	   
@@ -3004,8 +2792,14 @@ void SaveArrays(char savedname[500],int csize)
 	strcat(buff,".arr");
 	if((fdata=fopen(buff,"w"))==NULL)
 	{
-		strcpy(buff2,"Failed to save data arrays.");
+	//	InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
+		strcpy(buff2,"Failed to save data arrays. \n Panel Filename received\n");
+		strcat(buff2,buff);
+	//	strcat(buff2,"\n Array File name attempted \n");
+	//	strcat(buff2,buff);
+		
 		MessagePopup("Save Error",buff2);
+		
 	}
 
 	fwrite(&xval,sizeof xval, 1,fdata);
@@ -3057,61 +2851,6 @@ void SaveArrays(char savedname[500],int csize)
 	fclose(fdata);
 }
 //********************************************************************************************
-void SaveLaserData(char savedname[500],int nameSize)
-/*  Saves all of the relevant laser settings from the GUI panel to a file under the same name with 
-	.laser file extension
-	Parameters: savedname: the full name of the panel save file including the .pan extension 
-				nameSize: the number of characters in savedname */
-{
-	FILE *ldata;
-	
-	char buff[502]="",buff2[600];
-	strncpy(buff,savedname,nameSize-4);
-	strcat(buff,".laser");
-	if((ldata=fopen(buff,"w"))==NULL)
-	{
-		strcpy(buff2,"Failed to save laser data arrays. \n Filename: \n");
-		strcat(buff2,buff);
-		MessagePopup("Save Error",buff2);
-		
-	}
-	else
-	{
-		fwrite(LaserProperties,sizeof LaserProperties, 1,ldata);
-		fwrite(LaserTable,sizeof LaserTable,1,ldata);
-	}
-	
-
-}
-//********************************************************************************************
-void LoadLaserData(char savedname[500],int nameSize)
-{
-/*  Loads all Panel attributes and values relevant to the laser control which was saved in a
-	.laser file by SaveLaserData
-	   
-    Note that if the lengths of any of the data arrays are changed previous saves will not be able to be loaded. 
-    If necessary See AdwinGUI Panel Converter V11-V12 (created June 01, 2006) */
-
-	
-	FILE *ldata;
-	char buff[502]="",buff2[600]="";
-	char buff3[502];
-	strncat(buff,savedname,nameSize-4);
-	strcat(buff,".laser");
-	if((ldata=fopen(buff,"r"))==NULL)
-	{
-		strcpy(buff2,"Failed to load laser data arrays. \n Filename: \n");
-		strcat(buff2,buff);
-		MessagePopup("Save Error",buff2);
-	}
-	else
-	{
-		fread(LaserProperties,sizeof LaserProperties, 1,ldata);	
-		fread(LaserTable,sizeof LaserTable,1,ldata);
-	}
-}
-//********************************************************************************************
-
 int CVICALLBACK DISPLAYDIAL_CALLBACK (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
 {
@@ -3145,21 +2884,16 @@ void ReshapeAnalogTable( int top,int left,int height)
 	int j,istext=0,celltype=0,tempint;
 	int modheight;
 	
-	for (j=1;j<=NUMBERANALOGCHANNELS+NUMBERDDS+NUMBERLASERS;j++)
+	for (j=1;j<=NUMBERANALOGCHANNELS+NUMBERDDS;j++)
 	{
 		SetTableRowAttribute (panelHandle, PANEL_ANALOGTABLE, j,ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
 		SetTableRowAttribute (panelHandle, PANEL_ANALOGTABLE, j, ATTR_ROW_HEIGHT, (height)/(NUMBERANALOGCHANNELS+NUMBERDDS));
 	    SetTableRowAttribute (panelHandle, PANEL_TBL_ANAMES, j,ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
 		SetTableRowAttribute (panelHandle, PANEL_TBL_ANAMES, j, ATTR_ROW_HEIGHT, (height)/(NUMBERANALOGCHANNELS+NUMBERDDS));
-	}
-	for (j=1;j<=NUMBERANALOGCHANNELS;j++)
-	{
-	
 		SetTableRowAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, j,ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
 		SetTableRowAttribute (panelHandle, PANEL_TBL_ANALOGUNITS, j, ATTR_ROW_HEIGHT, (height)/(NUMBERANALOGCHANNELS+NUMBERDDS));
 	}
-	
-	modheight=(NUMBERANALOGCHANNELS+NUMBERDDS+NUMBERLASERS)*(int)((height)/(NUMBERANALOGCHANNELS+NUMBERDDS))+3;
+	modheight=(NUMBERANALOGCHANNELS+NUMBERDDS)*(int)((height)/(NUMBERANALOGCHANNELS+NUMBERDDS))+3;
 
 	//resize the analog table and all it's related list boxes
   	SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_HEIGHT, modheight);
@@ -3177,11 +2911,11 @@ void ReshapeAnalogTable( int top,int left,int height)
    	// move the DDS offsets
 	tempint=height/27;
 	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS_OFFSET,ATTR_TOP,top+height-3*tempint-6);
-	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS_OFFSET,ATTR_LEFT,877);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS_OFFSET,ATTR_LEFT,880);
 	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS2_OFFSET,ATTR_TOP,top+height-2*tempint-5);
-	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS2_OFFSET,ATTR_LEFT,877);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS2_OFFSET,ATTR_LEFT,880);
 	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS3_OFFSET,ATTR_TOP,top+height-1*tempint-4);
-	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS3_OFFSET,ATTR_LEFT,877);
+	SetCtrlAttribute (panelHandle, PANEL_NUM_DDS3_OFFSET,ATTR_LEFT,880);
 }
 /************************************************************************
 Author: Stefan
@@ -3288,7 +3022,7 @@ void SetChannelDisplayed(int display_setting)
 	switch (display_setting)   
 		{
 		case 1:		//both
-			heightpos=550; // 380 for 25 rows works... use 410 for 27 rows //+63 added for lasers
+			heightpos=550; // 380 for 25 rows works... use 410 for 27 rows
 			toppos1=155;
 			leftpos=170;
 			toppos2=toppos1+heightpos;
@@ -3296,7 +3030,7 @@ void SetChannelDisplayed(int display_setting)
 			//toppos2=155+380+50; 
 			
 			ReshapeAnalogTable(toppos1,170,heightpos);   //passed top, left and height
-			ReshapeDigitalTable(toppos2+62,170,heightpos-60);
+			ReshapeDigitalTable(toppos2,170,heightpos-60);
 								
 			SetCtrlAttribute (panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, 1);
 			SetCtrlAttribute (panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, 1);
@@ -3356,12 +3090,8 @@ void SaveLastGuiSettings(void)
 	// Save settings:  First look for file .ini  This will be a simple 1 line file stating the name of the last file
 	//saved.  Load this up and use as the starting name in the file dialog.
 	char fname[100]="c:\\LastGui.pan";
-	char buff[600];
-	int i;
-	
 	SavePanelState(PANEL, fname, 1);
 	SaveArrays(fname, strlen(fname));
-	//SaveLaserData(fname,strlen(fname));
 	
 }
 //********************************************************************************************************************
@@ -3662,7 +3392,6 @@ void CVICALLBACK SIMPLETIMING_CALLBACK (int menuBar, int menuItem, void *callbac
 void CVICALLBACK SCANSETTING_CALLBACK (int menuBar, int menuItem, void *callbackData,
 		int panel)
 {
-	SetCtrlVal(panelHandle7,SCANPANEL_TXT_LASIDENT,"Lasername"); 
 	InitializeScanPanel();
 }
 
@@ -3826,7 +3555,7 @@ int CVICALLBACK SWITCH_LOOP_CALLBACK (int panel, int control, int event,
 		}
 	return 0;
 }
-//**************************************************************************************************************
+
 void CVICALLBACK Dig_Cell_Copy(int panelHandle, int controlID, int MenuItemID, void *callbackData)
 {
 	//Copies the value of the active DigitalTabel value into the clipboard
@@ -3839,7 +3568,7 @@ void CVICALLBACK Dig_Cell_Copy(int panelHandle, int controlID, int MenuItemID, v
 	DigClip[0]=DigTableValues[pval.x][pval.y][page]; 
 	
 }
-//**************************************************************************************************************
+
 void CVICALLBACK Dig_Cell_Paste(int panelHandle, int controlID, int MenuItemID, void *callbackData)
 {
 	//Pastes the value store in DigClip[0] by Dig_Cell_Copy into the selected Digital Table Cells
@@ -3878,14 +3607,13 @@ void CVICALLBACK Dig_Cell_Paste(int panelHandle, int controlID, int MenuItemID, 
 			SetTableCellAttribute (panelHandle, PANEL_DIGTABLE,pval, ATTR_TEXT_BGCOLOR,VAL_GRAY);
 	}
 }
-//**************************************************************************************************************
+
 void CVICALLBACK Analog_Cell_Copy(int panelHandle, int controlID, int MenuItemID, void *callbackData)
 {
 	//This function copies the contents of the active AnalogTable Cell to the Clipboard Globals
-	//Handles Analog Channels DDS1,DDS2,DDS3,Lasers. It is called by right clicking on the Analog 
-	//Table and Selecing "Copy"
+	//Handles Analog Channels DDS1,DDS2,DDS3, it is called by right clicking on the Analog Table and Selecing "Copy"
 	
-	int page,laserNum;
+	int page;
 	Point pval={0,0};  
 
 	page=GetPage();
@@ -3897,29 +3625,22 @@ void CVICALLBACK Analog_Cell_Copy(int panelHandle, int controlID, int MenuItemID
 		AnalogClip[0].fval = AnalogTable[pval.x][pval.y][page].fval;
 		AnalogClip[0].tscale = AnalogTable[pval.x][pval.y][page].tscale;
 	}
-	else if(pval.y<=NUMBERANALOGCHANNELS+NUMBERDDS)
+	else if(pval.y<=NUMBERANALOGCHANNELS+NUMBERDDS);
 	{
 		ddsclip.start_frequency=ddstable[pval.x][page].start_frequency;
 		ddsclip.end_frequency=ddstable[pval.x][page].end_frequency;
 		ddsclip.amplitude=ddstable[pval.x][page].amplitude;
 		ddsclip.is_stop=ddstable[pval.x][page].is_stop;
 	}
-	else if(pval.y<=NUMBERANALOGCHANNELS+NUMBERDDS+NUMBERLASERS)
-	{
-		laserNum=pval.y-(NUMBERANALOGCHANNELS+NUMBERDDS+1);
-		LaserClip[0].fcn=LaserTable[laserNum][pval.x][page].fcn;
-		LaserClip[0].fval=LaserTable[laserNum][pval.x][page].fval;
-	
-	}
 	
 }
-//**************************************************************************************************************
+
 void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID, int MenuItemID, void *callbackData)
 {
 	//Replaces Highlighted Cell contents with the values copied to the clipboard using Analog_Cell_Copy
 	//This function Handles copies and pastes of analog channel and dds data.
 
-	int page,col,row,laserNum;
+	int page,col,row;
 	Rect selection;
 	Point pval={0,0};
 	
@@ -3943,7 +3664,7 @@ void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID, int MenuItemI
 	}
 		
 	//Paste made into multiple cells of DDS channels 
-	else if(selection.top<=NUMBERANALOGCHANNELS+NUMBERDDS&&selection.top>0)
+	else if(selection.top>NUMBERANALOGCHANNELS&&selection.top>0)
 	{
 		for(row=selection.top;row<=selection.top+(selection.height-1);row++)
 		{
@@ -3974,21 +3695,6 @@ void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID, int MenuItemI
 			}
 		}
 	
-	}
-	//Paste made into multiple Laser cells 
-	else if(selection.top<=NUMBERANALOGCHANNELS+NUMBERDDS+NUMBERLASERS&&selection.top>0) 
-	{
-		row=selection.top;
-		while ((row<=selection.top+(selection.height-1))&&(row<=NUMBERANALOGCHANNELS+NUMBERDDS+NUMBERLASERS))
-		{	
-			laserNum=row-(NUMBERANALOGCHANNELS+NUMBERDDS+1);
-			for(col=selection.left;col<=selection.left+(selection.width-1);col++)
-			{
-				LaserTable[laserNum][col][page].fcn=LaserClip[0].fcn;
-				LaserTable[laserNum][col][page].fval=LaserClip[0].fval;
-			}
-			row++;
-		}
 	}
 	
 	//Paste Made into single Cell 
@@ -4022,17 +3728,11 @@ void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID, int MenuItemI
 			dds3table[pval.x][page].amplitude=ddsclip.amplitude;
 			dds3table[pval.x][page].is_stop=ddsclip.is_stop;
 		}
-		else if(pval.y<=NUMBERANALOGCHANNELS+NUMBERDDS+NUMBERLASERS)
-		{
-			laserNum=pval.y-(NUMBERANALOGCHANNELS+NUMBERDDS+1); 
-			LaserTable[laserNum][pval.x][page].fcn=LaserClip[0].fcn;
-			LaserTable[laserNum][pval.x][page].fval=LaserClip[0].fval;
-		}
 	}
 	ChangedVals=1;
 	DrawNewTable(0);
 }
-//**************************************************************************************************************			
+			
 void CVICALLBACK EXIT (int menuBar, int menuItem, void *callbackData,int panel)
 {
 	int status;
@@ -4041,186 +3741,10 @@ void CVICALLBACK EXIT (int menuBar, int menuItem, void *callbackData,int panel)
 		QuitUserInterface(1);		// kills the GUI and ends program
 	
 }
-//**************************************************************************************************************
+
 //Open Scan Table Loader Panel
 void CVICALLBACK Scan_Table_Load(int panelHandle, int controlID, int MenuItemID, void *callbackData)
 {		
 		DisplayPanel (panelHandle8);
 }
-//**************************************************************************************************************
-void CVICALLBACK Scan_Table_NumSet_Load(int panelHandle, int controlID, int MenuItemID, void *callbackData)
-{		
-		DisplayPanel (panelHandle9);
-}
-//**************************************************************************************************************
-void CVICALLBACK Scan_Table_Shuffle(int panelHandle, int controlID, int MenuItemID, void *callbackData)
-{
-	int numRows,numEntries,i,j,maxInd;
-	double *order,*tempSL;
-	double maxVal;
-	
-	i=1;
-	GetNumTableRows (panelHandle,PANEL_SCAN_TABLE,&numRows); 	
-	tempSL=(double *)malloc(sizeof(double)*numRows);
-	
-	GetTableCellVal(panelHandle, PANEL_SCAN_TABLE, MakePoint(1, i),&tempSL[i]);    
-	while(tempSL[i]>-999.0&&i<=numRows)
-	{
-		i++;
-		GetTableCellVal(panelHandle, PANEL_SCAN_TABLE, MakePoint(1, i),&tempSL[i]); 
-	}
-	
-	numEntries=i;  // use 1 - numEntries-1
-	order=(double *)malloc(sizeof(double)*numEntries);
-	
-	
-	//randomize order values
-	for(i=1;i<numEntries;i++)
-		order[i]=Random (0, 100);
-		
-	//sort using order vals (a sucky selection sort)
-	for(i=1;i<numEntries;i++)
-	{
-		maxVal=-1.0;
-		for(j=1;j<numEntries;j++)
-		{
-			if(order[j]>maxVal)
-			{
-				maxVal=order[j];
-				maxInd=j;
-			}
-		}
-		SetTableCellVal(panelHandle, PANEL_SCAN_TABLE, MakePoint(1, i),tempSL[maxInd]);
-		order[maxInd]=-1;
-	}
-	
-	free(order);
-	free(tempSL);
-}
-//**************************************************************************************************************
-double findLastVal(int row, int column, int page)
-/*  This column finds the (final) value in the cell occuring before (in time) the one given by the parameters 
- 	accounting for the insert page and skipping same as cells. Works for Analog Rows, DDS Rows, and Laser Rows 
-	
-	Caveat: If the imaging page in being "inserted" into a page which is not checked this altgorithm wont work,
-	Be my guest if you would like to fix it */
-{
-	// find the last value
-	int CellFound,cx,cz,insertpage,insertcolumn,i;
-	double lastVal;
-	
-	cx=column; //col index
-	cz=page; //page index
-	CellFound=0;
-	
-	GetCtrlVal (panelHandle, PANEL_NUM_INSERTIONPAGE, &insertpage);
-	GetCtrlVal (panelHandle, PANEL_NUM_INSERTIONCOL, &insertcolumn);
-	
-	
-	while(CellFound<1)
-	{
-		//go back one step
-		cx--;
-		if (cx<1)								//Move to previous page
-		{
-			if (cz==NUMBEROFPAGES-1&&insertpage<NUMBEROFPAGES-1)  //Check if were looking at the insert page && that its inserted somewhere
-			{
-				cz=insertpage;
-				cx=insertcolumn-1;
-				insertcolumn=-1;				//Set this so we dont get caught into thinking page is inserted again
-			}
-			else
-			{
-				cx=NUMBEROFCOLUMNS;					   //Check that the page were moving to is checked
-				do{
-					cz--;
-				}while((!ischecked[cz])&&(cz>=1));
-			}
-			if(cz<1)
-				CellFound=2;   //Means we hit column1 page1 with nothing found
-		}
-		
-		
-		//Check if cell is insert page
-		if((cz==insertpage)&&(cx==insertcolumn-1)&&(ischecked[NUMBEROFPAGES-1]))
-		{
-			cz=NUMBEROFPAGES-1;
-			cx=NUMBEROFCOLUMNS;
-		}
-		
-		//Check to see a valid value has been found
-		if (TimeArray[cx][cz]>0.0)
-		{
-			i=cx-1;
-			//ensure no zeroes preceded it in page
-			if(i>0)
-			{
-				while(i>0&&TimeArray[i][cz]!=0.0){i--;}
-				if (i==0)
-					CellFound=1;
-				else
-					cx=i;
-				
-			}
-			else
-				CellFound=1;
-		}
-		
-	}//done search
-	
-	
-	if(CellFound==1)
-	{
-		if(row<=NUMBERANALOGCHANNELS&&row>=1)
-		{
-			if(AnalogTable[cx][row][cz].fcn!=6)				// checks to see if found cell is a same as previous
-				lastVal=AnalogTable[cx][row][cz].fval;
-			else
-				lastVal=findLastVal(row,cx,cz);
-		}		
-		else if (row==NUMBERANALOGCHANNELS+1)
-			lastVal=ddstable[cx][cz].end_frequency;
-		else if (row==NUMBERANALOGCHANNELS+2)
-			lastVal=dds2table[cx][cz].end_frequency;
-		else if (row==NUMBERANALOGCHANNELS+3)
-			lastVal=dds3table[cx][cz].end_frequency;
-		else if (row>NUMBERANALOGCHANNELS+NUMBERDDS&&row<=NUMBERANALOGCHANNELS+NUMBERDDS+NUMBERLASERS)
-		{
-			if(LaserTable[row-(NUMBERANALOGCHANNELS+NUMBERDDS+1)][cx][cz].fcn!=0)             // checks for same as previous condition
-			{
-				lastVal=LaserTable[row-(NUMBERANALOGCHANNELS+NUMBERDDS+1)][cx][cz].fval;
-				//printf("Laser row: %d Col: %d Page: %d",row-(NUMBERANALOGCHANNELS+NUMBERDDS+1),cx,cz);
-			}
-			else
-				lastVal=lastVal=findLastVal(row,cx,cz);
-				
-		}
-	}
-	else
-		lastVal=0.0;
-	
-	return lastVal;
-	
-	
-}
-//**************************************************************************************************************
-void SeqError(char * msg)
-{
-	if(SeqErrorCount<MAXERRS)
-	{
-		SeqErrorBuffer[SeqErrorCount]=msg;
-		SeqErrorCount++;
-	}
-}
-/*************************************************************************************************************************/
-int int_power(int base, int power)
-{
-	int i,num=1;
-	for (i=0;i<power;i++)
-		num*=base;
-	return num;
-}
-
-
-
 

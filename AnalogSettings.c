@@ -119,11 +119,6 @@ void SetAnalogChannels()
 		SetTableCellVal (panelHandle, PANEL_TBL_ANAMES, MakePoint(2,i),AChName[i].chnum);
 		SetTableCellVal (panelHandle, PANEL_TBL_ANALOGUNITS, MakePoint(1,i), AChName[i].units);
 	}
-	for (i=1;i<=NUMBERDDS;i++)
-	{
-		sprintf(AChName[i+NUMBERANALOGCHANNELS].chname,"DDS%d",i);
-		SetTableCellVal (panelHandle, PANEL_TBL_ANAMES, MakePoint(1,i+NUMBERANALOGCHANNELS), AChName[i+NUMBERANALOGCHANNELS].chname);
-	}
 }
 
 //********************************************************************

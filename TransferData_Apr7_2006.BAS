@@ -19,7 +19,7 @@ dim i,j,k,lightcount,litup,eventcount,delaymultinuse as long
 dim DATA_1[5000000] as long
 dim DATA_2[5000000] as long
 dim data_3[5000000] as float
-dim data_4[30] as long	' a list of which channels are reset to zero on completion
+dim data_4[100] as long	' a list of which channels are reset to zero on completion
 dim value as float
 dim counts,maxcount,updates,i,j,k as long
 dim ch as long
@@ -223,15 +223,15 @@ IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each elementof DA
 	NEXT i						'B for loop	
 ENDIF				'A:
 If(counts>=maxcount+1) then end
+
+
 FINISH:
-	
-	
 'Clear all channels
 Par_3=counts
 Par_4=maxcount
 
 'If (Data_4[27]=0) then
-	For i =1 to 8
+	For i= 1 to 8
 		if(Data_4[i]=1) then
 			WRITEDAC(1,i,V(0)) 	
 		ENDIF
@@ -248,6 +248,7 @@ Par_4=maxcount
   'set line 28 high... forget why...
 	DIG_WRITELATCH32(2,2^28)
 'ENDIF
+
 SYNCALL()
 
 '***************************************************

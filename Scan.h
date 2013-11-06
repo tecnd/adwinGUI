@@ -26,37 +26,30 @@
 #define  SCANPANEL_NUM_COLUMN            10
 #define  SCANPANEL_CMD_SCAN_CANCEL       11      /* callback function: CALLBACK_SCAN_CANCEL */
 #define  SCANPANEL_CMD_DDSFLOORSCANOK    12      /* callback function: CALLBACK_DDSFLOORSCANOK */
-#define  SCANPANEL_CMD_LASSCANOK         13      /* callback function: CALLBACK_LASSCANOK */
-#define  SCANPANEL_CMD_DDSSCANOK         14      /* callback function: CALLBACK_DDSSCANOK */
-#define  SCANPANEL_CMD_TIMESCANOK        15      /* callback function: CALLBACK_TIMESCANOK */
-#define  SCANPANEL_CMD_SCANOK            16      /* callback function: CALLBACK_SCANOK */
-#define  SCANPANEL_RING_MODE             17
-#define  SCANPANEL_DECORATION            18
-#define  SCANPANEL_DECORATION_2          19
-#define  SCANPANEL_NUM_TIMESTART         20
-#define  SCANPANEL_NUM_TIMEEND           21
-#define  SCANPANEL_NUM_TIMESTEP          22
-#define  SCANPANEL_NUM_TIMEITER          23
-#define  SCANPANEL_NUM_DDSFLOOREND       24
-#define  SCANPANEL_NUM_DDSSTART          25
-#define  SCANPANEL_NUM_DDSFLOORSTART     26
-#define  SCANPANEL_NUM_DDSEND            27
-#define  SCANPANEL_NUM_DDSFLOORITER      28
-#define  SCANPANEL_NUM_DDSFLOORSTEP      29
-#define  SCANPANEL_NUM_DDSBASEFREQ       30
-#define  SCANPANEL_NUM_DDSCURRENT        31
-#define  SCANPANEL_NUM_LASITER           32
-#define  SCANPANEL_NUM_LASSTEP           33
-#define  SCANPANEL_NUM_DDSITER           34
-#define  SCANPANEL_NUM_DDSSTEP           35
-#define  SCANPANEL_CMD_GETSCANVALS       36      /* callback function: CMD_GETSCANVALS_CALLBACK */
-#define  SCANPANEL_CHECK_USE_LIST        37      /* callback function: CHECK_USE_LIST_CALLBACK */
-#define  SCANPANEL_DECORATION_3          38
-#define  SCANPANEL_DECORATION_4          39
-#define  SCANPANEL_NUM_LASEND            40
-#define  SCANPANEL_NUM_LASSTART          41
-#define  SCANPANEL_DECORATION_5          42
-#define  SCANPANEL_TXT_LASIDENT          43
+#define  SCANPANEL_CMD_DDSSCANOK         13      /* callback function: CALLBACK_DDSSCANOK */
+#define  SCANPANEL_CMD_TIMESCANOK        14      /* callback function: CALLBACK_TIMESCANOK */
+#define  SCANPANEL_CMD_SCANOK            15      /* callback function: CALLBACK_SCANOK */
+#define  SCANPANEL_RING_MODE             16
+#define  SCANPANEL_DECORATION            17
+#define  SCANPANEL_DECORATION_2          18
+#define  SCANPANEL_NUM_TIMESTART         19
+#define  SCANPANEL_NUM_TIMEEND           20
+#define  SCANPANEL_NUM_TIMESTEP          21
+#define  SCANPANEL_NUM_TIMEITER          22
+#define  SCANPANEL_NUM_DDSFLOOREND       23
+#define  SCANPANEL_NUM_DDSSTART          24
+#define  SCANPANEL_NUM_DDSFLOORSTART     25
+#define  SCANPANEL_NUM_DDSEND            26
+#define  SCANPANEL_NUM_DDSFLOORITER      27
+#define  SCANPANEL_NUM_DDSFLOORSTEP      28
+#define  SCANPANEL_NUM_DDSBASEFREQ       29
+#define  SCANPANEL_NUM_DDSCURRENT        30
+#define  SCANPANEL_NUM_DDSITER           31
+#define  SCANPANEL_NUM_DDSSTEP           32
+#define  SCANPANEL_CMD_GETSCANVALS       33      /* callback function: CMD_GETSCANVALS_CALLBACK */
+#define  SCANPANEL_CHECK_USE_LIST        34      /* callback function: CHECK_USE_LIST_CALLBACK */
+#define  SCANPANEL_DECORATION_3          35
+#define  SCANPANEL_DECORATION_4          36
 
 
      /* Menu Bars, Menus, and Menu Items: */
@@ -68,7 +61,6 @@
 
 int  CVICALLBACK CALLBACK_DDSFLOORSCANOK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK CALLBACK_DDSSCANOK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
-int  CVICALLBACK CALLBACK_LASSCANOK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK CALLBACK_SCAN_CANCEL(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK CALLBACK_SCANOK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK CALLBACK_TIMESCANOK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);

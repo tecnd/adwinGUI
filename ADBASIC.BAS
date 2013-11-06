@@ -212,12 +212,12 @@ IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each elementof DA
 		'***********************Digital outs**********
 		if(ch=101) then
 			val_lower=Data_3[updates]
-			DIG_WRITELATCH32(2,val_lower) 'Writes Digital Channels 1-32
+			DIG_WRITELATCH32(2,val_lower)
 		endif
 	
 		if(ch=102) then
 			val_upper=Data_3[updates]
-			DIG_WRITELATCH32(3,val_upper) 'Writes Digital Channels 101-132
+			DIG_WRITELATCH32(3,val_upper)
 		endif
 						
 	NEXT i						'B for loop	
@@ -248,6 +248,12 @@ Par_4=maxcount
   'set line 28 high... forget why...
 	DIG_WRITELATCH32(2,2^28)
 'ENDIF
+
+Par_21=Data_4[16]
+Par_20=1
+if(Data_4[16]=0) then
+	WRITEDAC(2,8,V(0)) 	
+endif
 
 SYNCALL()
 
