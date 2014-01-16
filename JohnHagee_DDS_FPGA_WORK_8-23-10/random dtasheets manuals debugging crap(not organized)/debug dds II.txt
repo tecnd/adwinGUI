@@ -1,0 +1,382 @@
+module DDS_control_I(key_0_init, key_3_sweep, sw_begin_1, sw_begin_0, sw_end_1, sw_end_0, 
+fifty_MHz_intclk, /*DR_OVR,*//*ten_MHz_extclk,*/SDIO, SCLK,DR_CTL, IO_UPDATE/*,
+IO_RESET*/,CSB);
+
+input key_0_init;
+input key_3_sweep;
+input sw_begin_1;
+input sw_begin_0;
+input sw_end_1;
+input sw_end_0; 
+input fifty_MHz_intclk;
+
+//input DR_OVR;
+
+output reg SDIO;
+output reg SCLK;
+output reg DR_CTL;
+output reg IO_UPDATE;
+output reg CSB;
+
+integer M;
+integer N;
+integer L;
+integer P;
+integer Q;
+
+reg [3:0] LIMIT_REG;
+
+reg init_end_flag;
+reg init_key_flag;
+
+reg sweep_end_flag;
+reg sweep_key_flag;
+reg [0:183] SWEEP_REG;
+
+
+parameter [0:231] INIT_REG = {8'h0b,32'd0,32'd0,128'h0000004000010048002002353fc1c803,32'd0};
+//backwards 
+//parameter [0:231] INIT_REG = {8'hd0,32'd0,32'd0,128'h00000002008000120004400acfc8313c0,32'd0};
+//parameter [0:183] SWEEP_REG = {8'h0c, 32'd4294967295, 32'd10, 8'h0d, 16'h0001, 16'h004e, 8'h0b, 32'd161061273, 32'd322122547}; 
+
+//parameter [0:183] SWEEP_REG = {8'h0c, 32'd10, 32'd4294967295, 8'h0d, 16'h0001, 16'h004e, 8'h0b, 32'd644245094, 32'd161061273}; 
+initial  
+	begin
+	Q <= 0;
+	M <= 0;
+	N <= 0;
+	L <= 0;
+	P <= 0;
+	SDIO <= 0;
+	SCLK <= 0;
+	LIMIT_REG <= 0;
+	CSB <= 0;
+	SWEEP_REG <= 0;
+	IO_UPDATE <= 0;
+	init_end_flag <=0;
+	init_key_flag <=0;
+	sweep_end_flag <=0;
+	sweep_key_flag <=0;
+	end
+	
+
+always@ (negedge fifty_MHz_intclk)
+	begin
+	CSB <=0;
+	if ((key_0_init != 1) && (init_end_flag == 0))
+		begin
+		init_key_flag <=1;
+		end
+	if (init_end_flag != 0)
+		begin
+		init_key_flag <=0;
+		end
+	if (((key_3_sweep != 1) || (sweep_key_flag == 1))&& (sweep_end_flag == 0))
+		begin
+		sweep_key_flag <=1;
+		end
+	if (sweep_end_flag != 0)
+		begin
+		sweep_key_flag <=0;
+		end
+	end
+	
+always@ (posedge fifty_MHz_intclk)
+	begin
+	IO_UPDATE <=0;
+	LIMIT_REG <= {sw_begin_0, sw_begin_1, sw_end_0, sw_end_1};
+	init_end_flag <= 0;
+	sweep_end_flag <= 0;
+	if (init_key_flag != 0)
+		begin
+		Q<= Q+1;
+		if (Q<=10000)
+			begin
+			IO_RESET<=1;
+			end
+		else
+			begin
+		
+			if(L>=4)
+				begin
+				L<=0;
+				SCLK<=1;
+				end
+			if(L<4)
+				begin
+				L<=L+1;
+				SCLK<=0;
+				end
+			if (M < 4)
+				begin
+				M<=M+1;
+				end
+			if (M >=3)
+				begin
+				SDIO <= INIT_REG[N];
+				
+				end
+			if (M >= 4)
+				begin
+				P<=P+1;
+				N<= N+1;
+				M<=0;
+				end
+			if (P>=232)
+				begin
+				N<=0;
+				init_end_flag <= 1;
+				P<=0;
+				IO_UPDATE <=1;
+				//if (SWEEP_REG[8:39] > SWEEP_REG[40:71])
+					//begin
+					//DR_CTL<=1;
+					//end
+				//if (SWEEP_REG[8:39] < SWEEP_REG[40:71])
+					//begin
+					//DR_CTL<=0;
+					//end	
+				end
+			end
+		end
+	else
+		begin
+	
+		if (sweep_key_flag != 0)
+			begin
+			if(L>=4)
+				begin
+				L<=0;
+				SCLK<=1;
+				end
+			if(L<4)
+				begin
+				L<=L+1;
+				SCLK<=0;
+				end
+			if (M < 4)
+				begin
+				M<=M+1;
+				end
+			if (M >=3)
+				begin
+				SDIO <= SWEEP_REG[N];
+				
+				end
+			if (M >= 4)
+				begin
+				P<=P+1;
+				N<= N+1;
+				M<=0;
+				end
+			//if (N>=183)
+				//begin 
+				//SDIO <= SWEEP_REG[183];	
+				
+				//end
+			if (P>=184)
+				begin
+				N<=0;
+				sweep_end_flag <= 1;
+				P<=0;
+				IO_UPDATE <=1;
+				Q<=0;
+				DR_CTL<=0;
+				/*if (SWEEP_REG[8:39] > SWEEP_REG[40:71])
+					begin
+					DR_CTL<=0;
+					end
+				if (SWEEP_REG[8:39] < SWEEP_REG[40:71])
+					begin
+					DR_CTL<=1;
+					end	*/
+				end
+			end
+		else
+			begin
+			Q<=Q+1;
+			if (Q>=16)
+				begin
+				Q<=0;
+				DR_CTL <=1;
+				
+				/*if (SWEEP_REG[8:39] > SWEEP_REG[40:71])
+					begin
+					DR_CTL<=1;
+					end
+				if (SWEEP_REG[8:39] < SWEEP_REG[40:71])
+					begin
+					DR_CTL<=0;
+					end	*/
+				end
+			end
+		end
+	case (LIMIT_REG)
+		 14: SWEEP_REG = {8'h0c, 32'd4294967295, 32'd10, 8'h0d, 16'h0001, 16'h003b, 8'h0b, 32'd64424509, 32'd0}; 
+		 13: SWEEP_REG = {8'h0c, 32'd4294967295, 32'd10, 8'h0d, 16'h0001, 16'h0014, 8'h0b, 32'd161061273, 32'd0};
+		 12: SWEEP_REG = {8'h0c, 32'd4294967295, 32'd10, 8'h0d, 16'h0001, 16'h000c, 8'h0b, 32'd322122547, 32'd0};
+		 11: SWEEP_REG = {8'h0c, 32'd10, 32'd4294967295, 8'h0d, 16'h003b, 16'h0001, 8'h0b, 32'd64424509, 32'd0};
+		 9: SWEEP_REG = {8'h0c, 32'd4294967295, 32'd10, 8'h0d, 16'h0001, 16'h003b, 8'h0b, 32'd161061273, 32'd64424509};
+		 8: SWEEP_REG = {8'h0c, 32'd4294967295, 32'd10, 8'h0d, 16'h0001, 16'h000f, 8'h0b, 32'd322122547, 32'd64424509};
+		 7: SWEEP_REG = {8'h0c, 32'd10, 32'd4294967295, 8'h0d, 16'h0014, 16'h0001, 8'h0b, 32'd161061273, 32'd0};
+		 6: SWEEP_REG = {8'h0c, 32'd10, 32'd4294967295, 8'h0d, 16'h003b, 16'h0001, 8'h0b, 32'd161061273, 32'd64424509};
+		4: SWEEP_REG = {8'h0c, 32'd4294967295, 32'd10, 8'h0d, 16'h0001, 16'h0014, 8'h0b, 32'd322122547, 32'd161061273};
+		3: SWEEP_REG = {8'h0c, 32'd10, 32'd4294967295, 8'h0d, 16'h000c, 16'h0001, 8'h0b, 32'd322122547, 32'd0};
+		2: SWEEP_REG = {8'h0c, 32'd10, 32'd4294967295, 8'h0d, 16'h000f, 16'h0001, 8'h0b, 32'd322122547, 32'd64424509};
+		1: SWEEP_REG = {8'h0c, 32'd10, 32'd4294967295, 8'h0d, 16'h0014, 16'h0001, 8'h0b, 32'd322122547, 32'd161061273};
+		default: SWEEP_REG = 1'bx;
+	endcase
+	
+	
+	
+	end
+	
+		
+endmodule
+	
+
+
+2: SWEEP_REG = {8'h0c, 32'd10, 32'd4294967295, 8'h0d, 16'h000f, 16'h0001, 8'h0b, 32'd322122547, 32'd64424509};
+
+0000	0
+1100	1
+0000	2
+0000	3
+0000	4
+0000	5
+0000	6
+0000	7
+0000	8
+1010	9
+1111	10
+1111	11
+1111	12
+1111	13	
+1111	14
+1111	15
+1111	16
+1111	17
+0000	18
+1101	19
+0000	20
+0000	21
+0000	22
+1111	23
+0000	24
+0000	25
+0000	26
+0001	27
+0000	28
+1011	29	
+0001	30
+0011	31
+0011	32
+0011	33
+0011	34
+0011	35
+0011	36
+0011	37
+0000	38
+1001	39
+1001	40
+1001	41
+1001	42
+1001	43
+1001	44
+1001	45
+
+
+00	0
+(11	1
+00)
+(00	2
+00)
+(00	3
+00)
+(00	4
+00)
+(00	5
+00)
+(00	6
+00)
+(00	7
+00)
+(00	8
+00)
+(10	9
+10)
+(11	10
+11)	
+(11	11
+11)	
+(11	12
+11)	
+(11	13
+11)	
+(11	14
+11)	
+(11	15
+11)	
+(11	16
+11)	
+(11	17
+11)	
+(00	18
+00)(11	19
+01)(00	20
+00)(00	21
+00)(00	22
+00)(11	23
+11)(00	24
+00)(00	25
+00)(00	26
+00)(00	27
+01)(00	28
+00)(10	29
+11)(00	30
+01)(00	31
+11)(00	32
+11)(00	33
+11)(00	34
+11)(00	35
+11)(00	36
+11)(00	37
+11)(00	38
+00)(00	39
+11)(11	40
+01)(01	41
+11)(00	42
+00)(10	43
+10)(00	44
+11)(11	45
+01)(00	46
+00
+
+(00		0	0
+		3	1
+11)(11		d	2
+01)(01		7	3
+11)(00		0	4
+00)(10		a	5
+10)(00		3	6
+11)(11		d	7
+01)(00		0	
+00
+
+
+
+
+0000
+1010
+0011
+1101
+
+
+0c
+c
+
+7
+20
+0c
+
+

@@ -1,0 +1,16 @@
+Fitter Status : Successful - Fri Aug 20 00:23:07 2010
+Quartus II Version : 7.1 Build 178 06/25/2007 SP 1 SJ Full Version
+Revision Name : RABBIT_DDS_FIFO
+Top-level Entity Name : RABBIT_DDS_FIFO
+Family : Cyclone II
+Device : EP2C35F672C6
+Timing Models : Final
+Total logic elements : 15,037 / 33,216 ( 45 % )
+    Total combinational functions : 15,036 / 33,216 ( 45 % )
+    Dedicated logic registers : 5,627 / 33,216 ( 17 % )
+Total registers : 5627
+Total pins : 22 / 475 ( 5 % )
+Total virtual pins : 0
+Total memory bits : 0 / 483,840 ( 0 % )
+Embedded Multiplier 9-bit elements : 0 / 70 ( 0 % )
+Total PLLs : 0 / 4 ( 0 % )

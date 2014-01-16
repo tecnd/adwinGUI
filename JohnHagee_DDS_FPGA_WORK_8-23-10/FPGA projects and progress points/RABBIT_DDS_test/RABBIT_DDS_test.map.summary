@@ -1,0 +1,15 @@
+Analysis & Synthesis Status : Successful - Thu Aug 12 15:20:50 2010
+Quartus II Version : 7.1 Build 178 06/25/2007 SP 1 SJ Full Version
+Revision Name : RABBIT_DDS_test
+Top-level Entity Name : RABBIT_DDS_test
+Family : Stratix II
+Logic utilization : N/A
+    Combinational ALUTs : 5,284
+    Dedicated logic registers : 3,786
+Total registers : 3786
+Total pins : 23
+Total virtual pins : 0
+Total block memory bits : 256
+DSP block 9-bit elements : 0
+Total PLLs : 0
+Total DLLs : 0

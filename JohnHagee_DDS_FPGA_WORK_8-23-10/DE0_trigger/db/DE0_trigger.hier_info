@@ -1,0 +1,40 @@
+|DE0_trigger
+int_clock => trigger_out~reg0.CLK
+int_clock => T[0].CLK
+int_clock => T[1].CLK
+int_clock => T[2].CLK
+int_clock => T[3].CLK
+int_clock => T[4].CLK
+int_clock => T[5].CLK
+int_clock => T[6].CLK
+int_clock => T[7].CLK
+int_clock => T[8].CLK
+int_clock => T[9].CLK
+int_clock => T[10].CLK
+int_clock => T[11].CLK
+int_clock => T[12].CLK
+int_clock => T[13].CLK
+int_clock => T[14].CLK
+int_clock => T[15].CLK
+int_clock => T[16].CLK
+int_clock => T[17].CLK
+int_clock => T[18].CLK
+int_clock => T[19].CLK
+int_clock => T[20].CLK
+int_clock => T[21].CLK
+int_clock => T[22].CLK
+int_clock => T[23].CLK
+int_clock => T[24].CLK
+int_clock => T[25].CLK
+int_clock => T[26].CLK
+int_clock => T[27].CLK
+int_clock => T[28].CLK
+int_clock => T[29].CLK
+int_clock => T[30].CLK
+int_clock => T[31].CLK
+int_clock => trig_flag~reg0.CLK
+push_button_2 => trig_flag.OUTPUTSELECT
+trigger_out <= trigger_out~reg0.DB_MAX_OUTPUT_PORT_TYPE
+trig_flag <= trig_flag~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+

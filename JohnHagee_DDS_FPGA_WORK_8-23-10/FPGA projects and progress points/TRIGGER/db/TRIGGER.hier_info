@@ -1,0 +1,11 @@
+|TRIGGER
+int_50MHz_clock => trigger_rabbit~reg0.CLK
+int_50MHz_clock => trigger_scope~reg0.CLK
+key_0 => trigger_scope~0.OUTPUTSELECT
+key_0 => trigger_rabbit~0.OUTPUTSELECT
+key_0 => trigger_scope~1.OUTPUTSELECT
+key_0 => trigger_rabbit~1.OUTPUTSELECT
+trigger_rabbit <= trigger_rabbit~reg0.DB_MAX_OUTPUT_PORT_TYPE
+trigger_scope <= trigger_scope~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+

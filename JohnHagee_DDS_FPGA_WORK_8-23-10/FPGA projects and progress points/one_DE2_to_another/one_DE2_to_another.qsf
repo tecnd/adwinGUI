@@ -1,0 +1,112 @@
+# Copyright (C) 1991-2007 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+
+
+# The default values for assignments are stored in the file
+#		one_DE2_to_another_assignment_defaults.qdf
+# If this file doesn't exist, and for assignments not listed, see file
+#		assignment_defaults.qdf
+
+# Altera recommends that you do not modify this file. This
+# file is updated automatically by the Quartus II software
+# and any changes you make may be lost or overwritten.
+
+
+set_global_assignment -name DEVICE EP2C35F672C6
+set_global_assignment -name FAMILY "Cyclone II"
+set_global_assignment -name TOP_LEVEL_ENTITY one_DE2_to_another
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION "7.1 SP1"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "12:19:38  JUNE 04, 2010"
+set_global_assignment -name LAST_QUARTUS_VERSION "7.1 SP1"
+set_instance_assignment -name PARTITION_HIERARCHY no_file_for_top_partition -to | -section_id Top
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name VERILOG_FILE one_DE2_to_another.v
+set_global_assignment -name VERILOG_FILE read_data.v
+set_global_assignment -name VERILOG_FILE DE2_HexDisplay.v
+set_global_assignment -name STRATIX_CONFIGURATION_DEVICE EPCS16
+set_global_assignment -name RESERVE_ASDO_AFTER_CONFIGURATION "AS INPUT TRI-STATED"
+set_location_assignment PIN_AF10 -to output_HexDisplay[0]
+set_location_assignment PIN_AB12 -to output_HexDisplay[1]
+set_location_assignment PIN_AC12 -to output_HexDisplay[2]
+set_location_assignment PIN_AD11 -to output_HexDisplay[3]
+set_location_assignment PIN_AE11 -to output_HexDisplay[4]
+set_location_assignment PIN_V14 -to output_HexDisplay[5]
+set_location_assignment PIN_V13 -to output_HexDisplay[6]
+set_location_assignment PIN_V20 -to output_HexDisplay[7]
+set_location_assignment PIN_V21 -to output_HexDisplay[8]
+set_location_assignment PIN_W21 -to output_HexDisplay[9]
+set_location_assignment PIN_Y22 -to output_HexDisplay[10]
+set_location_assignment PIN_AA24 -to output_HexDisplay[11]
+set_location_assignment PIN_AA23 -to output_HexDisplay[12]
+set_location_assignment PIN_AB24 -to output_HexDisplay[13]
+set_location_assignment PIN_AB23 -to output_HexDisplay[14]
+set_location_assignment PIN_V22 -to output_HexDisplay[15]
+set_location_assignment PIN_AC25 -to output_HexDisplay[16]
+set_location_assignment PIN_AC26 -to output_HexDisplay[17]
+set_location_assignment PIN_AB26 -to output_HexDisplay[18]
+set_location_assignment PIN_AB25 -to output_HexDisplay[19]
+set_location_assignment PIN_Y24 -to output_HexDisplay[20]
+set_location_assignment PIN_Y23 -to output_HexDisplay[21]
+set_location_assignment PIN_AA25 -to output_HexDisplay[22]
+set_location_assignment PIN_AA26 -to output_HexDisplay[23]
+set_location_assignment PIN_Y26 -to output_HexDisplay[24]
+set_location_assignment PIN_Y25 -to output_HexDisplay[25]
+set_location_assignment PIN_U22 -to output_HexDisplay[26]
+set_location_assignment PIN_W24 -to output_HexDisplay[27]
+set_location_assignment PIN_U9 -to output_HexDisplay[28]
+set_location_assignment PIN_U1 -to output_HexDisplay[29]
+set_location_assignment PIN_U2 -to output_HexDisplay[30]
+set_location_assignment PIN_T4 -to output_HexDisplay[31]
+set_location_assignment PIN_R7 -to output_HexDisplay[32]
+set_location_assignment PIN_R6 -to output_HexDisplay[33]
+set_location_assignment PIN_T3 -to output_HexDisplay[34]
+set_location_assignment PIN_T2 -to output_HexDisplay[35]
+set_location_assignment PIN_P6 -to output_HexDisplay[36]
+set_location_assignment PIN_P7 -to output_HexDisplay[37]
+set_location_assignment PIN_T9 -to output_HexDisplay[38]
+set_location_assignment PIN_R5 -to output_HexDisplay[39]
+set_location_assignment PIN_R4 -to output_HexDisplay[40]
+set_location_assignment PIN_R3 -to output_HexDisplay[41]
+set_global_assignment -name VECTOR_WAVEFORM_FILE one_DE2_to_another.vwf
+set_global_assignment -name VERILOG_FILE clock_maker.v
+set_global_assignment -name VERILOG_FILE data_program.v
+set_global_assignment -name VERILOG_FILE safety_trigger.v
+set_location_assignment PIN_N2 -to FiftyMHz_int_ref_clock
+set_location_assignment PIN_N25 -to switches[0]
+set_location_assignment PIN_N26 -to switches[1]
+set_location_assignment PIN_P25 -to switches[2]
+set_location_assignment PIN_AE14 -to switches[3]
+set_location_assignment PIN_AF14 -to switches[4]
+set_location_assignment PIN_AD13 -to switches[5]
+set_location_assignment PIN_AC13 -to switches[6]
+set_location_assignment PIN_C13 -to switches[7]
+set_location_assignment PIN_B13 -to switches[8]
+set_location_assignment PIN_A13 -to switches[9]
+set_location_assignment PIN_N1 -to switches[10]
+set_location_assignment PIN_P1 -to switches[11]
+set_location_assignment PIN_P2 -to switches[12]
+set_location_assignment PIN_T7 -to switches[13]
+set_location_assignment PIN_U3 -to switches[14]
+set_location_assignment PIN_U4 -to switches[15]
+set_location_assignment PIN_V1 -to switches[16]
+set_location_assignment PIN_V2 -to switches[17]
+set_location_assignment PIN_G26 -to key
+set_location_assignment PIN_M22 -to input_trigger
+set_location_assignment PIN_V23 -to Ten_MHz_input_clock
+set_location_assignment PIN_V24 -to input_data_1_bit
+set_location_assignment PIN_M23 -to data_ctrl_input
+set_location_assignment PIN_T21 -to output_trigger
+set_location_assignment PIN_W23 -to TenMHz_output_clock
+set_location_assignment PIN_W25 -to output_data_1_bit
+set_location_assignment PIN_K26 -to data_ctrl_output

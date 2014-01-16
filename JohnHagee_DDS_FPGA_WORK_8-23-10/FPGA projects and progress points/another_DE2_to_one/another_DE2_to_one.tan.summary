@@ -1,0 +1,56 @@
+--------------------------------------------------------------------------------------
+Timing Analyzer Summary
+--------------------------------------------------------------------------------------
+
+Type           : Worst-case tsu
+Slack          : N/A
+Required Time  : None
+Actual Time    : 3.911 ns
+From           : trigger
+To             : data_program:sending_out_the_data|counter[12]
+From Clock     : --
+To Clock       : FiftyMHz_int_ref_clock
+Failed Paths   : 0
+
+Type           : Worst-case tco
+Slack          : N/A
+Required Time  : None
+Actual Time    : 10.894 ns
+From           : data_program:sending_out_the_data|data_reg[13]
+To             : switch_reg_data[13]
+From Clock     : FiftyMHz_int_ref_clock
+To Clock       : --
+Failed Paths   : 0
+
+Type           : Worst-case th
+Slack          : N/A
+Required Time  : None
+Actual Time    : 2.144 ns
+From           : switch9
+To             : data_program:sending_out_the_data|data_reg[9]
+From Clock     : --
+To Clock       : FiftyMHz_int_ref_clock
+Failed Paths   : 0
+
+Type           : Clock Setup: 'FiftyMHz_int_ref_clock'
+Slack          : N/A
+Required Time  : None
+Actual Time    : 122.34 MHz ( period = 8.174 ns )
+From           : data_program:sending_out_the_data|counter[8]
+To             : data_program:sending_out_the_data|M[16]
+From Clock     : FiftyMHz_int_ref_clock
+To Clock       : FiftyMHz_int_ref_clock
+Failed Paths   : 0
+
+Type           : Total number of failed paths
+Slack          : 
+Required Time  : 
+Actual Time    : 
+From           : 
+To             : 
+From Clock     : 
+To Clock       : 
+Failed Paths   : 0
+
+--------------------------------------------------------------------------------------
+

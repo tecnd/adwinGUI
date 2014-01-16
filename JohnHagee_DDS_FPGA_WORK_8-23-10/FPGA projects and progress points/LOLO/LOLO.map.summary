@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Mon Aug 09 20:13:34 2010
+Quartus II Version : 7.1 Build 178 06/25/2007 SP 1 SJ Full Version
+Revision Name : LOLO
+Top-level Entity Name : LOLO
+Family : Cyclone II
+Total logic elements : 303
+    Total combinational functions : 303
+    Dedicated logic registers : 126
+Total registers : 126
+Total pins : 16
+Total virtual pins : 0
+Total memory bits : 1,024
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 0

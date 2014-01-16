@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Thu Jul 15 17:07:54 2010
+Quartus II Version : 7.1 Build 178 06/25/2007 SP 1 SJ Full Version
+Revision Name : DDS_control_I
+Top-level Entity Name : DDS_control_I
+Family : Cyclone II
+Total logic elements : 301
+    Total combinational functions : 301
+    Dedicated logic registers : 143
+Total registers : 143
+Total pins : 17
+Total virtual pins : 0
+Total memory bits : 0
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 0

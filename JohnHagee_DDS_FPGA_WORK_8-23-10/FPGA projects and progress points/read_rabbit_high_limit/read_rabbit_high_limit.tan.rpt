@@ -1,0 +1,701 @@
+Classic Timing Analyzer report for read_rabbit_high_limit
+Fri Jul 02 14:03:50 2010
+Quartus II Version 7.1 Build 178 06/25/2007 Service Pack 1 SJ Full Version
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Timing Analyzer Summary
+  3. Timing Analyzer Settings
+  4. Clock Settings Summary
+  5. Clock Setup: 'SCLK_PE_3'
+  6. tsu
+  7. tco
+  8. th
+  9. Timing Analyzer Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2007 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Timing Analyzer Summary                                                                                                                                                                           ;
++------------------------------+-------+---------------+----------------------------------+----------------------------------+------------------------------+------------+-----------+--------------+
+; Type                         ; Slack ; Required Time ; Actual Time                      ; From                             ; To                           ; From Clock ; To Clock  ; Failed Paths ;
++------------------------------+-------+---------------+----------------------------------+----------------------------------+------------------------------+------------+-----------+--------------+
+; Worst-case tsu               ; N/A   ; None          ; 4.353 ns                         ; SDIO_PE_5                        ; reader:reading|temp_high[16] ; --         ; SCLK_PE_3 ; 0            ;
+; Worst-case tco               ; N/A   ; None          ; 14.911 ns                        ; reader:reading|FTWhigh_32bit[30] ; HEXX[17]                     ; SCLK_PE_3  ; --        ; 0            ;
+; Worst-case th                ; N/A   ; None          ; -3.140 ns                        ; SDIO_PE_5                        ; reader:reading|temp_high[1]  ; --         ; SCLK_PE_3 ; 0            ;
+; Clock Setup: 'SCLK_PE_3'     ; N/A   ; None          ; 145.79 MHz ( period = 6.859 ns ) ; reader:reading|M[8]              ; reader:reading|M[31]         ; SCLK_PE_3  ; SCLK_PE_3 ; 0            ;
+; Total number of failed paths ;       ;               ;                                  ;                                  ;                              ;            ;           ; 0            ;
++------------------------------+-------+---------------+----------------------------------+----------------------------------+------------------------------+------------+-----------+--------------+
+
+
++------------------------------------------------------------------------------------------------------+
+; Timing Analyzer Settings                                                                             ;
++-------------------------------------------------------+--------------------+------+----+-------------+
+; Option                                                ; Setting            ; From ; To ; Entity Name ;
++-------------------------------------------------------+--------------------+------+----+-------------+
+; Device Name                                           ; EP2C35F672C6       ;      ;    ;             ;
+; Timing Models                                         ; Final              ;      ;    ;             ;
+; Default hold multicycle                               ; Same as Multicycle ;      ;    ;             ;
+; Cut paths between unrelated clock domains             ; On                 ;      ;    ;             ;
+; Cut off read during write signal paths                ; On                 ;      ;    ;             ;
+; Cut off feedback from I/O pins                        ; On                 ;      ;    ;             ;
+; Report Combined Fast/Slow Timing                      ; Off                ;      ;    ;             ;
+; Ignore Clock Settings                                 ; Off                ;      ;    ;             ;
+; Analyze latches as synchronous elements               ; On                 ;      ;    ;             ;
+; Enable Recovery/Removal analysis                      ; Off                ;      ;    ;             ;
+; Enable Clock Latency                                  ; Off                ;      ;    ;             ;
+; Number of source nodes to report per destination node ; 10                 ;      ;    ;             ;
+; Number of destination nodes to report                 ; 10                 ;      ;    ;             ;
+; Number of paths to report                             ; 200                ;      ;    ;             ;
+; Report Minimum Timing Checks                          ; Off                ;      ;    ;             ;
+; Use Fast Timing Models                                ; Off                ;      ;    ;             ;
+; Report IO Paths Separately                            ; Off                ;      ;    ;             ;
++-------------------------------------------------------+--------------------+------+----+-------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Clock Settings Summary                                                                                                                                                             ;
++-----------------+--------------------+----------+------------------+---------------+--------------+----------+-----------------------+---------------------+--------+--------------+
+; Clock Node Name ; Clock Setting Name ; Type     ; Fmax Requirement ; Early Latency ; Late Latency ; Based on ; Multiply Base Fmax by ; Divide Base Fmax by ; Offset ; Phase offset ;
++-----------------+--------------------+----------+------------------+---------------+--------------+----------+-----------------------+---------------------+--------+--------------+
+; SCLK_PE_3       ;                    ; User Pin ; None             ; 0.000 ns      ; 0.000 ns     ; --       ; N/A                   ; N/A                 ; N/A    ;              ;
+; fifty_MHz_int   ;                    ; User Pin ; None             ; 0.000 ns      ; 0.000 ns     ; --       ; N/A                   ; N/A                 ; N/A    ;              ;
++-----------------+--------------------+----------+------------------+---------------+--------------+----------+-----------------------+---------------------+--------+--------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Clock Setup: 'SCLK_PE_3'                                                                                                                                                                                                                                             ;
++-----------------------------------------+-----------------------------------------------------+----------------------+----------------------------------+------------+-----------+-----------------------------+---------------------------+-------------------------+
+; Slack                                   ; Actual fmax (period)                                ; From                 ; To                               ; From Clock ; To Clock  ; Required Setup Relationship ; Required Longest P2P Time ; Actual Longest P2P Time ;
++-----------------------------------------+-----------------------------------------------------+----------------------+----------------------------------+------------+-----------+-----------------------------+---------------------------+-------------------------+
+; N/A                                     ; 145.79 MHz ( period = 6.859 ns )                    ; reader:reading|M[8]  ; reader:reading|M[31]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.582 ns                ;
+; N/A                                     ; 147.32 MHz ( period = 6.788 ns )                    ; reader:reading|M[8]  ; reader:reading|M[30]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.511 ns                ;
+; N/A                                     ; 148.88 MHz ( period = 6.717 ns )                    ; reader:reading|M[8]  ; reader:reading|M[29]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.440 ns                ;
+; N/A                                     ; 149.37 MHz ( period = 6.695 ns )                    ; reader:reading|M[7]  ; reader:reading|M[31]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.418 ns                ;
+; N/A                                     ; 150.47 MHz ( period = 6.646 ns )                    ; reader:reading|M[8]  ; reader:reading|M[28]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.369 ns                ;
+; N/A                                     ; 150.97 MHz ( period = 6.624 ns )                    ; reader:reading|M[7]  ; reader:reading|M[30]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.347 ns                ;
+; N/A                                     ; 151.56 MHz ( period = 6.598 ns )                    ; reader:reading|M[5]  ; reader:reading|M[31]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.321 ns                ;
+; N/A                                     ; 152.09 MHz ( period = 6.575 ns )                    ; reader:reading|M[8]  ; reader:reading|M[27]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.298 ns                ;
+; N/A                                     ; 152.60 MHz ( period = 6.553 ns )                    ; reader:reading|M[7]  ; reader:reading|M[29]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.276 ns                ;
+; N/A                                     ; 152.93 MHz ( period = 6.539 ns )                    ; reader:reading|M[9]  ; reader:reading|M[31]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.262 ns                ;
+; N/A                                     ; 153.21 MHz ( period = 6.527 ns )                    ; reader:reading|M[5]  ; reader:reading|M[30]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.250 ns                ;
+; N/A                                     ; 153.75 MHz ( period = 6.504 ns )                    ; reader:reading|M[8]  ; reader:reading|M[26]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.227 ns                ;
+; N/A                                     ; 154.11 MHz ( period = 6.489 ns )                    ; reader:reading|M[10] ; reader:reading|M[31]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.212 ns                ;
+; N/A                                     ; 154.27 MHz ( period = 6.482 ns )                    ; reader:reading|M[7]  ; reader:reading|M[28]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.205 ns                ;
+; N/A                                     ; 154.34 MHz ( period = 6.479 ns )                    ; reader:reading|M[11] ; reader:reading|M[31]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.202 ns                ;
+; N/A                                     ; 154.46 MHz ( period = 6.474 ns )                    ; reader:reading|M[6]  ; reader:reading|M[31]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.197 ns                ;
+; N/A                                     ; 154.61 MHz ( period = 6.468 ns )                    ; reader:reading|M[9]  ; reader:reading|M[30]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.191 ns                ;
+; N/A                                     ; 154.89 MHz ( period = 6.456 ns )                    ; reader:reading|M[5]  ; reader:reading|M[29]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.179 ns                ;
+; N/A                                     ; 155.26 MHz ( period = 6.441 ns )                    ; reader:reading|M[12] ; reader:reading|M[31]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.164 ns                ;
+; N/A                                     ; 155.45 MHz ( period = 6.433 ns )                    ; reader:reading|M[8]  ; reader:reading|M[25]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.156 ns                ;
+; N/A                                     ; 155.71 MHz ( period = 6.422 ns )                    ; reader:reading|M[13] ; reader:reading|M[31]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.145 ns                ;
+; N/A                                     ; 155.81 MHz ( period = 6.418 ns )                    ; reader:reading|M[10] ; reader:reading|M[30]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.141 ns                ;
+; N/A                                     ; 155.98 MHz ( period = 6.411 ns )                    ; reader:reading|M[7]  ; reader:reading|M[27]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.134 ns                ;
+; N/A                                     ; 156.05 MHz ( period = 6.408 ns )                    ; reader:reading|M[11] ; reader:reading|M[30]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.131 ns                ;
+; N/A                                     ; 156.18 MHz ( period = 6.403 ns )                    ; reader:reading|M[6]  ; reader:reading|M[30]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.126 ns                ;
+; N/A                                     ; 156.32 MHz ( period = 6.397 ns )                    ; reader:reading|M[9]  ; reader:reading|M[29]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.120 ns                ;
+; N/A                                     ; 156.62 MHz ( period = 6.385 ns )                    ; reader:reading|M[5]  ; reader:reading|M[28]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.108 ns                ;
+; N/A                                     ; 156.74 MHz ( period = 6.380 ns )                    ; reader:reading|M[19] ; reader:reading|M[31]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.166 ns                ;
+; N/A                                     ; 156.99 MHz ( period = 6.370 ns )                    ; reader:reading|M[12] ; reader:reading|M[30]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.093 ns                ;
+; N/A                                     ; 157.06 MHz ( period = 6.367 ns )                    ; reader:reading|M[17] ; reader:reading|M[31]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.153 ns                ;
+; N/A                                     ; 157.18 MHz ( period = 6.362 ns )                    ; reader:reading|M[8]  ; reader:reading|M[24]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.085 ns                ;
+; N/A                                     ; 157.46 MHz ( period = 6.351 ns )                    ; reader:reading|M[13] ; reader:reading|M[30]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.074 ns                ;
+; N/A                                     ; 157.55 MHz ( period = 6.347 ns )                    ; reader:reading|M[10] ; reader:reading|M[29]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.070 ns                ;
+; N/A                                     ; 157.68 MHz ( period = 6.342 ns )                    ; reader:reading|M[18] ; reader:reading|M[31]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.128 ns                ;
+; N/A                                     ; 157.73 MHz ( period = 6.340 ns )                    ; reader:reading|M[7]  ; reader:reading|M[26]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.063 ns                ;
+; N/A                                     ; 157.78 MHz ( period = 6.338 ns )                    ; reader:reading|N[23] ; reader:reading|temp_high[16]     ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.186 ns                ;
+; N/A                                     ; 157.80 MHz ( period = 6.337 ns )                    ; reader:reading|M[11] ; reader:reading|M[29]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.060 ns                ;
+; N/A                                     ; 157.93 MHz ( period = 6.332 ns )                    ; reader:reading|M[6]  ; reader:reading|M[29]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.055 ns                ;
+; N/A                                     ; 157.95 MHz ( period = 6.331 ns )                    ; reader:reading|N[11] ; reader:reading|temp_high[16]     ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.172 ns                ;
+; N/A                                     ; 158.08 MHz ( period = 6.326 ns )                    ; reader:reading|M[9]  ; reader:reading|M[28]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.049 ns                ;
+; N/A                                     ; 158.38 MHz ( period = 6.314 ns )                    ; reader:reading|M[5]  ; reader:reading|M[27]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.037 ns                ;
+; N/A                                     ; 158.50 MHz ( period = 6.309 ns )                    ; reader:reading|M[19] ; reader:reading|M[30]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.095 ns                ;
+; N/A                                     ; 158.55 MHz ( period = 6.307 ns )                    ; reader:reading|M[14] ; reader:reading|M[31]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.030 ns                ;
+; N/A                                     ; 158.76 MHz ( period = 6.299 ns )                    ; reader:reading|M[12] ; reader:reading|M[29]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.022 ns                ;
+; N/A                                     ; 158.83 MHz ( period = 6.296 ns )                    ; reader:reading|M[17] ; reader:reading|M[30]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.082 ns                ;
+; N/A                                     ; 158.98 MHz ( period = 6.290 ns )                    ; reader:reading|N[14] ; reader:reading|temp_high[16]     ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.131 ns                ;
+; N/A                                     ; 159.03 MHz ( period = 6.288 ns )                    ; reader:reading|N[23] ; reader:reading|FTWhigh_32bit[15] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.135 ns                ;
+; N/A                                     ; 159.03 MHz ( period = 6.288 ns )                    ; reader:reading|N[23] ; reader:reading|FTWhigh_32bit[14] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.135 ns                ;
+; N/A                                     ; 159.03 MHz ( period = 6.288 ns )                    ; reader:reading|N[23] ; reader:reading|FTWhigh_32bit[13] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.135 ns                ;
+; N/A                                     ; 159.03 MHz ( period = 6.288 ns )                    ; reader:reading|N[23] ; reader:reading|FTWhigh_32bit[12] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.135 ns                ;
+; N/A                                     ; 159.21 MHz ( period = 6.281 ns )                    ; reader:reading|N[11] ; reader:reading|FTWhigh_32bit[15] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.121 ns                ;
+; N/A                                     ; 159.21 MHz ( period = 6.281 ns )                    ; reader:reading|N[11] ; reader:reading|FTWhigh_32bit[14] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.121 ns                ;
+; N/A                                     ; 159.21 MHz ( period = 6.281 ns )                    ; reader:reading|N[11] ; reader:reading|FTWhigh_32bit[13] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.121 ns                ;
+; N/A                                     ; 159.21 MHz ( period = 6.281 ns )                    ; reader:reading|N[11] ; reader:reading|FTWhigh_32bit[12] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.121 ns                ;
+; N/A                                     ; 159.24 MHz ( period = 6.280 ns )                    ; reader:reading|M[13] ; reader:reading|M[29]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.003 ns                ;
+; N/A                                     ; 159.34 MHz ( period = 6.276 ns )                    ; reader:reading|M[10] ; reader:reading|M[28]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.999 ns                ;
+; N/A                                     ; 159.46 MHz ( period = 6.271 ns )                    ; reader:reading|M[18] ; reader:reading|M[30]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.057 ns                ;
+; N/A                                     ; 159.52 MHz ( period = 6.269 ns )                    ; reader:reading|M[7]  ; reader:reading|M[25]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.992 ns                ;
+; N/A                                     ; 159.59 MHz ( period = 6.266 ns )                    ; reader:reading|M[11] ; reader:reading|M[28]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.989 ns                ;
+; N/A                                     ; 159.72 MHz ( period = 6.261 ns )                    ; reader:reading|M[6]  ; reader:reading|M[28]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.984 ns                ;
+; N/A                                     ; 159.87 MHz ( period = 6.255 ns )                    ; reader:reading|M[9]  ; reader:reading|M[27]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.978 ns                ;
+; N/A                                     ; 160.18 MHz ( period = 6.243 ns )                    ; reader:reading|M[5]  ; reader:reading|M[26]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.966 ns                ;
+; N/A                                     ; 160.23 MHz ( period = 6.241 ns )                    ; reader:reading|M[16] ; reader:reading|M[31]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.027 ns                ;
+; N/A                                     ; 160.26 MHz ( period = 6.240 ns )                    ; reader:reading|N[14] ; reader:reading|FTWhigh_32bit[15] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.080 ns                ;
+; N/A                                     ; 160.26 MHz ( period = 6.240 ns )                    ; reader:reading|N[14] ; reader:reading|FTWhigh_32bit[14] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.080 ns                ;
+; N/A                                     ; 160.26 MHz ( period = 6.240 ns )                    ; reader:reading|N[14] ; reader:reading|FTWhigh_32bit[13] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.080 ns                ;
+; N/A                                     ; 160.26 MHz ( period = 6.240 ns )                    ; reader:reading|N[14] ; reader:reading|FTWhigh_32bit[12] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.080 ns                ;
+; N/A                                     ; 160.31 MHz ( period = 6.238 ns )                    ; reader:reading|M[19] ; reader:reading|M[29]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.024 ns                ;
+; N/A                                     ; 160.36 MHz ( period = 6.236 ns )                    ; reader:reading|M[14] ; reader:reading|M[30]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.959 ns                ;
+; N/A                                     ; 160.51 MHz ( period = 6.230 ns )                    ; reader:reading|N[25] ; reader:reading|FTWhigh_32bit[15] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.077 ns                ;
+; N/A                                     ; 160.51 MHz ( period = 6.230 ns )                    ; reader:reading|N[25] ; reader:reading|FTWhigh_32bit[14] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.077 ns                ;
+; N/A                                     ; 160.51 MHz ( period = 6.230 ns )                    ; reader:reading|N[25] ; reader:reading|FTWhigh_32bit[13] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.077 ns                ;
+; N/A                                     ; 160.51 MHz ( period = 6.230 ns )                    ; reader:reading|N[25] ; reader:reading|FTWhigh_32bit[12] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.077 ns                ;
+; N/A                                     ; 160.57 MHz ( period = 6.228 ns )                    ; reader:reading|M[12] ; reader:reading|M[28]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.951 ns                ;
+; N/A                                     ; 160.64 MHz ( period = 6.225 ns )                    ; reader:reading|M[17] ; reader:reading|M[29]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.011 ns                ;
+; N/A                                     ; 161.00 MHz ( period = 6.211 ns )                    ; reader:reading|M[15] ; reader:reading|M[31]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.934 ns                ;
+; N/A                                     ; 161.06 MHz ( period = 6.209 ns )                    ; reader:reading|M[13] ; reader:reading|M[28]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.932 ns                ;
+; N/A                                     ; 161.16 MHz ( period = 6.205 ns )                    ; reader:reading|M[10] ; reader:reading|M[27]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.928 ns                ;
+; N/A                                     ; 161.21 MHz ( period = 6.203 ns )                    ; reader:reading|M[8]  ; reader:reading|M[23]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.926 ns                ;
+; N/A                                     ; 161.29 MHz ( period = 6.200 ns )                    ; reader:reading|M[18] ; reader:reading|M[29]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.986 ns                ;
+; N/A                                     ; 161.34 MHz ( period = 6.198 ns )                    ; reader:reading|M[7]  ; reader:reading|M[24]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.921 ns                ;
+; N/A                                     ; 161.42 MHz ( period = 6.195 ns )                    ; reader:reading|M[11] ; reader:reading|M[27]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.918 ns                ;
+; N/A                                     ; 161.55 MHz ( period = 6.190 ns )                    ; reader:reading|M[6]  ; reader:reading|M[27]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.913 ns                ;
+; N/A                                     ; 161.71 MHz ( period = 6.184 ns )                    ; reader:reading|M[9]  ; reader:reading|M[26]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.907 ns                ;
+; N/A                                     ; 161.71 MHz ( period = 6.184 ns )                    ; reader:reading|N[23] ; reader:reading|FTWhigh_32bit[11] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.992 ns                ;
+; N/A                                     ; 161.71 MHz ( period = 6.184 ns )                    ; reader:reading|N[23] ; reader:reading|FTWhigh_32bit[10] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.992 ns                ;
+; N/A                                     ; 161.71 MHz ( period = 6.184 ns )                    ; reader:reading|N[23] ; reader:reading|FTWhigh_32bit[9]  ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.992 ns                ;
+; N/A                                     ; 161.71 MHz ( period = 6.184 ns )                    ; reader:reading|N[23] ; reader:reading|FTWhigh_32bit[8]  ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.992 ns                ;
+; N/A                                     ; 161.89 MHz ( period = 6.177 ns )                    ; reader:reading|N[11] ; reader:reading|FTWhigh_32bit[11] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.978 ns                ;
+; N/A                                     ; 161.89 MHz ( period = 6.177 ns )                    ; reader:reading|N[11] ; reader:reading|FTWhigh_32bit[10] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.978 ns                ;
+; N/A                                     ; 161.89 MHz ( period = 6.177 ns )                    ; reader:reading|N[11] ; reader:reading|FTWhigh_32bit[9]  ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.978 ns                ;
+; N/A                                     ; 161.89 MHz ( period = 6.177 ns )                    ; reader:reading|N[11] ; reader:reading|FTWhigh_32bit[8]  ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.978 ns                ;
+; N/A                                     ; 162.02 MHz ( period = 6.172 ns )                    ; reader:reading|M[5]  ; reader:reading|M[25]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.895 ns                ;
+; N/A                                     ; 162.07 MHz ( period = 6.170 ns )                    ; reader:reading|M[16] ; reader:reading|M[30]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.956 ns                ;
+; N/A                                     ; 162.15 MHz ( period = 6.167 ns )                    ; reader:reading|M[19] ; reader:reading|M[28]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.953 ns                ;
+; N/A                                     ; 162.21 MHz ( period = 6.165 ns )                    ; reader:reading|M[14] ; reader:reading|M[29]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.888 ns                ;
+; N/A                                     ; 162.42 MHz ( period = 6.157 ns )                    ; reader:reading|M[12] ; reader:reading|M[27]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.880 ns                ;
+; N/A                                     ; 162.50 MHz ( period = 6.154 ns )                    ; reader:reading|M[17] ; reader:reading|M[28]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.940 ns                ;
+; N/A                                     ; 162.87 MHz ( period = 6.140 ns )                    ; reader:reading|M[15] ; reader:reading|M[30]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.863 ns                ;
+; N/A                                     ; 162.92 MHz ( period = 6.138 ns )                    ; reader:reading|M[13] ; reader:reading|M[27]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.861 ns                ;
+; N/A                                     ; 162.92 MHz ( period = 6.138 ns )                    ; reader:reading|N[25] ; reader:reading|temp_high[16]     ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.986 ns                ;
+; N/A                                     ; 162.92 MHz ( period = 6.138 ns )                    ; reader:reading|N[21] ; reader:reading|temp_high[16]     ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.986 ns                ;
+; N/A                                     ; 162.97 MHz ( period = 6.136 ns )                    ; reader:reading|N[14] ; reader:reading|FTWhigh_32bit[11] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.937 ns                ;
+; N/A                                     ; 162.97 MHz ( period = 6.136 ns )                    ; reader:reading|N[14] ; reader:reading|FTWhigh_32bit[10] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.937 ns                ;
+; N/A                                     ; 162.97 MHz ( period = 6.136 ns )                    ; reader:reading|N[14] ; reader:reading|FTWhigh_32bit[9]  ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.937 ns                ;
+; N/A                                     ; 162.97 MHz ( period = 6.136 ns )                    ; reader:reading|N[14] ; reader:reading|FTWhigh_32bit[8]  ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.937 ns                ;
+; N/A                                     ; 163.03 MHz ( period = 6.134 ns )                    ; reader:reading|M[10] ; reader:reading|M[26]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.857 ns                ;
+; N/A                                     ; 163.08 MHz ( period = 6.132 ns )                    ; reader:reading|M[8]  ; reader:reading|M[22]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.855 ns                ;
+; N/A                                     ; 163.16 MHz ( period = 6.129 ns )                    ; reader:reading|M[18] ; reader:reading|M[28]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.915 ns                ;
+; N/A                                     ; 163.24 MHz ( period = 6.126 ns )                    ; reader:reading|N[25] ; reader:reading|FTWhigh_32bit[11] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.934 ns                ;
+; N/A                                     ; 163.24 MHz ( period = 6.126 ns )                    ; reader:reading|N[25] ; reader:reading|FTWhigh_32bit[10] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.934 ns                ;
+; N/A                                     ; 163.24 MHz ( period = 6.126 ns )                    ; reader:reading|N[25] ; reader:reading|FTWhigh_32bit[9]  ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.934 ns                ;
+; N/A                                     ; 163.24 MHz ( period = 6.126 ns )                    ; reader:reading|N[25] ; reader:reading|FTWhigh_32bit[8]  ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.934 ns                ;
+; N/A                                     ; 163.29 MHz ( period = 6.124 ns )                    ; reader:reading|M[11] ; reader:reading|M[26]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.847 ns                ;
+; N/A                                     ; 163.32 MHz ( period = 6.123 ns )                    ; reader:reading|N[23] ; reader:reading|temp_high[7]      ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.902 ns                ;
+; N/A                                     ; 163.43 MHz ( period = 6.119 ns )                    ; reader:reading|M[6]  ; reader:reading|M[26]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.842 ns                ;
+; N/A                                     ; 163.51 MHz ( period = 6.116 ns )                    ; reader:reading|N[11] ; reader:reading|temp_high[7]      ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.888 ns                ;
+; N/A                                     ; 163.59 MHz ( period = 6.113 ns )                    ; reader:reading|M[9]  ; reader:reading|M[25]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.836 ns                ;
+; N/A                                     ; 163.91 MHz ( period = 6.101 ns )                    ; reader:reading|M[5]  ; reader:reading|M[24]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.824 ns                ;
+; N/A                                     ; 163.91 MHz ( period = 6.101 ns )                    ; reader:reading|N[22] ; reader:reading|temp_high[16]     ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.949 ns                ;
+; N/A                                     ; 163.96 MHz ( period = 6.099 ns )                    ; reader:reading|M[16] ; reader:reading|M[29]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.885 ns                ;
+; N/A                                     ; 164.02 MHz ( period = 6.097 ns )                    ; reader:reading|N[23] ; reader:reading|temp_high[31]     ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.077 ns                ;
+; N/A                                     ; 164.04 MHz ( period = 6.096 ns )                    ; reader:reading|M[19] ; reader:reading|M[27]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.882 ns                ;
+; N/A                                     ; 164.10 MHz ( period = 6.094 ns )                    ; reader:reading|M[14] ; reader:reading|M[28]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.817 ns                ;
+; N/A                                     ; 164.20 MHz ( period = 6.090 ns )                    ; reader:reading|N[11] ; reader:reading|temp_high[31]     ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.063 ns                ;
+; N/A                                     ; 164.26 MHz ( period = 6.088 ns )                    ; reader:reading|N[21] ; reader:reading|FTWhigh_32bit[15] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.935 ns                ;
+; N/A                                     ; 164.26 MHz ( period = 6.088 ns )                    ; reader:reading|N[21] ; reader:reading|FTWhigh_32bit[14] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.935 ns                ;
+; N/A                                     ; 164.26 MHz ( period = 6.088 ns )                    ; reader:reading|N[21] ; reader:reading|FTWhigh_32bit[13] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.935 ns                ;
+; N/A                                     ; 164.26 MHz ( period = 6.088 ns )                    ; reader:reading|N[21] ; reader:reading|FTWhigh_32bit[12] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.935 ns                ;
+; N/A                                     ; 164.31 MHz ( period = 6.086 ns )                    ; reader:reading|M[12] ; reader:reading|M[26]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.809 ns                ;
+; N/A                                     ; 164.39 MHz ( period = 6.083 ns )                    ; reader:reading|M[17] ; reader:reading|M[27]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.869 ns                ;
+; N/A                                     ; 164.61 MHz ( period = 6.075 ns )                    ; reader:reading|N[14] ; reader:reading|temp_high[7]      ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.847 ns                ;
+; N/A                                     ; 164.77 MHz ( period = 6.069 ns )                    ; reader:reading|M[15] ; reader:reading|M[29]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.792 ns                ;
+; N/A                                     ; 164.83 MHz ( period = 6.067 ns )                    ; reader:reading|M[13] ; reader:reading|M[26]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.790 ns                ;
+; N/A                                     ; 164.93 MHz ( period = 6.063 ns )                    ; reader:reading|M[10] ; reader:reading|M[25]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.786 ns                ;
+; N/A                                     ; 164.99 MHz ( period = 6.061 ns )                    ; reader:reading|M[8]  ; reader:reading|M[21]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.784 ns                ;
+; N/A                                     ; 165.07 MHz ( period = 6.058 ns )                    ; reader:reading|M[18] ; reader:reading|M[27]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.844 ns                ;
+; N/A                                     ; 165.13 MHz ( period = 6.056 ns )                    ; reader:reading|M[20] ; reader:reading|M[31]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.842 ns                ;
+; N/A                                     ; 165.21 MHz ( period = 6.053 ns )                    ; reader:reading|M[11] ; reader:reading|M[25]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.776 ns                ;
+; N/A                                     ; 165.26 MHz ( period = 6.051 ns )                    ; reader:reading|N[22] ; reader:reading|FTWhigh_32bit[15] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.898 ns                ;
+; N/A                                     ; 165.26 MHz ( period = 6.051 ns )                    ; reader:reading|N[22] ; reader:reading|FTWhigh_32bit[14] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.898 ns                ;
+; N/A                                     ; 165.26 MHz ( period = 6.051 ns )                    ; reader:reading|N[22] ; reader:reading|FTWhigh_32bit[13] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.898 ns                ;
+; N/A                                     ; 165.26 MHz ( period = 6.051 ns )                    ; reader:reading|N[22] ; reader:reading|FTWhigh_32bit[12] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.898 ns                ;
+; N/A                                     ; 165.32 MHz ( period = 6.049 ns )                    ; reader:reading|N[14] ; reader:reading|temp_high[31]     ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 6.022 ns                ;
+; N/A                                     ; 165.34 MHz ( period = 6.048 ns )                    ; reader:reading|M[6]  ; reader:reading|M[25]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.771 ns                ;
+; N/A                                     ; 165.51 MHz ( period = 6.042 ns )                    ; reader:reading|M[25] ; reader:reading|M[31]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.828 ns                ;
+; N/A                                     ; 165.51 MHz ( period = 6.042 ns )                    ; reader:reading|M[9]  ; reader:reading|M[24]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.765 ns                ;
+; N/A                                     ; 165.59 MHz ( period = 6.039 ns )                    ; reader:reading|M[7]  ; reader:reading|M[23]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.762 ns                ;
+; N/A                                     ; 165.73 MHz ( period = 6.034 ns )                    ; reader:reading|M[26] ; reader:reading|M[31]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.820 ns                ;
+; N/A                                     ; 165.89 MHz ( period = 6.028 ns )                    ; reader:reading|M[16] ; reader:reading|M[28]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.814 ns                ;
+; N/A                                     ; 165.92 MHz ( period = 6.027 ns )                    ; reader:reading|N[5]  ; reader:reading|FTWhigh_32bit[15] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.867 ns                ;
+; N/A                                     ; 165.92 MHz ( period = 6.027 ns )                    ; reader:reading|N[5]  ; reader:reading|FTWhigh_32bit[14] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.867 ns                ;
+; N/A                                     ; 165.92 MHz ( period = 6.027 ns )                    ; reader:reading|N[5]  ; reader:reading|FTWhigh_32bit[13] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.867 ns                ;
+; N/A                                     ; 165.92 MHz ( period = 6.027 ns )                    ; reader:reading|N[5]  ; reader:reading|FTWhigh_32bit[12] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.867 ns                ;
+; N/A                                     ; 165.98 MHz ( period = 6.025 ns )                    ; reader:reading|M[19] ; reader:reading|M[26]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.811 ns                ;
+; N/A                                     ; 166.03 MHz ( period = 6.023 ns )                    ; reader:reading|M[14] ; reader:reading|M[27]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.746 ns                ;
+; N/A                                     ; 166.25 MHz ( period = 6.015 ns )                    ; reader:reading|M[12] ; reader:reading|M[25]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.738 ns                ;
+; N/A                                     ; 166.25 MHz ( period = 6.015 ns )                    ; reader:reading|N[23] ; reader:reading|temp_high[23]     ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.777 ns                ;
+; N/A                                     ; 166.33 MHz ( period = 6.012 ns )                    ; reader:reading|M[17] ; reader:reading|M[26]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.798 ns                ;
+; N/A                                     ; 166.33 MHz ( period = 6.012 ns )                    ; reader:reading|N[10] ; reader:reading|temp_high[16]     ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.853 ns                ;
+; N/A                                     ; 166.44 MHz ( period = 6.008 ns )                    ; reader:reading|N[11] ; reader:reading|temp_high[23]     ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.763 ns                ;
+; N/A                                     ; 166.64 MHz ( period = 6.001 ns )                    ; reader:reading|M[28] ; reader:reading|M[31]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.787 ns                ;
+; N/A                                     ; 166.67 MHz ( period = 6.000 ns )                    ; reader:reading|N[20] ; reader:reading|temp_high[16]     ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.848 ns                ;
+; N/A                                     ; 166.72 MHz ( period = 5.998 ns )                    ; reader:reading|M[15] ; reader:reading|M[28]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.721 ns                ;
+; N/A                                     ; 166.78 MHz ( period = 5.996 ns )                    ; reader:reading|M[13] ; reader:reading|M[25]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.719 ns                ;
+; N/A                                     ; 166.89 MHz ( period = 5.992 ns )                    ; reader:reading|M[10] ; reader:reading|M[24]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.715 ns                ;
+; N/A                                     ; 166.94 MHz ( period = 5.990 ns )                    ; reader:reading|M[8]  ; reader:reading|M[20]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.713 ns                ;
+; N/A                                     ; 167.03 MHz ( period = 5.987 ns )                    ; reader:reading|M[18] ; reader:reading|M[26]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.773 ns                ;
+; N/A                                     ; 167.08 MHz ( period = 5.985 ns )                    ; reader:reading|M[20] ; reader:reading|M[30]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.771 ns                ;
+; N/A                                     ; 167.11 MHz ( period = 5.984 ns )                    ; reader:reading|N[21] ; reader:reading|FTWhigh_32bit[11] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.792 ns                ;
+; N/A                                     ; 167.11 MHz ( period = 5.984 ns )                    ; reader:reading|N[21] ; reader:reading|FTWhigh_32bit[10] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.792 ns                ;
+; N/A                                     ; 167.11 MHz ( period = 5.984 ns )                    ; reader:reading|N[21] ; reader:reading|FTWhigh_32bit[9]  ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.792 ns                ;
+; N/A                                     ; 167.11 MHz ( period = 5.984 ns )                    ; reader:reading|N[21] ; reader:reading|FTWhigh_32bit[8]  ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.792 ns                ;
+; N/A                                     ; 167.17 MHz ( period = 5.982 ns )                    ; reader:reading|M[11] ; reader:reading|M[24]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.705 ns                ;
+; N/A                                     ; 167.31 MHz ( period = 5.977 ns )                    ; reader:reading|M[6]  ; reader:reading|M[24]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.700 ns                ;
+; N/A                                     ; 167.48 MHz ( period = 5.971 ns )                    ; reader:reading|M[25] ; reader:reading|M[30]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.757 ns                ;
+; N/A                                     ; 167.56 MHz ( period = 5.968 ns )                    ; reader:reading|M[7]  ; reader:reading|M[22]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.691 ns                ;
+; N/A                                     ; 167.59 MHz ( period = 5.967 ns )                    ; reader:reading|N[14] ; reader:reading|temp_high[23]     ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.722 ns                ;
+; N/A                                     ; 167.67 MHz ( period = 5.964 ns )                    ; reader:reading|N[9]  ; reader:reading|temp_high[16]     ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.805 ns                ;
+; N/A                                     ; 167.70 MHz ( period = 5.963 ns )                    ; reader:reading|M[26] ; reader:reading|M[30]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.749 ns                ;
+; N/A                                     ; 167.73 MHz ( period = 5.962 ns )                    ; reader:reading|N[10] ; reader:reading|FTWhigh_32bit[15] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.802 ns                ;
+; N/A                                     ; 167.73 MHz ( period = 5.962 ns )                    ; reader:reading|N[10] ; reader:reading|FTWhigh_32bit[14] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.802 ns                ;
+; N/A                                     ; 167.73 MHz ( period = 5.962 ns )                    ; reader:reading|N[10] ; reader:reading|FTWhigh_32bit[13] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.802 ns                ;
+; N/A                                     ; 167.73 MHz ( period = 5.962 ns )                    ; reader:reading|N[10] ; reader:reading|FTWhigh_32bit[12] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.802 ns                ;
+; N/A                                     ; 167.81 MHz ( period = 5.959 ns )                    ; reader:reading|N[17] ; reader:reading|temp_high[16]     ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.807 ns                ;
+; N/A                                     ; 167.84 MHz ( period = 5.958 ns )                    ; reader:reading|N[8]  ; reader:reading|temp_high[16]     ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.799 ns                ;
+; N/A                                     ; 167.84 MHz ( period = 5.958 ns )                    ; reader:reading|N[15] ; reader:reading|temp_high[16]     ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.799 ns                ;
+; N/A                                     ; 167.87 MHz ( period = 5.957 ns )                    ; reader:reading|M[16] ; reader:reading|M[27]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.743 ns                ;
+; N/A                                     ; 167.95 MHz ( period = 5.954 ns )                    ; reader:reading|M[19] ; reader:reading|M[25]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.740 ns                ;
+; N/A                                     ; 168.01 MHz ( period = 5.952 ns )                    ; reader:reading|M[14] ; reader:reading|M[26]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.675 ns                ;
+; N/A                                     ; 168.07 MHz ( period = 5.950 ns )                    ; reader:reading|N[20] ; reader:reading|FTWhigh_32bit[15] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.797 ns                ;
+; N/A                                     ; 168.07 MHz ( period = 5.950 ns )                    ; reader:reading|N[20] ; reader:reading|FTWhigh_32bit[14] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.797 ns                ;
+; N/A                                     ; 168.07 MHz ( period = 5.950 ns )                    ; reader:reading|N[20] ; reader:reading|FTWhigh_32bit[13] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.797 ns                ;
+; N/A                                     ; 168.07 MHz ( period = 5.950 ns )                    ; reader:reading|N[20] ; reader:reading|FTWhigh_32bit[12] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.797 ns                ;
+; N/A                                     ; 168.15 MHz ( period = 5.947 ns )                    ; reader:reading|N[22] ; reader:reading|FTWhigh_32bit[11] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.755 ns                ;
+; N/A                                     ; 168.15 MHz ( period = 5.947 ns )                    ; reader:reading|N[22] ; reader:reading|FTWhigh_32bit[10] ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.755 ns                ;
+; N/A                                     ; 168.15 MHz ( period = 5.947 ns )                    ; reader:reading|N[22] ; reader:reading|FTWhigh_32bit[9]  ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.755 ns                ;
+; N/A                                     ; 168.15 MHz ( period = 5.947 ns )                    ; reader:reading|N[22] ; reader:reading|FTWhigh_32bit[8]  ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.755 ns                ;
+; N/A                                     ; 168.24 MHz ( period = 5.944 ns )                    ; reader:reading|M[12] ; reader:reading|M[24]             ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.667 ns                ;
+; N/A                                     ; 168.29 MHz ( period = 5.942 ns )                    ; reader:reading|N[23] ; reader:reading|FTWhigh_32bit[5]  ; SCLK_PE_3  ; SCLK_PE_3 ; None                        ; None                      ; 5.853 ns                ;
+; Timing analysis restricted to 200 rows. ; To change the limit use Settings (Assignments menu) ;                      ;                                  ;            ;           ;                             ;                           ;                         ;
++-----------------------------------------+-----------------------------------------------------+----------------------+----------------------------------+------------+-----------+-----------------------------+---------------------------+-------------------------+
+
+
++------------------------------------------------------------------------------------------------------+
+; tsu                                                                                                  ;
++-------+--------------+------------+-----------+--------------------------------------+---------------+
+; Slack ; Required tsu ; Actual tsu ; From      ; To                                   ; To Clock      ;
++-------+--------------+------------+-----------+--------------------------------------+---------------+
+; N/A   ; None         ; 4.353 ns   ; SDIO_PE_5 ; reader:reading|temp_high[16]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 4.192 ns   ; SDIO_PE_5 ; reader:reading|temp_high[20]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 4.106 ns   ; SDIO_PE_5 ; reader:reading|temp_high[22]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 4.103 ns   ; SDIO_PE_5 ; reader:reading|temp_high[4]          ; SCLK_PE_3     ;
+; N/A   ; None         ; 4.100 ns   ; SDIO_PE_5 ; reader:reading|temp_high[6]          ; SCLK_PE_3     ;
+; N/A   ; None         ; 4.099 ns   ; SDIO_PE_5 ; reader:reading|temp_high[23]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 4.038 ns   ; SDIO_PE_5 ; reader:reading|temp_high[21]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 4.037 ns   ; SDIO_PE_5 ; reader:reading|temp_high[7]          ; SCLK_PE_3     ;
+; N/A   ; None         ; 4.036 ns   ; SDIO_PE_5 ; reader:reading|temp_high[5]          ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.926 ns   ; SDIO_PE_5 ; reader:reading|temp_high[9]          ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.925 ns   ; SDIO_PE_5 ; reader:reading|temp_high[10]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.924 ns   ; SDIO_PE_5 ; reader:reading|temp_high[27]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.921 ns   ; SDIO_PE_5 ; reader:reading|temp_high[11]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.920 ns   ; SDIO_PE_5 ; reader:reading|temp_high[26]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.918 ns   ; SDIO_PE_5 ; reader:reading|temp_high[8]          ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.916 ns   ; SDIO_PE_5 ; reader:reading|temp_high[25]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.864 ns   ; SDIO_PE_5 ; reader:reading|temp_high[12]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.790 ns   ; SDIO_PE_5 ; reader:reading|temp_high[24]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.766 ns   ; key_0     ; trigger:triggering|trigger_pulse_out ; fifty_MHz_int ;
+; N/A   ; None         ; 3.671 ns   ; SDIO_PE_5 ; reader:reading|temp_high[14]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.670 ns   ; SDIO_PE_5 ; reader:reading|temp_high[15]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.669 ns   ; SDIO_PE_5 ; reader:reading|temp_high[29]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.665 ns   ; SDIO_PE_5 ; reader:reading|temp_high[28]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.660 ns   ; SDIO_PE_5 ; reader:reading|temp_high[31]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.657 ns   ; SDIO_PE_5 ; reader:reading|temp_high[13]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.461 ns   ; SDIO_PE_5 ; reader:reading|temp_high[30]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.381 ns   ; SDIO_PE_5 ; reader:reading|temp_high[18]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.381 ns   ; SDIO_PE_5 ; reader:reading|temp_high[2]          ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.380 ns   ; SDIO_PE_5 ; reader:reading|temp_high[19]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.380 ns   ; SDIO_PE_5 ; reader:reading|temp_high[0]          ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.375 ns   ; SDIO_PE_5 ; reader:reading|temp_high[3]          ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.374 ns   ; SDIO_PE_5 ; reader:reading|temp_high[17]         ; SCLK_PE_3     ;
+; N/A   ; None         ; 3.370 ns   ; SDIO_PE_5 ; reader:reading|temp_high[1]          ; SCLK_PE_3     ;
++-------+--------------+------------+-----------+--------------------------------------+---------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; tco                                                                                                                                                                   ;
++-----------------------------------------+-----------------------------------------------------+------------+----------------------------------+----------+------------+
+; Slack                                   ; Required tco                                        ; Actual tco ; From                             ; To       ; From Clock ;
++-----------------------------------------+-----------------------------------------------------+------------+----------------------------------+----------+------------+
+; N/A                                     ; None                                                ; 14.911 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[17] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.879 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[17] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.872 ns  ; reader:reading|FTWhigh_32bit[21] ; HEXX[17] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.827 ns  ; reader:reading|FTWhigh_32bit[20] ; HEXX[17] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.639 ns  ; reader:reading|FTWhigh_32bit[28] ; HEXX[17] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.605 ns  ; reader:reading|FTWhigh_32bit[22] ; HEXX[17] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.570 ns  ; reader:reading|FTWhigh_32bit[19] ; HEXX[17] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.558 ns  ; reader:reading|FTWhigh_32bit[17] ; HEXX[17] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.471 ns  ; reader:reading|FTWhigh_32bit[31] ; HEXX[17] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.466 ns  ; reader:reading|FTWhigh_32bit[24] ; HEXX[17] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.459 ns  ; reader:reading|FTWhigh_32bit[25] ; HEXX[17] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.416 ns  ; reader:reading|FTWhigh_32bit[23] ; HEXX[17] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.313 ns  ; reader:reading|FTWhigh_32bit[18] ; HEXX[17] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.174 ns  ; reader:reading|FTWhigh_32bit[26] ; HEXX[17] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.097 ns  ; reader:reading|FTWhigh_32bit[16] ; HEXX[17] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.083 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[18] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.051 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[18] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.044 ns  ; reader:reading|FTWhigh_32bit[21] ; HEXX[18] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.044 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[8]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.012 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[8]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 14.005 ns  ; reader:reading|FTWhigh_32bit[21] ; HEXX[8]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.999 ns  ; reader:reading|FTWhigh_32bit[20] ; HEXX[18] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.976 ns  ; reader:reading|FTWhigh_32bit[27] ; HEXX[17] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.960 ns  ; reader:reading|FTWhigh_32bit[20] ; HEXX[8]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.811 ns  ; reader:reading|FTWhigh_32bit[28] ; HEXX[18] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.777 ns  ; reader:reading|FTWhigh_32bit[22] ; HEXX[18] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.772 ns  ; reader:reading|FTWhigh_32bit[28] ; HEXX[8]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.742 ns  ; reader:reading|FTWhigh_32bit[19] ; HEXX[18] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.738 ns  ; reader:reading|FTWhigh_32bit[22] ; HEXX[8]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.730 ns  ; reader:reading|FTWhigh_32bit[17] ; HEXX[18] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.703 ns  ; reader:reading|FTWhigh_32bit[19] ; HEXX[8]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.691 ns  ; reader:reading|FTWhigh_32bit[17] ; HEXX[8]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.669 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[21] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.643 ns  ; reader:reading|FTWhigh_32bit[31] ; HEXX[18] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.638 ns  ; reader:reading|FTWhigh_32bit[24] ; HEXX[18] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.637 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[21] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.631 ns  ; reader:reading|FTWhigh_32bit[25] ; HEXX[18] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.630 ns  ; reader:reading|FTWhigh_32bit[21] ; HEXX[21] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.604 ns  ; reader:reading|FTWhigh_32bit[31] ; HEXX[8]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.599 ns  ; reader:reading|FTWhigh_32bit[24] ; HEXX[8]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.592 ns  ; reader:reading|FTWhigh_32bit[25] ; HEXX[8]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.588 ns  ; reader:reading|FTWhigh_32bit[23] ; HEXX[18] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.585 ns  ; reader:reading|FTWhigh_32bit[20] ; HEXX[21] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.583 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[9]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.551 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[9]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.549 ns  ; reader:reading|FTWhigh_32bit[23] ; HEXX[8]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.544 ns  ; reader:reading|FTWhigh_32bit[21] ; HEXX[9]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.503 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[23] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.499 ns  ; reader:reading|FTWhigh_32bit[20] ; HEXX[9]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.497 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[22] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.485 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[25] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.485 ns  ; reader:reading|FTWhigh_32bit[18] ; HEXX[18] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.471 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[23] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.467 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[24] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.465 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[22] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.464 ns  ; reader:reading|FTWhigh_32bit[21] ; HEXX[23] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.458 ns  ; reader:reading|FTWhigh_32bit[21] ; HEXX[22] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.453 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[25] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.446 ns  ; reader:reading|FTWhigh_32bit[21] ; HEXX[25] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.446 ns  ; reader:reading|FTWhigh_32bit[18] ; HEXX[8]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.435 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[24] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.428 ns  ; reader:reading|FTWhigh_32bit[21] ; HEXX[24] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.425 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[16] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.419 ns  ; reader:reading|FTWhigh_32bit[20] ; HEXX[23] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.413 ns  ; reader:reading|FTWhigh_32bit[20] ; HEXX[22] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.401 ns  ; reader:reading|FTWhigh_32bit[20] ; HEXX[25] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.397 ns  ; reader:reading|FTWhigh_32bit[28] ; HEXX[21] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.393 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[16] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.386 ns  ; reader:reading|FTWhigh_32bit[21] ; HEXX[16] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.383 ns  ; reader:reading|FTWhigh_32bit[20] ; HEXX[24] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.374 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[7]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.363 ns  ; reader:reading|FTWhigh_32bit[22] ; HEXX[21] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.346 ns  ; reader:reading|FTWhigh_32bit[26] ; HEXX[18] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.342 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[7]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.341 ns  ; reader:reading|FTWhigh_32bit[20] ; HEXX[16] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.335 ns  ; reader:reading|FTWhigh_32bit[21] ; HEXX[7]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.328 ns  ; reader:reading|FTWhigh_32bit[19] ; HEXX[21] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.316 ns  ; reader:reading|FTWhigh_32bit[17] ; HEXX[21] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.311 ns  ; reader:reading|FTWhigh_32bit[28] ; HEXX[9]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.307 ns  ; reader:reading|FTWhigh_32bit[26] ; HEXX[8]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.293 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[13] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.290 ns  ; reader:reading|FTWhigh_32bit[20] ; HEXX[7]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.280 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[19] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.277 ns  ; reader:reading|FTWhigh_32bit[22] ; HEXX[9]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.269 ns  ; reader:reading|FTWhigh_32bit[16] ; HEXX[18] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.261 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[13] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.254 ns  ; reader:reading|FTWhigh_32bit[21] ; HEXX[13] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.248 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[19] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.242 ns  ; reader:reading|FTWhigh_32bit[19] ; HEXX[9]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.241 ns  ; reader:reading|FTWhigh_32bit[21] ; HEXX[19] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.231 ns  ; reader:reading|FTWhigh_32bit[28] ; HEXX[23] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.230 ns  ; reader:reading|FTWhigh_32bit[17] ; HEXX[9]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.230 ns  ; reader:reading|FTWhigh_32bit[16] ; HEXX[8]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.229 ns  ; reader:reading|FTWhigh_32bit[31] ; HEXX[21] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.225 ns  ; reader:reading|FTWhigh_32bit[28] ; HEXX[22] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.224 ns  ; reader:reading|FTWhigh_32bit[24] ; HEXX[21] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.217 ns  ; reader:reading|FTWhigh_32bit[25] ; HEXX[21] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.214 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[12] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.213 ns  ; reader:reading|FTWhigh_32bit[28] ; HEXX[25] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.209 ns  ; reader:reading|FTWhigh_32bit[20] ; HEXX[13] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.207 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[20] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.197 ns  ; reader:reading|FTWhigh_32bit[22] ; HEXX[23] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.196 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[27] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.196 ns  ; reader:reading|FTWhigh_32bit[20] ; HEXX[19] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.195 ns  ; reader:reading|FTWhigh_32bit[28] ; HEXX[24] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.191 ns  ; reader:reading|FTWhigh_32bit[22] ; HEXX[22] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.182 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[12] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.179 ns  ; reader:reading|FTWhigh_32bit[22] ; HEXX[25] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.175 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[20] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.175 ns  ; reader:reading|FTWhigh_32bit[21] ; HEXX[12] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.174 ns  ; reader:reading|FTWhigh_32bit[23] ; HEXX[21] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.168 ns  ; reader:reading|FTWhigh_32bit[21] ; HEXX[20] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.164 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[27] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.162 ns  ; reader:reading|FTWhigh_32bit[19] ; HEXX[23] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.161 ns  ; reader:reading|FTWhigh_32bit[22] ; HEXX[24] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.157 ns  ; reader:reading|FTWhigh_32bit[21] ; HEXX[27] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.156 ns  ; reader:reading|FTWhigh_32bit[19] ; HEXX[22] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.153 ns  ; reader:reading|FTWhigh_32bit[28] ; HEXX[16] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.150 ns  ; reader:reading|FTWhigh_32bit[17] ; HEXX[23] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.149 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[26] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.148 ns  ; reader:reading|FTWhigh_32bit[27] ; HEXX[18] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.144 ns  ; reader:reading|FTWhigh_32bit[19] ; HEXX[25] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.144 ns  ; reader:reading|FTWhigh_32bit[17] ; HEXX[22] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.143 ns  ; reader:reading|FTWhigh_32bit[31] ; HEXX[9]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.138 ns  ; reader:reading|FTWhigh_32bit[24] ; HEXX[9]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.132 ns  ; reader:reading|FTWhigh_32bit[17] ; HEXX[25] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.131 ns  ; reader:reading|FTWhigh_32bit[25] ; HEXX[9]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.130 ns  ; reader:reading|FTWhigh_32bit[10] ; HEXX[17] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.130 ns  ; reader:reading|FTWhigh_32bit[20] ; HEXX[12] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.126 ns  ; reader:reading|FTWhigh_32bit[19] ; HEXX[24] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.123 ns  ; reader:reading|FTWhigh_32bit[20] ; HEXX[20] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.119 ns  ; reader:reading|FTWhigh_32bit[22] ; HEXX[16] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.117 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[26] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.114 ns  ; reader:reading|FTWhigh_32bit[17] ; HEXX[24] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.112 ns  ; reader:reading|FTWhigh_32bit[20] ; HEXX[27] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.110 ns  ; reader:reading|FTWhigh_32bit[21] ; HEXX[26] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.109 ns  ; reader:reading|FTWhigh_32bit[27] ; HEXX[8]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.102 ns  ; reader:reading|FTWhigh_32bit[28] ; HEXX[7]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.088 ns  ; reader:reading|FTWhigh_32bit[23] ; HEXX[9]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.084 ns  ; reader:reading|FTWhigh_32bit[19] ; HEXX[16] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.072 ns  ; reader:reading|FTWhigh_32bit[17] ; HEXX[16] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.071 ns  ; reader:reading|FTWhigh_32bit[18] ; HEXX[21] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.068 ns  ; reader:reading|FTWhigh_32bit[22] ; HEXX[7]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.065 ns  ; reader:reading|FTWhigh_32bit[20] ; HEXX[26] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.063 ns  ; reader:reading|FTWhigh_32bit[31] ; HEXX[23] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.058 ns  ; reader:reading|FTWhigh_32bit[24] ; HEXX[23] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.057 ns  ; reader:reading|FTWhigh_32bit[31] ; HEXX[22] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.052 ns  ; reader:reading|FTWhigh_32bit[24] ; HEXX[22] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.051 ns  ; reader:reading|FTWhigh_32bit[25] ; HEXX[23] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.045 ns  ; reader:reading|FTWhigh_32bit[31] ; HEXX[25] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.045 ns  ; reader:reading|FTWhigh_32bit[25] ; HEXX[22] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.040 ns  ; reader:reading|FTWhigh_32bit[24] ; HEXX[25] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.033 ns  ; reader:reading|FTWhigh_32bit[25] ; HEXX[25] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.033 ns  ; reader:reading|FTWhigh_32bit[19] ; HEXX[7]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.027 ns  ; reader:reading|FTWhigh_32bit[31] ; HEXX[24] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.022 ns  ; reader:reading|FTWhigh_32bit[24] ; HEXX[24] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.021 ns  ; reader:reading|FTWhigh_32bit[28] ; HEXX[13] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.021 ns  ; reader:reading|FTWhigh_32bit[17] ; HEXX[7]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.015 ns  ; reader:reading|FTWhigh_32bit[25] ; HEXX[24] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.008 ns  ; reader:reading|FTWhigh_32bit[23] ; HEXX[23] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.008 ns  ; reader:reading|FTWhigh_32bit[28] ; HEXX[19] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 13.002 ns  ; reader:reading|FTWhigh_32bit[23] ; HEXX[22] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.990 ns  ; reader:reading|FTWhigh_32bit[23] ; HEXX[25] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.987 ns  ; reader:reading|FTWhigh_32bit[22] ; HEXX[13] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.985 ns  ; reader:reading|FTWhigh_32bit[31] ; HEXX[16] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.985 ns  ; reader:reading|FTWhigh_32bit[18] ; HEXX[9]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.980 ns  ; reader:reading|FTWhigh_32bit[24] ; HEXX[16] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.977 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[46] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.976 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[11] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.974 ns  ; reader:reading|FTWhigh_32bit[22] ; HEXX[19] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.973 ns  ; reader:reading|FTWhigh_32bit[25] ; HEXX[16] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.972 ns  ; reader:reading|FTWhigh_32bit[23] ; HEXX[24] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.952 ns  ; reader:reading|FTWhigh_32bit[19] ; HEXX[13] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.945 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[46] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.944 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[11] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.942 ns  ; reader:reading|FTWhigh_32bit[28] ; HEXX[12] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.940 ns  ; reader:reading|FTWhigh_32bit[17] ; HEXX[13] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.939 ns  ; reader:reading|FTWhigh_32bit[19] ; HEXX[19] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.937 ns  ; reader:reading|FTWhigh_32bit[21] ; HEXX[11] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.935 ns  ; reader:reading|FTWhigh_32bit[28] ; HEXX[20] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.934 ns  ; reader:reading|FTWhigh_32bit[31] ; HEXX[7]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.932 ns  ; reader:reading|FTWhigh_32bit[26] ; HEXX[21] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.930 ns  ; reader:reading|FTWhigh_32bit[23] ; HEXX[16] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.929 ns  ; reader:reading|FTWhigh_32bit[24] ; HEXX[7]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.927 ns  ; reader:reading|FTWhigh_32bit[17] ; HEXX[19] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.927 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[14] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.924 ns  ; reader:reading|FTWhigh_32bit[28] ; HEXX[27] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.922 ns  ; reader:reading|FTWhigh_32bit[25] ; HEXX[7]  ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.908 ns  ; reader:reading|FTWhigh_32bit[22] ; HEXX[12] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.905 ns  ; reader:reading|FTWhigh_32bit[18] ; HEXX[23] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.903 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[10] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.902 ns  ; reader:reading|FTWhigh_32bit[30] ; HEXX[45] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.901 ns  ; reader:reading|FTWhigh_32bit[22] ; HEXX[20] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.899 ns  ; reader:reading|FTWhigh_32bit[18] ; HEXX[22] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.895 ns  ; reader:reading|FTWhigh_32bit[29] ; HEXX[14] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.892 ns  ; reader:reading|FTWhigh_32bit[20] ; HEXX[11] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.890 ns  ; reader:reading|FTWhigh_32bit[22] ; HEXX[27] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.888 ns  ; reader:reading|FTWhigh_32bit[21] ; HEXX[14] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.887 ns  ; reader:reading|FTWhigh_32bit[18] ; HEXX[25] ; SCLK_PE_3  ;
+; N/A                                     ; None                                                ; 12.879 ns  ; reader:reading|FTWhigh_32bit[23] ; HEXX[7]  ; SCLK_PE_3  ;
+; Timing analysis restricted to 200 rows. ; To change the limit use Settings (Assignments menu) ;            ;                                  ;          ;            ;
++-----------------------------------------+-----------------------------------------------------+------------+----------------------------------+----------+------------+
+
+
++------------------------------------------------------------------------------------------------------------+
+; th                                                                                                         ;
++---------------+-------------+-----------+-----------+--------------------------------------+---------------+
+; Minimum Slack ; Required th ; Actual th ; From      ; To                                   ; To Clock      ;
++---------------+-------------+-----------+-----------+--------------------------------------+---------------+
+; N/A           ; None        ; -3.140 ns ; SDIO_PE_5 ; reader:reading|temp_high[1]          ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.144 ns ; SDIO_PE_5 ; reader:reading|temp_high[17]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.145 ns ; SDIO_PE_5 ; reader:reading|temp_high[3]          ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.150 ns ; SDIO_PE_5 ; reader:reading|temp_high[19]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.150 ns ; SDIO_PE_5 ; reader:reading|temp_high[0]          ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.151 ns ; SDIO_PE_5 ; reader:reading|temp_high[18]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.151 ns ; SDIO_PE_5 ; reader:reading|temp_high[2]          ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.231 ns ; SDIO_PE_5 ; reader:reading|temp_high[30]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.427 ns ; SDIO_PE_5 ; reader:reading|temp_high[13]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.430 ns ; SDIO_PE_5 ; reader:reading|temp_high[31]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.435 ns ; SDIO_PE_5 ; reader:reading|temp_high[28]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.439 ns ; SDIO_PE_5 ; reader:reading|temp_high[29]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.440 ns ; SDIO_PE_5 ; reader:reading|temp_high[15]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.441 ns ; SDIO_PE_5 ; reader:reading|temp_high[14]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.536 ns ; key_0     ; trigger:triggering|trigger_pulse_out ; fifty_MHz_int ;
+; N/A           ; None        ; -3.560 ns ; SDIO_PE_5 ; reader:reading|temp_high[24]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.634 ns ; SDIO_PE_5 ; reader:reading|temp_high[12]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.686 ns ; SDIO_PE_5 ; reader:reading|temp_high[25]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.688 ns ; SDIO_PE_5 ; reader:reading|temp_high[8]          ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.690 ns ; SDIO_PE_5 ; reader:reading|temp_high[26]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.691 ns ; SDIO_PE_5 ; reader:reading|temp_high[11]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.694 ns ; SDIO_PE_5 ; reader:reading|temp_high[27]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.695 ns ; SDIO_PE_5 ; reader:reading|temp_high[10]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.696 ns ; SDIO_PE_5 ; reader:reading|temp_high[9]          ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.806 ns ; SDIO_PE_5 ; reader:reading|temp_high[5]          ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.807 ns ; SDIO_PE_5 ; reader:reading|temp_high[7]          ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.808 ns ; SDIO_PE_5 ; reader:reading|temp_high[21]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.869 ns ; SDIO_PE_5 ; reader:reading|temp_high[23]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.870 ns ; SDIO_PE_5 ; reader:reading|temp_high[6]          ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.873 ns ; SDIO_PE_5 ; reader:reading|temp_high[4]          ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.876 ns ; SDIO_PE_5 ; reader:reading|temp_high[22]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -3.962 ns ; SDIO_PE_5 ; reader:reading|temp_high[20]         ; SCLK_PE_3     ;
+; N/A           ; None        ; -4.123 ns ; SDIO_PE_5 ; reader:reading|temp_high[16]         ; SCLK_PE_3     ;
++---------------+-------------+-----------+-----------+--------------------------------------+---------------+
+
+
++--------------------------+
+; Timing Analyzer Messages ;
++--------------------------+
+Info: *******************************************************************
+Info: Running Quartus II Classic Timing Analyzer
+    Info: Version 7.1 Build 178 06/25/2007 Service Pack 1 SJ Full Version
+    Info: Processing started: Fri Jul 02 14:03:49 2010
+Info: Command: quartus_tan --read_settings_files=off --write_settings_files=off read_rabbit_high_limit -c read_rabbit_high_limit --timing_analysis_only
+Warning: Found pins functioning as undefined clocks and/or memory enables
+    Info: Assuming node "SCLK_PE_3" is an undefined clock
+    Info: Assuming node "fifty_MHz_int" is an undefined clock
+Info: Clock "SCLK_PE_3" has Internal fmax of 145.79 MHz between source register "reader:reading|M[8]" and destination register "reader:reading|M[31]" (period= 6.859 ns)
+    Info: + Longest register to register delay is 6.582 ns
+        Info: 1: + IC(0.000 ns) + CELL(0.000 ns) = 0.000 ns; Loc. = LCFF_X40_Y26_N17; Fanout = 3; REG Node = 'reader:reading|M[8]'
+        Info: 2: + IC(0.990 ns) + CELL(0.420 ns) = 1.410 ns; Loc. = LCCOMB_X41_Y25_N8; Fanout = 1; COMB Node = 'reader:reading|LessThan3~473'
+        Info: 3: + IC(0.248 ns) + CELL(0.420 ns) = 2.078 ns; Loc. = LCCOMB_X41_Y25_N4; Fanout = 1; COMB Node = 'reader:reading|LessThan3~477'
+        Info: 4: + IC(0.252 ns) + CELL(0.275 ns) = 2.605 ns; Loc. = LCCOMB_X41_Y25_N12; Fanout = 2; COMB Node = 'reader:reading|LessThan3~481'
+        Info: 5: + IC(0.709 ns) + CELL(0.393 ns) = 3.707 ns; Loc. = LCCOMB_X40_Y26_N0; Fanout = 2; COMB Node = 'reader:reading|M[0]~690'
+        Info: 6: + IC(0.000 ns) + CELL(0.071 ns) = 3.778 ns; Loc. = LCCOMB_X40_Y26_N2; Fanout = 2; COMB Node = 'reader:reading|M[1]~691'
+        Info: 7: + IC(0.000 ns) + CELL(0.071 ns) = 3.849 ns; Loc. = LCCOMB_X40_Y26_N4; Fanout = 2; COMB Node = 'reader:reading|M[2]~692'
+        Info: 8: + IC(0.000 ns) + CELL(0.071 ns) = 3.920 ns; Loc. = LCCOMB_X40_Y26_N6; Fanout = 2; COMB Node = 'reader:reading|M[3]~693'
+        Info: 9: + IC(0.000 ns) + CELL(0.071 ns) = 3.991 ns; Loc. = LCCOMB_X40_Y26_N8; Fanout = 2; COMB Node = 'reader:reading|M[4]~694'
+        Info: 10: + IC(0.000 ns) + CELL(0.071 ns) = 4.062 ns; Loc. = LCCOMB_X40_Y26_N10; Fanout = 2; COMB Node = 'reader:reading|M[5]~696'
+        Info: 11: + IC(0.000 ns) + CELL(0.071 ns) = 4.133 ns; Loc. = LCCOMB_X40_Y26_N12; Fanout = 2; COMB Node = 'reader:reading|M[6]~697'
+        Info: 12: + IC(0.000 ns) + CELL(0.159 ns) = 4.292 ns; Loc. = LCCOMB_X40_Y26_N14; Fanout = 2; COMB Node = 'reader:reading|M[7]~698'
+        Info: 13: + IC(0.000 ns) + CELL(0.071 ns) = 4.363 ns; Loc. = LCCOMB_X40_Y26_N16; Fanout = 2; COMB Node = 'reader:reading|M[8]~699'
+        Info: 14: + IC(0.000 ns) + CELL(0.071 ns) = 4.434 ns; Loc. = LCCOMB_X40_Y26_N18; Fanout = 2; COMB Node = 'reader:reading|M[9]~700'
+        Info: 15: + IC(0.000 ns) + CELL(0.071 ns) = 4.505 ns; Loc. = LCCOMB_X40_Y26_N20; Fanout = 2; COMB Node = 'reader:reading|M[10]~701'
+        Info: 16: + IC(0.000 ns) + CELL(0.071 ns) = 4.576 ns; Loc. = LCCOMB_X40_Y26_N22; Fanout = 2; COMB Node = 'reader:reading|M[11]~702'
+        Info: 17: + IC(0.000 ns) + CELL(0.071 ns) = 4.647 ns; Loc. = LCCOMB_X40_Y26_N24; Fanout = 2; COMB Node = 'reader:reading|M[12]~703'
+        Info: 18: + IC(0.000 ns) + CELL(0.071 ns) = 4.718 ns; Loc. = LCCOMB_X40_Y26_N26; Fanout = 2; COMB Node = 'reader:reading|M[13]~704'
+        Info: 19: + IC(0.000 ns) + CELL(0.071 ns) = 4.789 ns; Loc. = LCCOMB_X40_Y26_N28; Fanout = 2; COMB Node = 'reader:reading|M[14]~705'
+        Info: 20: + IC(0.000 ns) + CELL(0.146 ns) = 4.935 ns; Loc. = LCCOMB_X40_Y26_N30; Fanout = 2; COMB Node = 'reader:reading|M[15]~706'
+        Info: 21: + IC(0.000 ns) + CELL(0.071 ns) = 5.006 ns; Loc. = LCCOMB_X40_Y25_N0; Fanout = 2; COMB Node = 'reader:reading|M[16]~707'
+        Info: 22: + IC(0.000 ns) + CELL(0.071 ns) = 5.077 ns; Loc. = LCCOMB_X40_Y25_N2; Fanout = 2; COMB Node = 'reader:reading|M[17]~708'
+        Info: 23: + IC(0.000 ns) + CELL(0.071 ns) = 5.148 ns; Loc. = LCCOMB_X40_Y25_N4; Fanout = 2; COMB Node = 'reader:reading|M[18]~709'
+        Info: 24: + IC(0.000 ns) + CELL(0.071 ns) = 5.219 ns; Loc. = LCCOMB_X40_Y25_N6; Fanout = 2; COMB Node = 'reader:reading|M[19]~710'
+        Info: 25: + IC(0.000 ns) + CELL(0.071 ns) = 5.290 ns; Loc. = LCCOMB_X40_Y25_N8; Fanout = 2; COMB Node = 'reader:reading|M[20]~711'
+        Info: 26: + IC(0.000 ns) + CELL(0.071 ns) = 5.361 ns; Loc. = LCCOMB_X40_Y25_N10; Fanout = 2; COMB Node = 'reader:reading|M[21]~712'
+        Info: 27: + IC(0.000 ns) + CELL(0.071 ns) = 5.432 ns; Loc. = LCCOMB_X40_Y25_N12; Fanout = 2; COMB Node = 'reader:reading|M[22]~713'
+        Info: 28: + IC(0.000 ns) + CELL(0.159 ns) = 5.591 ns; Loc. = LCCOMB_X40_Y25_N14; Fanout = 2; COMB Node = 'reader:reading|M[23]~714'
+        Info: 29: + IC(0.000 ns) + CELL(0.071 ns) = 5.662 ns; Loc. = LCCOMB_X40_Y25_N16; Fanout = 2; COMB Node = 'reader:reading|M[24]~715'
+        Info: 30: + IC(0.000 ns) + CELL(0.071 ns) = 5.733 ns; Loc. = LCCOMB_X40_Y25_N18; Fanout = 2; COMB Node = 'reader:reading|M[25]~716'
+        Info: 31: + IC(0.000 ns) + CELL(0.071 ns) = 5.804 ns; Loc. = LCCOMB_X40_Y25_N20; Fanout = 2; COMB Node = 'reader:reading|M[26]~717'
+        Info: 32: + IC(0.000 ns) + CELL(0.071 ns) = 5.875 ns; Loc. = LCCOMB_X40_Y25_N22; Fanout = 2; COMB Node = 'reader:reading|M[27]~718'
+        Info: 33: + IC(0.000 ns) + CELL(0.071 ns) = 5.946 ns; Loc. = LCCOMB_X40_Y25_N24; Fanout = 2; COMB Node = 'reader:reading|M[28]~719'
+        Info: 34: + IC(0.000 ns) + CELL(0.071 ns) = 6.017 ns; Loc. = LCCOMB_X40_Y25_N26; Fanout = 2; COMB Node = 'reader:reading|M[29]~720'
+        Info: 35: + IC(0.000 ns) + CELL(0.071 ns) = 6.088 ns; Loc. = LCCOMB_X40_Y25_N28; Fanout = 1; COMB Node = 'reader:reading|M[30]~721'
+        Info: 36: + IC(0.000 ns) + CELL(0.410 ns) = 6.498 ns; Loc. = LCCOMB_X40_Y25_N30; Fanout = 1; COMB Node = 'reader:reading|M[31]~435'
+        Info: 37: + IC(0.000 ns) + CELL(0.084 ns) = 6.582 ns; Loc. = LCFF_X40_Y25_N31; Fanout = 2; REG Node = 'reader:reading|M[31]'
+        Info: Total cell delay = 4.383 ns ( 66.59 % )
+        Info: Total interconnect delay = 2.199 ns ( 33.41 % )
+    Info: - Smallest clock skew is -0.063 ns
+        Info: + Shortest clock path from clock "SCLK_PE_3" to destination register is 3.567 ns
+            Info: 1: + IC(0.000 ns) + CELL(0.832 ns) = 0.832 ns; Loc. = PIN_U20; Fanout = 128; CLK Node = 'SCLK_PE_3'
+            Info: 2: + IC(2.198 ns) + CELL(0.537 ns) = 3.567 ns; Loc. = LCFF_X40_Y25_N31; Fanout = 2; REG Node = 'reader:reading|M[31]'
+            Info: Total cell delay = 1.369 ns ( 38.38 % )
+            Info: Total interconnect delay = 2.198 ns ( 61.62 % )
+        Info: - Longest clock path from clock "SCLK_PE_3" to source register is 3.630 ns
+            Info: 1: + IC(0.000 ns) + CELL(0.832 ns) = 0.832 ns; Loc. = PIN_U20; Fanout = 128; CLK Node = 'SCLK_PE_3'
+            Info: 2: + IC(2.261 ns) + CELL(0.537 ns) = 3.630 ns; Loc. = LCFF_X40_Y26_N17; Fanout = 3; REG Node = 'reader:reading|M[8]'
+            Info: Total cell delay = 1.369 ns ( 37.71 % )
+            Info: Total interconnect delay = 2.261 ns ( 62.29 % )
+    Info: + Micro clock to output delay of source is 0.250 ns
+    Info: + Micro setup delay of destination is -0.036 ns
+Info: No valid register-to-register data paths exist for clock "fifty_MHz_int"
+Info: tsu for register "reader:reading|temp_high[16]" (data pin = "SDIO_PE_5", clock pin = "SCLK_PE_3") is 4.353 ns
+    Info: + Longest pin to register delay is 7.894 ns
+        Info: 1: + IC(0.000 ns) + CELL(0.822 ns) = 0.822 ns; Loc. = PIN_N20; Fanout = 32; PIN Node = 'SDIO_PE_5'
+        Info: 2: + IC(6.550 ns) + CELL(0.438 ns) = 7.810 ns; Loc. = LCCOMB_X58_Y9_N16; Fanout = 1; COMB Node = 'reader:reading|temp_high[16]~2100'
+        Info: 3: + IC(0.000 ns) + CELL(0.084 ns) = 7.894 ns; Loc. = LCFF_X58_Y9_N17; Fanout = 2; REG Node = 'reader:reading|temp_high[16]'
+        Info: Total cell delay = 1.344 ns ( 17.03 % )
+        Info: Total interconnect delay = 6.550 ns ( 82.97 % )
+    Info: + Micro setup delay of destination is -0.036 ns
+    Info: - Shortest clock path from clock "SCLK_PE_3" to destination register is 3.505 ns
+        Info: 1: + IC(0.000 ns) + CELL(0.832 ns) = 0.832 ns; Loc. = PIN_U20; Fanout = 128; CLK Node = 'SCLK_PE_3'
+        Info: 2: + IC(2.136 ns) + CELL(0.537 ns) = 3.505 ns; Loc. = LCFF_X58_Y9_N17; Fanout = 2; REG Node = 'reader:reading|temp_high[16]'
+        Info: Total cell delay = 1.369 ns ( 39.06 % )
+        Info: Total interconnect delay = 2.136 ns ( 60.94 % )
+Info: tco from clock "SCLK_PE_3" to destination pin "HEXX[17]" through register "reader:reading|FTWhigh_32bit[30]" is 14.911 ns
+    Info: + Longest clock path from clock "SCLK_PE_3" to source register is 3.551 ns
+        Info: 1: + IC(0.000 ns) + CELL(0.832 ns) = 0.832 ns; Loc. = PIN_U20; Fanout = 128; CLK Node = 'SCLK_PE_3'
+        Info: 2: + IC(2.182 ns) + CELL(0.537 ns) = 3.551 ns; Loc. = LCFF_X42_Y20_N7; Fanout = 8; REG Node = 'reader:reading|FTWhigh_32bit[30]'
+        Info: Total cell delay = 1.369 ns ( 38.55 % )
+        Info: Total interconnect delay = 2.182 ns ( 61.45 % )
+    Info: + Micro clock to output delay of source is 0.250 ns
+    Info: + Longest register to pin delay is 11.110 ns
+        Info: 1: + IC(0.000 ns) + CELL(0.000 ns) = 0.000 ns; Loc. = LCFF_X42_Y20_N7; Fanout = 8; REG Node = 'reader:reading|FTWhigh_32bit[30]'
+        Info: 2: + IC(0.365 ns) + CELL(0.398 ns) = 0.763 ns; Loc. = LCCOMB_X42_Y20_N24; Fanout = 3; COMB Node = 'converter:converting|Equal121~304'
+        Info: 3: + IC(1.043 ns) + CELL(0.410 ns) = 2.216 ns; Loc. = LCCOMB_X37_Y16_N20; Fanout = 10; COMB Node = 'converter:converting|HexDisplay_output[28]~8958'
+        Info: 4: + IC(2.216 ns) + CELL(0.275 ns) = 4.707 ns; Loc. = LCCOMB_X56_Y8_N2; Fanout = 8; COMB Node = 'converter:converting|HexDisplay_output[14]~8963'
+        Info: 5: + IC(1.273 ns) + CELL(0.438 ns) = 6.418 ns; Loc. = LCCOMB_X49_Y11_N2; Fanout = 1; COMB Node = 'converter:converting|HexDisplay_output[17]~8978'
+        Info: 6: + IC(2.020 ns) + CELL(2.672 ns) = 11.110 ns; Loc. = PIN_AC26; Fanout = 0; PIN Node = 'HEXX[17]'
+        Info: Total cell delay = 4.193 ns ( 37.74 % )
+        Info: Total interconnect delay = 6.917 ns ( 62.26 % )
+Info: th for register "reader:reading|temp_high[1]" (data pin = "SDIO_PE_5", clock pin = "SCLK_PE_3") is -3.140 ns
+    Info: + Longest clock path from clock "SCLK_PE_3" to destination register is 3.552 ns
+        Info: 1: + IC(0.000 ns) + CELL(0.832 ns) = 0.832 ns; Loc. = PIN_U20; Fanout = 128; CLK Node = 'SCLK_PE_3'
+        Info: 2: + IC(2.183 ns) + CELL(0.537 ns) = 3.552 ns; Loc. = LCFF_X42_Y20_N5; Fanout = 2; REG Node = 'reader:reading|temp_high[1]'
+        Info: Total cell delay = 1.369 ns ( 38.54 % )
+        Info: Total interconnect delay = 2.183 ns ( 61.46 % )
+    Info: + Micro hold delay of destination is 0.266 ns
+    Info: - Shortest pin to register delay is 6.958 ns
+        Info: 1: + IC(0.000 ns) + CELL(0.822 ns) = 0.822 ns; Loc. = PIN_N20; Fanout = 32; PIN Node = 'SDIO_PE_5'
+        Info: 2: + IC(5.633 ns) + CELL(0.419 ns) = 6.874 ns; Loc. = LCCOMB_X42_Y20_N4; Fanout = 1; COMB Node = 'reader:reading|temp_high[1]~2109'
+        Info: 3: + IC(0.000 ns) + CELL(0.084 ns) = 6.958 ns; Loc. = LCFF_X42_Y20_N5; Fanout = 2; REG Node = 'reader:reading|temp_high[1]'
+        Info: Total cell delay = 1.325 ns ( 19.04 % )
+        Info: Total interconnect delay = 5.633 ns ( 80.96 % )
+Info: Quartus II Classic Timing Analyzer was successful. 0 errors, 1 warning
+    Info: Allocated 118 megabytes of memory during processing
+    Info: Processing ended: Fri Jul 02 14:03:50 2010
+    Info: Elapsed time: 00:00:01
+
+

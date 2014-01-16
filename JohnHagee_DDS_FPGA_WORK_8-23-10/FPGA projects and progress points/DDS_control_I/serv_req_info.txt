@@ -1,0 +1,44 @@
+<internal_error>
+	<executable>quartus.exe</executable>
+	<sub_system>AFC</sub_system>
+	<file>/quartus/gcl/afc/afc_editor_template.cpp</file>
+	<line>978</line>
+	<callstack>
+	0x10007c9e: GCL_AFC + 0x7c9e (?get_compile_short_menu@AFC_EDITOR_TEMPLATE@@UAEPAUHMENU__@@XZ + 0x3e)
+	</callstack>
+	<error>Not enough memory to complete operation</error>
+	<date>Thu Jul 08 18:23:01 2010</date>
+	<version>Quartus II Version 7.1 Build 178 06/25/2007 Service Pack 1 SJ Full Version</version>
+	<full_error>Not enough memory to complete operation
+Quartus II Version 7.1 Build 178 06/25/2007 Service Pack 1 SJ Full Version </full_error>
+</internal_error>
+<internal_error>
+	<executable>quartus.exe</executable>
+	<sub_system>AFC</sub_system>
+	<file>/quartus/gcl/afc/afc_editor_template.cpp</file>
+	<line>978</line>
+	<callstack>
+	0x10007c9e: GCL_AFC + 0x7c9e (?get_compile_short_menu@AFC_EDITOR_TEMPLATE@@UAEPAUHMENU__@@XZ + 0x3e)
+	</callstack>
+	<error>Not enough memory to complete operation</error>
+	<date>Fri Jul 09 14:34:49 2010</date>
+	<version>Quartus II Version 7.1 Build 178 06/25/2007 Service Pack 1 SJ Full Version</version>
+	<full_error>Not enough memory to complete operation
+Quartus II Version 7.1 Build 178 06/25/2007 Service Pack 1 SJ Full Version </full_error>
+</internal_error>
+<internal_error>
+	<executable>quartus.exe</executable>
+	<sub_system>ERR</sub_system>
+	<file>q:\quartus\ccl\msg\msg_internal_error.cpp</file>
+	<line>724</line>
+	<callstack>
+	0x05d3f908: pgm_pgme + 0xf908 (?swap_dr@PGME_JTAG_CHAIN@@UAE_NABV?$vector@PBVPGM_BIT_ARRAY@@V?$MEM_STL_ALLOCATOR@PBVPGM_BIT_ARRAY@@@@@_Dinkum_std@@ABV?$vector@PAVPGM_BIT_ARRAY@@V?$MEM_STL_ALLOCATOR@PAVPGM_BIT_ARRAY@@@@@3@IPAPAVAJI_OPEN@@I@Z + 0xac8)
+	0xffffffffffffffff: (?swap_dr@PGME_JTAG_CHAIN@@UAE_NABV?$vector@PBVPGM_BIT_ARRAY@@V?$MEM_STL_ALLOCATOR@PBVPGM_BIT_ARRAY@@@@@_Dinkum_std@@ABV?$vector@PAVPGM_BIT_ARRAY@@V?$MEM_STL_ALLOCATOR@PAVPGM_BIT_ARRAY@@@@@3@IPAPAVAJI_OPEN@@I@Z + 0x0)
+	</callstack>
+	<error>*** Fatal Error: Access Violation at 0X05D3F908, Module: quartus.exe</error>
+	<date>Mon Jul 12 11:37:43 2010</date>
+	<version>Quartus II Version 7.1 Build 178 06/25/2007 Service Pack 1 SJ Full Version</version>
+	<full_error>
+*** Fatal Error: Access Violation at 0X05D3F908, Module: quartus.exe
+Quartus II Version 7.1 Build 178 06/25/2007 Service Pack 1 SJ Full Version </full_error>
+</internal_error>

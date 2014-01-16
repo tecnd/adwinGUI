@@ -1,0 +1,56 @@
+--------------------------------------------------------------------------------------
+Timing Analyzer Summary
+--------------------------------------------------------------------------------------
+
+Type           : Worst-case tsu
+Slack          : N/A
+Required Time  : None
+Actual Time    : 20.285 ns
+From           : starter[1]
+To             : converter:converting|HexDisplay_output[20]
+From Clock     : --
+To Clock       : fifty_MHz_int
+Failed Paths   : 0
+
+Type           : Worst-case tco
+Slack          : N/A
+Required Time  : None
+Actual Time    : 10.430 ns
+From           : converter:converting|HexDisplay_output[48]
+To             : HEXX[48]
+From Clock     : fifty_MHz_int
+To Clock       : --
+Failed Paths   : 0
+
+Type           : Worst-case th
+Slack          : N/A
+Required Time  : None
+Actual Time    : -1.320 ns
+From           : ender[2]
+To             : converter:converting|HexDisplay_output[54]
+From Clock     : --
+To Clock       : fifty_MHz_int
+Failed Paths   : 0
+
+Type           : Clock Setup: 'SCLK_PE_3'
+Slack          : N/A
+Required Time  : None
+Actual Time    : 180.44 MHz ( period = 5.542 ns )
+From           : reader:reading|M[21]
+To             : reader:reading|temp_184[51]
+From Clock     : SCLK_PE_3
+To Clock       : SCLK_PE_3
+Failed Paths   : 0
+
+Type           : Total number of failed paths
+Slack          : 
+Required Time  : 
+Actual Time    : 
+From           : 
+To             : 
+From Clock     : 
+To Clock       : 
+Failed Paths   : 0
+
+--------------------------------------------------------------------------------------
+

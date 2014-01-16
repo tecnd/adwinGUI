@@ -1,0 +1,417 @@
+Simulator report for InitializeSynclcok
+Wed Aug 04 14:52:32 2010
+Quartus II Version 7.1 Build 178 06/25/2007 Service Pack 1 SJ Full Version
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Simulator Summary
+  3. Simulator Settings
+  4. Simulation Waveforms
+  5. Coverage Summary
+  6. Complete 1/0-Value Coverage
+  7. Missing 1-Value Coverage
+  8. Missing 0-Value Coverage
+  9. Simulator INI Usage
+ 10. Simulator Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2007 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++--------------------------------------------+
+; Simulator Summary                          ;
++-----------------------------+--------------+
+; Type                        ; Value        ;
++-----------------------------+--------------+
+; Simulation Start Time       ; 0 ps         ;
+; Simulation End Time         ; 102.5 us     ;
+; Simulation Netlist Size     ; 142 nodes    ;
+; Simulation Coverage         ;      58.01 % ;
+; Total Number of Transitions ; 22294        ;
+; Simulation Breakpoints      ; 0            ;
+; Family                      ; Cyclone II   ;
+; Device                      ; EP2C35F672C6 ;
++-----------------------------+--------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------+
+; Simulator Settings                                                                                                      ;
++--------------------------------------------------------------------------------------------+------------+---------------+
+; Option                                                                                     ; Setting    ; Default Value ;
++--------------------------------------------------------------------------------------------+------------+---------------+
+; Simulation mode                                                                            ; Timing     ; Timing        ;
+; Start time                                                                                 ; 0 ns       ; 0 ns          ;
+; Simulation results format                                                                  ; CVWF       ;               ;
+; Add pins automatically to simulation output waveforms                                      ; On         ; On            ;
+; Check outputs                                                                              ; Off        ; Off           ;
+; Report simulation coverage                                                                 ; On         ; On            ;
+; Display complete 1/0 value coverage report                                                 ; On         ; On            ;
+; Display missing 1-value coverage report                                                    ; On         ; On            ;
+; Display missing 0-value coverage report                                                    ; On         ; On            ;
+; Detect setup and hold time violations                                                      ; Off        ; Off           ;
+; Detect glitches                                                                            ; Off        ; Off           ;
+; Disable timing delays in Timing Simulation                                                 ; Off        ; Off           ;
+; Generate Signal Activity File                                                              ; Off        ; Off           ;
+; Generate VCD File for PowerPlay Power Analyzer                                             ; Off        ; Off           ;
+; Group bus channels in simulation results                                                   ; Off        ; Off           ;
+; Preserve fewer signal transitions to reduce memory requirements                            ; On         ; On            ;
+; Trigger vector comparison with the specified mode                                          ; INPUT_EDGE ; INPUT_EDGE    ;
+; Disable setup and hold time violations detection in input registers of bi-directional pins ; Off        ; Off           ;
+; Overwrite Waveform Inputs With Simulation Outputs                                          ; Off        ;               ;
+; Perform Glitch Filtering in Timing Simulation                                              ; Auto       ; Auto          ;
++--------------------------------------------------------------------------------------------+------------+---------------+
+
+
++----------------------+
+; Simulation Waveforms ;
++----------------------+
+Waveform report data cannot be output to ASCII.
+Please use Quartus II to view the waveform report data.
+
+
++--------------------------------------------------------------------+
+; Coverage Summary                                                   ;
++-----------------------------------------------------+--------------+
+; Type                                                ; Value        ;
++-----------------------------------------------------+--------------+
+; Total coverage as a percentage                      ;      58.01 % ;
+; Total nodes checked                                 ; 142          ;
+; Total output ports checked                          ; 181          ;
+; Total output ports with complete 1/0-value coverage ; 105          ;
+; Total output ports with no 1/0-value coverage       ; 76           ;
+; Total output ports with no 1-value coverage         ; 76           ;
+; Total output ports with no 0-value coverage         ; 76           ;
++-----------------------------------------------------+--------------+
+
+
+The following table displays output ports that toggle between 1 and 0 during simulation.
++----------------------------------------------------------------------------------------------------+
+; Complete 1/0-Value Coverage                                                                        ;
++----------------------------------------+----------------------------------------+------------------+
+; Node Name                              ; Output Port Name                       ; Output Port Type ;
++----------------------------------------+----------------------------------------+------------------+
+; |InitializeSynclcok|B[9]               ; |InitializeSynclcok|B[9]               ; regout           ;
+; |InitializeSynclcok|B[5]               ; |InitializeSynclcok|B[5]               ; regout           ;
+; |InitializeSynclcok|B[7]               ; |InitializeSynclcok|B[7]               ; regout           ;
+; |InitializeSynclcok|B[8]               ; |InitializeSynclcok|B[8]               ; regout           ;
+; |InitializeSynclcok|B[6]               ; |InitializeSynclcok|B[6]               ; regout           ;
+; |InitializeSynclcok|B[3]               ; |InitializeSynclcok|B[3]               ; regout           ;
+; |InitializeSynclcok|B[0]               ; |InitializeSynclcok|B[0]               ; regout           ;
+; |InitializeSynclcok|B[1]               ; |InitializeSynclcok|B[1]               ; regout           ;
+; |InitializeSynclcok|B[2]               ; |InitializeSynclcok|B[2]               ; regout           ;
+; |InitializeSynclcok|B[4]               ; |InitializeSynclcok|B[4]               ; regout           ;
+; |InitializeSynclcok|P[5]               ; |InitializeSynclcok|P[5]               ; regout           ;
+; |InitializeSynclcok|P[1]               ; |InitializeSynclcok|P[1]               ; regout           ;
+; |InitializeSynclcok|P[4]               ; |InitializeSynclcok|P[4]               ; regout           ;
+; |InitializeSynclcok|P[0]               ; |InitializeSynclcok|P[0]               ; regout           ;
+; |InitializeSynclcok|P[2]               ; |InitializeSynclcok|P[2]               ; regout           ;
+; |InitializeSynclcok|P[3]               ; |InitializeSynclcok|P[3]               ; regout           ;
+; |InitializeSynclcok|P[7]               ; |InitializeSynclcok|P[7]               ; regout           ;
+; |InitializeSynclcok|P[6]               ; |InitializeSynclcok|P[6]               ; regout           ;
+; |InitializeSynclcok|B[0]~318           ; |InitializeSynclcok|B[0]~318           ; combout          ;
+; |InitializeSynclcok|B[0]~318           ; |InitializeSynclcok|B[0]~501           ; cout             ;
+; |InitializeSynclcok|B[1]~319           ; |InitializeSynclcok|B[1]~319           ; combout          ;
+; |InitializeSynclcok|B[1]~319           ; |InitializeSynclcok|B[1]~502           ; cout             ;
+; |InitializeSynclcok|B[2]~320           ; |InitializeSynclcok|B[2]~320           ; combout          ;
+; |InitializeSynclcok|B[2]~320           ; |InitializeSynclcok|B[2]~503           ; cout             ;
+; |InitializeSynclcok|B[3]~317           ; |InitializeSynclcok|B[3]~317           ; combout          ;
+; |InitializeSynclcok|B[3]~317           ; |InitializeSynclcok|B[3]~504           ; cout             ;
+; |InitializeSynclcok|B[4]~315           ; |InitializeSynclcok|B[4]~315           ; combout          ;
+; |InitializeSynclcok|B[4]~315           ; |InitializeSynclcok|B[4]~505           ; cout             ;
+; |InitializeSynclcok|B[5]~316           ; |InitializeSynclcok|B[5]~316           ; combout          ;
+; |InitializeSynclcok|B[5]~316           ; |InitializeSynclcok|B[5]~506           ; cout             ;
+; |InitializeSynclcok|B[6]~292           ; |InitializeSynclcok|B[6]~292           ; combout          ;
+; |InitializeSynclcok|B[6]~292           ; |InitializeSynclcok|B[6]~507           ; cout             ;
+; |InitializeSynclcok|B[7]~293           ; |InitializeSynclcok|B[7]~293           ; combout          ;
+; |InitializeSynclcok|B[7]~293           ; |InitializeSynclcok|B[7]~508           ; cout             ;
+; |InitializeSynclcok|B[8]~294           ; |InitializeSynclcok|B[8]~294           ; combout          ;
+; |InitializeSynclcok|B[8]~294           ; |InitializeSynclcok|B[8]~509           ; cout             ;
+; |InitializeSynclcok|B[9]~295           ; |InitializeSynclcok|B[9]~295           ; combout          ;
+; |InitializeSynclcok|B[9]~295           ; |InitializeSynclcok|B[9]~510           ; cout             ;
+; |InitializeSynclcok|B[10]~296          ; |InitializeSynclcok|B[10]~296          ; combout          ;
+; |InitializeSynclcok|P[0]~394           ; |InitializeSynclcok|P[0]~394           ; combout          ;
+; |InitializeSynclcok|P[0]~394           ; |InitializeSynclcok|P[0]~402           ; cout             ;
+; |InitializeSynclcok|P[1]~395           ; |InitializeSynclcok|P[1]~395           ; combout          ;
+; |InitializeSynclcok|P[1]~395           ; |InitializeSynclcok|P[1]~403           ; cout             ;
+; |InitializeSynclcok|P[2]~396           ; |InitializeSynclcok|P[2]~396           ; combout          ;
+; |InitializeSynclcok|P[2]~396           ; |InitializeSynclcok|P[2]~404           ; cout             ;
+; |InitializeSynclcok|P[3]~397           ; |InitializeSynclcok|P[3]~397           ; combout          ;
+; |InitializeSynclcok|P[3]~397           ; |InitializeSynclcok|P[3]~405           ; cout             ;
+; |InitializeSynclcok|P[4]~398           ; |InitializeSynclcok|P[4]~398           ; combout          ;
+; |InitializeSynclcok|P[4]~398           ; |InitializeSynclcok|P[4]~406           ; cout             ;
+; |InitializeSynclcok|P[5]~399           ; |InitializeSynclcok|P[5]~399           ; combout          ;
+; |InitializeSynclcok|P[5]~399           ; |InitializeSynclcok|P[5]~407           ; cout             ;
+; |InitializeSynclcok|P[6]~401           ; |InitializeSynclcok|P[6]~401           ; combout          ;
+; |InitializeSynclcok|P[6]~401           ; |InitializeSynclcok|P[6]~408           ; cout             ;
+; |InitializeSynclcok|P[7]~400           ; |InitializeSynclcok|P[7]~400           ; combout          ;
+; |InitializeSynclcok|P[7]~400           ; |InitializeSynclcok|P[7]~409           ; cout             ;
+; |InitializeSynclcok|P[8]~393           ; |InitializeSynclcok|P[8]~393           ; combout          ;
+; |InitializeSynclcok|SDIO~reg0          ; |InitializeSynclcok|SDIO~reg0          ; regout           ;
+; |InitializeSynclcok|SCLK~reg0          ; |InitializeSynclcok|SCLK~reg0          ; regout           ;
+; |InitializeSynclcok|init_key_flag~reg0 ; |InitializeSynclcok|init_key_flag~reg0 ; regout           ;
+; |InitializeSynclcok|IO_UPDATE~reg0     ; |InitializeSynclcok|IO_UPDATE~reg0     ; regout           ;
+; |InitializeSynclcok|IO_RESET~reg0      ; |InitializeSynclcok|IO_RESET~reg0      ; regout           ;
+; |InitializeSynclcok|init_end_flag~reg0 ; |InitializeSynclcok|init_end_flag~reg0 ; regout           ;
+; |InitializeSynclcok|IO_RESET~80        ; |InitializeSynclcok|IO_RESET~80        ; combout          ;
+; |InitializeSynclcok|LessThan8~532      ; |InitializeSynclcok|LessThan8~532      ; combout          ;
+; |InitializeSynclcok|SDIO~158           ; |InitializeSynclcok|SDIO~158           ; combout          ;
+; |InitializeSynclcok|SDIO~159           ; |InitializeSynclcok|SDIO~159           ; combout          ;
+; |InitializeSynclcok|SDIO~160           ; |InitializeSynclcok|SDIO~160           ; combout          ;
+; |InitializeSynclcok|WideOr1~1247       ; |InitializeSynclcok|WideOr1~1247       ; combout          ;
+; |InitializeSynclcok|WideOr1~1248       ; |InitializeSynclcok|WideOr1~1248       ; combout          ;
+; |InitializeSynclcok|WideOr1~1249       ; |InitializeSynclcok|WideOr1~1249       ; combout          ;
+; |InitializeSynclcok|WideOr1~1250       ; |InitializeSynclcok|WideOr1~1250       ; combout          ;
+; |InitializeSynclcok|WideOr1~1251       ; |InitializeSynclcok|WideOr1~1251       ; combout          ;
+; |InitializeSynclcok|WideOr1~1252       ; |InitializeSynclcok|WideOr1~1252       ; combout          ;
+; |InitializeSynclcok|WideOr1~1253       ; |InitializeSynclcok|WideOr1~1253       ; combout          ;
+; |InitializeSynclcok|WideOr1~1254       ; |InitializeSynclcok|WideOr1~1254       ; combout          ;
+; |InitializeSynclcok|WideOr1~1255       ; |InitializeSynclcok|WideOr1~1255       ; combout          ;
+; |InitializeSynclcok|WideOr1~1256       ; |InitializeSynclcok|WideOr1~1256       ; combout          ;
+; |InitializeSynclcok|WideOr1~1257       ; |InitializeSynclcok|WideOr1~1257       ; combout          ;
+; |InitializeSynclcok|WideOr1~1258       ; |InitializeSynclcok|WideOr1~1258       ; combout          ;
+; |InitializeSynclcok|WideOr1~1259       ; |InitializeSynclcok|WideOr1~1259       ; combout          ;
+; |InitializeSynclcok|SDIO~161           ; |InitializeSynclcok|SDIO~161           ; combout          ;
+; |InitializeSynclcok|R                  ; |InitializeSynclcok|R                  ; regout           ;
+; |InitializeSynclcok|SDIO~162           ; |InitializeSynclcok|SDIO~162           ; combout          ;
+; |InitializeSynclcok|SCLK~18            ; |InitializeSynclcok|SCLK~18            ; combout          ;
+; |InitializeSynclcok|init_key_flag~30   ; |InitializeSynclcok|init_key_flag~30   ; combout          ;
+; |InitializeSynclcok|IO_UPDATE~51       ; |InitializeSynclcok|IO_UPDATE~51       ; combout          ;
+; |InitializeSynclcok|IO_UPDATE~52       ; |InitializeSynclcok|IO_UPDATE~52       ; combout          ;
+; |InitializeSynclcok|IO_UPDATE~53       ; |InitializeSynclcok|IO_UPDATE~53       ; combout          ;
+; |InitializeSynclcok|LessThan4~272      ; |InitializeSynclcok|LessThan4~272      ; combout          ;
+; |InitializeSynclcok|IO_RESET~81        ; |InitializeSynclcok|IO_RESET~81        ; combout          ;
+; |InitializeSynclcok|IO_RESET~82        ; |InitializeSynclcok|IO_RESET~82        ; combout          ;
+; |InitializeSynclcok|LessThan16~288     ; |InitializeSynclcok|LessThan16~288     ; combout          ;
+; |InitializeSynclcok|LessThan16~289     ; |InitializeSynclcok|LessThan16~289     ; combout          ;
+; |InitializeSynclcok|LessThan16~290     ; |InitializeSynclcok|LessThan16~290     ; combout          ;
+; |InitializeSynclcok|R~8                ; |InitializeSynclcok|R~8                ; combout          ;
+; |InitializeSynclcok|IO_RESET~83        ; |InitializeSynclcok|IO_RESET~83        ; combout          ;
+; |InitializeSynclcok|SDIO               ; |InitializeSynclcok|SDIO               ; padio            ;
+; |InitializeSynclcok|SCLK               ; |InitializeSynclcok|SCLK               ; padio            ;
+; |InitializeSynclcok|init_key_flag      ; |InitializeSynclcok|init_key_flag      ; padio            ;
+; |InitializeSynclcok|IO_UPDATE          ; |InitializeSynclcok|IO_UPDATE          ; padio            ;
+; |InitializeSynclcok|IO_RESET           ; |InitializeSynclcok|IO_RESET           ; padio            ;
+; |InitializeSynclcok|init_end_flag      ; |InitializeSynclcok|init_end_flag      ; padio            ;
+; |InitializeSynclcok|TenMHzExt          ; |InitializeSynclcok|TenMHzExt~corein   ; combout          ;
+; |InitializeSynclcok|key_0_init         ; |InitializeSynclcok|key_0_init~corein  ; combout          ;
+; |InitializeSynclcok|TenMHzExt~clkctrl  ; |InitializeSynclcok|TenMHzExt~clkctrl  ; outclk           ;
++----------------------------------------+----------------------------------------+------------------+
+
+
+The following table displays output ports that do not toggle to 1 during simulation.
++--------------------------------------------------------------------------------------------+
+; Missing 1-Value Coverage                                                                   ;
++------------------------------------+------------------------------------+------------------+
+; Node Name                          ; Output Port Name                   ; Output Port Type ;
++------------------------------------+------------------------------------+------------------+
+; |InitializeSynclcok|B[10]          ; |InitializeSynclcok|B[10]          ; regout           ;
+; |InitializeSynclcok|B[11]          ; |InitializeSynclcok|B[11]          ; regout           ;
+; |InitializeSynclcok|B[12]          ; |InitializeSynclcok|B[12]          ; regout           ;
+; |InitializeSynclcok|B[13]          ; |InitializeSynclcok|B[13]          ; regout           ;
+; |InitializeSynclcok|B[14]          ; |InitializeSynclcok|B[14]          ; regout           ;
+; |InitializeSynclcok|B[15]          ; |InitializeSynclcok|B[15]          ; regout           ;
+; |InitializeSynclcok|B[16]          ; |InitializeSynclcok|B[16]          ; regout           ;
+; |InitializeSynclcok|B[17]          ; |InitializeSynclcok|B[17]          ; regout           ;
+; |InitializeSynclcok|B[18]          ; |InitializeSynclcok|B[18]          ; regout           ;
+; |InitializeSynclcok|B[19]          ; |InitializeSynclcok|B[19]          ; regout           ;
+; |InitializeSynclcok|B[20]          ; |InitializeSynclcok|B[20]          ; regout           ;
+; |InitializeSynclcok|B[21]          ; |InitializeSynclcok|B[21]          ; regout           ;
+; |InitializeSynclcok|B[22]          ; |InitializeSynclcok|B[22]          ; regout           ;
+; |InitializeSynclcok|B[23]          ; |InitializeSynclcok|B[23]          ; regout           ;
+; |InitializeSynclcok|B[24]          ; |InitializeSynclcok|B[24]          ; regout           ;
+; |InitializeSynclcok|B[25]          ; |InitializeSynclcok|B[25]          ; regout           ;
+; |InitializeSynclcok|B[26]          ; |InitializeSynclcok|B[26]          ; regout           ;
+; |InitializeSynclcok|B[27]          ; |InitializeSynclcok|B[27]          ; regout           ;
+; |InitializeSynclcok|B[28]          ; |InitializeSynclcok|B[28]          ; regout           ;
+; |InitializeSynclcok|B[31]          ; |InitializeSynclcok|B[31]          ; regout           ;
+; |InitializeSynclcok|B[30]          ; |InitializeSynclcok|B[30]          ; regout           ;
+; |InitializeSynclcok|B[29]          ; |InitializeSynclcok|B[29]          ; regout           ;
+; |InitializeSynclcok|P[8]           ; |InitializeSynclcok|P[8]           ; regout           ;
+; |InitializeSynclcok|B[10]~296      ; |InitializeSynclcok|B[10]~511      ; cout             ;
+; |InitializeSynclcok|B[11]~297      ; |InitializeSynclcok|B[11]~297      ; combout          ;
+; |InitializeSynclcok|B[11]~297      ; |InitializeSynclcok|B[11]~512      ; cout             ;
+; |InitializeSynclcok|B[12]~298      ; |InitializeSynclcok|B[12]~298      ; combout          ;
+; |InitializeSynclcok|B[12]~298      ; |InitializeSynclcok|B[12]~513      ; cout             ;
+; |InitializeSynclcok|B[13]~299      ; |InitializeSynclcok|B[13]~299      ; combout          ;
+; |InitializeSynclcok|B[13]~299      ; |InitializeSynclcok|B[13]~514      ; cout             ;
+; |InitializeSynclcok|B[14]~300      ; |InitializeSynclcok|B[14]~300      ; combout          ;
+; |InitializeSynclcok|B[14]~300      ; |InitializeSynclcok|B[14]~515      ; cout             ;
+; |InitializeSynclcok|B[15]~301      ; |InitializeSynclcok|B[15]~301      ; combout          ;
+; |InitializeSynclcok|B[15]~301      ; |InitializeSynclcok|B[15]~516      ; cout             ;
+; |InitializeSynclcok|B[16]~302      ; |InitializeSynclcok|B[16]~302      ; combout          ;
+; |InitializeSynclcok|B[16]~302      ; |InitializeSynclcok|B[16]~517      ; cout             ;
+; |InitializeSynclcok|B[17]~303      ; |InitializeSynclcok|B[17]~303      ; combout          ;
+; |InitializeSynclcok|B[17]~303      ; |InitializeSynclcok|B[17]~518      ; cout             ;
+; |InitializeSynclcok|B[18]~304      ; |InitializeSynclcok|B[18]~304      ; combout          ;
+; |InitializeSynclcok|B[18]~304      ; |InitializeSynclcok|B[18]~519      ; cout             ;
+; |InitializeSynclcok|B[19]~305      ; |InitializeSynclcok|B[19]~305      ; combout          ;
+; |InitializeSynclcok|B[19]~305      ; |InitializeSynclcok|B[19]~520      ; cout             ;
+; |InitializeSynclcok|B[20]~306      ; |InitializeSynclcok|B[20]~306      ; combout          ;
+; |InitializeSynclcok|B[20]~306      ; |InitializeSynclcok|B[20]~521      ; cout             ;
+; |InitializeSynclcok|B[21]~307      ; |InitializeSynclcok|B[21]~307      ; combout          ;
+; |InitializeSynclcok|B[21]~307      ; |InitializeSynclcok|B[21]~522      ; cout             ;
+; |InitializeSynclcok|B[22]~308      ; |InitializeSynclcok|B[22]~308      ; combout          ;
+; |InitializeSynclcok|B[22]~308      ; |InitializeSynclcok|B[22]~523      ; cout             ;
+; |InitializeSynclcok|B[23]~309      ; |InitializeSynclcok|B[23]~309      ; combout          ;
+; |InitializeSynclcok|B[23]~309      ; |InitializeSynclcok|B[23]~524      ; cout             ;
+; |InitializeSynclcok|B[24]~310      ; |InitializeSynclcok|B[24]~310      ; combout          ;
+; |InitializeSynclcok|B[24]~310      ; |InitializeSynclcok|B[24]~525      ; cout             ;
+; |InitializeSynclcok|B[25]~311      ; |InitializeSynclcok|B[25]~311      ; combout          ;
+; |InitializeSynclcok|B[25]~311      ; |InitializeSynclcok|B[25]~526      ; cout             ;
+; |InitializeSynclcok|B[26]~312      ; |InitializeSynclcok|B[26]~312      ; combout          ;
+; |InitializeSynclcok|B[26]~312      ; |InitializeSynclcok|B[26]~527      ; cout             ;
+; |InitializeSynclcok|B[27]~313      ; |InitializeSynclcok|B[27]~313      ; combout          ;
+; |InitializeSynclcok|B[27]~313      ; |InitializeSynclcok|B[27]~528      ; cout             ;
+; |InitializeSynclcok|B[28]~314      ; |InitializeSynclcok|B[28]~314      ; combout          ;
+; |InitializeSynclcok|B[28]~314      ; |InitializeSynclcok|B[28]~529      ; cout             ;
+; |InitializeSynclcok|B[29]~321      ; |InitializeSynclcok|B[29]~321      ; combout          ;
+; |InitializeSynclcok|B[29]~321      ; |InitializeSynclcok|B[29]~530      ; cout             ;
+; |InitializeSynclcok|B[30]~290      ; |InitializeSynclcok|B[30]~290      ; combout          ;
+; |InitializeSynclcok|B[30]~290      ; |InitializeSynclcok|B[30]~531      ; cout             ;
+; |InitializeSynclcok|B[31]~291      ; |InitializeSynclcok|B[31]~291      ; combout          ;
+; |InitializeSynclcok|LessThan8~526  ; |InitializeSynclcok|LessThan8~526  ; combout          ;
+; |InitializeSynclcok|LessThan8~527  ; |InitializeSynclcok|LessThan8~527  ; combout          ;
+; |InitializeSynclcok|LessThan8~528  ; |InitializeSynclcok|LessThan8~528  ; combout          ;
+; |InitializeSynclcok|LessThan8~529  ; |InitializeSynclcok|LessThan8~529  ; combout          ;
+; |InitializeSynclcok|LessThan8~530  ; |InitializeSynclcok|LessThan8~530  ; combout          ;
+; |InitializeSynclcok|LessThan8~531  ; |InitializeSynclcok|LessThan8~531  ; combout          ;
+; |InitializeSynclcok|SDIO~157       ; |InitializeSynclcok|SDIO~157       ; combout          ;
+; |InitializeSynclcok|LessThan16~287 ; |InitializeSynclcok|LessThan16~287 ; combout          ;
+; |InitializeSynclcok|DR_HOLD        ; |InitializeSynclcok|DR_HOLD        ; padio            ;
+; |InitializeSynclcok|OSK            ; |InitializeSynclcok|OSK            ; padio            ;
+; |InitializeSynclcok|CSB            ; |InitializeSynclcok|CSB            ; padio            ;
++------------------------------------+------------------------------------+------------------+
+
+
+The following table displays output ports that do not toggle to 0 during simulation.
++--------------------------------------------------------------------------------------------+
+; Missing 0-Value Coverage                                                                   ;
++------------------------------------+------------------------------------+------------------+
+; Node Name                          ; Output Port Name                   ; Output Port Type ;
++------------------------------------+------------------------------------+------------------+
+; |InitializeSynclcok|B[10]          ; |InitializeSynclcok|B[10]          ; regout           ;
+; |InitializeSynclcok|B[11]          ; |InitializeSynclcok|B[11]          ; regout           ;
+; |InitializeSynclcok|B[12]          ; |InitializeSynclcok|B[12]          ; regout           ;
+; |InitializeSynclcok|B[13]          ; |InitializeSynclcok|B[13]          ; regout           ;
+; |InitializeSynclcok|B[14]          ; |InitializeSynclcok|B[14]          ; regout           ;
+; |InitializeSynclcok|B[15]          ; |InitializeSynclcok|B[15]          ; regout           ;
+; |InitializeSynclcok|B[16]          ; |InitializeSynclcok|B[16]          ; regout           ;
+; |InitializeSynclcok|B[17]          ; |InitializeSynclcok|B[17]          ; regout           ;
+; |InitializeSynclcok|B[18]          ; |InitializeSynclcok|B[18]          ; regout           ;
+; |InitializeSynclcok|B[19]          ; |InitializeSynclcok|B[19]          ; regout           ;
+; |InitializeSynclcok|B[20]          ; |InitializeSynclcok|B[20]          ; regout           ;
+; |InitializeSynclcok|B[21]          ; |InitializeSynclcok|B[21]          ; regout           ;
+; |InitializeSynclcok|B[22]          ; |InitializeSynclcok|B[22]          ; regout           ;
+; |InitializeSynclcok|B[23]          ; |InitializeSynclcok|B[23]          ; regout           ;
+; |InitializeSynclcok|B[24]          ; |InitializeSynclcok|B[24]          ; regout           ;
+; |InitializeSynclcok|B[25]          ; |InitializeSynclcok|B[25]          ; regout           ;
+; |InitializeSynclcok|B[26]          ; |InitializeSynclcok|B[26]          ; regout           ;
+; |InitializeSynclcok|B[27]          ; |InitializeSynclcok|B[27]          ; regout           ;
+; |InitializeSynclcok|B[28]          ; |InitializeSynclcok|B[28]          ; regout           ;
+; |InitializeSynclcok|B[31]          ; |InitializeSynclcok|B[31]          ; regout           ;
+; |InitializeSynclcok|B[30]          ; |InitializeSynclcok|B[30]          ; regout           ;
+; |InitializeSynclcok|B[29]          ; |InitializeSynclcok|B[29]          ; regout           ;
+; |InitializeSynclcok|P[8]           ; |InitializeSynclcok|P[8]           ; regout           ;
+; |InitializeSynclcok|B[10]~296      ; |InitializeSynclcok|B[10]~511      ; cout             ;
+; |InitializeSynclcok|B[11]~297      ; |InitializeSynclcok|B[11]~297      ; combout          ;
+; |InitializeSynclcok|B[11]~297      ; |InitializeSynclcok|B[11]~512      ; cout             ;
+; |InitializeSynclcok|B[12]~298      ; |InitializeSynclcok|B[12]~298      ; combout          ;
+; |InitializeSynclcok|B[12]~298      ; |InitializeSynclcok|B[12]~513      ; cout             ;
+; |InitializeSynclcok|B[13]~299      ; |InitializeSynclcok|B[13]~299      ; combout          ;
+; |InitializeSynclcok|B[13]~299      ; |InitializeSynclcok|B[13]~514      ; cout             ;
+; |InitializeSynclcok|B[14]~300      ; |InitializeSynclcok|B[14]~300      ; combout          ;
+; |InitializeSynclcok|B[14]~300      ; |InitializeSynclcok|B[14]~515      ; cout             ;
+; |InitializeSynclcok|B[15]~301      ; |InitializeSynclcok|B[15]~301      ; combout          ;
+; |InitializeSynclcok|B[15]~301      ; |InitializeSynclcok|B[15]~516      ; cout             ;
+; |InitializeSynclcok|B[16]~302      ; |InitializeSynclcok|B[16]~302      ; combout          ;
+; |InitializeSynclcok|B[16]~302      ; |InitializeSynclcok|B[16]~517      ; cout             ;
+; |InitializeSynclcok|B[17]~303      ; |InitializeSynclcok|B[17]~303      ; combout          ;
+; |InitializeSynclcok|B[17]~303      ; |InitializeSynclcok|B[17]~518      ; cout             ;
+; |InitializeSynclcok|B[18]~304      ; |InitializeSynclcok|B[18]~304      ; combout          ;
+; |InitializeSynclcok|B[18]~304      ; |InitializeSynclcok|B[18]~519      ; cout             ;
+; |InitializeSynclcok|B[19]~305      ; |InitializeSynclcok|B[19]~305      ; combout          ;
+; |InitializeSynclcok|B[19]~305      ; |InitializeSynclcok|B[19]~520      ; cout             ;
+; |InitializeSynclcok|B[20]~306      ; |InitializeSynclcok|B[20]~306      ; combout          ;
+; |InitializeSynclcok|B[20]~306      ; |InitializeSynclcok|B[20]~521      ; cout             ;
+; |InitializeSynclcok|B[21]~307      ; |InitializeSynclcok|B[21]~307      ; combout          ;
+; |InitializeSynclcok|B[21]~307      ; |InitializeSynclcok|B[21]~522      ; cout             ;
+; |InitializeSynclcok|B[22]~308      ; |InitializeSynclcok|B[22]~308      ; combout          ;
+; |InitializeSynclcok|B[22]~308      ; |InitializeSynclcok|B[22]~523      ; cout             ;
+; |InitializeSynclcok|B[23]~309      ; |InitializeSynclcok|B[23]~309      ; combout          ;
+; |InitializeSynclcok|B[23]~309      ; |InitializeSynclcok|B[23]~524      ; cout             ;
+; |InitializeSynclcok|B[24]~310      ; |InitializeSynclcok|B[24]~310      ; combout          ;
+; |InitializeSynclcok|B[24]~310      ; |InitializeSynclcok|B[24]~525      ; cout             ;
+; |InitializeSynclcok|B[25]~311      ; |InitializeSynclcok|B[25]~311      ; combout          ;
+; |InitializeSynclcok|B[25]~311      ; |InitializeSynclcok|B[25]~526      ; cout             ;
+; |InitializeSynclcok|B[26]~312      ; |InitializeSynclcok|B[26]~312      ; combout          ;
+; |InitializeSynclcok|B[26]~312      ; |InitializeSynclcok|B[26]~527      ; cout             ;
+; |InitializeSynclcok|B[27]~313      ; |InitializeSynclcok|B[27]~313      ; combout          ;
+; |InitializeSynclcok|B[27]~313      ; |InitializeSynclcok|B[27]~528      ; cout             ;
+; |InitializeSynclcok|B[28]~314      ; |InitializeSynclcok|B[28]~314      ; combout          ;
+; |InitializeSynclcok|B[28]~314      ; |InitializeSynclcok|B[28]~529      ; cout             ;
+; |InitializeSynclcok|B[29]~321      ; |InitializeSynclcok|B[29]~321      ; combout          ;
+; |InitializeSynclcok|B[29]~321      ; |InitializeSynclcok|B[29]~530      ; cout             ;
+; |InitializeSynclcok|B[30]~290      ; |InitializeSynclcok|B[30]~290      ; combout          ;
+; |InitializeSynclcok|B[30]~290      ; |InitializeSynclcok|B[30]~531      ; cout             ;
+; |InitializeSynclcok|B[31]~291      ; |InitializeSynclcok|B[31]~291      ; combout          ;
+; |InitializeSynclcok|LessThan8~526  ; |InitializeSynclcok|LessThan8~526  ; combout          ;
+; |InitializeSynclcok|LessThan8~527  ; |InitializeSynclcok|LessThan8~527  ; combout          ;
+; |InitializeSynclcok|LessThan8~528  ; |InitializeSynclcok|LessThan8~528  ; combout          ;
+; |InitializeSynclcok|LessThan8~529  ; |InitializeSynclcok|LessThan8~529  ; combout          ;
+; |InitializeSynclcok|LessThan8~530  ; |InitializeSynclcok|LessThan8~530  ; combout          ;
+; |InitializeSynclcok|LessThan8~531  ; |InitializeSynclcok|LessThan8~531  ; combout          ;
+; |InitializeSynclcok|SDIO~157       ; |InitializeSynclcok|SDIO~157       ; combout          ;
+; |InitializeSynclcok|LessThan16~287 ; |InitializeSynclcok|LessThan16~287 ; combout          ;
+; |InitializeSynclcok|DR_HOLD        ; |InitializeSynclcok|DR_HOLD        ; padio            ;
+; |InitializeSynclcok|OSK            ; |InitializeSynclcok|OSK            ; padio            ;
+; |InitializeSynclcok|CSB            ; |InitializeSynclcok|CSB            ; padio            ;
++------------------------------------+------------------------------------+------------------+
+
+
++---------------------+
+; Simulator INI Usage ;
++--------+------------+
+; Option ; Usage      ;
++--------+------------+
+
+
++--------------------+
+; Simulator Messages ;
++--------------------+
+Info: *******************************************************************
+Info: Running Quartus II Simulator
+    Info: Version 7.1 Build 178 06/25/2007 Service Pack 1 SJ Full Version
+    Info: Processing started: Wed Aug 04 14:52:31 2010
+Info: Command: quartus_sim --read_settings_files=on --write_settings_files=off InitializeSynclcok -c InitializeSynclcok
+Info: Using vector source file "C:/altera/71/quartus/InitializeSynclcok/InitializeSynclcok.vwf"
+Info: Option to preserve fewer signal transitions to reduce memory requirements is enabled
+    Info: Simulation has been partitioned into sub-simulations according to the maximum transition count determined by the engine. Transitions from memory will be flushed out to disk at the end of each sub-simulation to reduce memory requirements.
+Info: Simulation partitioned into 1 sub-simulations
+Info: Simulation coverage is      58.01 %
+Info: Number of transitions in simulation is 22294
+Info: Quartus II Simulator was successful. 0 errors, 0 warnings
+    Info: Allocated 98 megabytes of memory during processing
+    Info: Processing ended: Wed Aug 04 14:52:35 2010
+    Info: Elapsed time: 00:00:04
+
+

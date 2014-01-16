@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Tue Jun 08 19:14:07 2010
+Quartus II Version : 7.1 Build 178 06/25/2007 SP 1 SJ Full Version
+Revision Name : another_DE2_to_one
+Top-level Entity Name : another_DE2_to_one
+Family : Cyclone II
+Total logic elements : 106
+    Total combinational functions : 106
+    Dedicated logic registers : 90
+Total registers : 90
+Total pins : 41
+Total virtual pins : 0
+Total memory bits : 0
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 0

@@ -1,0 +1,5 @@
+To,Location
+int_clock,PIN_G21
+push_button_2,PIN_F1
+trigger_out,PIN_V6
+trig_flag,PIN_J1

@@ -1,0 +1,650 @@
+Simulator report for another_DE2_to_one
+Tue Jun 08 19:14:57 2010
+Quartus II Version 7.1 Build 178 06/25/2007 Service Pack 1 SJ Full Version
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Simulator Summary
+  3. Simulator Settings
+  4. Simulation Waveforms
+  5. Coverage Summary
+  6. Complete 1/0-Value Coverage
+  7. Missing 1-Value Coverage
+  8. Missing 0-Value Coverage
+  9. Simulator INI Usage
+ 10. Simulator Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2007 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++--------------------------------------------+
+; Simulator Summary                          ;
++-----------------------------+--------------+
+; Type                        ; Value        ;
++-----------------------------+--------------+
+; Simulation Start Time       ; 0 ps         ;
+; Simulation End Time         ; 4.0 us       ;
+; Simulation Netlist Size     ; 254 nodes    ;
+; Simulation Coverage         ;      30.87 % ;
+; Total Number of Transitions ; 2991         ;
+; Simulation Breakpoints      ; 0            ;
+; Family                      ; Cyclone II   ;
+; Device                      ; EP2C35F672C6 ;
++-----------------------------+--------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------+
+; Simulator Settings                                                                                                      ;
++--------------------------------------------------------------------------------------------+------------+---------------+
+; Option                                                                                     ; Setting    ; Default Value ;
++--------------------------------------------------------------------------------------------+------------+---------------+
+; Simulation mode                                                                            ; Timing     ; Timing        ;
+; Start time                                                                                 ; 0 ns       ; 0 ns          ;
+; Simulation results format                                                                  ; CVWF       ;               ;
+; Add pins automatically to simulation output waveforms                                      ; On         ; On            ;
+; Check outputs                                                                              ; Off        ; Off           ;
+; Report simulation coverage                                                                 ; On         ; On            ;
+; Display complete 1/0 value coverage report                                                 ; On         ; On            ;
+; Display missing 1-value coverage report                                                    ; On         ; On            ;
+; Display missing 0-value coverage report                                                    ; On         ; On            ;
+; Detect setup and hold time violations                                                      ; Off        ; Off           ;
+; Detect glitches                                                                            ; Off        ; Off           ;
+; Disable timing delays in Timing Simulation                                                 ; Off        ; Off           ;
+; Generate Signal Activity File                                                              ; Off        ; Off           ;
+; Generate VCD File for PowerPlay Power Analyzer                                             ; Off        ; Off           ;
+; Group bus channels in simulation results                                                   ; Off        ; Off           ;
+; Preserve fewer signal transitions to reduce memory requirements                            ; On         ; On            ;
+; Trigger vector comparison with the specified mode                                          ; INPUT_EDGE ; INPUT_EDGE    ;
+; Disable setup and hold time violations detection in input registers of bi-directional pins ; Off        ; Off           ;
+; Overwrite Waveform Inputs With Simulation Outputs                                          ; Off        ;               ;
+; Perform Glitch Filtering in Timing Simulation                                              ; Auto       ; Auto          ;
++--------------------------------------------------------------------------------------------+------------+---------------+
+
+
++----------------------+
+; Simulation Waveforms ;
++----------------------+
+Waveform report data cannot be output to ASCII.
+Please use Quartus II to view the waveform report data.
+
+
++--------------------------------------------------------------------+
+; Coverage Summary                                                   ;
++-----------------------------------------------------+--------------+
+; Type                                                ; Value        ;
++-----------------------------------------------------+--------------+
+; Total coverage as a percentage                      ;      30.87 % ;
+; Total nodes checked                                 ; 254          ;
+; Total output ports checked                          ; 298          ;
+; Total output ports with complete 1/0-value coverage ; 92           ;
+; Total output ports with no 1/0-value coverage       ; 192          ;
+; Total output ports with no 1-value coverage         ; 192          ;
+; Total output ports with no 0-value coverage         ; 206          ;
++-----------------------------------------------------+--------------+
+
+
+The following table displays output ports that toggle between 1 and 0 during simulation.
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Complete 1/0-Value Coverage                                                                                                                                            ;
++--------------------------------------------------------------------------+--------------------------------------------------------------------------+------------------+
+; Node Name                                                                ; Output Port Name                                                         ; Output Port Type ;
++--------------------------------------------------------------------------+--------------------------------------------------------------------------+------------------+
+; |another_DE2_to_one|data_program:sending_out_the_data|M[1]               ; |another_DE2_to_one|data_program:sending_out_the_data|M[1]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[3]               ; |another_DE2_to_one|data_program:sending_out_the_data|M[3]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[2]               ; |another_DE2_to_one|data_program:sending_out_the_data|M[2]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[0]               ; |another_DE2_to_one|data_program:sending_out_the_data|M[0]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[4]               ; |another_DE2_to_one|data_program:sending_out_the_data|M[4]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[0]~1291          ; |another_DE2_to_one|data_program:sending_out_the_data|M[0]~1291          ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[0]~1291          ; |another_DE2_to_one|data_program:sending_out_the_data|M[0]~1582          ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[1]~1292          ; |another_DE2_to_one|data_program:sending_out_the_data|M[1]~1292          ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[1]~1292          ; |another_DE2_to_one|data_program:sending_out_the_data|M[1]~1583          ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[2]~1293          ; |another_DE2_to_one|data_program:sending_out_the_data|M[2]~1293          ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[2]~1293          ; |another_DE2_to_one|data_program:sending_out_the_data|M[2]~1585          ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[3]~1294          ; |another_DE2_to_one|data_program:sending_out_the_data|M[3]~1294          ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[3]~1294          ; |another_DE2_to_one|data_program:sending_out_the_data|M[3]~1586          ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[4]~1290          ; |another_DE2_to_one|data_program:sending_out_the_data|M[4]~1290          ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[4]~1290          ; |another_DE2_to_one|data_program:sending_out_the_data|M[4]~1587          ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~456           ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~456           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~456           ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~457           ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~458           ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~458           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~458           ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~459           ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~460           ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~460           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~460           ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~461           ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~462           ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~462           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~462           ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~463           ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~464           ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~464           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~464           ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~465           ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~466           ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~466           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~466           ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~467           ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~468           ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~468           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[5]~1264          ; |another_DE2_to_one|data_program:sending_out_the_data|M[5]~1264          ; combout          ;
+; |another_DE2_to_one|clock_maker:clock_outputting|TenMHz_receiver         ; |another_DE2_to_one|clock_maker:clock_outputting|TenMHz_receiver         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output        ; |another_DE2_to_one|data_program:sending_out_the_data|data_output        ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|dflag              ; |another_DE2_to_one|data_program:sending_out_the_data|dflag              ; regout           ;
+; |another_DE2_to_one|clock_maker:clock_outputting|clock_counter[2]        ; |another_DE2_to_one|clock_maker:clock_outputting|clock_counter[2]        ; regout           ;
+; |another_DE2_to_one|clock_maker:clock_outputting|clock_counter[1]        ; |another_DE2_to_one|clock_maker:clock_outputting|clock_counter[1]        ; regout           ;
+; |another_DE2_to_one|clock_maker:clock_outputting|LessThan0~24            ; |another_DE2_to_one|clock_maker:clock_outputting|LessThan0~24            ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output~318    ; |another_DE2_to_one|data_program:sending_out_the_data|data_output~318    ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~104           ; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~104           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~105           ; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~105           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~106           ; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~106           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~107           ; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~107           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~108           ; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~108           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~109           ; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~109           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~110           ; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~110           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~111           ; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~111           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~112           ; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~112           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~113           ; |another_DE2_to_one|data_program:sending_out_the_data|Mux0~113           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output~320    ; |another_DE2_to_one|data_program:sending_out_the_data|data_output~320    ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|trgger_flag        ; |another_DE2_to_one|data_program:sending_out_the_data|trgger_flag        ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[5]         ; |another_DE2_to_one|data_program:sending_out_the_data|counter[5]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan3~194      ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan3~194      ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[2]         ; |another_DE2_to_one|data_program:sending_out_the_data|counter[2]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[1]         ; |another_DE2_to_one|data_program:sending_out_the_data|counter[1]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[1]~1654    ; |another_DE2_to_one|data_program:sending_out_the_data|counter[1]~1654    ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[3]         ; |another_DE2_to_one|data_program:sending_out_the_data|counter[3]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[4]         ; |another_DE2_to_one|data_program:sending_out_the_data|counter[4]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan3~195      ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan3~195      ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output~321    ; |another_DE2_to_one|data_program:sending_out_the_data|data_output~321    ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~515      ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~515      ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~516      ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~516      ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~523      ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~523      ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output~322    ; |another_DE2_to_one|data_program:sending_out_the_data|data_output~322    ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[0]         ; |another_DE2_to_one|data_program:sending_out_the_data|counter[0]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|always1~95         ; |another_DE2_to_one|data_program:sending_out_the_data|always1~95         ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|always1~96         ; |another_DE2_to_one|data_program:sending_out_the_data|always1~96         ; combout          ;
+; |another_DE2_to_one|clock_maker:clock_outputting|clock_counter[0]        ; |another_DE2_to_one|clock_maker:clock_outputting|clock_counter[0]        ; regout           ;
+; |another_DE2_to_one|clock_maker:clock_outputting|clock_counter~76        ; |another_DE2_to_one|clock_maker:clock_outputting|clock_counter~76        ; combout          ;
+; |another_DE2_to_one|clock_maker:clock_outputting|clock_counter~77        ; |another_DE2_to_one|clock_maker:clock_outputting|clock_counter~77        ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[2]~1584          ; |another_DE2_to_one|data_program:sending_out_the_data|M[2]~1584          ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|always1~97         ; |another_DE2_to_one|data_program:sending_out_the_data|always1~97         ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|always1~98         ; |another_DE2_to_one|data_program:sending_out_the_data|always1~98         ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|trgger_flag~143    ; |another_DE2_to_one|data_program:sending_out_the_data|trgger_flag~143    ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|trgger_arm         ; |another_DE2_to_one|data_program:sending_out_the_data|trgger_arm         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|trgger_arm~63      ; |another_DE2_to_one|data_program:sending_out_the_data|trgger_arm~63      ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|trgger_arm~64      ; |another_DE2_to_one|data_program:sending_out_the_data|trgger_arm~64      ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|always0~35         ; |another_DE2_to_one|data_program:sending_out_the_data|always0~35         ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[6]~1662    ; |another_DE2_to_one|data_program:sending_out_the_data|counter[6]~1662    ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[5]~1663    ; |another_DE2_to_one|data_program:sending_out_the_data|counter[5]~1663    ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~484           ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~484           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[13]~1664   ; |another_DE2_to_one|data_program:sending_out_the_data|counter[13]~1664   ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~485           ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~485           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~486           ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~486           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~487           ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~487           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~488           ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~488           ; combout          ;
+; |another_DE2_to_one|clock_maker:clock_outputting|clock_counter~78        ; |another_DE2_to_one|clock_maker:clock_outputting|clock_counter~78        ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|trgger_arm~65      ; |another_DE2_to_one|data_program:sending_out_the_data|trgger_arm~65      ; combout          ;
+; |another_DE2_to_one|TenMHz_output_clock                                  ; |another_DE2_to_one|TenMHz_output_clock                                  ; padio            ;
+; |another_DE2_to_one|data                                                 ; |another_DE2_to_one|data                                                 ; padio            ;
+; |another_DE2_to_one|flag                                                 ; |another_DE2_to_one|flag                                                 ; padio            ;
+; |another_DE2_to_one|FiftyMHz_int_ref_clock                               ; |another_DE2_to_one|FiftyMHz_int_ref_clock~corein                        ; combout          ;
+; |another_DE2_to_one|trigger                                              ; |another_DE2_to_one|trigger~corein                                       ; combout          ;
+; |another_DE2_to_one|clock_maker:clock_outputting|TenMHz_receiver~clkctrl ; |another_DE2_to_one|clock_maker:clock_outputting|TenMHz_receiver~clkctrl ; outclk           ;
+; |another_DE2_to_one|FiftyMHz_int_ref_clock~clkctrl                       ; |another_DE2_to_one|FiftyMHz_int_ref_clock~clkctrl                       ; outclk           ;
++--------------------------------------------------------------------------+--------------------------------------------------------------------------+------------------+
+
+
+The following table displays output ports that do not toggle to 1 during simulation.
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Missing 1-Value Coverage                                                                                                                                                               ;
++----------------------------------------------------------------------------------+----------------------------------------------------------------------------------+------------------+
+; Node Name                                                                        ; Output Port Name                                                                 ; Output Port Type ;
++----------------------------------------------------------------------------------+----------------------------------------------------------------------------------+------------------+
+; |another_DE2_to_one|data_program:sending_out_the_data|M[5]                       ; |another_DE2_to_one|data_program:sending_out_the_data|M[5]                       ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[6]                       ; |another_DE2_to_one|data_program:sending_out_the_data|M[6]                       ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[7]                       ; |another_DE2_to_one|data_program:sending_out_the_data|M[7]                       ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[8]                       ; |another_DE2_to_one|data_program:sending_out_the_data|M[8]                       ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[9]                       ; |another_DE2_to_one|data_program:sending_out_the_data|M[9]                       ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[10]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[10]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[11]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[11]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[12]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[12]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[13]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[13]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[14]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[14]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[15]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[15]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[16]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[16]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[17]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[17]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[18]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[18]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[19]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[19]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[20]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[20]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[21]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[21]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[22]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[22]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[23]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[23]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[24]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[24]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[25]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[25]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[26]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[26]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[27]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[27]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[28]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[28]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[29]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[29]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[30]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[30]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[31]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[31]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~468                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~469                   ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~470                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~470                   ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~470                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~471                   ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~472                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~472                   ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~472                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~473                   ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~474                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~474                   ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~474                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~475                   ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~476                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~476                   ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~476                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~477                   ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~478                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~478                   ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~478                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~479                   ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~480                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~480                   ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~480                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~481                   ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~482                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~482                   ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[5]~1264                  ; |another_DE2_to_one|data_program:sending_out_the_data|M[5]~1588                  ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[6]~1265                  ; |another_DE2_to_one|data_program:sending_out_the_data|M[6]~1265                  ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[6]~1265                  ; |another_DE2_to_one|data_program:sending_out_the_data|M[6]~1589                  ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[7]~1266                  ; |another_DE2_to_one|data_program:sending_out_the_data|M[7]~1266                  ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[7]~1266                  ; |another_DE2_to_one|data_program:sending_out_the_data|M[7]~1590                  ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[8]~1267                  ; |another_DE2_to_one|data_program:sending_out_the_data|M[8]~1267                  ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[8]~1267                  ; |another_DE2_to_one|data_program:sending_out_the_data|M[8]~1591                  ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[9]~1268                  ; |another_DE2_to_one|data_program:sending_out_the_data|M[9]~1268                  ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[9]~1268                  ; |another_DE2_to_one|data_program:sending_out_the_data|M[9]~1592                  ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[10]~1269                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[10]~1269                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[10]~1269                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[10]~1593                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[11]~1270                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[11]~1270                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[11]~1270                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[11]~1594                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[12]~1271                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[12]~1271                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[12]~1271                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[12]~1595                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[13]~1272                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[13]~1272                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[13]~1272                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[13]~1596                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[14]~1273                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[14]~1273                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[14]~1273                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[14]~1597                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[15]~1274                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[15]~1274                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[15]~1274                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[15]~1598                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[16]~1275                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[16]~1275                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[16]~1275                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[16]~1599                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[17]~1276                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[17]~1276                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[17]~1276                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[17]~1600                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[18]~1277                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[18]~1277                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[18]~1277                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[18]~1601                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[19]~1278                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[19]~1278                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[19]~1278                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[19]~1602                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[20]~1279                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[20]~1279                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[20]~1279                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[20]~1603                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[21]~1280                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[21]~1280                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[21]~1280                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[21]~1604                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[22]~1281                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[22]~1281                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[22]~1281                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[22]~1605                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[23]~1282                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[23]~1282                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[23]~1282                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[23]~1606                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[24]~1283                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[24]~1283                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[24]~1283                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[24]~1607                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[25]~1284                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[25]~1284                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[25]~1284                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[25]~1608                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[26]~1285                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[26]~1285                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[26]~1285                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[26]~1609                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[27]~1286                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[27]~1286                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[27]~1286                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[27]~1610                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[28]~1287                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[28]~1287                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[28]~1287                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[28]~1611                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[29]~1288                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[29]~1288                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[29]~1288                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[29]~1612                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[30]~1289                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[30]~1289                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[30]~1289                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[30]~1613                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[31]~1263                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[31]~1263                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[1]                ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[1]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[2]                ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[2]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[4]                ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[4]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[5]                ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[5]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[6]                ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[6]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[7]                ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[7]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[9]                ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[9]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[10]               ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[10]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[11]               ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[11]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[12]               ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[12]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[14]               ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[14]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[15]               ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[15]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[16]               ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[16]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[17]               ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[17]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[17]        ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[17]        ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[16]        ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[16]        ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output~319            ; |another_DE2_to_one|data_program:sending_out_the_data|data_output~319            ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[10]        ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[10]        ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[9]         ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[9]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[11]        ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[11]        ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[5]         ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[5]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[6]         ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[6]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[4]         ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[4]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[7]         ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[7]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[2]         ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[2]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[1]         ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[1]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[14]        ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[14]        ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[12]        ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[12]        ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[15]        ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[15]        ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[13]                ; |another_DE2_to_one|data_program:sending_out_the_data|counter[13]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[12]                ; |another_DE2_to_one|data_program:sending_out_the_data|counter[12]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[11]                ; |another_DE2_to_one|data_program:sending_out_the_data|counter[11]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[10]                ; |another_DE2_to_one|data_program:sending_out_the_data|counter[10]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan3~192              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan3~192              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[9]                 ; |another_DE2_to_one|data_program:sending_out_the_data|counter[9]                 ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[8]                 ; |another_DE2_to_one|data_program:sending_out_the_data|counter[8]                 ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[7]                 ; |another_DE2_to_one|data_program:sending_out_the_data|counter[7]                 ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[6]                 ; |another_DE2_to_one|data_program:sending_out_the_data|counter[6]                 ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan3~193              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan3~193              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~513              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~513              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~514              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~514              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~517              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~517              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~518              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~518              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~519              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~519              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~520              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~520              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~521              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~521              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~522              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~522              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[13]~1655           ; |another_DE2_to_one|data_program:sending_out_the_data|counter[13]~1655           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[12]~1656           ; |another_DE2_to_one|data_program:sending_out_the_data|counter[12]~1656           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[11]~1657           ; |another_DE2_to_one|data_program:sending_out_the_data|counter[11]~1657           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[10]~1658           ; |another_DE2_to_one|data_program:sending_out_the_data|counter[10]~1658           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[9]~1659            ; |another_DE2_to_one|data_program:sending_out_the_data|counter[9]~1659            ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[8]~1660            ; |another_DE2_to_one|data_program:sending_out_the_data|counter[8]~1660            ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[7]~1661            ; |another_DE2_to_one|data_program:sending_out_the_data|counter[7]~1661            ; combout          ;
+; |another_DE2_to_one|switch_reg_data[1]                                           ; |another_DE2_to_one|switch_reg_data[1]                                           ; padio            ;
+; |another_DE2_to_one|switch_reg_data[2]                                           ; |another_DE2_to_one|switch_reg_data[2]                                           ; padio            ;
+; |another_DE2_to_one|switch_reg_data[4]                                           ; |another_DE2_to_one|switch_reg_data[4]                                           ; padio            ;
+; |another_DE2_to_one|switch_reg_data[5]                                           ; |another_DE2_to_one|switch_reg_data[5]                                           ; padio            ;
+; |another_DE2_to_one|switch_reg_data[6]                                           ; |another_DE2_to_one|switch_reg_data[6]                                           ; padio            ;
+; |another_DE2_to_one|switch_reg_data[7]                                           ; |another_DE2_to_one|switch_reg_data[7]                                           ; padio            ;
+; |another_DE2_to_one|switch_reg_data[9]                                           ; |another_DE2_to_one|switch_reg_data[9]                                           ; padio            ;
+; |another_DE2_to_one|switch_reg_data[10]                                          ; |another_DE2_to_one|switch_reg_data[10]                                          ; padio            ;
+; |another_DE2_to_one|switch_reg_data[11]                                          ; |another_DE2_to_one|switch_reg_data[11]                                          ; padio            ;
+; |another_DE2_to_one|switch_reg_data[12]                                          ; |another_DE2_to_one|switch_reg_data[12]                                          ; padio            ;
+; |another_DE2_to_one|switch_reg_data[14]                                          ; |another_DE2_to_one|switch_reg_data[14]                                          ; padio            ;
+; |another_DE2_to_one|switch_reg_data[15]                                          ; |another_DE2_to_one|switch_reg_data[15]                                          ; padio            ;
+; |another_DE2_to_one|switch_reg_data[16]                                          ; |another_DE2_to_one|switch_reg_data[16]                                          ; padio            ;
+; |another_DE2_to_one|switch_reg_data[17]                                          ; |another_DE2_to_one|switch_reg_data[17]                                          ; padio            ;
+; |another_DE2_to_one|switch0                                                      ; |another_DE2_to_one|switch0~corein                                               ; combout          ;
+; |another_DE2_to_one|switch1                                                      ; |another_DE2_to_one|switch1~corein                                               ; combout          ;
+; |another_DE2_to_one|switch2                                                      ; |another_DE2_to_one|switch2~corein                                               ; combout          ;
+; |another_DE2_to_one|switch3                                                      ; |another_DE2_to_one|switch3~corein                                               ; combout          ;
+; |another_DE2_to_one|switch4                                                      ; |another_DE2_to_one|switch4~corein                                               ; combout          ;
+; |another_DE2_to_one|switch5                                                      ; |another_DE2_to_one|switch5~corein                                               ; combout          ;
+; |another_DE2_to_one|switch6                                                      ; |another_DE2_to_one|switch6~corein                                               ; combout          ;
+; |another_DE2_to_one|switch7                                                      ; |another_DE2_to_one|switch7~corein                                               ; combout          ;
+; |another_DE2_to_one|switch8                                                      ; |another_DE2_to_one|switch8~corein                                               ; combout          ;
+; |another_DE2_to_one|switch9                                                      ; |another_DE2_to_one|switch9~corein                                               ; combout          ;
+; |another_DE2_to_one|switch10                                                     ; |another_DE2_to_one|switch10~corein                                              ; combout          ;
+; |another_DE2_to_one|switch11                                                     ; |another_DE2_to_one|switch11~corein                                              ; combout          ;
+; |another_DE2_to_one|switch12                                                     ; |another_DE2_to_one|switch12~corein                                              ; combout          ;
+; |another_DE2_to_one|switch13                                                     ; |another_DE2_to_one|switch13~corein                                              ; combout          ;
+; |another_DE2_to_one|switch14                                                     ; |another_DE2_to_one|switch14~corein                                              ; combout          ;
+; |another_DE2_to_one|switch15                                                     ; |another_DE2_to_one|switch15~corein                                              ; combout          ;
+; |another_DE2_to_one|switch16                                                     ; |another_DE2_to_one|switch16~corein                                              ; combout          ;
+; |another_DE2_to_one|switch17                                                     ; |another_DE2_to_one|switch17~corein                                              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[1]~feeder  ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[1]~feeder  ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[6]~feeder  ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[6]~feeder  ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[9]~feeder  ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[9]~feeder  ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[17]~feeder ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[17]~feeder ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[1]~feeder         ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[1]~feeder         ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[3]~feeder         ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[3]~feeder         ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[8]~feeder         ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[8]~feeder         ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[9]~feeder         ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[9]~feeder         ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[12]~feeder        ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[12]~feeder        ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[14]~feeder        ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[14]~feeder        ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[15]~feeder        ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[15]~feeder        ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[16]~feeder        ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[16]~feeder        ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[17]~feeder        ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[17]~feeder        ; combout          ;
++----------------------------------------------------------------------------------+----------------------------------------------------------------------------------+------------------+
+
+
+The following table displays output ports that do not toggle to 0 during simulation.
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Missing 0-Value Coverage                                                                                                                                                               ;
++----------------------------------------------------------------------------------+----------------------------------------------------------------------------------+------------------+
+; Node Name                                                                        ; Output Port Name                                                                 ; Output Port Type ;
++----------------------------------------------------------------------------------+----------------------------------------------------------------------------------+------------------+
+; |another_DE2_to_one|data_program:sending_out_the_data|M[5]                       ; |another_DE2_to_one|data_program:sending_out_the_data|M[5]                       ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[6]                       ; |another_DE2_to_one|data_program:sending_out_the_data|M[6]                       ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[7]                       ; |another_DE2_to_one|data_program:sending_out_the_data|M[7]                       ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[8]                       ; |another_DE2_to_one|data_program:sending_out_the_data|M[8]                       ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[9]                       ; |another_DE2_to_one|data_program:sending_out_the_data|M[9]                       ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[10]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[10]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[11]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[11]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[12]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[12]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[13]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[13]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[14]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[14]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[15]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[15]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[16]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[16]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[17]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[17]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[18]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[18]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[19]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[19]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[20]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[20]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[21]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[21]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[22]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[22]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[23]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[23]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[24]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[24]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[25]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[25]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[26]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[26]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[27]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[27]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[28]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[28]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[29]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[29]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[30]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[30]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[31]                      ; |another_DE2_to_one|data_program:sending_out_the_data|M[31]                      ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~468                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~469                   ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~470                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~470                   ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~470                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~471                   ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~472                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~472                   ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~472                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~473                   ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~474                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~474                   ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~474                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~475                   ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~476                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~476                   ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~476                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~477                   ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~478                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~478                   ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~478                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~479                   ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~480                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~480                   ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~480                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~481                   ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|Add0~482                   ; |another_DE2_to_one|data_program:sending_out_the_data|Add0~482                   ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[5]~1264                  ; |another_DE2_to_one|data_program:sending_out_the_data|M[5]~1588                  ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[6]~1265                  ; |another_DE2_to_one|data_program:sending_out_the_data|M[6]~1265                  ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[6]~1265                  ; |another_DE2_to_one|data_program:sending_out_the_data|M[6]~1589                  ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[7]~1266                  ; |another_DE2_to_one|data_program:sending_out_the_data|M[7]~1266                  ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[7]~1266                  ; |another_DE2_to_one|data_program:sending_out_the_data|M[7]~1590                  ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[8]~1267                  ; |another_DE2_to_one|data_program:sending_out_the_data|M[8]~1267                  ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[8]~1267                  ; |another_DE2_to_one|data_program:sending_out_the_data|M[8]~1591                  ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[9]~1268                  ; |another_DE2_to_one|data_program:sending_out_the_data|M[9]~1268                  ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[9]~1268                  ; |another_DE2_to_one|data_program:sending_out_the_data|M[9]~1592                  ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[10]~1269                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[10]~1269                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[10]~1269                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[10]~1593                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[11]~1270                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[11]~1270                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[11]~1270                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[11]~1594                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[12]~1271                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[12]~1271                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[12]~1271                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[12]~1595                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[13]~1272                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[13]~1272                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[13]~1272                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[13]~1596                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[14]~1273                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[14]~1273                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[14]~1273                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[14]~1597                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[15]~1274                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[15]~1274                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[15]~1274                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[15]~1598                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[16]~1275                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[16]~1275                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[16]~1275                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[16]~1599                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[17]~1276                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[17]~1276                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[17]~1276                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[17]~1600                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[18]~1277                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[18]~1277                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[18]~1277                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[18]~1601                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[19]~1278                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[19]~1278                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[19]~1278                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[19]~1602                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[20]~1279                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[20]~1279                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[20]~1279                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[20]~1603                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[21]~1280                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[21]~1280                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[21]~1280                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[21]~1604                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[22]~1281                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[22]~1281                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[22]~1281                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[22]~1605                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[23]~1282                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[23]~1282                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[23]~1282                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[23]~1606                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[24]~1283                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[24]~1283                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[24]~1283                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[24]~1607                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[25]~1284                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[25]~1284                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[25]~1284                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[25]~1608                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[26]~1285                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[26]~1285                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[26]~1285                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[26]~1609                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[27]~1286                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[27]~1286                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[27]~1286                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[27]~1610                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[28]~1287                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[28]~1287                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[28]~1287                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[28]~1611                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[29]~1288                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[29]~1288                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[29]~1288                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[29]~1612                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[30]~1289                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[30]~1289                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[30]~1289                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[30]~1613                 ; cout             ;
+; |another_DE2_to_one|data_program:sending_out_the_data|M[31]~1263                 ; |another_DE2_to_one|data_program:sending_out_the_data|M[31]~1263                 ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[0]                ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[0]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[1]                ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[1]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[2]                ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[2]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[3]                ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[3]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[4]                ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[4]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[5]                ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[5]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[6]                ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[6]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[7]                ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[7]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[8]                ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[8]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[9]                ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[9]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[10]               ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[10]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[11]               ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[11]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[12]               ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[12]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[13]               ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[13]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[14]               ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[14]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[15]               ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[15]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[16]               ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[16]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[17]               ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[17]               ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[17]        ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[17]        ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[16]        ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[16]        ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output~319            ; |another_DE2_to_one|data_program:sending_out_the_data|data_output~319            ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[10]        ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[10]        ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[9]         ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[9]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[8]         ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[8]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[11]        ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[11]        ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[5]         ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[5]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[6]         ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[6]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[4]         ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[4]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[7]         ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[7]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[2]         ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[2]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[1]         ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[1]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[0]         ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[0]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[3]         ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[3]         ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[13]        ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[13]        ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[14]        ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[14]        ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[12]        ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[12]        ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[15]        ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[15]        ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[13]                ; |another_DE2_to_one|data_program:sending_out_the_data|counter[13]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[12]                ; |another_DE2_to_one|data_program:sending_out_the_data|counter[12]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[11]                ; |another_DE2_to_one|data_program:sending_out_the_data|counter[11]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[10]                ; |another_DE2_to_one|data_program:sending_out_the_data|counter[10]                ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan3~192              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan3~192              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[9]                 ; |another_DE2_to_one|data_program:sending_out_the_data|counter[9]                 ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[8]                 ; |another_DE2_to_one|data_program:sending_out_the_data|counter[8]                 ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[7]                 ; |another_DE2_to_one|data_program:sending_out_the_data|counter[7]                 ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[6]                 ; |another_DE2_to_one|data_program:sending_out_the_data|counter[6]                 ; regout           ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan3~193              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan3~193              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~513              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~513              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~514              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~514              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~517              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~517              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~518              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~518              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~519              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~519              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~520              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~520              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~521              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~521              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~522              ; |another_DE2_to_one|data_program:sending_out_the_data|LessThan4~522              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[13]~1655           ; |another_DE2_to_one|data_program:sending_out_the_data|counter[13]~1655           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[12]~1656           ; |another_DE2_to_one|data_program:sending_out_the_data|counter[12]~1656           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[11]~1657           ; |another_DE2_to_one|data_program:sending_out_the_data|counter[11]~1657           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[10]~1658           ; |another_DE2_to_one|data_program:sending_out_the_data|counter[10]~1658           ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[9]~1659            ; |another_DE2_to_one|data_program:sending_out_the_data|counter[9]~1659            ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[8]~1660            ; |another_DE2_to_one|data_program:sending_out_the_data|counter[8]~1660            ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|counter[7]~1661            ; |another_DE2_to_one|data_program:sending_out_the_data|counter[7]~1661            ; combout          ;
+; |another_DE2_to_one|switch_reg_data[0]                                           ; |another_DE2_to_one|switch_reg_data[0]                                           ; padio            ;
+; |another_DE2_to_one|switch_reg_data[1]                                           ; |another_DE2_to_one|switch_reg_data[1]                                           ; padio            ;
+; |another_DE2_to_one|switch_reg_data[2]                                           ; |another_DE2_to_one|switch_reg_data[2]                                           ; padio            ;
+; |another_DE2_to_one|switch_reg_data[3]                                           ; |another_DE2_to_one|switch_reg_data[3]                                           ; padio            ;
+; |another_DE2_to_one|switch_reg_data[4]                                           ; |another_DE2_to_one|switch_reg_data[4]                                           ; padio            ;
+; |another_DE2_to_one|switch_reg_data[5]                                           ; |another_DE2_to_one|switch_reg_data[5]                                           ; padio            ;
+; |another_DE2_to_one|switch_reg_data[6]                                           ; |another_DE2_to_one|switch_reg_data[6]                                           ; padio            ;
+; |another_DE2_to_one|switch_reg_data[7]                                           ; |another_DE2_to_one|switch_reg_data[7]                                           ; padio            ;
+; |another_DE2_to_one|switch_reg_data[8]                                           ; |another_DE2_to_one|switch_reg_data[8]                                           ; padio            ;
+; |another_DE2_to_one|switch_reg_data[9]                                           ; |another_DE2_to_one|switch_reg_data[9]                                           ; padio            ;
+; |another_DE2_to_one|switch_reg_data[10]                                          ; |another_DE2_to_one|switch_reg_data[10]                                          ; padio            ;
+; |another_DE2_to_one|switch_reg_data[11]                                          ; |another_DE2_to_one|switch_reg_data[11]                                          ; padio            ;
+; |another_DE2_to_one|switch_reg_data[12]                                          ; |another_DE2_to_one|switch_reg_data[12]                                          ; padio            ;
+; |another_DE2_to_one|switch_reg_data[13]                                          ; |another_DE2_to_one|switch_reg_data[13]                                          ; padio            ;
+; |another_DE2_to_one|switch_reg_data[14]                                          ; |another_DE2_to_one|switch_reg_data[14]                                          ; padio            ;
+; |another_DE2_to_one|switch_reg_data[15]                                          ; |another_DE2_to_one|switch_reg_data[15]                                          ; padio            ;
+; |another_DE2_to_one|switch_reg_data[16]                                          ; |another_DE2_to_one|switch_reg_data[16]                                          ; padio            ;
+; |another_DE2_to_one|switch_reg_data[17]                                          ; |another_DE2_to_one|switch_reg_data[17]                                          ; padio            ;
+; |another_DE2_to_one|switch0                                                      ; |another_DE2_to_one|switch0~corein                                               ; combout          ;
+; |another_DE2_to_one|switch1                                                      ; |another_DE2_to_one|switch1~corein                                               ; combout          ;
+; |another_DE2_to_one|switch2                                                      ; |another_DE2_to_one|switch2~corein                                               ; combout          ;
+; |another_DE2_to_one|switch3                                                      ; |another_DE2_to_one|switch3~corein                                               ; combout          ;
+; |another_DE2_to_one|switch4                                                      ; |another_DE2_to_one|switch4~corein                                               ; combout          ;
+; |another_DE2_to_one|switch5                                                      ; |another_DE2_to_one|switch5~corein                                               ; combout          ;
+; |another_DE2_to_one|switch6                                                      ; |another_DE2_to_one|switch6~corein                                               ; combout          ;
+; |another_DE2_to_one|switch7                                                      ; |another_DE2_to_one|switch7~corein                                               ; combout          ;
+; |another_DE2_to_one|switch8                                                      ; |another_DE2_to_one|switch8~corein                                               ; combout          ;
+; |another_DE2_to_one|switch9                                                      ; |another_DE2_to_one|switch9~corein                                               ; combout          ;
+; |another_DE2_to_one|switch10                                                     ; |another_DE2_to_one|switch10~corein                                              ; combout          ;
+; |another_DE2_to_one|switch11                                                     ; |another_DE2_to_one|switch11~corein                                              ; combout          ;
+; |another_DE2_to_one|switch12                                                     ; |another_DE2_to_one|switch12~corein                                              ; combout          ;
+; |another_DE2_to_one|switch13                                                     ; |another_DE2_to_one|switch13~corein                                              ; combout          ;
+; |another_DE2_to_one|switch14                                                     ; |another_DE2_to_one|switch14~corein                                              ; combout          ;
+; |another_DE2_to_one|switch15                                                     ; |another_DE2_to_one|switch15~corein                                              ; combout          ;
+; |another_DE2_to_one|switch16                                                     ; |another_DE2_to_one|switch16~corein                                              ; combout          ;
+; |another_DE2_to_one|switch17                                                     ; |another_DE2_to_one|switch17~corein                                              ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[1]~feeder  ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[1]~feeder  ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[3]~feeder  ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[3]~feeder  ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[6]~feeder  ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[6]~feeder  ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[9]~feeder  ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[9]~feeder  ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[13]~feeder ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[13]~feeder ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[17]~feeder ; |another_DE2_to_one|data_program:sending_out_the_data|data_output_reg[17]~feeder ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[1]~feeder         ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[1]~feeder         ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[3]~feeder         ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[3]~feeder         ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[8]~feeder         ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[8]~feeder         ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[9]~feeder         ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[9]~feeder         ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[12]~feeder        ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[12]~feeder        ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[14]~feeder        ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[14]~feeder        ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[15]~feeder        ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[15]~feeder        ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[16]~feeder        ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[16]~feeder        ; combout          ;
+; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[17]~feeder        ; |another_DE2_to_one|data_program:sending_out_the_data|data_reg[17]~feeder        ; combout          ;
++----------------------------------------------------------------------------------+----------------------------------------------------------------------------------+------------------+
+
+
++---------------------+
+; Simulator INI Usage ;
++--------+------------+
+; Option ; Usage      ;
++--------+------------+
+
+
++--------------------+
+; Simulator Messages ;
++--------------------+
+Info: *******************************************************************
+Info: Running Quartus II Simulator
+    Info: Version 7.1 Build 178 06/25/2007 Service Pack 1 SJ Full Version
+    Info: Processing started: Tue Jun 08 19:14:56 2010
+Info: Command: quartus_sim --read_settings_files=on --write_settings_files=off another_DE2_to_one -c another_DE2_to_one
+Info: Using vector source file "C:/altera/71/quartus/another_DE2_to_one/another_DE2_to_one.vwf"
+Info: Option to preserve fewer signal transitions to reduce memory requirements is enabled
+    Info: Simulation has been partitioned into sub-simulations according to the maximum transition count determined by the engine. Transitions from memory will be flushed out to disk at the end of each sub-simulation to reduce memory requirements.
+Info: Simulation partitioned into 1 sub-simulations
+Info: Simulation coverage is      30.87 %
+Info: Number of transitions in simulation is 2991
+Info: Quartus II Simulator was successful. 0 errors, 0 warnings
+    Info: Allocated 99 megabytes of memory during processing
+    Info: Processing ended: Tue Jun 08 19:14:57 2010
+    Info: Elapsed time: 00:00:01
+
+

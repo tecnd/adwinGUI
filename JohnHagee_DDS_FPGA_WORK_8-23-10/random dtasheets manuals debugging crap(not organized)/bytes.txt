@@ -1,0 +1,64 @@
+ hi to lo
+
+sendByte(DR_STEP_ADDRESS)
+sendByte(commandlist[CLrdInd
+sendByte(commandlist[CLrdInd][10]);
+sendByte(commandlist[CLrdInd][11]);
+ sendByte(commandlist[CLrdInd][12]);
+sendByte(0xFF);
+sendByte(0xFF);
+sendByte(0xFF);
+sendByte(0xFF);
+
+
+sendByte(DR_RATE_ADDRESS);  
+sendByte(commandlist[CLrdInd][13]);
+sendByte(commandlist[CLrdInd][14]);
+sendByte(0x00);
+sendByte(0x01);
+
+
+
+sendByte(DR_LIMIT_ADDRESS);	
+sendByte(commandlist[CLrdInd][1]);
+sendByte(commandlist[CLrdInd][2]);
+sendByte(commandlist[CLrdInd][3]);
+sendByte(commandlist[CLrdInd][4]);
+sendByte(commandlist[CLrdInd][5]);
+sendByte(commandlist[CLrdInd][6]);
+sendByte(commandlist[CLrdInd][7]);
+sendByte(commandlist[CLrdInd][8]);
+
+
+Lo to Hi
+
+sendByte(DR_STEP_ADDRESS)
+sendByte(0xFF);
+sendByte(0xFF);
+sendByte(0xFF);
+sendByte(0xFF);
+sendByte(commandlist[CLrdInd
+sendByte(commandlist[CLrdInd][10]);
+sendByte(commandlist[CLrdInd][11]);
+ sendByte(commandlist[CLrdInd][12]);
+
+
+
+sendByte(DR_RATE_ADDRESS);  
+sendByte(0x00);
+sendByte(0x01);
+sendByte(commandlist[CLrdInd][13]);
+sendByte(commandlist[CLrdInd][14]);
+
+
+
+
+sendByte(DR_LIMIT_ADDRESS);	
+sendByte(commandlist[CLrdInd][1]);\
+sendByte(commandlist[CLrdInd][2]); \
+sendByte(commandlist[CLrdInd][3]);  \
+sendByte(commandlist[CLrdInd][4]);
+sendByte(commandlist[CLrdInd][5]);
+sendByte(commandlist[CLrdInd][6]);
+sendByte(commandlist[CLrdInd][7]);
+sendByte(commandlist[CLrdInd][8]);

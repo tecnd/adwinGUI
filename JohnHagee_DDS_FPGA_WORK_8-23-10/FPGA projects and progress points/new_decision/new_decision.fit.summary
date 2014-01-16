@@ -1,0 +1,17 @@
+Fitter Status : Successful - Fri Aug 13 10:10:57 2010
+Quartus II Version : 7.1 Build 178 06/25/2007 SP 1 SJ Full Version
+Revision Name : new_decision
+Top-level Entity Name : new_decision
+Family : Stratix II
+Device : EP2S30F484C3
+Timing Models : Final
+Logic utilization : 29 %
+    Combinational ALUTs : 7,779 / 27,104 ( 29 % )
+    Dedicated logic registers : 5,628 / 27,104 ( 21 % )
+Total registers : 5628
+Total pins : 23 / 343 ( 7 % )
+Total virtual pins : 0
+Total block memory bits : 256 / 1,369,728 ( < 1 % )
+DSP block 9-bit elements : 0 / 128 ( 0 % )
+Total PLLs : 0 / 6 ( 0 % )
+Total DLLs : 0 / 2 ( 0 % )

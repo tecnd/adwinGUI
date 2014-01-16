@@ -1,0 +1,28 @@
+<internal_error>
+	<executable>quartus.exe</executable>
+	<sub_system>AFC</sub_system>
+	<file>/quartus/gcl/afc/afc_editor_template.cpp</file>
+	<line>978</line>
+	<callstack>
+	0x10007c9e: GCL_AFC + 0x7c9e (?get_compile_short_menu@AFC_EDITOR_TEMPLATE@@UAEPAUHMENU__@@XZ + 0x3e)
+	</callstack>
+	<error>Not enough memory to complete operation</error>
+	<date>Fri Jul 16 17:07:57 2010</date>
+	<version>Quartus II Version 7.1 Build 178 06/25/2007 Service Pack 1 SJ Full Version</version>
+	<full_error>Not enough memory to complete operation
+Quartus II Version 7.1 Build 178 06/25/2007 Service Pack 1 SJ Full Version </full_error>
+</internal_error>
+<internal_error>
+	<executable>quartus_map.exe</executable>
+	<sub_system>SGN</sub_system>
+	<file>/quartus/synth/sgn/sgn_proc_info.cpp</file>
+	<line>4719</line>
+	<callstack>
+	0x0429d072: synth_sgn + 0xd072 (?sgn_start@@YA_NPAVCMP_FACADE@@ABV?$basic_string@DU?$char_traits@D@_Dinkum_std@@V?$MEM_STL_ALLOCATOR@D@@@_Dinkum_std@@ABV?$vector@V?$basic_string@DU?$char_traits@D@_Dinkum_std@@V?$MEM_STL_ALLOCATOR@D@@@_Dinkum_std@@V?$MEM_STL_ALLOCATOR@V?$basic_string@DU?$char_traits@D@_Dinkum_std@@V?$MEM_STL_ALLOCATOR@D@@@_Dinkum_std@@@@@3@ABV?$vector@W4SMART_ACTION@HDB_CMP_ACTION_PT_INSTANCE@@V?$MEM_STL_ALLOCATOR@W4SMART_ACTION@HDB_CMP_ACTION_PT_INSTANCE@@@@@3@@Z + 0xb2e2)
+	</callstack>
+	<error>!hierarchy_name-&gt;get_flag().test_flag(HDB_INSTANCE_NAME_FLAG::VISITED)</error>
+	<date>Fri Jul 16 18:10:28 2010</date>
+	<version>Quartus II Version 7.1 Build 178 06/25/2007 Service Pack 1 SJ Full Version</version>
+	<full_error>!hierarchy_name-&gt;get_flag().test_flag(HDB_INSTANCE_NAME_FLAG::VISITED)
+Quartus II Version 7.1 Build 178 06/25/2007 Service Pack 1 SJ Full Version </full_error>
+</internal_error>

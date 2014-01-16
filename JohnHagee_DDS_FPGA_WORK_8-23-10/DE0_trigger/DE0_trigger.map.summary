@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Fri Aug 13 14:09:35 2010
+Quartus II Version : 10.0 Build 218 06/27/2010 SJ Full Version
+Revision Name : DE0_trigger
+Top-level Entity Name : DE0_trigger
+Family : Cyclone III
+Total logic elements : 54
+    Total combinational functions : 54
+    Dedicated logic registers : 34
+Total registers : 34
+Total pins : 4
+Total virtual pins : 0
+Total memory bits : 0
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 0

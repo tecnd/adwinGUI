@@ -1,0 +1,1 @@
+Warning (10268): Verilog HDL information at Rabbit_2_FPGA_2_DDS_FIFO.v(101): Always Construct contains both blocking and non-blocking assignments

@@ -1,0 +1,458 @@
+Analysis & Synthesis report for DDS_control_I
+Thu Jul 15 17:07:54 2010
+Quartus II Version 7.1 Build 178 06/25/2007 Service Pack 1 SJ Full Version
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Analysis & Synthesis Source Files Read
+  5. Analysis & Synthesis Resource Usage Summary
+  6. Analysis & Synthesis Resource Utilization by Entity
+  7. Registers Removed During Synthesis
+  8. General Register Statistics
+  9. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 10. Parameter Settings for User Entity Instance: Top-level Entity: |DDS_control_I
+ 11. Analysis & Synthesis Messages
+ 12. Analysis & Synthesis Suppressed Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2007 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++------------------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                                       ;
++------------------------------------+-----------------------------------------------+
+; Analysis & Synthesis Status        ; Successful - Thu Jul 15 17:07:54 2010         ;
+; Quartus II Version                 ; 7.1 Build 178 06/25/2007 SP 1 SJ Full Version ;
+; Revision Name                      ; DDS_control_I                                 ;
+; Top-level Entity Name              ; DDS_control_I                                 ;
+; Family                             ; Cyclone II                                    ;
+; Total logic elements               ; 301                                           ;
+;     Total combinational functions  ; 301                                           ;
+;     Dedicated logic registers      ; 143                                           ;
+; Total registers                    ; 143                                           ;
+; Total pins                         ; 17                                            ;
+; Total virtual pins                 ; 0                                             ;
+; Total memory bits                  ; 0                                             ;
+; Embedded Multiplier 9-bit elements ; 0                                             ;
+; Total PLLs                         ; 0                                             ;
++------------------------------------+-----------------------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                                            ;
++--------------------------------------------------------------------------------+--------------------+--------------------+
+; Option                                                                         ; Setting            ; Default Value      ;
++--------------------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                                         ; EP2C35F672C6       ;                    ;
+; Top-level entity name                                                          ; DDS_control_I      ; DDS_control_I      ;
+; Family name                                                                    ; Cyclone II         ; Stratix II         ;
+; Restructure Multiplexers                                                       ; Auto               ; Auto               ;
+; Create Debugging Nodes for IP Cores                                            ; Off                ; Off                ;
+; Preserve fewer node names                                                      ; On                 ; On                 ;
+; Disable OpenCore Plus hardware evaluation                                      ; Off                ; Off                ;
+; Verilog Version                                                                ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                                   ; VHDL93             ; VHDL93             ;
+; State Machine Processing                                                       ; Auto               ; Auto               ;
+; Safe State Machine                                                             ; Off                ; Off                ;
+; Extract Verilog State Machines                                                 ; On                 ; On                 ;
+; Extract VHDL State Machines                                                    ; On                 ; On                 ;
+; Ignore Verilog initial constructs                                              ; Off                ; Off                ;
+; Add Pass-Through Logic to Inferred RAMs                                        ; On                 ; On                 ;
+; DSP Block Balancing                                                            ; Auto               ; Auto               ;
+; NOT Gate Push-Back                                                             ; On                 ; On                 ;
+; Power-Up Don't Care                                                            ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                                   ; Off                ; Off                ;
+; Remove Duplicate Registers                                                     ; On                 ; On                 ;
+; Ignore CARRY Buffers                                                           ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                                         ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                                          ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                                      ; Off                ; Off                ;
+; Ignore LCELL Buffers                                                           ; Off                ; Off                ;
+; Ignore SOFT Buffers                                                            ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                                 ; Off                ; Off                ;
+; Optimization Technique -- Cyclone II/Cyclone III                               ; Balanced           ; Balanced           ;
+; Carry Chain Length -- Stratix/Stratix GX/Cyclone/MAX II/Cyclone II/Cyclone III ; 70                 ; 70                 ;
+; Auto Carry Chains                                                              ; On                 ; On                 ;
+; Auto Open-Drain Pins                                                           ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                                          ; Off                ; Off                ;
+; Perform gate-level register retiming                                           ; Off                ; Off                ;
+; Allow register retiming to trade off Tsu/Tco with Fmax                         ; On                 ; On                 ;
+; Auto ROM Replacement                                                           ; On                 ; On                 ;
+; Auto RAM Replacement                                                           ; On                 ; On                 ;
+; Auto Shift Register Replacement                                                ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                                  ; On                 ; On                 ;
+; Allow Synchronous Control Signals                                              ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                                         ; Off                ; Off                ;
+; Auto RAM to Logic Cell Conversion                                              ; Off                ; Off                ;
+; Auto Resource Sharing                                                          ; Off                ; Off                ;
+; Allow Any RAM Size For Recognition                                             ; Off                ; Off                ;
+; Allow Any ROM Size For Recognition                                             ; Off                ; Off                ;
+; Allow Any Shift Register Size For Recognition                                  ; Off                ; Off                ;
+; Ignore translate_off and synthesis_off directives                              ; Off                ; Off                ;
+; Show Parameter Settings Tables in Synthesis Report                             ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                                             ; Off                ; Off                ;
+; Retiming Meta-Stability Register Sequence Length                               ; 2                  ; 2                  ;
+; PowerPlay Power Optimization                                                   ; Normal compilation ; Normal compilation ;
+; HDL message level                                                              ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                                ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report                       ; 100                ; 100                ;
+; Clock MUX Protection                                                           ; On                 ; On                 ;
+; Use smart compilation                                                          ; Off                ; Off                ;
++--------------------------------------------------------------------------------+--------------------+--------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                              ;
++----------------------------------+-----------------+-----------+----------------------------------------------------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type ; File Name with Absolute Path                       ;
++----------------------------------+-----------------+-----------+----------------------------------------------------+
+; DDS_control_I.v                  ; yes             ; Other     ; C:/altera/71/quartus/DDS_control_I/DDS_control_I.v ;
++----------------------------------+-----------------+-----------+----------------------------------------------------+
+
+
++----------------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary                    ;
++---------------------------------------------+------------------+
+; Resource                                    ; Usage            ;
++---------------------------------------------+------------------+
+; Estimated Total logic elements              ; 301              ;
+;                                             ;                  ;
+; Total combinational functions               ; 301              ;
+; Logic element usage by number of LUT inputs ;                  ;
+;     -- 4 input functions                    ; 158              ;
+;     -- 3 input functions                    ; 24               ;
+;     -- <=2 input functions                  ; 119              ;
+;                                             ;                  ;
+; Logic elements by mode                      ;                  ;
+;     -- normal mode                          ; 200              ;
+;     -- arithmetic mode                      ; 101              ;
+;                                             ;                  ;
+; Total registers                             ; 143              ;
+;     -- Dedicated logic registers            ; 143              ;
+;     -- I/O registers                        ; 0                ;
+;                                             ;                  ;
+; I/O pins                                    ; 17               ;
+; Maximum fan-out node                        ; fifty_MHz_intclk ;
+; Maximum fan-out                             ; 143              ;
+; Total fan-out                               ; 1407             ;
+; Average fan-out                             ; 3.05             ;
++---------------------------------------------+------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                         ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------+--------------+
+; Compilation Hierarchy Node ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name ; Library Name ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------+--------------+
+; |DDS_control_I             ; 301 (301)         ; 143 (143)    ; 0           ; 0            ; 0       ; 0         ; 17   ; 0            ; |DDS_control_I      ; work         ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                                                                                 ;
++---------------------------------------------------------------------------------------------------------------------------+----------------------------------------+
+; Register name                                                                                                             ; Reason for Removal                     ;
++---------------------------------------------------------------------------------------------------------------------------+----------------------------------------+
+; SWEEP_REG[0..3,6..7,72..75,78,80..89,96..105,112..115,117,120..122,125,137,141,145,152..155,157,162,169..170,173,177,182] ; Stuck at GND due to stuck port data_in ;
+; DR_HOLD~reg0                                                                                                              ; Stuck at GND due to stuck port data_in ;
+; OSK~reg0                                                                                                                  ; Stuck at GND due to stuck port data_in ;
+; CSB~reg0                                                                                                                  ; Stuck at GND due to stuck port data_in ;
+; SWEEP_REG[8..35,39]                                                                                                       ; Merged with SWEEP_REG[37]              ;
+; SWEEP_REG[4..5,36,68,70,76..77,79,116,118..119,127,131,135,147,151]                                                       ; Merged with SWEEP_REG[38]              ;
+; SWEEP_REG[41..67,69,71]                                                                                                   ; Merged with SWEEP_REG[40]              ;
+; SWEEP_REG[130,138,150]                                                                                                    ; Merged with SWEEP_REG[123]             ;
+; SWEEP_REG[132,136,144]                                                                                                    ; Merged with SWEEP_REG[124]             ;
+; SWEEP_REG[134,142,146]                                                                                                    ; Merged with SWEEP_REG[126]             ;
+; SWEEP_REG[140,148]                                                                                                        ; Merged with SWEEP_REG[128]             ;
+; SWEEP_REG[133,149]                                                                                                        ; Merged with SWEEP_REG[129]             ;
+; SWEEP_REG[143]                                                                                                            ; Merged with SWEEP_REG[139]             ;
+; SWEEP_REG[164,168,171,175..176]                                                                                           ; Merged with SWEEP_REG[156]             ;
+; SWEEP_REG[161,165..166,174,178,181]                                                                                       ; Merged with SWEEP_REG[158]             ;
+; SWEEP_REG[160,163,167,172,180]                                                                                            ; Merged with SWEEP_REG[159]             ;
+; SWEEP_REG[183]                                                                                                            ; Merged with SWEEP_REG[179]             ;
+; sweep_end_flag                                                                                                            ; Merged with init_end_flag              ;
+; N[9..31]                                                                                                                  ; Lost fanout                            ;
+; Total Number of Removed Registers = 186                                                                                   ;                                        ;
++---------------------------------------------------------------------------------------------------------------------------+----------------------------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 143   ;
+; Number of registers using Synchronous Clear  ; 105   ;
+; Number of registers using Synchronous Load   ; 0     ;
+; Number of registers using Asynchronous Clear ; 0     ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 73    ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                           ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
+; 4:1                ; 32 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |DDS_control_I|L[10]       ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |DDS_control_I|M[28]       ;
+; 7:1                ; 32 bits   ; 128 LEs       ; 32 LEs               ; 96 LEs                 ; Yes        ; |DDS_control_I|N[8]        ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: Top-level Entity: |DDS_control_I                                                                                                                                                                                               ;
++----------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+
+; Parameter Name ; Value                                                                                                                                                                                                                                    ; Type            ;
++----------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+
+; INIT_REG       ; 0000101100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000010000000001001000000000000010000000000010001101010011111111000001110010000000001100000000000000000000000000000000 ; Unsigned Binary ;
++----------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings Tables in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus II Analysis & Synthesis
+    Info: Version 7.1 Build 178 06/25/2007 Service Pack 1 SJ Full Version
+    Info: Processing started: Thu Jul 15 17:07:48 2010
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off DDS_control_I -c DDS_control_I
+Warning: Using design file DDS_control_I.v, which is not specified as a design file for the current project, but contains definitions for 1 design units and 1 entities in project
+    Info: Found entity 1: DDS_control_I
+Info: Elaborating entity "DDS_control_I" for the top level hierarchy
+Warning (10036): Verilog HDL or VHDL warning at DDS_control_I.v(30): object "P" assigned a value but never read
+Warning: Reduced register "SWEEP_REG[72]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[73]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[74]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[75]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[78]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[80]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[81]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[82]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[83]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[84]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[85]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[86]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[87]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[88]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[89]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[96]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[97]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[98]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[99]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[100]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[101]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[102]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[103]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[104]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[105]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[112]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[113]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[114]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[115]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[117]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[120]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[121]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[122]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[125]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[137]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[141]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[145]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[152]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[153]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[154]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[155]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[157]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[162]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[169]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[170]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[173]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[177]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[182]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[7]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[6]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[3]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[2]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[1]" with stuck data_in port to stuck value GND
+Warning: Reduced register "SWEEP_REG[0]" with stuck data_in port to stuck value GND
+Warning: Reduced register "DR_HOLD~reg0" with stuck data_in port to stuck value GND
+Warning: Reduced register "OSK~reg0" with stuck data_in port to stuck value GND
+Warning: Reduced register "CSB~reg0" with stuck data_in port to stuck value GND
+Info: Duplicate registers merged to single register
+    Info: Duplicate register "SWEEP_REG[8]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[9]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[10]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[11]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[12]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[13]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[14]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[15]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[16]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[17]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[18]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[19]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[20]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[21]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[22]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[23]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[24]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[25]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[26]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[27]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[28]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[29]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[30]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[31]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[32]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[33]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[34]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[35]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[39]" merged to single register "SWEEP_REG[37]"
+    Info: Duplicate register "SWEEP_REG[4]" merged to single register "SWEEP_REG[38]"
+    Info: Duplicate register "SWEEP_REG[5]" merged to single register "SWEEP_REG[38]"
+    Info: Duplicate register "SWEEP_REG[36]" merged to single register "SWEEP_REG[38]"
+    Info: Duplicate register "SWEEP_REG[151]" merged to single register "SWEEP_REG[38]"
+    Info: Duplicate register "SWEEP_REG[147]" merged to single register "SWEEP_REG[38]"
+    Info: Duplicate register "SWEEP_REG[135]" merged to single register "SWEEP_REG[38]"
+    Info: Duplicate register "SWEEP_REG[131]" merged to single register "SWEEP_REG[38]"
+    Info: Duplicate register "SWEEP_REG[127]" merged to single register "SWEEP_REG[38]"
+    Info: Duplicate register "SWEEP_REG[119]" merged to single register "SWEEP_REG[38]"
+    Info: Duplicate register "SWEEP_REG[118]" merged to single register "SWEEP_REG[38]"
+    Info: Duplicate register "SWEEP_REG[116]" merged to single register "SWEEP_REG[38]"
+    Info: Duplicate register "SWEEP_REG[79]" merged to single register "SWEEP_REG[38]"
+    Info: Duplicate register "SWEEP_REG[77]" merged to single register "SWEEP_REG[38]"
+    Info: Duplicate register "SWEEP_REG[76]" merged to single register "SWEEP_REG[38]"
+    Info: Duplicate register "SWEEP_REG[70]" merged to single register "SWEEP_REG[38]"
+    Info: Duplicate register "SWEEP_REG[68]" merged to single register "SWEEP_REG[38]"
+    Info: Duplicate register "SWEEP_REG[71]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[69]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[67]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[66]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[65]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[64]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[63]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[62]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[61]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[60]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[59]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[58]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[57]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[56]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[55]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[54]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[53]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[52]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[51]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[50]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[49]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[48]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[47]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[46]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[45]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[44]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[43]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[42]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[41]" merged to single register "SWEEP_REG[40]"
+    Info: Duplicate register "SWEEP_REG[150]" merged to single register "SWEEP_REG[123]"
+    Info: Duplicate register "SWEEP_REG[138]" merged to single register "SWEEP_REG[123]"
+    Info: Duplicate register "SWEEP_REG[130]" merged to single register "SWEEP_REG[123]"
+    Info: Duplicate register "SWEEP_REG[144]" merged to single register "SWEEP_REG[124]"
+    Info: Duplicate register "SWEEP_REG[136]" merged to single register "SWEEP_REG[124]"
+    Info: Duplicate register "SWEEP_REG[132]" merged to single register "SWEEP_REG[124]"
+    Info: Duplicate register "SWEEP_REG[146]" merged to single register "SWEEP_REG[126]"
+    Info: Duplicate register "SWEEP_REG[142]" merged to single register "SWEEP_REG[126]"
+    Info: Duplicate register "SWEEP_REG[134]" merged to single register "SWEEP_REG[126]"
+    Info: Duplicate register "SWEEP_REG[148]" merged to single register "SWEEP_REG[128]"
+    Info: Duplicate register "SWEEP_REG[140]" merged to single register "SWEEP_REG[128]"
+    Info: Duplicate register "SWEEP_REG[149]" merged to single register "SWEEP_REG[129]"
+    Info: Duplicate register "SWEEP_REG[133]" merged to single register "SWEEP_REG[129]"
+    Info: Duplicate register "SWEEP_REG[143]" merged to single register "SWEEP_REG[139]"
+    Info: Duplicate register "SWEEP_REG[176]" merged to single register "SWEEP_REG[156]"
+    Info: Duplicate register "SWEEP_REG[175]" merged to single register "SWEEP_REG[156]"
+    Info: Duplicate register "SWEEP_REG[171]" merged to single register "SWEEP_REG[156]"
+    Info: Duplicate register "SWEEP_REG[168]" merged to single register "SWEEP_REG[156]"
+    Info: Duplicate register "SWEEP_REG[164]" merged to single register "SWEEP_REG[156]"
+    Info: Duplicate register "SWEEP_REG[181]" merged to single register "SWEEP_REG[158]"
+    Info: Duplicate register "SWEEP_REG[178]" merged to single register "SWEEP_REG[158]"
+    Info: Duplicate register "SWEEP_REG[174]" merged to single register "SWEEP_REG[158]"
+    Info: Duplicate register "SWEEP_REG[166]" merged to single register "SWEEP_REG[158]"
+    Info: Duplicate register "SWEEP_REG[165]" merged to single register "SWEEP_REG[158]"
+    Info: Duplicate register "SWEEP_REG[161]" merged to single register "SWEEP_REG[158]"
+    Info: Duplicate register "SWEEP_REG[180]" merged to single register "SWEEP_REG[159]"
+    Info: Duplicate register "SWEEP_REG[172]" merged to single register "SWEEP_REG[159]"
+    Info: Duplicate register "SWEEP_REG[167]" merged to single register "SWEEP_REG[159]"
+    Info: Duplicate register "SWEEP_REG[163]" merged to single register "SWEEP_REG[159]"
+    Info: Duplicate register "SWEEP_REG[160]" merged to single register "SWEEP_REG[159]"
+    Info: Duplicate register "SWEEP_REG[183]" merged to single register "SWEEP_REG[179]"
+    Info: Duplicate register "sweep_end_flag" merged to single register "init_end_flag"
+Warning: Output pins are stuck at VCC or GND
+    Warning: Pin "CSB" stuck at GND
+    Warning: Pin "DR_HOLD" stuck at GND
+    Warning: Pin "OSK" stuck at GND
+Info: 23 registers lost all their fanouts during netlist optimizations. The first 23 are displayed below.
+    Info: Register "N[9]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[10]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[11]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[12]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[13]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[14]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[15]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[16]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[17]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[18]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[19]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[20]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[21]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[22]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[23]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[24]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[25]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[26]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[27]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[28]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[29]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[30]" lost all its fanouts during netlist optimizations.
+    Info: Register "N[31]" lost all its fanouts during netlist optimizations.
+Info: Generated suppressed messages file C:/altera/71/quartus/DDS_control_I/DDS_control_I.map.smsg
+Info: Implemented 323 device resources after synthesis - the final resource count might be different
+    Info: Implemented 8 input pins
+    Info: Implemented 9 output pins
+    Info: Implemented 306 logic cells
+Info: Quartus II Analysis & Synthesis was successful. 0 errors, 63 warnings
+    Info: Allocated 144 megabytes of memory during processing
+    Info: Processing ended: Thu Jul 15 17:07:54 2010
+    Info: Elapsed time: 00:00:06
+
+
++------------------------------------------+
+; Analysis & Synthesis Suppressed Messages ;
++------------------------------------------+
+The suppressed messages can be found in C:/altera/71/quartus/DDS_control_I/DDS_control_I.map.smsg.
+
+

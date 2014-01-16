@@ -1,7 +1,7 @@
 [Workspace Header]
 Version = 810
-Pathname Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/GU"
-Pathname Line0002 = "IDesign.cws"
+Pathname Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/GUIDesign."
+Pathname Line0002 = "cws"
 CVI Dir = "/c/program files/national instruments/labview 8.2/cvi81"
 IVI Standard Root Dir = "/C/Program Files/IVI"
 VXIplug&play Framework Dir = "/C/VXIPNP/winnt"
@@ -9,12 +9,12 @@ Number of Projects = 1
 Active Project = 1
 Project 0001 = "GUIDesign.prj"
 Drag Bar Left = 204
-Window Top = 41
+Window Top = 118
 Window Left = 239
-Window Bottom = 543
+Window Bottom = 620
 Window Right = 1029
 Maximized = True
-Maximized Children = True
+Maximized Children = False
 Max Number Of Errors = 40
 Track Include File Dependencies = True
 Prompt For Missing Includes = True
@@ -26,7 +26,7 @@ Hide Windows = False
 Global Hot Key = False
 Break At First Statement = False
 Sort Type = "File Name"
-Number of Opened Files = 23
+Number of Opened Files = 1
 Window Confinement Region Enabled = True
 MainColumnWidth = 185
 FileDateColumnWidth = 70
@@ -44,275 +44,61 @@ Batch Build Debug = True
 Force Rebuild = False
 
 [File 0001]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/An"
-Path Line0002 = "alogControl.c"
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/AnalogCont"
+Path Line0002 = "rol.c"
 File Type = "CSource"
 Disk Date = 3232125452
 In Projects = "1,"
 Window Top = 185
 Window Left = 89
-Window Z-Order = 6
-Source Window State = "1,28,28,28,12,56,12,0,0,80,0,0,0,0,0,24,0,0,28,73,343,670,1,0,"
+Source Window State = "1,28,28,28,12,56,12,0,0,0,0,0,0,0,0,0,154,0,211,20,343,670,1,0,"
 Breakpoint 0001 = "8,0,disabled,"
 Breakpoint 0002 = "20,0,disabled,"
 
 [File 0002]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/GU"
-Path Line0002 = "IDesign.c"
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/GUIDesign."
+Path Line0002 = "c"
 File Type = "CSource"
-Disk Date = 3363644796
+Disk Date = 3464949176
 In Projects = "1,"
-Window Top = 32
-Window Left = 6
+Window Top = 128
+Window Left = 9
 Window Z-Order = 1
-Source Window State = "1,1758,1759,1759,0,0,0,0,0,102,0,0,0,0,0,107,306,0,692,37,271,516,1,0,"
-Breakpoint 0001 = "3551,0,enabled,"
-Breakpoint 0002 = "3728,0,enabled,"
+Source Window State = "1,1079,1079,1079,18,26,26,0,0,100,0,901,0,0,0,59,1024,0,1079,70,798,836,1,0,"
+Breakpoint 0001 = "3793,0,enabled,"
+Breakpoint 0002 = "3970,0,enabled,"
 
 [File 0003]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/Ad"
-Path Line0002 = "win.c"
+Path = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/Adwin.c"
 File Type = "CSource"
 Disk Date = 3190914854
 In Projects = "1,"
 Window Top = 155
 Window Left = 73
-Window Z-Order = 2
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,0,0,346,42,343,670,1,0,"
+Source Window State = "1,1356,1424,1424,37,71,71,0,0,0,0,0,0,0,0,0,171,0,224,3,343,670,1,0,"
 
 [File 0004]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/Ad"
-Path Line0002 = "win.h"
+Path = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/Adwin.h"
 File Type = "Include"
 Disk Date = 3117121292
 In Projects = "1,"
-Window Top = 454
-Window Left = 265
-Window Z-Order = 9
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,80,0,0,0,343,670,1,0,"
+Window Top = 399
+Window Left = -180
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,69,0,88,10,418,907,1,0,"
 
 [File 0005]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/An"
-Path Line0002 = "alogControl.h"
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/AnalogCont"
+Path Line0002 = "rol.h"
 File Type = "Include"
 Disk Date = 3232122352
 In Projects = "1,"
 Window Top = 454
 Window Left = 281
-Window Z-Order = 17
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,0,0,0,0,343,670,1,0,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0,34,21,343,670,1,0,"
 
 [File 0006]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/An"
-Path Line0002 = "alogControl2.h"
-File Type = "Include"
-Disk Date = 3174054178
-In Projects = "1,"
-Window Top = 35
-Window Left = 9
-Window Z-Order = 16
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,0,0,0,0,343,670,1,0,"
-
-[File 0007]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/An"
-Path Line0002 = "alogSettings.c"
-File Type = "CSource"
-Disk Date = 3227099762
-In Projects = "1,"
-Window Top = 215
-Window Left = 105
-Window Z-Order = 7
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,97,0,0,0,343,670,1,0,"
-
-[File 0008]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/An"
-Path Line0002 = "alogSettings.h"
-File Type = "Include"
-Disk Date = 3214412172
-In Projects = "1,"
-Window Top = 65
-Window Left = 25
-Window Z-Order = 15
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,0,0,0,0,343,670,1,0,"
-
-[File 0009]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/An"
-Path Line0002 = "alogSettings2.h"
-File Type = "Include"
-Disk Date = 3174054128
-In Projects = "1,"
-Window Top = 95
-Window Left = 41
-Window Z-Order = 14
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,0,0,0,0,343,670,1,0,"
-
-[File 0010]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/DD"
-Path Line0002 = "SControl.c"
-File Type = "CSource"
-Disk Date = 3204571314
-In Projects = "1,"
-Window Top = 245
-Window Left = 121
-Window Z-Order = 19
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,0,0,0,0,343,670,1,0,"
-
-[File 0011]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/DD"
-Path Line0002 = "SControl.h"
-File Type = "Include"
-Disk Date = 3204571168
-In Projects = "1,"
-Window Top = 125
-Window Left = 57
-Window Z-Order = 13
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,0,0,0,0,343,670,1,0,"
-
-[File 0012]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/DD"
-Path Line0002 = "SSettings.c"
-File Type = "CSource"
-Disk Date = 3227099846
-In Projects = "1,"
-Window Top = 275
-Window Left = 137
-Window Z-Order = 20
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,0,0,0,0,343,670,1,0,"
-
-[File 0013]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/dd"
-Path Line0002 = "stranslator.c"
-File Type = "CSource"
-Disk Date = 3232452780
-In Projects = "1,"
-Window Top = 305
-Window Left = 153
-Window Z-Order = 21
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,0,0,0,0,343,670,1,0,"
-
-[File 0014]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/Di"
-Path Line0002 = "gitalSettings.c"
-File Type = "CSource"
-Disk Date = 3227100118
-In Projects = "1,"
-Window Top = 335
-Window Left = 169
-Window Z-Order = 22
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,0,0,0,0,343,670,1,0,"
-
-[File 0015]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/Di"
-Path Line0002 = "gitalSettings.h"
-File Type = "Include"
-Disk Date = 3214412144
-In Projects = "1,"
-Window Top = 155
-Window Left = 73
-Window Z-Order = 5
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,0,0,0,0,343,670,1,0,"
-
-[File 0016]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/Di"
-Path Line0002 = "gitalSettings2.h"
-File Type = "Include"
-Disk Date = 3174054198
-In Projects = "1,"
-Window Top = 185
-Window Left = 89
-Window Z-Order = 4
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,0,0,0,0,343,670,1,0,"
-
-[File 0017]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/GU"
-Path Line0002 = "IDesign.h"
-File Type = "Include"
-Disk Date = 3232118768
-In Projects = "1,"
-Window Top = 454
-Window Left = 233
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,0,0,131,9,343,670,1,0,"
-
-[File 0018]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/GU"
-Path Line0002 = "IDesign2.h"
-File Type = "Include"
-Disk Date = 3232388558
-In Projects = "1,"
-Window Top = 454
-Window Left = 249
-Window Z-Order = 18
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,0,0,0,0,343,670,1,0,"
-
-[File 0019]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/ma"
-Path Line0002 = "in.c"
-File Type = "CSource"
-Disk Date = 3363644905
-In Projects = "1,"
-Window Top = 365
-Window Left = 185
-Window Z-Order = 3
-Source Window State = "1,24,24,24,14,15,15,0,0,80,0,0,0,0,0,24,0,0,16,45,343,670,1,0,"
-
-[File 0020]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/sc"
-Path Line0002 = "an.c"
-File Type = "CSource"
-Disk Date = 3227100686
-In Projects = "1,"
-Window Top = 395
-Window Left = 201
-Window Z-Order = 8
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,174,0,0,0,343,670,1,0,"
-
-[File 0021]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/Sc"
-Path Line0002 = "an.h"
-File Type = "Include"
-Disk Date = 3224774608
-In Projects = "1,"
-Window Top = 275
-Window Left = 137
-Window Z-Order = 10
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,0,0,0,0,343,670,1,0,"
-
-[File 0022]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/Sc"
-Path Line0002 = "anTableLoader.c"
-File Type = "CSource"
-Disk Date = 3232448322
-In Projects = "1,"
-Window Top = 425
-Window Left = 217
-Window Z-Order = 23
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,0,0,0,0,343,670,1,0,"
-
-[File 0023]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/Sc"
-Path Line0002 = "anTableLoader.h"
-File Type = "Include"
-Disk Date = 3232379428
-In Projects = "1,"
-Window Top = 215
-Window Left = 105
-Window Z-Order = 12
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,0,0,0,0,343,670,1,0,"
-
-[File 0024]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/Sc"
-Path Line0002 = "anTableLoader2.h"
-File Type = "Include"
-Disk Date = 3232379900
-In Projects = "1,"
-Window Top = 245
-Window Left = 121
-Window Z-Order = 11
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,0,0,0,0,343,670,1,0,"
-
-[File 0025]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/An"
-Path Line0002 = "alogControl.uir"
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/AnalogCont"
+Path Line0002 = "rol.uir"
 File Type = "User Interface Resource"
 Disk Date = 3232122352
 In Projects = "1,"
@@ -321,9 +107,39 @@ Window Left = 243
 Window Height = 400
 Window Width = 676
 
-[File 0026]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/An"
-Path Line0002 = "alogSettings.uir"
+[File 0007]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/AnalogCont"
+Path Line0002 = "rol2.h"
+File Type = "Include"
+Disk Date = 3174054178
+In Projects = "1,"
+Window Top = 35
+Window Left = 9
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,343,670,1,0,"
+
+[File 0008]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/AnalogSett"
+Path Line0002 = "ings.c"
+File Type = "CSource"
+Disk Date = 3227099762
+In Projects = "1,"
+Window Top = 215
+Window Left = 105
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,98,0,110,5,343,670,1,0,"
+
+[File 0009]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/AnalogSett"
+Path Line0002 = "ings.h"
+File Type = "Include"
+Disk Date = 3214412172
+In Projects = "1,"
+Window Top = 65
+Window Left = 25
+Source Window State = "1,42,42,42,17,38,17,0,3,0,0,0,0,0,0,0,25,0,42,38,343,670,1,0,"
+
+[File 0010]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/AnalogSett"
+Path Line0002 = "ings.uir"
 File Type = "User Interface Resource"
 Disk Date = 3214412172
 In Projects = "1,"
@@ -332,40 +148,80 @@ Window Left = 147
 Window Height = 401
 Window Width = 676
 
-[File 0027]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/DD"
-Path Line0002 = "SControl.uir"
+[File 0011]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/AnalogSett"
+Path Line0002 = "ings2.h"
+File Type = "Include"
+Disk Date = 3174054128
+In Projects = "1,"
+Window Top = 95
+Window Left = 41
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,5,343,670,1,0,"
+
+[File 0012]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/DDSControl"
+Path Line0002 = ".c"
+File Type = "CSource"
+Disk Date = 3368118523
+In Projects = "1,"
+Window Top = 485
+Window Left = -154
+Source Window State = "1,12,14,12,36,36,36,0,0,0,0,0,0,0,0,0,0,0,2,81,704,836,1,0,"
+
+[File 0013]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/DDSControl"
+Path Line0002 = ".h"
+File Type = "Include"
+Disk Date = 3204571168
+In Projects = "1,"
+Window Top = 125
+Window Left = 57
+Source Window State = "1,35,35,35,17,35,35,0,0,0,0,0,0,0,0,0,18,0,33,33,343,670,1,0,"
+
+[File 0014]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/DDSControl"
+Path Line0002 = ".uir"
 File Type = "User Interface Resource"
 Disk Date = 3204571168
 In Projects = "1,"
-Window Top = 221
-Window Left = 223
+Window Top = 154
+Window Left = -10
 Window Height = 401
 Window Width = 676
 
-[File 0028]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/DD"
-Path Line0002 = "SControl2.h"
+[File 0015]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/DDSControl"
+Path Line0002 = "2.h"
 File Type = "Include"
 Disk Date = 3204567302
 In Projects = "1,"
-Window Top = 139
-Window Left = 196
-Source Window State = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"
+Window Top = 62
+Window Left = 22
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,349,676,1,0,"
 
-[File 0029]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/DD"
-Path Line0002 = "SSettings.h"
+[File 0016]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/DDSSetting"
+Path Line0002 = "s.c"
+File Type = "CSource"
+Disk Date = 3227099846
+In Projects = "1,"
+Window Top = 122
+Window Left = 4
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,85,496,803,1,0,"
+
+[File 0017]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/DDSSetting"
+Path Line0002 = "s.h"
 File Type = "Include"
 Disk Date = 3204635554
 In Projects = "1,"
-Window Top = 272
-Window Left = 134
-Source Window State = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"
+Window Top = 92
+Window Left = 38
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,497,804,1,62,"
 
-[File 0030]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/DD"
-Path Line0002 = "SSettings.uir"
+[File 0018]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/DDSSetting"
+Path Line0002 = "s.uir"
 File Type = "User Interface Resource"
 Disk Date = 3204635848
 In Projects = "1,"
@@ -374,29 +230,59 @@ Window Left = 118
 Window Height = 401
 Window Width = 676
 
-[File 0031]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/DD"
-Path Line0002 = "SSettings2.h"
+[File 0019]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/DDSSetting"
+Path Line0002 = "s2.h"
 File Type = "Include"
 Disk Date = 3174390382
 In Projects = "1,"
-Window Top = 148
-Window Left = 162
-Source Window State = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"
+Window Top = 32
+Window Left = 6
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,349,676,1,0,"
 
-[File 0032]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/dd"
-Path Line0002 = "stranslator.h"
+[File 0020]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/ddstransla"
+Path Line0002 = "tor.c"
+File Type = "CSource"
+Disk Date = 3372356663
+In Projects = "1,"
+Window Top = 305
+Window Left = 29
+Source Window State = "1,196,196,196,4,15,15,0,0,0,0,0,0,0,0,0,142,0,160,16,550,806,1,0,"
+
+[File 0021]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/ddstransla"
+Path Line0002 = "tor.h"
 File Type = "Include"
 Disk Date = 3197208098
 In Projects = "1,"
-Window Top = 32
-Window Left = 6
-Source Window State = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"
+Window Top = 62
+Window Left = 22
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,349,676,1,0,"
 
-[File 0033]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/Di"
-Path Line0002 = "gitalSettings.uir"
+[File 0022]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/DigitalSet"
+Path Line0002 = "tings.c"
+File Type = "CSource"
+Disk Date = 3227100118
+In Projects = "1,"
+Window Top = 335
+Window Left = 169
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,343,670,1,0,"
+
+[File 0023]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/DigitalSet"
+Path Line0002 = "tings.h"
+File Type = "Include"
+Disk Date = 3214412144
+In Projects = "1,"
+Window Top = 155
+Window Left = 73
+Source Window State = "1,14,23,23,78,79,79,0,0,0,0,0,0,0,0,0,12,0,20,72,343,670,1,0,"
+
+[File 0024]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/DigitalSet"
+Path Line0002 = "tings.uir"
 File Type = "User Interface Resource"
 Disk Date = 3214412144
 In Projects = "1,"
@@ -405,51 +291,166 @@ Window Left = 187
 Window Height = 401
 Window Width = 676
 
-[File 0034]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/GU"
-Path Line0002 = "IDesign.uir"
+[File 0025]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/DigitalSet"
+Path Line0002 = "tings2.h"
+File Type = "Include"
+Disk Date = 3174054198
+In Projects = "1,"
+Window Top = 185
+Window Left = 89
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,343,670,1,30,"
+
+[File 0026]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/GUIDesign."
+Path Line0002 = "h"
+File Type = "Include"
+Disk Date = 3232118768
+In Projects = "1,"
+Window Top = 525
+Window Left = 4
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,53,0,65,9,343,670,1,0,"
+
+[File 0027]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/GUIDesign."
+Path Line0002 = "uir"
 File Type = "User Interface Resource"
 Disk Date = 3232453446
 In Projects = "1,"
-Window Top = 32
-Window Left = -8
+Window Top = 420
+Window Left = -246
 Window Height = 1002
 Window Width = 1048
 
-[File 0035]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/ma"
-Path Line0002 = "in.h"
+[File 0028]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/GUIDesign2"
+Path Line0002 = ".h"
+File Type = "Include"
+Disk Date = 3232388558
+In Projects = "1,"
+Window Top = 493
+Window Left = 4
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,20,0,32,28,343,670,1,0,"
+
+[File 0029]
+Path = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/main.c"
+File Type = "CSource"
+Disk Date = 3420818571
+In Projects = "1,"
+Window Top = 364
+Window Left = 4
+Source Window State = "1,429,437,437,29,33,33,0,0,0,0,0,0,0,0,0,57,0,105,57,756,838,1,0,"
+
+[File 0030]
+Path = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/main.h"
 File Type = "Include"
 Disk Date = 3220905670
 In Projects = "1,"
-Window Top = 62
-Window Left = 22
-Source Window State = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"
+Window Top = 32
+Window Left = 6
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,70,349,676,1,0,"
+
+[File 0031]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/RabbitCom9"
+Path Line0002 = "910.c"
+File Type = "CSource"
+Disk Date = 3369933233
+In Projects = "1,"
+Window Top = 454
+Window Left = 4
+Source Window State = "1,162,163,162,95,93,95,0,0,0,0,541,0,541,0,0,2,0,169,92,824,801,1,0,"
+
+[File 0032]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/RabbitCom9"
+Path Line0002 = "910.h"
+File Type = "Include"
+Disk Date = 3369238845
+In Projects = "1,"
+Window Top = 152
+Window Left = 70
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,46,0,46,0,0,0,0,41,37,349,676,1,0,"
+
+[File 0033]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/JohnHagee_"
+Path Line0002 = "DDS_FPGA_WORK_8-23-10/rabbit gui/RabbitCom9910.uir"
+File Type = "User Interface Resource"
+Disk Date = 3298457420
+In Projects = "1,"
+Window Top = 92
+Window Left = 38
+Window Height = 349
+Window Width = 676
+
+[File 0034]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/RabbitCom9"
+Path Line0002 = "910_2.h"
+File Type = "Include"
+Disk Date = 3369238792
+In Projects = "1,"
+Window Top = 122
+Window Left = 54
+Source Window State = "1,0,1,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0,2,0,349,676,1,0,"
+
+[File 0035]
+Path = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/scan.c"
+File Type = "CSource"
+Disk Date = 3227100686
+In Projects = "1,"
+Window Top = 395
+Window Left = 201
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,209,45,343,670,1,0,"
 
 [File 0036]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/Sc"
-Path Line0002 = "an.uir"
+Path = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/Scan.h"
+File Type = "Include"
+Disk Date = 3224774608
+In Projects = "1,"
+Window Top = 275
+Window Left = 137
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,343,670,1,0,"
+
+[File 0037]
+Path = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/Scan.uir"
 File Type = "User Interface Resource"
 Disk Date = 3224774608
 In Projects = "1,"
-Window Top = 239
-Window Left = 3
+Window Top = 272
+Window Left = -396
 Window Height = 617
 Window Width = 935
 
-[File 0037]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/sc"
-Path Line0002 = "an2.h"
+[File 0038]
+Path = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/scan2.h"
 File Type = "Include"
 Disk Date = 3196964994
 In Projects = "1,"
-Window Top = 499
-Window Left = 418
-Source Window State = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"
+Window Top = 92
+Window Left = 38
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,349,676,1,0,"
 
-[File 0038]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/Sc"
-Path Line0002 = "anTableLoader.uir"
+[File 0039]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/ScanTableL"
+Path Line0002 = "oader.c"
+File Type = "CSource"
+Disk Date = 3232448322
+In Projects = "1,"
+Window Top = 425
+Window Left = 217
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,47,28,343,670,1,0,"
+
+[File 0040]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/ScanTableL"
+Path Line0002 = "oader.h"
+File Type = "Include"
+Disk Date = 3232379428
+In Projects = "1,"
+Window Top = 215
+Window Left = 105
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,343,670,1,0,"
+
+[File 0041]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/ScanTableL"
+Path Line0002 = "oader.uir"
 File Type = "User Interface Resource"
 Disk Date = 3232379428
 In Projects = "1,"
@@ -458,15 +459,24 @@ Window Left = 54
 Window Height = 349
 Window Width = 676
 
-[File 0039]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/AdWinGUI_WM_August2010_v1/va"
-Path Line0002 = "rs.h"
+[File 0042]
+Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/ScanTableL"
+Path Line0002 = "oader2.h"
+File Type = "Include"
+Disk Date = 3232379900
+In Projects = "1,"
+Window Top = 245
+Window Left = 121
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,343,670,1,0,"
+
+[File 0043]
+Path = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/Megan_sine_change/vars.h"
 File Type = "Include"
 Disk Date = 3232121352
 In Projects = "1,"
-Window Top = 92
-Window Left = 38
-Source Window State = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"
+Window Top = 32
+Window Left = 6
+Source Window State = "1,128,128,128,18,26,26,0,0,0,0,0,0,0,0,0,106,0,118,7,349,676,1,0,"
 
 [Build Options 0001]
 Generate Browse Info = True

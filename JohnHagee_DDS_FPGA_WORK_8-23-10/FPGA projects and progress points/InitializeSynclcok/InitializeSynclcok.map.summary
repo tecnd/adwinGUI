@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Wed Aug 04 14:54:32 2010
+Quartus II Version : 7.1 Build 178 06/25/2007 SP 1 SJ Full Version
+Revision Name : InitializeSynclcok
+Top-level Entity Name : InitializeSynclcok
+Family : Cyclone II
+Total logic elements : 83
+    Total combinational functions : 83
+    Dedicated logic registers : 48
+Total registers : 48
+Total pins : 11
+Total virtual pins : 0
+Total memory bits : 0
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 0

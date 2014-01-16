@@ -1,0 +1,3 @@
+Warning (10262): Verilog HDL Event Control warning at data_program.v(42): event expression is a constant
+Warning (10262): Verilog HDL Event Control warning at data_program.v(62): event expression is a constant
+Warning (10262): Verilog HDL Event Control warning at data_program.v(106): event expression is a constant

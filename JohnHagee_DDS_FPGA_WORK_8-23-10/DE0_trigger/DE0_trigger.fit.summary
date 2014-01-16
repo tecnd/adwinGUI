@@ -1,0 +1,16 @@
+Fitter Status : Successful - Fri Aug 13 14:09:46 2010
+Quartus II Version : 10.0 Build 218 06/27/2010 SJ Full Version
+Revision Name : DE0_trigger
+Top-level Entity Name : DE0_trigger
+Family : Cyclone III
+Device : EP3C16F484C6
+Timing Models : Final
+Total logic elements : 54 / 15,408 ( < 1 % )
+    Total combinational functions : 54 / 15,408 ( < 1 % )
+    Dedicated logic registers : 34 / 15,408 ( < 1 % )
+Total registers : 34
+Total pins : 4 / 347 ( 1 % )
+Total virtual pins : 0
+Total memory bits : 0 / 516,096 ( 0 % )
+Embedded Multiplier 9-bit elements : 0 / 112 ( 0 % )
+Total PLLs : 0 / 4 ( 0 % )

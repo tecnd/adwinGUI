@@ -1,0 +1,32 @@
+new notes: 7/6/2010
+
+what is sent in the rabbit serial data to dds?
+
+addresses and multiple-byte words
+
+this is the order:
+
+00000 	DR_STEP_ADDRESS 	 00001100  	0C
+00001	step size words 
+00010	first 4 bytes are
+00011	declination
+00100	all FF if low to hi	
+00101	second 4 are 
+00110	inclination
+00111	FF if hi
+01000	to low
+01001	DR_RATE_ADDRESS	00001101	0d
+01010	4 bytes 
+01011	2 are always
+01100	00,01
+01101
+01110	DR_LIMIT_ADDRESS	00001011	0b
+01111	first 4 are
+10000	upper limit
+10001	
+10010
+10011	second 4
+10100	are lower
+10101	limit
+10110
+1

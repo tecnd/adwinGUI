@@ -1,0 +1,66 @@
+--------------------------------------------------------------------------------------
+Timing Analyzer Summary
+--------------------------------------------------------------------------------------
+
+Type           : Worst-case tsu
+Slack          : N/A
+Required Time  : None
+Actual Time    : 8.278 ns
+From           : RABBIT_DATA
+To             : memory_reg[220]
+From Clock     : --
+To Clock       : RABBIT_CLOK
+Failed Paths   : 0
+
+Type           : Worst-case tco
+Slack          : N/A
+Required Time  : None
+Actual Time    : 10.570 ns
+From           : init_key_flag~reg0
+To             : init_key_flag
+From Clock     : ten_MHz_ext
+To Clock       : --
+Failed Paths   : 0
+
+Type           : Worst-case th
+Slack          : N/A
+Required Time  : None
+Actual Time    : -1.354 ns
+From           : RABBIT_DATA
+To             : memory_reg[878]
+From Clock     : --
+To Clock       : RABBIT_CLOK
+Failed Paths   : 0
+
+Type           : Clock Setup: 'ten_MHz_ext'
+Slack          : N/A
+Required Time  : None
+Actual Time    : 82.56 MHz ( period = 12.113 ns )
+From           : N[11]
+To             : SDIO~reg0
+From Clock     : ten_MHz_ext
+To Clock       : ten_MHz_ext
+Failed Paths   : 0
+
+Type           : Clock Setup: 'RABBIT_CLOK'
+Slack          : N/A
+Required Time  : None
+Actual Time    : 133.16 MHz ( period = 7.510 ns )
+From           : i[8]
+To             : memory_reg[5109]
+From Clock     : RABBIT_CLOK
+To Clock       : RABBIT_CLOK
+Failed Paths   : 0
+
+Type           : Total number of failed paths
+Slack          : 
+Required Time  : 
+Actual Time    : 
+From           : 
+To             : 
+From Clock     : 
+To Clock       : 
+Failed Paths   : 0
+
+--------------------------------------------------------------------------------------
+

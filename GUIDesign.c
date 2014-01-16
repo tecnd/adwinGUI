@@ -11,6 +11,12 @@
 //March 9:  Reorder the routines to more closely match the order in which they are executed.  
 //          Applies to the 'engine' but not the cosmetic/table handling routnes
 
+
+/*********************** Sandro Gvakharia October 2010 **********************/
+//Added DDS vars starting at line 21, added DDS code starting at line 462.
+//Works with DDS1, Rb Evaporation 
+/*********************** Sandro Gvakharia October 2010 **********************/
+
 #include <utility.h>
 #include "Scan.h"
 #include <userint.h>
@@ -18,6 +24,32 @@
 #include "GUIDesign2.h"
 #include "AnalogSettings2.h"
 #include "DigitalSettings2.h"
+/***** Sandro Gvakharia, October 2010 *****/
+#include "RabbitCom9910.h"
+#include "RabbitCom9910_2.h"
+#include <tcpsupp.h>
+#define PORT 1111
+#define RABBIT_IP "10.10.6.100"
+#define TCP_BUFF 960  //960 = max # of bytes per data transmission
+
+// Bytes sent to Rabbit to indicate certain functions
+#define COMMANDWORD_SEND 0x00
+#define COMMANDWORD_CLEAR 0x01
+#define COMMANDWORD_SETUP_DDS 0x02
+#define COMMANDWORD_FINALIZE 0xff
+
+#define COMMAND_LIST_ROW_LENGTH 15
+
+// Ramp rate will now vary with current version
+// to prevent frequency step size from hitting zero
+//#define RAMPRATE 1	// Assume a static ramp rate of 1 (fastest possible)
+
+#define REFCLK 1000	// 1 GHz reference clock
+//#define REFCLK 50		// 50 MHz reference clock (when PLL is not used)
+
+#define NUMBITS 32	// FTW is 32 bits long
+
+/*****************************************/
 
 //Clipboard for copy/paste functions
 double TimeClip;
@@ -428,10 +460,220 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		GetCtrlVal (panelHandle, PANEL_NUM_DDS2_OFFSET, &DDS2offset);
 		GetCtrlVal (panelHandle, PANEL_NUM_DDS3_OFFSET, &DDS3offset);
 		// read offsets to add to DDSArray
+		// Send signals to Rabbit DDS - Sandro Gvakharia, October 2010
 		for(m=1;m<=numtimes;m++)
 		{
 			DDSArray[m].start_frequency=DDSArray[m].start_frequency+DDSoffset;
 			DDSArray[m].end_frequency=DDSArray[m].end_frequency+DDSoffset;
+			/******************** Sandro Gvakharia, October 2010 ********************/
+			if(DDSArray[m].is_stop==0)
+			{
+				int connected;
+				unsigned int tcp_handle;  
+				char* error;  
+				int tcpErr;
+				double *freqinput1 = malloc(sizeof(double));
+				double *freqinput2 = malloc(sizeof(double));
+				double *timelength = malloc(sizeof(double));
+				double freqword;
+				double ramprate;
+				int c; 
+				unsigned char *commandword = malloc(sizeof(unsigned char));
+				unsigned char *commandlistrow = malloc(sizeof(unsigned char)*COMMAND_LIST_ROW_LENGTH);
+				unsigned char sweepdir;
+				
+			
+			
+			// Only set sweep if frequencies are below 40% of the system clock frequency.
+			// Time length must be set greater than 0
+					freqinput1[0] = DDSArray[m].start_frequency;
+					freqinput2[0] = DDSArray[m].end_frequency;
+					timelength[0] = TMatrix[m];	
+					
+			 if((freqinput1[0] <= (0.4 * REFCLK)) && (freqinput2[0] <= (0.4 * REFCLK)) && timelength[0] > 0)
+			 {
+					// Determine sweep direction (sweep from higher to lower frequency or vice versa)
+					sweepdir = freqinput1[0] > freqinput2[0];  // sweepdir = 1 is sweep from high to low
+			
+					//printf("%d\n", sweepdir);
+			
+					// Convert first input frequency to FTW
+					freqword = freqinput1[0] * pow(2, NUMBITS) / REFCLK;
+
+					// Tuning word list will also indicate to the Rabbit the direction of the sweep
+					commandlistrow[0] = sweepdir;
+			
+			
+					// Tuning word list will have higher frequency in indices 1 through 4,
+					// and lower frequency in indices 5 through 8.
+				
+					// Place first input FTW in command list row,
+					// breaking the tuning word up into 4 bytes
+					for(c = 3; c >= 0; c--)
+					{
+						commandlistrow[(4 + 4 * (!sweepdir)) - c] = (char)(freqword / pow(2, 8 * c));
+						freqword -= (commandlistrow[(4 + 4 *(!sweepdir)) - c] * pow(2, 8 * c));
+					}
+			
+					printf("\n");
+			
+					// Convert second input frequency to FTW
+					freqword = freqinput2[0] * pow(2, NUMBITS) / REFCLK;
+				
+					// Place second input FTW in command list row,
+					// breaking the tuning word up into 4 bytes
+					for(c = 3; c >= 0; c--)
+					{
+						commandlistrow[(4 + 4 * sweepdir) - c] = (char)(freqword / pow(2, 8 * c));
+						freqword -= (commandlistrow[(4 + 4 * sweepdir) - c] * pow(2, 8 * c));
+					}
+				
+					// In setting frequency in time step, start with a ramp rate
+					// of 1 and work up
+				
+					ramprate = 0.0;
+					freqword = 0.0;
+
+					while(freqword < 10.0)
+					{
+						// Increase ramp rate until freqword is large enough
+						ramprate = ramprate + 1.0;	
+
+					
+						// From time length of sweep, calculate an appropriate delta frequency (in MHz)
+						// Need to multiply ramp rate by four because the DDS clock operates
+						// at a quarter of the frequency of the reference clock.
+						freqword = (fabs(freqinput1[0] - freqinput2[0]) * (4 * ramprate)) / (1000 * timelength[0] * REFCLK);
+				
+						// Convert delta frequency t ramp step size tuning word
+						freqword = freqword * pow(2, NUMBITS) / REFCLK;
+					}
+				
+					//printf("\nThe ramp rate is:%f\n\n", ramprate);
+				
+					// Place ramp step size tuning word into indices 9 through 12  
+					// of the command list row, breaking the tuning word up into 4 bytes.
+					for(c = 3; c >= 0; c--)
+					{	
+						commandlistrow[12 - c] = (char)(freqword / pow(2, 8 * c));
+						freqword -= (commandlistrow[12 - c] * pow(2, 8 * c));
+					}
+				
+					// Place ramp rate into indices 14 through 13
+					// of the command list row, breaking the tuning word up into 2 bytes.
+					for(c = 1; c >= 0; c--)
+					{	
+						commandlistrow[14 - c] = (char)(ramprate / pow(2, 8 * c));
+						ramprate -= (commandlistrow[14 - c] * pow(2, 8 * c));
+					}
+				
+					// Print out command list row to be sent, for debugging purposes
+				
+					for(c = 0; c < COMMAND_LIST_ROW_LENGTH; c++)
+					{
+						if(c == 0)
+						{
+							if(commandlistrow[c])
+							{
+								printf("Sweep from high to low");
+							}
+							else
+							{
+								printf("Sweep from low to high");
+							}
+							printf("\nFrom %f to %f", freqinput1[0], freqinput2[0]);
+						}
+						else
+						{
+							if(c == 1)
+							{
+								printf("\nUpper Limit FTW\n");
+							}
+							if(c == 5)
+							{
+								printf("\nLower Limit FTW\n");	
+							}
+							if(c == 9)
+							{
+								printf("\nRamp Step Size Word\n");
+							}
+							if(c == 13)
+							{
+								printf("\nRamp Rate\n");	
+							}
+							printf("%x ", commandlistrow[c]);
+
+						}
+					}
+					printf("\n\n");
+				
+				
+				
+				printf("Connecting...\n");
+				connected = ConnectToTCPServer (&tcp_handle,PORT,RABBIT_IP,0, 0,5000);
+				error=GetTCPSystemErrorString ();
+				if (connected==0)
+				{
+					printf("Success!\n");
+					ResumeTimerCallbacks();
+				}
+				else if (connected<0)
+				{
+					printf("TCP Connection Error: %d\n",connected);
+					error=tcp_errorlookup(connected);
+					printf(error);
+					break;
+				
+				}
+
+				// Send command word to Rabbit
+				// Causes Rabbit to stop listening for a connection
+				commandword[0] = COMMANDWORD_SETUP_DDS;
+				ClientTCPWrite(tcp_handle, commandword, 1, 0);
+				// Send command word to Rabbit
+				// Indicates sending of tuning words
+				commandword[0] = COMMANDWORD_SEND;
+				ClientTCPWrite(tcp_handle, commandword, 1, 0);
+				ClientTCPWrite(tcp_handle, commandlistrow,COMMAND_LIST_ROW_LENGTH,0);
+				// Send command word to Rabbit
+				// Causes Rabbit to stop listening for a connection
+				commandword[0] = COMMANDWORD_FINALIZE;
+				ClientTCPWrite(tcp_handle, commandword, 1, 0);
+
+			
+				//Disconnect from Rabbit
+				if (tcpErr=DisconnectFromTCPServer (tcp_handle)<0)
+				{
+					printf("Error Closing Socket\n");
+					printf(tcp_errorlookup(tcpErr));
+				}
+				else
+				{
+					printf("Connection Closed\n");
+					SuspendTimerCallbacks();
+				}
+			//	break;
+			 }
+			 if(timelength[0] <= 0)
+				{
+				printf("Invalid sweep time input\n");					
+				}
+			 else
+				 if(!((freqinput1[0] <= (0.4 * REFCLK)) && (freqinput2[0] <= (0.4 * REFCLK))))
+				{
+				printf("Frequency input must be below 0.4 of the frequency of the DDS system clock\n");	
+				}
+				
+				
+				
+		}
+			/******************** Sandro Gvakharia ********************/
+			
+			
+			
+			
+			
+			
 		// uncomment these as needed to run DDS2,3
 		/*	DDS2Array[m].start_frequency=DDS2Array[m].start_frequency+DDS2offset;
 			DDS2Array[m].end_frequency=DDS2Array[m].end_frequency+DDS2offset;
@@ -690,7 +932,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		}
 		if (didprocess==FALSE) // is the ADwin process already loaded?
 		{
-			processnum=Load_Process("TransferData_August02_2010.TB1");	 //Updated August 2, 2010 - Seth Aubin
+			processnum=Load_Process("TransferData_May25_2012.TB1");	 //Updated May 25, 2012 - Seth Aubin
 			didprocess=1;
 		}
 		
@@ -835,7 +1077,7 @@ double CalcFcnValue(int fcn,double Vinit,double Vfinal, double timescale,double 
 			
 			amplitude=Vfinal;
 		//	frequency=timescale; //consider it to be Hertz (tms is time in milliseconds)
-			value=amplitude * sin(2*3.14159*frequency*tms/1000);
+			value=Vinit + amplitude * sin(2*3.14159*frequency*tms/1000);
 	}
 	// Check if the value exceeds the allowed voltage limits.
 	return value;
@@ -2332,7 +2574,7 @@ void CVICALLBACK BOOTADWIN_CALLBACK (int menuBar, int menuItem, void *callbackDa
 {
 
 	Boot("C:\\ADWIN\\ADWIN11.BTL",0); 
-	processnum=Load_Process("TransferData_August02_2010.TB1");		//Updated August 2, 2010 - Seth Aubin
+	processnum=Load_Process("TransferData_May25_2012.TB1");		//Updated May 25, 2012 - Seth Aubin
 }
 //*********************************************************************************************************
 

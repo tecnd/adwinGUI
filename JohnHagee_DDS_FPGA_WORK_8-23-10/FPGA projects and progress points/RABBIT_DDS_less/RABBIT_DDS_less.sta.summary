@@ -1,0 +1,77 @@
+------------------------------------------------------------
+TimeQuest Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1200mV 85C Model Setup 'ten_MHz_ext'
+Slack : -9.676
+TNS   : -323.054
+
+Type  : Slow 1200mV 85C Model Setup 'SCLK_PE_3'
+Slack : -4.166
+TNS   : -11648.678
+
+Type  : Slow 1200mV 85C Model Hold 'SCLK_PE_3'
+Slack : 0.337
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'ten_MHz_ext'
+Slack : 0.337
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'SCLK_PE_3'
+Slack : -3.000
+TNS   : -3695.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'ten_MHz_ext'
+Slack : -3.000
+TNS   : -97.000
+
+Type  : Slow 1200mV 0C Model Setup 'ten_MHz_ext'
+Slack : -8.568
+TNS   : -284.424
+
+Type  : Slow 1200mV 0C Model Setup 'SCLK_PE_3'
+Slack : -3.638
+TNS   : -10093.700
+
+Type  : Slow 1200mV 0C Model Hold 'SCLK_PE_3'
+Slack : 0.291
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'ten_MHz_ext'
+Slack : 0.291
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'SCLK_PE_3'
+Slack : -3.000
+TNS   : -3695.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'ten_MHz_ext'
+Slack : -3.000
+TNS   : -97.000
+
+Type  : Fast 1200mV 0C Model Setup 'ten_MHz_ext'
+Slack : -5.214
+TNS   : -147.169
+
+Type  : Fast 1200mV 0C Model Setup 'SCLK_PE_3'
+Slack : -2.122
+TNS   : -5362.781
+
+Type  : Fast 1200mV 0C Model Hold 'SCLK_PE_3'
+Slack : 0.166
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'ten_MHz_ext'
+Slack : 0.167
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'SCLK_PE_3'
+Slack : -3.000
+TNS   : -3909.587
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'ten_MHz_ext'
+Slack : -3.000
+TNS   : -102.397
+
+------------------------------------------------------------

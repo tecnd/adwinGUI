@@ -1,0 +1,25 @@
+|data_program
+trgger => ~NO_FANOUT~
+swtches[0] => ~NO_FANOUT~
+swtches[1] => ~NO_FANOUT~
+swtches[2] => ~NO_FANOUT~
+swtches[3] => ~NO_FANOUT~
+swtches[4] => ~NO_FANOUT~
+swtches[5] => ~NO_FANOUT~
+swtches[6] => ~NO_FANOUT~
+swtches[7] => ~NO_FANOUT~
+swtches[8] => ~NO_FANOUT~
+swtches[9] => ~NO_FANOUT~
+swtches[10] => ~NO_FANOUT~
+swtches[11] => ~NO_FANOUT~
+swtches[12] => ~NO_FANOUT~
+swtches[13] => ~NO_FANOUT~
+swtches[14] => ~NO_FANOUT~
+swtches[15] => ~NO_FANOUT~
+swtches[16] => ~NO_FANOUT~
+swtches[17] => ~NO_FANOUT~
+TenMHzToData => ~NO_FANOUT~
+data_output <= <GND>
+dflag <= <GND>
+
+

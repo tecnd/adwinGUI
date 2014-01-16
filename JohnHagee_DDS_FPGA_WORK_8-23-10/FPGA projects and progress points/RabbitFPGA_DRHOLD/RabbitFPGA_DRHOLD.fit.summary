@@ -1,0 +1,16 @@
+Fitter Status : Successful - Mon Aug 02 11:19:03 2010
+Quartus II Version : 7.1 Build 178 06/25/2007 SP 1 SJ Full Version
+Revision Name : RabbitFPGA_DRHOLD
+Top-level Entity Name : RabbitFPGA_DRHOLD
+Family : Cyclone II
+Device : EP2C35F672C6
+Timing Models : Final
+Total logic elements : 11,583 / 33,216 ( 35 % )
+    Total combinational functions : 11,575 / 33,216 ( 35 % )
+    Dedicated logic registers : 3,896 / 33,216 ( 12 % )
+Total registers : 3896
+Total pins : 38 / 475 ( 8 % )
+Total virtual pins : 0
+Total memory bits : 0 / 483,840 ( 0 % )
+Embedded Multiplier 9-bit elements : 0 / 70 ( 0 % )
+Total PLLs : 0 / 4 ( 0 % )
