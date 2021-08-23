@@ -932,7 +932,7 @@ void BuildUpdateList(double TMatrix[],struct AnVals AMat[NUMBERANALOGCHANNELS+1]
 		}
 		if (didprocess==FALSE) // is the ADwin process already loaded?
 		{
-			processnum=Load_Process("TransferData_August02_2010.TB1");	 //Updated August 2, 2010 - Seth Aubin
+			processnum=Load_Process("TransferData_May25_2012.TB1");	 //Updated May 25, 2012 - Seth Aubin
 			didprocess=1;
 		}
 		
@@ -2574,7 +2574,7 @@ void CVICALLBACK BOOTADWIN_CALLBACK (int menuBar, int menuItem, void *callbackDa
 {
 
 	Boot("C:\\ADWIN\\ADWIN11.BTL",0); 
-	processnum=Load_Process("TransferData_August02_2010.TB1");		//Updated August 2, 2010 - Seth Aubin
+	processnum=Load_Process("TransferData_May25_2012.TB1");		//Updated May 25, 2012 - Seth Aubin
 }
 //*********************************************************************************************************
 
