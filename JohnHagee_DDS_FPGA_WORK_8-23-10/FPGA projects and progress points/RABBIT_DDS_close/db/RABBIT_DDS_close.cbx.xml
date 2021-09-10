@@ -1,6 +1,0 @@
-<?xml version="1.0" ?>
-<LOG_ROOT>
-	<PROJECT NAME="RABBIT_DDS_close">
-		<CBX_INST_ENTRY INSTANCE_NAME="|RABBIT_DDS_close|lpm_mux:Mux0" CBX_FILE_NAME="mux_gtc.tdf"/>
-	</PROJECT>
-</LOG_ROOT>

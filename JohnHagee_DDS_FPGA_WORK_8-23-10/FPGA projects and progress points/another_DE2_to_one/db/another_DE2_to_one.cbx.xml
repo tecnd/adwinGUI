@@ -1,6 +1,0 @@
-<?xml version="1.0" ?>
-<LOG_ROOT>
-	<PROJECT NAME="another_DE2_to_one">
-		<CBX_INST_ENTRY INSTANCE_NAME="|another_DE2_to_one|data_program:sending_out_the_data|lpm_mux:Mux0" CBX_FILE_NAME="mux_ioc.tdf"/>
-	</PROJECT>
-</LOG_ROOT>

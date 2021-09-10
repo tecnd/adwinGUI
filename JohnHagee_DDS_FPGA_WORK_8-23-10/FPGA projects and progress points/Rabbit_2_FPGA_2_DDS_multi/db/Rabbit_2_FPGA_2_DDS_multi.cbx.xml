@@ -1,6 +1,0 @@
-<?xml version="1.0" ?>
-<LOG_ROOT>
-	<PROJECT NAME="Rabbit_2_FPGA_2_DDS_multi">
-		<CBX_INST_ENTRY INSTANCE_NAME="|Rabbit_2_FPGA_2_DDS_multi|out_2_DDS:outing_DDS|altsyncram:WideOr1_rtl_0" CBX_FILE_NAME="altsyncram_i511.tdf"/>
-	</PROJECT>
-</LOG_ROOT>

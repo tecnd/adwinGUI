@@ -1,1 +1,0 @@
-module DoubleHiThenLo(tenMHz_ext_clk, 
