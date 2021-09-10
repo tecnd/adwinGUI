@@ -254,51 +254,51 @@ void RunOnce(void)
 							}
 						}
 					}
+				}
+				/*end A */
 
-/*end A */		}
+				if ((nozerofound == 1) && (TimeArray[i][k] > 0))
+				//ignore all columns after the first
+				// time 0 (for that page)
+				{
+					mindex++; //increase the number of columns counter
+					MetaTimeArray[mindex] = TimeArray[i][k];
 
-if ((nozerofound == 1) && (TimeArray[i][k] > 0))
-//ignore all columns after the first
-// time 0 (for that page)
-{
-	mindex++; //increase the number of columns counter
-	MetaTimeArray[mindex] = TimeArray[i][k];
-
-	//go through for each analog channel
-	for (j = 1; j <= NUMBERANALOGCHANNELS; j++)
-	{
-		//Sets MetaArray with appropriate fcn val when "same" selected
-		if (AnalogTable[i][j][k].fcn == 6)
-		{
-			MetaAnalogArray[j][mindex].fcn = 1; //on the right for repeat function, currently set to hold val ////MetaAnalogArray[j][mindex].fcn=MetaAnalogArray[j][mindex-1].fcn;
-			MetaAnalogArray[j][mindex].fval = MetaAnalogArray[j][mindex - 1].fval;
-			MetaAnalogArray[j][mindex].tscale = MetaAnalogArray[j][mindex - 1].tscale;
-		}
-		else if (AnalogTable[i][j][k].fcn != 6)
-		{
-			MetaAnalogArray[j][mindex].fcn = AnalogTable[i][j][k].fcn;
-			MetaAnalogArray[j][mindex].fval = AnalogTable[i][j][k].fval;
-			MetaAnalogArray[j][mindex].tscale = AnalogTable[i][j][k].tscale;
-		}
-	}
-	for (j = 1; j <= NUMBERDIGITALCHANNELS; j++)
-	{
-		MetaDigitalArray[j][mindex] = DigTableValues[i][j][k];
-	}
-	/* ddsoptions_struct contains floats and ints, so shallow copy is ok */
-	MetaDDSArray[mindex] = ddstable[i][k];
-	MetaDDS2Array[mindex] = dds2table[i][k];
-	MetaDDS3Array[mindex] = dds3table[i][k];
-	MetaDDSArray[mindex].delta_time = TimeArray[i][k] / 1000;
-	MetaDDS2Array[mindex].delta_time = TimeArray[i][k] / 1000;
-	MetaDDS3Array[mindex].delta_time = TimeArray[i][k] / 1000;
-	// Don't know why the preceding line is necessary...
-	// But the time information wasn't always copied in... or it was erased elsewhere
-}
-else if (TimeArray[i][k] == 0)
-{
-	nozerofound = FALSE;
-}
+					//go through for each analog channel
+					for (j = 1; j <= NUMBERANALOGCHANNELS; j++)
+					{
+						//Sets MetaArray with appropriate fcn val when "same" selected
+						if (AnalogTable[i][j][k].fcn == 6)
+						{
+							MetaAnalogArray[j][mindex].fcn = 1; //on the right for repeat function, currently set to hold val ////MetaAnalogArray[j][mindex].fcn=MetaAnalogArray[j][mindex-1].fcn;
+							MetaAnalogArray[j][mindex].fval = MetaAnalogArray[j][mindex - 1].fval;
+							MetaAnalogArray[j][mindex].tscale = MetaAnalogArray[j][mindex - 1].tscale;
+						}
+						else if (AnalogTable[i][j][k].fcn != 6)
+						{
+							MetaAnalogArray[j][mindex].fcn = AnalogTable[i][j][k].fcn;
+							MetaAnalogArray[j][mindex].fval = AnalogTable[i][j][k].fval;
+							MetaAnalogArray[j][mindex].tscale = AnalogTable[i][j][k].tscale;
+						}
+					}
+					for (j = 1; j <= NUMBERDIGITALCHANNELS; j++)
+					{
+						MetaDigitalArray[j][mindex] = DigTableValues[i][j][k];
+					}
+					/* ddsoptions_struct contains floats and ints, so shallow copy is ok */
+					MetaDDSArray[mindex] = ddstable[i][k];
+					MetaDDS2Array[mindex] = dds2table[i][k];
+					MetaDDS3Array[mindex] = dds3table[i][k];
+					MetaDDSArray[mindex].delta_time = TimeArray[i][k] / 1000;
+					MetaDDS2Array[mindex].delta_time = TimeArray[i][k] / 1000;
+					MetaDDS3Array[mindex].delta_time = TimeArray[i][k] / 1000;
+					// Don't know why the preceding line is necessary...
+					// But the time information wasn't always copied in... or it was erased elsewhere
+				}
+				else if (TimeArray[i][k] == 0)
+				{
+					nozerofound = FALSE;
+				}
 			}
 		}
 	}
