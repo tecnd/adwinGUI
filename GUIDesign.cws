@@ -1,498 +1,522 @@
 [Workspace Header]
-Version = 810
-Pathname Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Pathname Line0002 = "GUIDesign.cws"
-CVI Dir = "/c/program files/national instruments/labview 8.2/cvi81"
-IVI Standard Root Dir = "/C/Program Files/IVI"
-VXIplug&play Framework Dir = "/C/VXIPNP/winnt"
+Version = 2000
+Pathname = "//snapdragon/common/Undergrads/Kerry/gui/GUIDesign.cws"
+CVI Dir = "/c/program files (x86)/national instruments/cvi2020"
+CVI Shared Dir = "/C/Program Files (x86)/National Instruments/Shared/CVI"
+CVI Pub Local Dir = "/C/ProgramData/National Instruments/CVI2020"
+CVI Pub Global Dir = "/C/ProgramData/National Instruments/CVI"
+IVI Standard Root Dir = "/c/Program Files/IVI Foundation/IVI"
+IVI Standard Root 64-bit Dir = "/C/Program Files/IVI Foundation/IVI"
+VXIplug&play Framework Dir = "/C/Program Files (x86)/IVI Foundation/VISA/winnt"
+VXIplug&play Framework 64-bit Dir = "/C/Program Files/IVI Foundation/VISA/win64"
 Number of Projects = 1
 Active Project = 1
 Project 0001 = "GUIDesign.prj"
-Drag Bar Left = 204
-Window Top = 118
-Window Left = 239
-Window Bottom = 620
-Window Right = 1029
+Drag Bar Left = 229
+Window Top = 31
+Window Left = 453
+Window Bottom = 533
+Window Right = 1243
 Maximized = True
-Maximized Children = False
-Max Number Of Errors = 40
+Maximized Children = True
+Max32 Number Of Errors = 20
 Track Include File Dependencies = True
 Prompt For Missing Includes = True
 Stop On First Error File = False
-Bring Up Err Win For Warnings = True
-Show Build Dialog = True
-Save Changes Before Running = "Ask"
+Bring Up Err Win At Start = True
+Bring Up Err Win For Errors = False
+Save Changes Before Running = "Always"
+Save Changes Before Compiling = "Always"
 Hide Windows = False
-Global Hot Key = False
 Break At First Statement = False
 Sort Type = "File Name"
-Number of Opened Files = 1
+Number of Opened Files = 5
 Window Confinement Region Enabled = True
-MainColumnWidth = 185
+MainColumnWidth = 212
 FileDateColumnWidth = 70
 FileSizeColumnWidth = 70
-StatusColumnWidth = 70
 
 [Project Header 0001]
-Version = 810
+Version = 2000
 Don't Update DistKit = False
 Platform Code = 4
 Build Configuration = "Debug"
 Warn User If Debugging Release = 1
 Batch Build Release = True
 Batch Build Debug = True
-Force Rebuild = False
 
 [File 0001]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "AnalogControl.c"
+Path = "//snapdragon/common/Undergrads/Kerry/gui/AnalogControl.c"
 File Type = "CSource"
 Disk Date = 3232125452
 In Projects = "1,"
-Window Top = 185
-Window Left = 89
 Source Window State = "1,28,28,28,12,56,12,0,0,0,0,0,0,0,0,0,154,0,211,20,343,670,1,0,"
 Breakpoint 0001 = "8,0,disabled,"
 Breakpoint 0002 = "20,0,disabled,"
+Window Top = 185
+Window Left = 89
 
 [File 0002]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "GUIDesign.c"
+Path = "//snapdragon/common/Undergrads/Kerry/gui/GUIDesign.c"
 File Type = "CSource"
-Disk Date = 3420820085
+Disk Date = 3714747344
 In Projects = "1,"
+Source Window State = "1,2511,2511,2511,5,5,5,0,0,0,0,0,0,0,0,0,2478,0,2511,5,798,836,1,0,"
 Window Top = 130
 Window Left = -12
-Window Z-Order = 1
-Source Window State = "1,2576,2576,2576,29,59,59,0,0,100,0,901,0,0,0,59,909,0,934,91,798,836,1,0,"
-Breakpoint 0001 = "3793,0,enabled,"
-Breakpoint 0002 = "3970,0,enabled,"
+Window Z-Order = 2
 
 [File 0003]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "Adwin.c"
-File Type = "CSource"
-Disk Date = 3190914854
+Path = "//snapdragon/common/Undergrads/Kerry/gui/GUIDesign.uir"
+File Type = "User Interface Resource"
+Disk Date = 3714747529
 In Projects = "1,"
-Window Top = 155
-Window Left = 73
-Source Window State = "1,1356,1424,1424,37,71,71,0,0,0,0,0,0,0,0,0,171,0,224,3,343,670,1,0,"
+Window Top = 420
+Window Left = -246
+Window Height = 1002
+Window Width = 1048
+Window Z-Order = 3
 
 [File 0004]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "Adwin.h"
-File Type = "Include"
-Disk Date = 3117121292
+Path = "//snapdragon/common/Undergrads/Kerry/gui/main.c"
+File Type = "CSource"
+Disk Date = 3714738342
 In Projects = "1,"
-Window Top = 399
-Window Left = -180
-Source Window State = "1,0,0,0,0,0,0,0,0,109,0,0,0,0,0,30,69,0,88,10,418,907,1,0,"
+Source Window State = "1,205,205,205,4,4,4,0,0,0,0,0,0,0,0,0,190,0,205,4,401,742,1,0,"
+Window Top = 33
+Window Left = 10
+Window Z-Order = 5
 
 [File 0005]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "AnalogControl.h"
+Path = "//snapdragon/common/Undergrads/Kerry/gui/vars.h"
+File Type = "Include"
+Disk Date = 3714581359
+In Projects = "1,"
+Source Window State = "1,95,95,95,43,43,43,0,0,0,0,0,0,0,0,0,95,0,95,43,349,676,1,0,"
+Window Top = 32
+Window Left = 6
+
+[File 0006]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/Adwin.c"
+File Type = "CSource"
+Disk Date = 3714747530
+In Projects = "1,"
+Source Window State = "1,224,224,224,3,3,3,0,0,0,0,0,0,0,0,0,180,0,224,3,343,670,1,0,"
+Window Top = 155
+Window Left = 73
+Window Z-Order = 1
+
+[File 0007]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/Adwin.h"
+File Type = "Include"
+Disk Date = 3714742147
+In Projects = "1,"
+Source Window State = "1,17,17,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,418,907,1,0,"
+Window Top = 399
+Window Left = -180
+
+[File 0008]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/AnalogControl.h"
 File Type = "Include"
 Disk Date = 3232122352
 In Projects = "1,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0,34,21,343,670,1,0,"
 Window Top = 454
 Window Left = 281
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0,34,21,343,670,1,0,"
 
-[File 0006]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "AnalogControl.uir"
+[File 0009]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/AnalogControl.uir"
 File Type = "User Interface Resource"
-Disk Date = 3232122352
+Disk Date = 3714747530
 In Projects = "1,"
 Window Top = 262
 Window Left = 243
 Window Height = 400
 Window Width = 676
 
-[File 0007]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "AnalogControl2.h"
+[File 0010]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/AnalogControl2.h"
 File Type = "Include"
 Disk Date = 3174054178
 In Projects = "1,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,343,670,1,0,"
 Window Top = 35
 Window Left = 9
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,343,670,1,0,"
 
-[File 0008]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "AnalogSettings.c"
+[File 0011]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/AnalogSettings.c"
 File Type = "CSource"
 Disk Date = 3227099762
 In Projects = "1,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,98,0,110,5,343,670,1,0,"
 Window Top = 215
 Window Left = 105
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,98,0,110,5,343,670,1,0,"
 
-[File 0009]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "AnalogSettings.h"
+[File 0012]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/AnalogSettings.h"
 File Type = "Include"
-Disk Date = 3214412172
+Disk Date = 3214408572
 In Projects = "1,"
+Source Window State = "1,42,42,42,17,38,17,0,3,0,0,0,0,0,0,0,25,0,42,38,343,670,1,0,"
 Window Top = 65
 Window Left = 25
-Source Window State = "1,42,42,42,17,38,17,0,3,0,0,0,0,0,0,0,25,0,42,38,343,670,1,0,"
 
-[File 0010]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "AnalogSettings.uir"
+[File 0013]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/AnalogSettings.uir"
 File Type = "User Interface Resource"
-Disk Date = 3214412172
+Disk Date = 3714747530
 In Projects = "1,"
 Window Top = 240
 Window Left = 147
 Window Height = 401
 Window Width = 676
 
-[File 0011]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "AnalogSettings2.h"
+[File 0014]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/AnalogSettings2.h"
 File Type = "Include"
 Disk Date = 3174054128
 In Projects = "1,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,5,343,670,1,0,"
 Window Top = 95
 Window Left = 41
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,5,343,670,1,0,"
 
-[File 0012]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "DDSControl.c"
+[File 0015]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/DDSControl.c"
 File Type = "CSource"
-Disk Date = 3368118523
+Disk Date = 3368118524
 In Projects = "1,"
+Source Window State = "1,12,14,12,36,36,36,0,0,0,0,0,0,0,0,0,0,0,2,81,704,836,1,0,"
 Window Top = 485
 Window Left = -154
-Source Window State = "1,12,14,12,36,36,36,0,0,0,0,0,0,0,0,0,0,0,2,81,704,836,1,0,"
 
-[File 0013]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "DDSControl.h"
+[File 0016]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/DDSControl.h"
 File Type = "Include"
 Disk Date = 3204571168
 In Projects = "1,"
+Source Window State = "1,35,35,35,17,35,35,0,0,0,0,0,0,0,0,0,18,0,33,33,343,670,1,0,"
 Window Top = 125
 Window Left = 57
-Source Window State = "1,35,35,35,17,35,35,0,0,0,0,0,0,0,0,0,18,0,33,33,343,670,1,0,"
 
-[File 0014]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "DDSControl.uir"
+[File 0017]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/DDSControl.uir"
 File Type = "User Interface Resource"
-Disk Date = 3204571168
+Disk Date = 3714747530
 In Projects = "1,"
 Window Top = 154
 Window Left = -10
 Window Height = 401
 Window Width = 676
 
-[File 0015]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "DDSControl2.h"
+[File 0018]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/DDSControl2.h"
 File Type = "Include"
 Disk Date = 3204567302
 In Projects = "1,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,349,676,1,0,"
 Window Top = 62
 Window Left = 22
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,349,676,1,0,"
 
-[File 0016]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "DDSSettings.c"
+[File 0019]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/DDSSettings.c"
 File Type = "CSource"
 Disk Date = 3227099846
 In Projects = "1,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,85,496,803,1,0,"
 Window Top = 122
 Window Left = 4
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,85,496,803,1,0,"
 
-[File 0017]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "DDSSettings.h"
+[File 0020]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/DDSSettings.h"
 File Type = "Include"
 Disk Date = 3204635554
 In Projects = "1,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,497,804,1,62,"
 Window Top = 92
 Window Left = 38
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,497,804,1,62,"
 
-[File 0018]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "DDSSettings.uir"
+[File 0021]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/DDSSettings.uir"
 File Type = "User Interface Resource"
-Disk Date = 3204635848
+Disk Date = 3714747530
 In Projects = "1,"
 Window Top = 242
 Window Left = 118
 Window Height = 401
 Window Width = 676
 
-[File 0019]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "DDSSettings2.h"
+[File 0022]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/DDSSettings2.h"
 File Type = "Include"
 Disk Date = 3174390382
 In Projects = "1,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,349,676,1,0,"
 Window Top = 32
 Window Left = 6
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,349,676,1,0,"
 
-[File 0020]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "ddstranslator.c"
+[File 0023]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/ddstranslator.c"
 File Type = "CSource"
-Disk Date = 3372356663
+Disk Date = 3372353064
 In Projects = "1,"
+Source Window State = "1,196,196,196,4,15,15,0,0,0,0,0,0,0,0,0,142,0,160,16,550,806,1,0,"
 Window Top = 305
 Window Left = 29
-Source Window State = "1,196,196,196,4,15,15,0,0,0,0,0,0,0,0,0,142,0,160,16,550,806,1,0,"
 
-[File 0021]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "ddstranslator.h"
+[File 0024]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/ddstranslator.h"
 File Type = "Include"
 Disk Date = 3197208098
 In Projects = "1,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,349,676,1,0,"
 Window Top = 62
 Window Left = 22
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,349,676,1,0,"
 
-[File 0022]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "DigitalSettings.c"
+[File 0025]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/DigitalSettings.c"
 File Type = "CSource"
 Disk Date = 3227100118
 In Projects = "1,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,343,670,1,0,"
 Window Top = 335
 Window Left = 169
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,343,670,1,0,"
 
-[File 0023]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "DigitalSettings.h"
+[File 0026]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/DigitalSettings.h"
 File Type = "Include"
-Disk Date = 3214412144
+Disk Date = 3214408544
 In Projects = "1,"
+Source Window State = "1,14,23,23,78,79,79,0,0,0,0,0,0,0,0,0,12,0,20,72,343,670,1,0,"
 Window Top = 155
 Window Left = 73
-Source Window State = "1,14,23,23,78,79,79,0,0,0,0,0,0,0,0,0,12,0,20,72,343,670,1,0,"
 
-[File 0024]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "DigitalSettings.uir"
+[File 0027]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/DigitalSettings.uir"
 File Type = "User Interface Resource"
-Disk Date = 3214412144
+Disk Date = 3714747531
 In Projects = "1,"
 Window Top = 142
 Window Left = 187
 Window Height = 401
 Window Width = 676
 
-[File 0025]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "DigitalSettings2.h"
+[File 0028]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/DigitalSettings2.h"
 File Type = "Include"
 Disk Date = 3174054198
 In Projects = "1,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,343,670,1,30,"
 Window Top = 185
 Window Left = 89
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,343,670,1,30,"
 
-[File 0026]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "GUIDesign.h"
+[File 0029]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/GUIDesign.h"
 File Type = "Include"
 Disk Date = 3232118768
 In Projects = "1,"
+Source Window State = "1,49,49,49,30,30,30,0,0,0,0,0,0,0,0,0,28,0,49,30,343,670,1,0,"
 Window Top = 525
 Window Left = 4
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,24,53,0,65,9,343,670,1,0,"
-
-[File 0027]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "GUIDesign.uir"
-File Type = "User Interface Resource"
-Disk Date = 3232453446
-In Projects = "1,"
-Window Top = 420
-Window Left = -246
-Window Height = 1002
-Window Width = 1048
-
-[File 0028]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "GUIDesign2.h"
-File Type = "Include"
-Disk Date = 3232388558
-In Projects = "1,"
-Window Top = 493
-Window Left = 4
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,20,0,32,28,343,670,1,0,"
-
-[File 0029]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "main.c"
-File Type = "CSource"
-Disk Date = 3420818571
-In Projects = "1,"
-Window Top = 364
-Window Left = 4
-Source Window State = "1,429,437,437,29,33,33,0,0,101,0,0,0,0,0,56,57,0,105,57,756,838,1,0,"
+Window Z-Order = 4
 
 [File 0030]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "main.h"
+Path = "//snapdragon/common/Undergrads/Kerry/gui/GUIDesign2.h"
 File Type = "Include"
-Disk Date = 3220905670
+Disk Date = 3714737818
 In Projects = "1,"
-Window Top = 32
-Window Left = 6
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,70,349,676,1,0,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,20,0,32,28,343,670,1,0,"
+Window Top = 493
+Window Left = 4
 
 [File 0031]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "RabbitCom9910.c"
-File Type = "CSource"
-Disk Date = 3369933233
+Path = "//snapdragon/common/Undergrads/Kerry/gui/main.h"
+File Type = "Include"
+Disk Date = 3220902070
 In Projects = "1,"
-Window Top = 454
-Window Left = 4
-Source Window State = "1,162,163,162,95,93,95,0,0,0,0,541,0,541,0,0,2,0,169,92,824,801,1,0,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,70,349,676,1,0,"
+Window Top = 32
+Window Left = 6
 
 [File 0032]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "RabbitCom9910.h"
-File Type = "Include"
-Disk Date = 3369238845
+Path = "//snapdragon/common/Undergrads/Kerry/gui/RabbitCom9910.c"
+File Type = "CSource"
+Disk Date = 3369933234
 In Projects = "1,"
-Window Top = 152
-Window Left = 70
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,46,0,46,0,0,0,0,41,37,349,676,1,0,"
+Source Window State = "1,162,163,162,95,93,95,0,0,0,0,541,0,541,0,0,2,0,169,92,824,801,1,0,"
+Window Top = 454
+Window Left = 4
 
 [File 0033]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "JohnHagee_DDS_FPGA_WORK_8-23-10/rabbit gui/RabbitCom9910.uir"
+Path = "//snapdragon/common/Undergrads/Kerry/gui/RabbitCom9910.h"
+File Type = "Include"
+Disk Date = 3369238846
+In Projects = "1,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,46,0,46,0,0,0,0,41,37,349,676,1,0,"
+Window Top = 152
+Window Left = 70
+
+[File 0034]
+Path Line0001 = "//snapdragon/common/Undergrads/Kerry/gui/JohnHagee_DDS_FPGA_WORK_8-23-10/rabbit "
+Path Line0002 = "gui/RabbitCom9910.uir"
 File Type = "User Interface Resource"
-Disk Date = 3298457420
+Disk Date = 0
 In Projects = "1,"
 Window Top = 92
 Window Left = 38
 Window Height = 349
 Window Width = 676
 
-[File 0034]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "RabbitCom9910_2.h"
+[File 0035]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/RabbitCom9910_2.h"
 File Type = "Include"
-Disk Date = 3369238792
+Disk Date = 3369238794
 In Projects = "1,"
+Source Window State = "1,0,1,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0,2,0,349,676,1,0,"
 Window Top = 122
 Window Left = 54
-Source Window State = "1,0,1,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0,2,0,349,676,1,0,"
 
-[File 0035]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "scan.c"
+[File 0036]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/scan.c"
 File Type = "CSource"
 Disk Date = 3227100686
 In Projects = "1,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,209,45,343,670,1,0,"
 Window Top = 395
 Window Left = 201
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,209,45,343,670,1,0,"
-
-[File 0036]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "Scan.h"
-File Type = "Include"
-Disk Date = 3224774608
-In Projects = "1,"
-Window Top = 275
-Window Left = 137
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,343,670,1,0,"
 
 [File 0037]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "Scan.uir"
+Path = "//snapdragon/common/Undergrads/Kerry/gui/Scan.h"
+File Type = "Include"
+Disk Date = 3224771008
+In Projects = "1,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,343,670,1,0,"
+Window Top = 275
+Window Left = 137
+
+[File 0038]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/Scan.uir"
 File Type = "User Interface Resource"
-Disk Date = 3224774608
+Disk Date = 3714747531
 In Projects = "1,"
 Window Top = 272
 Window Left = -396
 Window Height = 617
 Window Width = 935
 
-[File 0038]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "scan2.h"
+[File 0039]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/scan2.h"
 File Type = "Include"
 Disk Date = 3196964994
 In Projects = "1,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,349,676,1,0,"
 Window Top = 92
 Window Left = 38
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,349,676,1,0,"
 
-[File 0039]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "ScanTableLoader.c"
+[File 0040]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/ScanTableLoader.c"
 File Type = "CSource"
 Disk Date = 3232448322
 In Projects = "1,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,47,28,343,670,1,0,"
 Window Top = 425
 Window Left = 217
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,47,28,343,670,1,0,"
 
-[File 0040]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "ScanTableLoader.h"
+[File 0041]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/ScanTableLoader.h"
 File Type = "Include"
 Disk Date = 3232379428
 In Projects = "1,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,343,670,1,0,"
 Window Top = 215
 Window Left = 105
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,343,670,1,0,"
 
-[File 0041]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "ScanTableLoader.uir"
+[File 0042]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/ScanTableLoader.uir"
 File Type = "User Interface Resource"
-Disk Date = 3232379428
+Disk Date = 3714747531
 In Projects = "1,"
 Window Top = 122
 Window Left = 54
 Window Height = 349
 Window Width = 676
 
-[File 0042]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "ScanTableLoader2.h"
+[File 0043]
+Path = "//snapdragon/common/Undergrads/Kerry/gui/ScanTableLoader2.h"
 File Type = "Include"
 Disk Date = 3232379900
 In Projects = "1,"
+Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,343,670,1,0,"
 Window Top = 245
 Window Left = 121
-Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,343,670,1,0,"
 
-[File 0043]
-Path Line0001 = "/c/Documents and Settings/labadmin/Desktop/ADwinGUI/ZiltzAdWinGUI_WM_May2012_v1/"
-Path Line0002 = "vars.h"
-File Type = "Include"
-Disk Date = 3232121352
-In Projects = "1,"
-Window Top = 32
-Window Left = 6
-Source Window State = "1,128,128,128,18,26,26,0,0,0,0,0,0,0,0,0,106,0,118,7,349,676,1,0,"
+[Tab Order]
+Tab 0001 = "//snapdragon/common/Undergrads/Kerry/gui/main.c"
+Tab 0002 = "//snapdragon/common/Undergrads/Kerry/gui/GUIDesign.uir"
+Tab 0003 = "//snapdragon/common/Undergrads/Kerry/gui/GUIDesign.c"
+Tab 0004 = "//snapdragon/common/Undergrads/Kerry/gui/GUIDesign.h"
+Tab 0005 = "//snapdragon/common/Undergrads/Kerry/gui/Adwin.c"
+
+[Default Build Config 0001 Debug]
+Generate Browse Info = True
+Enable Uninitialized Locals Runtime Warning = True
+Batch Build = True
+Profile = "Disabled"
+Debugging Level = "No Run-time Checking"
+Execution Trace = "Disabled"
+Command Line Args = ""
+Working Directory = ""
+Environment Options = ""
+External Process Path = ""
+
+[Default Build Config 0001 Release]
+Generate Browse Info = True
+Enable Uninitialized Locals Runtime Warning = True
+Batch Build = True
+Profile = "Disabled"
+Debugging Level = "No Run-time Checking"
+Execution Trace = "Disabled"
+Command Line Args = ""
+Working Directory = ""
+Environment Options = ""
+External Process Path = ""
+
+[Default Build Config 0001 Debug64]
+Generate Browse Info = True
+Enable Uninitialized Locals Runtime Warning = True
+Batch Build = False
+Profile = "Disabled"
+Debugging Level = "No Run-time Checking"
+Execution Trace = "Disabled"
+Command Line Args = ""
+Working Directory = ""
+Environment Options = ""
+External Process Path = ""
+
+[Default Build Config 0001 Release64]
+Generate Browse Info = True
+Enable Uninitialized Locals Runtime Warning = True
+Batch Build = False
+Profile = "Disabled"
+Debugging Level = "No Run-time Checking"
+Execution Trace = "Disabled"
+Command Line Args = ""
+Working Directory = ""
+Environment Options = ""
+External Process Path = ""
+
+[Build Dependencies 0001]
+Number of Dependencies = 0
 
 [Build Options 0001]
 Generate Browse Info = True
 Enable Uninitialized Locals Runtime Warning = True
+Execution Trace = "Disabled"
+Profile = "Disabled"
 Debugging Level = "No Run-time Checking"
 Break On Library Errors = True
 Break On First Chance Exceptions = False
+
+[Execution Target 0001]
 Execution Target Address = "Local desktop computer"
 Execution Target Port = 0
 Execution Target Type = 0
@@ -517,14 +541,6 @@ External Process Path = ""
 
 [Command Line Args 0001]
 Command Line Args = ""
-
-[Watch Point 1]
-Watch Expression = "UpdateNum"
-Update Display Continuously = False
-Break When Value Changes = False
-Scope = "Local"
-File = "GUIDesign.c"
-Function = "BuildUpdateList"
-DllName = "GUIDesign_dbg.exe"
-Project = 1
+Working Directory = ""
+Environment Options = ""
 

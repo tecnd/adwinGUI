@@ -419,7 +419,7 @@ float Get_FPar(short Index)
 }
 
 /* Element/e aus einem ADbasic Datensatz vom Transputer holen.
-            Übergabe in short ARRAY / wird in Doku nicht mehr beschrieben */
+            Ãœbergabe in short ARRAY / wird in Doku nicht mehr beschrieben */
 /* ==============================================================================*/
 short GetData(short DataNo, short Data[], long Startindex, long Count )
 {

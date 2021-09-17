@@ -1,8 +1,8 @@
 /*************************************************************
-* Include File zum Einbinden der Prototypen für die Aufrufe an 
+* Include File zum Einbinden der Prototypen fï¿½r die Aufrufe an 
 * die ADwin-Karten.
 * Erstellt am : 30.05.2001 von MS
-* geändert am :	12.06.2001 von MS
+* geï¿½ndert am :	12.06.2001 von MS
 				15.05.2002 von MS
 **************************************************************/
 
@@ -23,9 +23,9 @@ extern "C" {
 /* The variable "DeviceNo" is declared and inizialized to the default value of 0x150 in file adwin.c /adwin.cpp.
    This variable is responsible for all accesses to the ADwin-system(s). */
 extern short DeviceNo;
-/* Prototypen von oft benötigten Meß- und Steuerungsfunktionen aus der Datei adwin.c */
+/* Prototypen von oft benï¿½tigten Meï¿½- und Steuerungsfunktionen aus der Datei adwin.c */
 
-long    Iserv(char my_FAR *Filename, long Memsize);
+long  Iserv(char my_FAR *Filename, long Memsize);
 long	Boot(char my_FAR *Filename, long Memsize);
 long	ADboot(char *Filename, short DeviceNo, long Memsize);
 short	ADBPrLoad(char my_FAR *Filename);
