@@ -1,2 +1,9 @@
+# VSCode configs
 .vscode/
+
+# LabWindows build files
 cvibuild.GUIDesign/
+*.exe
+
+#LabWindows workspace
+*.cws
