@@ -114,7 +114,7 @@ void SetControlPanel(void)
 	while(!FOUNDVAL)
 	{
 		if(TimeArray[cx][cz]==0) {cz++;cx=1;}       // if you see a 0 time, go to next page
-		if(cz>=NUMBEROFPAGES+1)
+		if(cz>=NUMBEROFPAGES)
 		{
 			FOUNDVAL=TRUE;
 		}

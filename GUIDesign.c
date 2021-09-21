@@ -1600,7 +1600,7 @@ void DrawNewTable(int isdimmed)
 		DDSChannel1 = NUMBERANALOGCHANNELS + 1;
 		DDSChannel2 = NUMBERANALOGCHANNELS + 2;
 		DDSChannel3 = NUMBERANALOGCHANNELS + 3;
-		/*DDS1*/ SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel1), 0);
+		/*DDS1*/ SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel1), 0.);
 		//if(ispicture==0)
 		{
 			SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel1), ddstable[i][page].start_frequency);
@@ -1626,7 +1626,7 @@ void DrawNewTable(int isdimmed)
 				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel1), ATTR_TEXT_BGCOLOR, VAL_GREEN);
 			}
 		}
-		/*DDS2*/ SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel2), 0);
+		/*DDS2*/ SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel2), 0.);
 		//if(ispicture==0)
 		{
 			SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel2), dds2table[i][page].start_frequency);
@@ -1652,7 +1652,7 @@ void DrawNewTable(int isdimmed)
 				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel2), ATTR_TEXT_BGCOLOR, VAL_GREEN);
 			}
 		}
-		/*DDS3*/ SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel3), 0);
+		/*DDS3*/ SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel3), 0.);
 		//if(ispicture==0)
 		{
 			SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel3), dds3table[i][page].start_frequency);
@@ -3099,15 +3099,12 @@ void ReshapeAnalogTable(int top, int left, int height)
 	int j, istext = 0, celltype = 0, tempint;
 	int modheight;
 
-	for (j = 1; j <= NUMBERANALOGCHANNELS + NUMBERDDS; j++)
-	{
-		SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, j, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
-		SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, j, ATTR_ROW_HEIGHT, (height) / (NUMBERANALOGCHANNELS + NUMBERDDS));
-		SetTableRowAttribute(panelHandle, PANEL_TBL_ANAMES, j, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
-		SetTableRowAttribute(panelHandle, PANEL_TBL_ANAMES, j, ATTR_ROW_HEIGHT, (height) / (NUMBERANALOGCHANNELS + NUMBERDDS));
-		SetTableRowAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, j, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
-		SetTableRowAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, j, ATTR_ROW_HEIGHT, (height) / (NUMBERANALOGCHANNELS + NUMBERDDS));
-	}
+	SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
+	SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_ROW_HEIGHT, (height) / (NUMBERANALOGCHANNELS + NUMBERDDS));
+	SetTableRowAttribute(panelHandle, PANEL_TBL_ANAMES, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
+	SetTableRowAttribute(panelHandle, PANEL_TBL_ANAMES, -1, ATTR_ROW_HEIGHT, (height) / (NUMBERANALOGCHANNELS + NUMBERDDS));
+	SetTableRowAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
+	SetTableRowAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, -1, ATTR_ROW_HEIGHT, (height) / (NUMBERANALOGCHANNELS + NUMBERDDS));
 	modheight = (NUMBERANALOGCHANNELS + NUMBERDDS) * (int)((height) / (NUMBERANALOGCHANNELS + NUMBERDDS)) + 3;
 
 	//resize the analog table and all it's related list boxes

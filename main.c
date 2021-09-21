@@ -206,14 +206,6 @@ int main(int argc, char *argv[])
 	RunUserInterface();		   // start the GUI
 	DiscardPanel(panelHandle); // returns here after the GUI shutsdown
 
-	//clean up DDS Table
-	for (i = 0; i < NUMBEROFCOLUMNS; i++)
-	{
-		free(ddstable[i]);
-		free(dds2table[i]);
-		free(dds3table[i]);
-	}
-
 	return 0;
 }
 //**********************************************************************************
@@ -238,8 +230,10 @@ void Initialization()
 	//Build display panels (text/channel num)
 	SetTableColumnAttribute(panelHandle, PANEL_TBL_ANAMES, 1, ATTR_CELL_TYPE, VAL_CELL_STRING);
 	SetTableColumnAttribute(panelHandle, PANEL_TBL_ANAMES, 2, ATTR_CELL_TYPE, VAL_CELL_NUMERIC);
+	SetTableColumnAttribute(panelHandle, PANEL_TBL_ANAMES, 2, ATTR_DATA_TYPE, VAL_UNSIGNED_INTEGER);
 	SetTableColumnAttribute(panelHandle, PANEL_TBL_DIGNAMES, 1, ATTR_CELL_TYPE, VAL_CELL_STRING);
 	SetTableColumnAttribute(panelHandle, PANEL_TBL_DIGNAMES, 2, ATTR_CELL_TYPE, VAL_CELL_NUMERIC);
+	SetTableColumnAttribute(panelHandle, PANEL_TBL_DIGNAMES, 2, ATTR_DATA_TYPE, VAL_UNSIGNED_INTEGER);
 	SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_TABLE_MODE, VAL_COLUMN);
 	SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_TABLE_MODE, VAL_COLUMN);
 
@@ -277,18 +271,8 @@ void Initialization()
 
 	for (i = 1; i <= NUMBERANALOGCHANNELS; i++)
 	{
-		SetTableCellAttribute(panelHandle, PANEL_TBL_ANAMES, MakePoint(2, i), ATTR_DATA_TYPE, VAL_UNSIGNED_INTEGER);
 		SetTableCellVal(panelHandle, PANEL_TBL_ANAMES, MakePoint(2, i), i);
 	}
-
-	//	InsertTableRows (panelHandle, PANEL_ANALOGTABLE, 16,NUMBERANALOGCHANNELS-16+NUMBERDDS-1, VAL_CELL_NUMERIC);
-	//	InsertTableRows (panelHandle, PANEL_TBL_ANAMES,24+1,NUMBERANALOGCHANNELS-24+NUMBERDDS+1,VAL_CELL_STRING);
-	//	InsertTableRows (panelHandle, PANEL_DIGTABLE, 16,NUMBERDIGITALCHANNELS-16, VAL_CELL_PICTURE);
-	//
-	//	InsertTableRows (panelHandle, PANEL_SCAN_TABLE,1,100,VAL_CELL_NUMERIC);
-	//	GetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_HEIGHT,&aname_size);
-	//	new_aname_size=(int)((float)aname_size*27.0/25.0);
-	//	SetCtrlAttribute (panelHandle, PANEL_TBL_ANAMES, ATTR_HEIGHT,100);
 
 	SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_PRECISION, 3);
 
@@ -299,9 +283,6 @@ void Initialization()
 	// change GUI
 	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERANALOGCHANNELS + NUMBERDDS);
 	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERDIGITALCHANNELS);
-	SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_VISIBLE_LINES, NUMBERANALOGCHANNELS + NUMBERDDS);
-	SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_VISIBLE_LINES, NUMBERANALOGCHANNELS + NUMBERDDS);
-	SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_VISIBLE_LINES, NUMBERDIGITALCHANNELS);
 
 	SetCtrlAttribute(panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 1);
 	SetCtrlAttribute(panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
@@ -401,15 +382,7 @@ void Initialization()
 	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_10, ATTR_LEFT, x0);
 	x0 = x0 + dx;
 
-	// Scan display
-	//	SetCtrlAttribute (panelHandle, PANEL_DECORATION_BOX, ATTR_VISIBLE, 0);
-	//	SetCtrlAttribute (panelHandle, PANEL_NUM_SCANVAL, ATTR_VISIBLE, 0);
-	//	SetCtrlAttribute (panelHandle, PANEL_NUM_SCANSTEP, ATTR_VISIBLE, 0);
-	//	SetCtrlAttribute (panelHandle, PANEL_NUM_SCANITER, ATTR_VISIBLE, 0);
 	SetCtrlAttribute(panelHandle_sub2, SUBPANEL2, ATTR_VISIBLE, 0);
-
-	SetTableColumnAttribute(panelHandle, PANEL_TBL_ANAMES, 2, ATTR_DATA_TYPE, VAL_UNSIGNED_INTEGER);
-	SetTableColumnAttribute(panelHandle, PANEL_TBL_DIGNAMES, 2, ATTR_DATA_TYPE, VAL_UNSIGNED_INTEGER);
 
 	PScan.Analog.Scan_Step_Size = 1.0;
 	PScan.Analog.Iterations_Per_Step = 1;
