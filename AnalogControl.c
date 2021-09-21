@@ -29,12 +29,11 @@ Writes data to the AnalogTable array
 NOT DONE:  IF TIMESCALE IS TOO LONG THEN OVERWRITE THE FOLLOWING CELL
 */
 {
-	int itemp=0,cmode,next_fcn,chk_page;				// variables for reading/writing the control mode
+	int itemp=0,cmode;				// variables for reading/writing the control mode
 	int docheck=0,valuesgood=1;		// booleans.  docheck=1 if we need to check the time settings
 									// valuesgood=1 if okay to write data to AnalogTable array..sets to 0 if prompt denied
 	double dtemp,ttemp,usedtimescale; //usedtimescale=timescale written in AnalogTable to control ramping, exponential etc.
 	double timematrixlength;		// duration of the current column.
-	Point pval;
 	switch (event)
 		{
 								 
@@ -99,7 +98,7 @@ void SetControlPanel(void)
 	// Reads the value of the last active column before this one and displays it on the panel.
 	double lastvalue;
 	BOOL FOUNDVAL=0;
-	int cx,cy,cz;
+	int cx,cz;
 	
 	SetCtrlVal(panelHandle4,CTRL_PANEL_STRUNITS, AChName[currenty].units);
 	SetCtrlVal(panelHandle4,CTRL_PANEL_STR_CHNAME,AChName[currenty].chname);

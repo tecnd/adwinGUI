@@ -110,8 +110,7 @@ int CVICALLBACK CMD_DONEANALOG_CALLBACK (int panel, int control, int event,
 // Update the main panel to display new values in the channel listing
 void SetAnalogChannels()
 {
-	int i=0,j=0,k=0,line=0;
-	char numbuff[20]="";
+	int i=0;
 	for(i=1;i<=NUMBERANALOGCHANNELS;i++)
 	{
 

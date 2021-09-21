@@ -185,7 +185,6 @@ void RunOnce(void)
 	int i, j, k, mindex, tsize;
 	int insertpage, insertcolumn, x, y, lastpagenum, FinalPageToUse;
 	BOOL nozerofound, nozerofound_2;
-	int ResetToZeroAtEnd[30];
 
 	isdimmed = TRUE;
 	lastpagenum = 10;
@@ -390,16 +389,15 @@ void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS +
 	int *UpdateNum;
 	int *ChNum;
 	float *ChVal;
-	FILE *fp;
 	int NewTimeMat[500];
-	int i = 0, j = 0, k = 0, m = 0, n = 0, tau = 0, p = 0, imax;
+	int i = 0, j = 0, k = 0, m = 0;
 	int nupcurrent = 0, nuptotal = 0, checkresettozero = 0;
 	int usefcn = 0, digchannel; //Bool
-	unsigned int digval, digval2, digval3, digval4, LastDVal = 0, LastDVal2 = 0, LastDVal3 = 0, LastDVal4 = 0;
-	int UsingFcns[NUMBERANALOGCHANNELS + 1] = {0}, count = 0, ucounter = 0, counter, channel;
+	unsigned int digval, digval2, digval3, digval4, LastDVal = 0, LastDVal2 = 0;
+	int UsingFcns[NUMBERANALOGCHANNELS + 1] = {0}, count = 0;
 	double LastAval[NUMBERANALOGCHANNELS + 1] = {0}, NewAval, TempChVal, TempChVal2;
 	long ResetToZeroAtEnd[NUMBERANALOGCHANNELS + 6]; //1-24 for analog, ...but for now, if [1]=1 then all zero, else no change
-	int timemult, t, c, bigger;
+	int timemult, t, c;
 	double cycletime = 0;
 	int GlobalDelay = 300000; //Updated July 14 2009 - Ben Sofka (303030 corresponds to 1ms on T11 processor)
 	char buff[100];
@@ -410,14 +408,10 @@ void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS +
 	int timeused;
 	int tmp_dds;
 	dds_cmds_ptr dds_cmd_seq = NULL;
-	dds_cmds_ptr dds_cmd_seq_AD9858 = NULL;
 	double DDSoffset = 0.0, DDS2offset = 0.0, DDS3offset = 0.0;
 	int digchannelsum;
 	int newcount = 0;
 	// variables for timechannel optimization
-	int ZeroThreshold = 50;
-	int lastfound = 0;
-	int ii = 0, jj = 0, kk = 0, tt = 0; // variables for loops
 	int start_offset = 0;
 	time_t tstart, tstop;
 
@@ -1150,14 +1144,13 @@ void OptimizeTimeLoop(int *UpdateNum, int count, int *newcount)
 
 void UpdateScanValue(int Reset)
 {
-	static int scanstep, iteration;
+	static int scanstep;
 	int i, cx, cy, cz, numsteps;
-	double tempnumsteps, cellval, nextcell;
-	BOOL LastScan, UseList;
+	double cellval, nextcell;
+	BOOL UseList;
 	int hour, minute, second;
 	static BOOL ScanUp;
 	static int timesdid, counter;
-	char buff[400];
 
 	cx = PScan.Column;
 	cy = PScan.Row;
@@ -1367,7 +1360,7 @@ void LoadSettings(void)
 	FILE *fpini;
 	char fname[100] = "", c, fsavename[500] = "";
 	static char defaultdir[200] = "C:\\UserDate\\Data";
-	int i = 0, j = 0, k = 0, inisize = 0;
+	int inisize = 0;
 
 	//Check if .ini file exists.  Load it if it does.
 	if (!(fpini = fopen("gui.ini", "r")) == NULL)
@@ -1398,8 +1391,8 @@ void LoadLastSettings(int check)
 	//If .ini exists, then open the file dialog.  Else just open the file dialog.  Add a method to load
 	//last used settings on program startup.
 	FILE *fpini;
-	char fname[100] = "", c, fsavename[500] = "", loadname[100] = "";
-	int i = 0, j = 0, k = 0, inisize = 0;
+	char fname[100] = "", c, loadname[100] = "";
+	int inisize = 0;
 	//Check if .ini file exists.  Load it if it does.
 	if (!(fpini = fopen("gui.ini", "r")) == NULL)
 	{
@@ -1429,7 +1422,7 @@ Feb 09, 2006   Clear the Debug box before saving. (was causing insanely large sa
 	FILE *fpini;
 	char fname[100] = "", c, fsavename[500] = "";
 	static char defaultdir[200] = "C:\\UserDate\\Data";
-	int i = 0, j = 0, k = 0, inisize = 0, status, loadonboot = 0;
+	int inisize = 0, status, loadonboot = 0;
 	//Check if .ini file exists.  Load it if it does.
 	if (!(fpini = fopen("gui.ini", "r")) == NULL) // if "gui.ini" exists, then read it  Just contains a filename.
 	{											  //If not, do nothing
@@ -1468,18 +1461,17 @@ void DrawNewTable(int isdimmed)
 //                turns dark yellow. might pick a better color.
 
 {
-	int i, j, k, m, cfcn, picmode, page, cmode, pic;
+	int i, j, m, picmode, page, cmode;
 	int analogtable_visible = 0;
 	int digtable_visible = 0;
 	double vlast = 0, vnow = 0;
-	int dimset = 0, nozerofound, val;
+	int dimset = 0, nozerofound;
 	int DDSChannel1, DDSChannel2, DDSChannel3;
 
 	int ispicture = 1, celltype = 0; //celtype has 3 values.  0=Numeric, 1=String, 2=Picture
 	// list of colours used for different rows, alternate after every 3 rows
 	int ColourTable[37] = {VAL_BLACK, VAL_GRAY, VAL_GRAY, VAL_GRAY, 0x00B0B0B0, 0x00B0B0B0, 0x00B0B0B0, VAL_GRAY, VAL_GRAY, VAL_GRAY, 0x00B0B0B0, 0x00B0B0B0, 0x00B0B0B0,
 						   VAL_GRAY, VAL_GRAY, VAL_GRAY, 0x00B0B0B0, 0x00B0B0B0, 0x00B0B0B0, VAL_GRAY, VAL_GRAY, VAL_GRAY, 0x00B0B0B0, 0x00B0B0B0, 0x00B0B0B0, VAL_GRAY, VAL_GRAY, VAL_GRAY, 0x00B0B0B0, 0x00B0B0B0, 0x00B0B0B0, VAL_GRAY, VAL_GRAY, VAL_GRAY, 0x00B0B0B0, 0x00B0B0B0, 0x00B0B0B0};
-	Point pval = {0, 0};
 
 	GetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, &analogtable_visible);
 	GetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, &digtable_visible);
@@ -1798,7 +1790,7 @@ void CVICALLBACK MENU_CALLBACK(int menuBar, int menuItem, void *callbackData,
 int CVICALLBACK ANALOGTABLE_CALLBACK(int panel, int control, int event,
 									 void *callbackData, int eventData1, int eventData2)
 {
-	int cx = 0, cy = 0, pixleft = 0, pixtop = 0;
+	int pixleft = 0, pixtop = 0;
 	Point cpoint = {0, 0};
 	char buff[80] = "";
 	int leftbuttondown, rightbuttondown, keymod;
@@ -1855,7 +1847,7 @@ int GetPage(void)
 //*************************************************************************************
 void DrawLoopIndicators()
 {
-	int page, x0, dx, xendoffset, xstartoffset;
+	int page, dx, xendoffset, xstartoffset;
 	int xposstart, xposend;
 	int canvaswidth;
 
@@ -2296,7 +2288,7 @@ void CheckActivePages(void)
 int CVICALLBACK DIGTABLE_CALLBACK(int panel, int control, int event,
 								  void *callbackData, int eventData1, int eventData2)
 {
-	int status = 0, i_pict = 0, page, digval;
+	int page, digval;
 	Point pval = {0, 0};
 
 	ChangedVals = TRUE;
@@ -2326,9 +2318,7 @@ int CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event,
 								   void *callbackData, int eventData1, int eventData2)
 {
 	double dval, oldtime, ratio, tscaleold;
-	Point pval = {0, 0};
 	int page, i, j;
-	int ctrlmode;
 	ChangedVals = TRUE;
 	switch (event)
 	{
@@ -2619,7 +2609,7 @@ void CVICALLBACK INSERTCOLUMN_CALLBACK(int menuBar, int menuItem, void *callback
 									   int panel)
 {
 	char buff[20] = "", buff2[100] = "";
-	int page, status, i = 0, j = 0;
+	int page, status;
 	Point cpoint = {0, 0};
 	page = GetPage();
 
@@ -2638,7 +2628,7 @@ void CVICALLBACK DELETECOLUMN_CALLBACK(int menuBar, int menuItem, void *callback
 									   int panel)
 {
 	char buff[20] = "", buff2[100] = "";
-	int page, status, i = 0, j = 0;
+	int page, status;
 	Point cpoint = {0, 0};
 	page = GetPage();
 	//PromptPopup ("Array Manipulation:Delete", "Delete which column?", buff, 3);
@@ -2757,7 +2747,7 @@ void CVICALLBACK COPYCOLUMN_CALLBACK(int menuBar, int menuItem, void *callbackDa
 	//All attributes of active column are replaced with those of the global "clip" variables (from ClipColumn)
 
 	char buff[20] = "", buff2[100] = "";
-	int page, status, i = 0, j = 0;
+	int page, status, j = 0;
 	Point cpoint = {0, 0};
 
 	page = GetPage();
@@ -2810,7 +2800,7 @@ void CVICALLBACK PASTECOLUMN_CALLBACK(int menuBar, int menuItem, void *callbackD
 
 {
 	char buff[100] = "";
-	int page, status, i = 0, j = 0;
+	int page, status, j = 0;
 	Point cpoint = {0, 0};
 	ChangedVals = 1;
 	page = GetPage();
@@ -2899,7 +2889,6 @@ void LoadArrays(char savedname[500], int csize)
 	*/
 
 	FILE *fdata;
-	int i = 0, j = 0, k = 0;
 	int xval = 16, yval = 16, zval = 10, updatePer;
 	char buff[500] = "", buff2[100] = "";
 	strncat(buff, savedname, csize - 4);
@@ -3001,7 +2990,6 @@ void SaveArrays(char savedname[500], int csize)
 	*/
 
 	FILE *fdata;
-	int i = 0, j = 0, k = 0;
 	int xval = NUMBEROFCOLUMNS, yval = NUMBERANALOGCHANNELS + NUMBERDIGITALCHANNELS + NUMBERDDS, zval = NUMBEROFPAGES - 1;
 	int usupd5, usupd10, usupd100, usupd1000, updatePer; //Update Period Check
 	char buff[500] = "", buff2[100];
@@ -3096,7 +3084,7 @@ Parameters: new top, left and height values for the list box
 *************************************************************************/
 void ReshapeAnalogTable(int top, int left, int height)
 {
-	int j, istext = 0, celltype = 0, tempint;
+	int tempint;
 	int modheight;
 
 	SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
@@ -3320,8 +3308,7 @@ void ExportPanel(char fexportname[200], int fnamesize)
 
 	FILE *fexport;
 	int i = 0, j = 0, k = 0;
-	int xval = 16, yval = 16, zval = 10;
-	char buff[500], buff2[100], buff3[31], bigbuff[2000];
+	char buff[500], bigbuff[2000];
 	char fcnmode[6] = " LEJ"; // step, linear, exponential, const-jerk:  Step is assumed if blank
 	double MetaTimeArray[500];
 	int MetaDigitalArray[NUMBERDIGITALCHANNELS + 1][500];
@@ -3450,9 +3437,8 @@ void CVICALLBACK CONFIG_EXPORT_CALLBACK(int menuBar, int menuItem, void *callbac
 {
 
 	FILE *fconfig;
-	int i = 0, j = 0, k = 0;
-	int xval = 16, yval = 16, zval = 10;
-	char buff[500], buff2[100], fconfigname[200], buff3[31];
+	int i = 0;
+	char buff[500], fconfigname[200], buff3[31];
 
 	FileSelectPopup("", "*.config", "", "Save Configuration", VAL_SAVE_BUTTON, 0, 0, 1, 1, fconfigname);
 
@@ -3607,7 +3593,7 @@ void CVICALLBACK NOTECHECK_CALLBACK(int menuBar, int menuItem, void *callbackDat
 	SetMenuBarAttribute(menuHandle, MENU_SETTINGS_NOTECHECK, ATTR_CHECKED, !status);
 	//SetCtrlAttribute (panelHandle_sib1, PANEL_LABNOTE_TXT, ATTR_VISIBLE, !status);
 	//SetCtrlAttribute (panelHandle, MENU_NOTECHECK, ATTR_VISIBLE, !status);
-	if (status = 1)
+	if (status == 1)
 	{
 		DisplayPanel(panelHandle_sub1);
 	}
@@ -3632,10 +3618,10 @@ void CVICALLBACK STREAM_CALLBACK(int menuBar, int menuItem, void *callbackData,
 //**************************************************************************************************************
 void ExportScanBuffer(void)
 {
-	int i, j, status;
+	int i, status;
 	FILE *fbuffer;
 	char fbuffername[250], buff[500];
-	int step, iter, mode;
+	int step, iter;
 	double val;
 	char date[100];
 
@@ -3677,7 +3663,7 @@ void ExportScanBuffer(void)
 //**************************************************************************************************************
 void MoveCanvasStart(int XPos, int IsVisible)
 {
-	int x0 = 170, dx = 40, xwidth = 25;
+	int x0 = 170, dx = 40;
 
 	SetCtrlAttribute(panelHandle, PANEL_CANVAS_START, ATTR_LEFT, x0 + (XPos - 1) * dx);
 	SetCtrlAttribute(panelHandle, PANEL_CANVAS_START, ATTR_TOP, 141);
@@ -3701,7 +3687,6 @@ int CVICALLBACK SWITCH_LOOP_CALLBACK(int panel, int control, int event,
 									 void *callbackData, int eventData1, int eventData2)
 {
 	int pagestart, pageend, colstart, colend;
-	int temppage, tempcol;
 	BOOL ValuesGood, LoopSwitchOn;
 	switch (event)
 	{

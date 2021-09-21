@@ -97,7 +97,7 @@ Dec16	Made the last panel mobile, such that it can be inserted into other pages.
 
 int main(int argc, char *argv[])
 {
-	int i, j, k, status;
+	int i, j, k;
 	if (InitCVIRTE(0, argv, 0) == 0)
 		return -1; /* out of memory */
 	if ((panelHandle = LoadPanel(0, "GUIDesign.uir", PANEL)) < 0)
@@ -213,9 +213,8 @@ void Initialization()
 {
 	//Changes:
 	//Mar09, 2006:  Force DDS 1 frequency settings at loadtime.
-	int i = 0, cellheight = 0, fontsize = 0, aname_size, new_aname_size;
-	int j = 0, x0, dx;
-	char str_list_val[5];
+	int i = 0;
+	int x0, dx;
 	PScan.Scan_Active = FALSE;
 	PScan.Use_Scan_List = FALSE;
 	//
@@ -243,12 +242,10 @@ void Initialization()
 	HideBuiltInCtrlMenuItem(panelHandle, PANEL_DIGTABLE, -4); //Hides Sort Command
 
 	InsertTableRows(panelHandle, PANEL_DIGTABLE, -1, NUMBERDIGITALCHANNELS - 1, VAL_CELL_PICTURE);
-	InsertTableRows(panelHandle, PANEL_TBL_DIGNAMES, -1, NUMBERDIGITALCHANNELS - 1, VAL_CELL_NUMERIC);
+	InsertTableRows(panelHandle, PANEL_TBL_DIGNAMES, -1, NUMBERDIGITALCHANNELS - 1, VAL_USE_MASTER_CELL_TYPE);
 
 	for (i = 1; i <= NUMBERDIGITALCHANNELS; i++)
 	{
-		SetTableCellAttribute(panelHandle, PANEL_TBL_DIGNAMES, MakePoint(1, i), ATTR_CELL_TYPE, VAL_CELL_STRING);
-		SetTableCellAttribute(panelHandle, PANEL_TBL_DIGNAMES, MakePoint(2, i), ATTR_DATA_TYPE, VAL_UNSIGNED_INTEGER);
 		SetTableCellVal(panelHandle, PANEL_TBL_DIGNAMES, MakePoint(2, i), i);
 	}
 
