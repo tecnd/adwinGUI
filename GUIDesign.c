@@ -1254,8 +1254,12 @@ void DrawNewTable(int isdimmed)
 
 	int ispicture = 1, celltype = 0; //celtype has 3 values.  0=Numeric, 1=String, 2=Picture
 	// list of colours used for different rows, alternate after every 3 rows
-	int ColourTable[37] = {VAL_BLACK, VAL_GRAY, VAL_GRAY, VAL_GRAY, 0x00B0B0B0, 0x00B0B0B0, 0x00B0B0B0, VAL_GRAY, VAL_GRAY, VAL_GRAY, 0x00B0B0B0, 0x00B0B0B0, 0x00B0B0B0,
-						   VAL_GRAY, VAL_GRAY, VAL_GRAY, 0x00B0B0B0, 0x00B0B0B0, 0x00B0B0B0, VAL_GRAY, VAL_GRAY, VAL_GRAY, 0x00B0B0B0, 0x00B0B0B0, 0x00B0B0B0, VAL_GRAY, VAL_GRAY, VAL_GRAY, 0x00B0B0B0, 0x00B0B0B0, 0x00B0B0B0, VAL_GRAY, VAL_GRAY, VAL_GRAY, 0x00B0B0B0, 0x00B0B0B0, 0x00B0B0B0};
+	int ColourTable[MAX_CHANNELS+1];
+	for (i = 0; i < MAX_CHANNELS; i++)
+	{
+		if ((i / 3) % 2) ColourTable[i+1] = VAL_GRAY;
+		else ColourTable[i+1] = 0x00B0B0B0;
+	}
 
 	GetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, &analogtable_visible);
 	GetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, &digtable_visible);

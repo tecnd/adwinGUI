@@ -10,13 +10,18 @@ Macro Definitions
 #define DefaultEventPeriod 0.100 // in milliseconds
 #define AdwinTick 0.000025		 //Adwin clock cycle, in ms.
 #define NUMBERANALOGCHANNELS 32	 // Number of analog Channels available for control
-#define NUMBERDIGITALCHANNELS 36 // number of digital channels DISPLAYED!!!      \
+#define NUMBERDIGITALCHANNELS 64 // number of digital channels DISPLAYED!!!      \
 								 // some are not user controlled, e.g. DDS lines \
 								 // 32 in total.  5 used for DDS1                \
 								 // 5 for DD2 (K40 evap)                         \
 								 // reserved for DDS1                            \
 								 // reserved for DDS2                            \
 								 // reserved for DDS3				  NU
+#if NUMBERANALOGCHANNELS > NUMBERDIGITALCHANNELS
+#define MAX_CHANNELS NUMBERANALOGCHANNELS
+#else
+#define MAX_CHANNELS NUMBERDIGITALCHANNELS
+#endif
 
 #define NUMBERDDS 3		   // Number of DDS's
 #define NUMBEROFCOLUMNS 17 //
