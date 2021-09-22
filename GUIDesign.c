@@ -173,7 +173,7 @@ void RunOnce(void)
 	dds3options_struct MetaDDS3Array[500];
 	int i, j, k, mindex, tsize;
 	int insertpage, insertcolumn, x, y, lastpagenum, FinalPageToUse;
-	BOOL nozerofound, nozerofound_2;
+	BOOL nozerofound_2;
 
 	isdimmed = TRUE;
 	lastpagenum = 10;
@@ -195,9 +195,9 @@ void RunOnce(void)
 	//go through for each page
 	for (k = 1; k <= FinalPageToUse; k++) // numberofpages-1 because last page is 'mobile'
 	{
-		nozerofound = TRUE;
 		if (ischecked[k] == 1) //if the page is selected (checkbox is checked)
 		{
+			BOOL nozerofound = TRUE;
 			//go through for each time column
 			for (i = 1; i <= NUMBEROFCOLUMNS; i++)
 			{
@@ -379,9 +379,8 @@ void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS +
 	int *ChNum;
 	float *ChVal;
 	int NewTimeMat[500];
-	int i = 0, j = 0, k = 0, m = 0;
-	int nupcurrent = 0, nuptotal = 0, checkresettozero = 0;
-	int usefcn = 0, digchannel; //Bool
+	int nupcurrent, nuptotal = 0, checkresettozero = 0;
+	int usefcn, digchannel; //Bool
 	unsigned int digval, digval2, digval3, digval4, LastDVal = 0, LastDVal2 = 0;
 	int UsingFcns[NUMBERANALOGCHANNELS + 1] = {0}, count = 0;
 	double LastAval[NUMBERANALOGCHANNELS + 1] = {0}, NewAval, TempChVal, TempChVal2;
@@ -399,7 +398,7 @@ void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS +
 	dds_cmds_ptr dds_cmd_seq = NULL;
 	double DDSoffset = 0.0, DDS2offset = 0.0, DDS3offset = 0.0;
 	int digchannelsum;
-	int newcount = 0;
+	int newcount;
 	// variables for timechannel optimization
 	int start_offset = 0;
 	time_t tstart, tstop;
@@ -411,7 +410,7 @@ void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS +
 	GlobalDelay = (int)(EventPeriod / 0.00000333333333333333333333333333333333333333333333333333333333333333333333333333333333333333); // AdwintTick=0.0000033ms=AW clock cycle (Gives #of clock cycles/update) Updated July 2 2009 - Ben Sofka
 
 	//make a new time list...converting the TimeTable from milliseconds to number of events (numtimes=total #of columns)
-	for (i = 1; i <= numtimes; i++)
+	for (int i = 1; i <= numtimes; i++)
 	{
 		NewTimeMat[i] = (int)(TMatrix[i] * timemult); //number of Adwin events in column i
 		timesum = timesum + NewTimeMat[i];			  //total number of Adwin events
@@ -467,7 +466,7 @@ void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS +
 		//count: Number of Adwin events until the current position
 		//nupcurrent: number of updates for the current Adwin event
 		//nuptotal: current position in the channel/value column
-		for (i = 1; i <= numtimes; i++)
+		for (int i = 1; i <= numtimes; i++)
 		{
 			// find out how many channels need updating this round...
 			// if it's a non-step fcn, then keep a list of UsingFcns, and change it now
@@ -475,7 +474,7 @@ void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS +
 			usefcn = 0;
 
 			// scan over the analog channel..find updated values by comparing to old values.
-			for (j = 1; j <= NUMBERANALOGCHANNELS; j++)
+			for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
 			{
 				LastAval[j] = -99;
 				if (AMat[j][i].fval != AMat[j][i - 1].fval)
@@ -500,7 +499,7 @@ void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS +
 			digval2 = 0;
 			digval3 = 0;
 			digval4 = 0;
-			for (k = 1; k <= NUMBERDIGITALCHANNELS; k++)
+			for (int k = 1; k <= NUMBERDIGITALCHANNELS; k++)
 			{
 				digchannel = DChName[k].chnum;
 
@@ -645,15 +644,15 @@ void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS +
 
 			// this loop just writes out the first 1000 updates to the stdio window in the format
 			// i  UpdateNum    ChNum   Chval
-			k = 1;
-			for (i = 1; i < 1000; i++)
+			int k = 1;
+			for (int i = 1; i < 1000; i++)
 			{
 				printf("%-5d%d\t", i, UpdateNum[i]);
 				if (UpdateNum[i] > 0)
 				{
 					printf("%d\t%f\n", ChNum[k], ChVal[k]);
 					k++;
-					for (j = 1; j < UpdateNum[i]; j++)
+					for (int j = 1; j < UpdateNum[i]; j++)
 					{
 						printf("\t\t%d\t%f\n", ChNum[k], ChVal[k]);
 						k++;
@@ -745,6 +744,9 @@ void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS +
 		SetData_Long(4, ResetToZeroAtEnd, 1, NUMBERANALOGCHANNELS);
 		// done evaluating channels that are reset to  zero (low)
 		ChangedVals = 0;
+		free(UpdateNum);
+		free(ChNum);
+		free(ChVal);
 	}
 	// more debug info
 	tstop = clock();
@@ -781,9 +783,7 @@ void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS +
 		SetCtrlAttribute(panelHandle, PANEL_TIMER, ATTR_INTERVAL, cycletime);
 		ResetTimer(panelHandle, PANEL_TIMER);
 	}
-	free(UpdateNum);
-	free(ChNum);
-	free(ChVal);
+
 }
 
 //*****************************************************************************************
@@ -861,7 +861,6 @@ void OptimizeTimeLoop(int *UpdateNum, int count, int *newcount)
 	int j = 0;		  // t is the counter through the NewUpdateNum list
 	int t = 0;
 	int LowZeroThreshold, HighZeroThreshold;
-	int LastFound = 0;
 	int numberofzeros;
 	i = 1;
 	t = 1;
@@ -930,8 +929,7 @@ void OptimizeTimeLoop(int *UpdateNum, int count, int *newcount)
 
 void UpdateScanValue(int Reset)
 {
-	static int scanstep;
-	int i, cx, cy, cz, numsteps;
+	int cx, cy, cz;
 	double cellval, nextcell;
 	BOOL UseList;
 	int hour, minute, second;
@@ -950,7 +948,7 @@ void UpdateScanValue(int Reset)
 	if (Reset == TRUE)
 	{
 		counter = 0;
-		for (i = 0; i < 1000; i++)
+		for (int i = 0; i < 1000; i++)
 		{
 			ScanBuffer[i].Step = 0;
 			ScanBuffer[i].Iteration = 0;
@@ -991,7 +989,6 @@ void UpdateScanValue(int Reset)
 			ScanVal.Start = cellval;
 		}
 		timesdid = 0;
-		scanstep = 0;
 		ScanVal.Current_Step = 0;
 		ScanVal.Current_Iteration = -1;
 		ScanVal.Current_Value = ScanVal.Start;
@@ -1038,7 +1035,7 @@ void UpdateScanValue(int Reset)
 	else // UseList=FALSE.... therefor assume linear scanning
 	{
 		// calculate number of steps in the ramp
-		numsteps = ceil(abs(((double)ScanVal.Start - (double)ScanVal.End) / (double)ScanVal.Step));
+		int numsteps = ceil(abs(((double)ScanVal.Start - (double)ScanVal.End) / (double)ScanVal.Step));
 		PScan.ScanDone = FALSE;
 		timesdid++;
 		ScanVal.Current_Iteration++;
@@ -1144,13 +1141,14 @@ void LoadSettings(void)
 	//If .ini exists, then open the file dialog.  Else just open the file dialog.  Add a method to load
 	//last used settings on program startup.
 	FILE *fpini;
-	char fname[100] = "", c, fsavename[500] = "";
+	char c, fsavename[500] = "";
 	static char defaultdir[200] = "C:\\UserDate\\Data";
-	int inisize = 0;
 
 	//Check if .ini file exists.  Load it if it does.
 	if (!(fpini = fopen("gui.ini", "r")) == NULL)
 	{
+		char fname[100] = "";
+		int inisize = 0;
 		while (fscanf(fpini, "%c", &c) != -1)
 			fname[inisize++] = c; //Read the contained name
 	}
@@ -1206,12 +1204,14 @@ Feb 09, 2006   Clear the Debug box before saving. (was causing insanely large sa
 	// Save settings:  First look for file .ini  This will be a simple 1 line file staating the name of the last file
 	//saved.  Load this up and use as the starting name in the file dialog.
 	FILE *fpini;
-	char fname[100] = "", c, fsavename[500] = "";
+	char c, fsavename[500] = "";
 	static char defaultdir[200] = "C:\\UserDate\\Data";
-	int inisize = 0, status, loadonboot = 0;
+	int status, loadonboot = 0;
 	//Check if .ini file exists.  Load it if it does.
 	if (!(fpini = fopen("gui.ini", "r")) == NULL) // if "gui.ini" exists, then read it  Just contains a filename.
 	{											  //If not, do nothing
+		char fname[100] = "";
+		int inisize = 0;
 		while (fscanf(fpini, "%c", &c) != -1)
 			fname[inisize++] = c; //Read the contained name
 	}
@@ -1250,9 +1250,7 @@ void DrawNewTable(int isdimmed)
 	int i, j, m, picmode, page, cmode;
 	int analogtable_visible = 0;
 	int digtable_visible = 0;
-	double vlast = 0, vnow = 0;
-	int dimset = 0, nozerofound;
-	int DDSChannel1, DDSChannel2, DDSChannel3;
+	double vnow = 0;
 
 	int ispicture = 1, celltype = 0; //celtype has 3 values.  0=Numeric, 1=String, 2=Picture
 	// list of colours used for different rows, alternate after every 3 rows
@@ -1298,7 +1296,6 @@ void DrawNewTable(int isdimmed)
 		for (j = 1; j <= NUMBERANALOGCHANNELS; j++) // scan over analog channels
 		{
 			cmode = AnalogTable[i][j][page].fcn;
-			vlast = AnalogTable[i - 1][j][page].fval;
 			vnow = AnalogTable[i][j][page].fval;
 
 			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j),
@@ -1375,9 +1372,9 @@ void DrawNewTable(int isdimmed)
 
 		//***************update DDS row********************
 
-		DDSChannel1 = NUMBERANALOGCHANNELS + 1;
-		DDSChannel2 = NUMBERANALOGCHANNELS + 2;
-		DDSChannel3 = NUMBERANALOGCHANNELS + 3;
+		int DDSChannel1 = NUMBERANALOGCHANNELS + 1;
+		int DDSChannel2 = NUMBERANALOGCHANNELS + 2;
+		int DDSChannel3 = NUMBERANALOGCHANNELS + 3;
 		/*DDS1*/ SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel1), 0.);
 		//if(ispicture==0)
 		{
@@ -1465,10 +1462,10 @@ void DrawNewTable(int isdimmed)
 	//now check if we need to dim out any columns(of timetable,AnalogTable and DigTable
 	if (isdimmed == TRUE)
 	{
-		nozerofound = TRUE; // haven't encountered a zero yet... so keep going
+		int nozerofound = TRUE; // haven't encountered a zero yet... so keep going
 		for (i = 1; i <= NUMBEROFCOLUMNS; i++)
 		{
-			dimset = FALSE;
+			BOOL dimset = FALSE;
 			if ((nozerofound == FALSE) || (TimeArray[i][page] == 0)) // if we have seen a zero before, or we see one now, then
 			{
 				nozerofound = FALSE; // Flag that tells us to dim out all remaining columns
@@ -1634,7 +1631,6 @@ int GetPage(void)
 void DrawLoopIndicators()
 {
 	int page, dx, xendoffset, xstartoffset;
-	int xposstart, xposend;
 	int canvaswidth;
 
 	GetCtrlAttribute(panelHandle, PANEL_CANVAS_LOOPLINE, ATTR_WIDTH, &canvaswidth);
@@ -1676,8 +1672,8 @@ void DrawLoopIndicators()
 		SetCtrlAttribute(panelHandle, PANEL_CANVAS_LOOPLINE, ATTR_PEN_WIDTH, 2);
 		SetCtrlAttribute(panelHandle, PANEL_CANVAS_LOOPLINE, ATTR_PEN_COLOR, 0x00FF00L);
 
-		xposstart = (LoopPoints.startcol - 1) * dx + xstartoffset;
-		xposend = (LoopPoints.endcol) * dx - xstartoffset;
+		int xposstart = (LoopPoints.startcol - 1) * dx + xstartoffset;
+		int xposend = (LoopPoints.endcol) * dx - xstartoffset;
 
 		if ((page == LoopPoints.startpage) && !(page == LoopPoints.endpage))
 		{
@@ -2103,7 +2099,7 @@ int CVICALLBACK DIGTABLE_CALLBACK(int panel, int control, int event,
 int CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event,
 								   void *callbackData, int eventData1, int eventData2)
 {
-	double dval, oldtime, ratio, tscaleold;
+	double dval, tscaleold;
 	int page, i, j;
 	ChangedVals = TRUE;
 	switch (event)
@@ -2117,12 +2113,12 @@ int CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event,
 
 		for (i = 1; i <= NUMBEROFCOLUMNS; i++)
 		{
-			oldtime = TimeArray[i][page];
+			double oldtime = TimeArray[i][page];
 			GetTableCellVal(PANEL, PANEL_TIMETABLE, MakePoint(i, 1), &dval);
 
 			TimeArray[i][page] = dval; //double TimeArray[NUMBEROFCOLUMNS][NUMBEROFPAGES];
 			//now rescale the time scale for waveform fcn. Go over all 16 analog channels
-			ratio = dval / oldtime;
+			double ratio = dval / oldtime;
 			if (oldtime == 0)
 			{
 				ratio = 1;
@@ -2354,17 +2350,15 @@ void CVICALLBACK CLEARPANEL_CALLBACK(int menuBar, int menuItem, void *callbackDa
 									 int panel)
 {
 	// add code to clear all the analog and digital information.....
-	int i = 0, j = 0, k = 0, status = 0;
-
-	status = ConfirmPopup("Clear Panel", "Do you really want to clear the panel?");
+	int status = ConfirmPopup("Clear Panel", "Do you really want to clear the panel?");
 	if (status == 1)
 	{
 		ChangedVals = 1;
-		for (i = 1; i <= NUMBEROFCOLUMNS; i++)
+		for (int i = 1; i <= NUMBEROFCOLUMNS; i++)
 		{
-			for (j = 1; j <= NUMBERANALOGCHANNELS; j++)
+			for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
 			{
-				for (k = 0; k < NUMBEROFPAGES; k++)
+				for (int k = 0; k < NUMBEROFPAGES; k++)
 				{
 					AnalogTable[i][j][k].fcn = 1;
 					AnalogTable[i][j][k].fval = 0;
@@ -2533,23 +2527,22 @@ void CVICALLBACK COPYCOLUMN_CALLBACK(int menuBar, int menuItem, void *callbackDa
 	//All attributes of active column are replaced with those of the global "clip" variables (from ClipColumn)
 
 	char buff[20] = "", buff2[100] = "";
-	int page, status, j = 0;
 	Point cpoint = {0, 0};
 
-	page = GetPage();
+	int page = GetPage();
 	GetActiveTableCell(panelHandle, PANEL_TIMETABLE, &cpoint);
 
 	//User Confirmation of Selected Column
 	sprintf(buff, "%d", cpoint.x);
 	strcat(buff2, "Confirm Copy of column ");
 	strcat(buff2, buff);
-	status = ConfirmPopup("Array Manipulation:Copy", buff2);
+	int status = ConfirmPopup("Array Manipulation:Copy", buff2);
 
 	if (status == 1)
 	{
 		ClipColumn = cpoint.x;
 		TimeClip = TimeArray[cpoint.x][page];
-		for (j = 1; j <= NUMBERANALOGCHANNELS; j++)
+		for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
 		{
 			AnalogClip[j].fcn = AnalogTable[cpoint.x][j][page].fcn;
 			AnalogClip[j].fval = AnalogTable[cpoint.x][j][page].fval;
@@ -2585,8 +2578,7 @@ void CVICALLBACK PASTECOLUMN_CALLBACK(int menuBar, int menuItem, void *callbackD
 // Replaces all the values in the selected column with the global "clip" values
 
 {
-	char buff[100] = "";
-	int page, status, j = 0;
+	int page;
 	Point cpoint = {0, 0};
 	ChangedVals = 1;
 	page = GetPage();
@@ -2594,15 +2586,16 @@ void CVICALLBACK PASTECOLUMN_CALLBACK(int menuBar, int menuItem, void *callbackD
 	//Ensures a column has been copied to the clipboard
 	if (ClipColumn > 0)
 	{
+		char buff[100] = "";
 		// User Confirmation of Copy Function
 		GetActiveTableCell(panelHandle, PANEL_TIMETABLE, &cpoint);
 		sprintf(buff, "Confirm Copy of Column %d to %d?\nContents of Column %d will be lost.", ClipColumn, cpoint.x, cpoint.x);
-		status = ConfirmPopup("Paste Column", buff);
+		int status = ConfirmPopup("Paste Column", buff);
 
 		if (status == 1)
 		{
 			TimeArray[cpoint.x][page] = TimeClip;
-			for (j = 1; j <= NUMBERANALOGCHANNELS; j++)
+			for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
 			{
 				AnalogTable[cpoint.x][j][page].fcn = AnalogClip[j].fcn;
 				AnalogTable[cpoint.x][j][page].fval = AnalogClip[j].fval;
@@ -3100,7 +3093,7 @@ void ExportPanel(char fexportname[200], int fnamesize)
 	int MetaDigitalArray[NUMBERDIGITALCHANNELS + 1][500];
 	struct AnVals MetaAnalogArray[NUMBERANALOGCHANNELS + 1][500];
 	double DDSfreq1[500], DDSfreq2[500], DDScurrent[500], DDSstop[500];
-	int mindex, nozerofound, tsize;
+	int mindex, tsize;
 	fcnmode[0] = ' ';
 	fcnmode[1] = 'L';
 	fcnmode[2] = 'E';
@@ -3118,9 +3111,9 @@ void ExportPanel(char fexportname[200], int fnamesize)
 	mindex = 0;
 	for (k = 1; k <= NUMBEROFPAGES; k++) //go through for each page
 	{
-		nozerofound = 1;
 		if (ischecked[k] == 1) //if the page is selected
 		{
+			int nozerofound = 1;
 			//go through for each time column
 			for (i = 1; i < NUMBEROFCOLUMNS; i++)
 			{
@@ -3393,33 +3386,31 @@ void CVICALLBACK STREAM_CALLBACK(int menuBar, int menuItem, void *callbackData,
 								 int panel)
 {
 	BOOL status;
-	char fstreamdir[250];
 	GetMenuBarAttribute(menuHandle, MENU_PREFS_STREAM_SETTINGS, ATTR_CHECKED, &status);
 	SetMenuBarAttribute(menuHandle, MENU_PREFS_STREAM_SETTINGS, ATTR_CHECKED, !status);
 	if (!status == TRUE)
 	{
+		char fstreamdir[250];
 		DirSelectPopup("", "Select Stream Folder", 1, 1, fstreamdir);
 	}
 }
 //**************************************************************************************************************
 void ExportScanBuffer(void)
 {
-	int i, status;
-	FILE *fbuffer;
-	char fbuffername[250], buff[500];
-	int step, iter;
-	double val;
-	char date[100];
+	char fbuffername[250];
 
-	status = FileSelectPopup("", "*.scan", "", "Save Scan Buffer", VAL_SAVE_BUTTON, 0, 0, 1, 1, fbuffername);
+	int status = FileSelectPopup("", "*.scan", "", "Save Scan Buffer", VAL_SAVE_BUTTON, 0, 0, 1, 1, fbuffername);
 	if (status > 0)
 	{
+		FILE *fbuffer;
 		if ((fbuffer = fopen(fbuffername, "w")) == NULL)
 		{
 			MessagePopup("Save Error", "Failed to save configuration file");
 		}
+		char buff[500];
 		switch (PScan.ScanMode)
 		{
+		default:
 		case 0:
 			sprintf(buff, "Analog Scan\nRow,%d,Column,%d,Page,%d\n", PScan.Row, PScan.Column, PScan.Page);
 			break;
@@ -3433,18 +3424,19 @@ void ExportScanBuffer(void)
 		fprintf(fbuffer, buff);
 		sprintf(buff, "Cycle,Value,Step,Iteration,Time\n");
 		fprintf(fbuffer, buff);
-		for (i = 0; i <= ScanBuffer[0].BufferSize; i++)
+		for (int i = 0; i <= ScanBuffer[0].BufferSize; i++)
 		{
 
-			val = ScanBuffer[i].Value;
-			step = ScanBuffer[i].Step;
-			iter = ScanBuffer[i].Iteration;
+			double val = ScanBuffer[i].Value;
+			int step = ScanBuffer[i].Step;
+			int iter = ScanBuffer[i].Iteration;
+			char date[100];
 			sprintf(date, ScanBuffer[i].Time);
 			sprintf(buff, "%d,%f,%d,%d,%s\n", i, val, step, iter, date);
 			fprintf(fbuffer, buff);
 		}
+		fclose(fbuffer);
 	}
-	fclose(fbuffer);
 }
 //**************************************************************************************************************
 void MoveCanvasStart(int XPos, int IsVisible)
