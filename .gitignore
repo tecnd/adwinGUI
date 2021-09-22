@@ -5,5 +5,9 @@
 cvibuild.GUIDesign/
 *.exe
 
-#LabWindows workspace
+# LabWindows workspace
 *.cws
+
+# Cppcheck
+*.cppcheck
+GUIDesign-cppcheck-build-dir/

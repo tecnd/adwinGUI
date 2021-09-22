@@ -23,20 +23,9 @@
 #include "AnalogSettings2.h"
 #include "DigitalSettings2.h"
 /***** Sandro Gvakharia, October 2010 *****/
-#include "RabbitCom9910.h"
-#include "RabbitCom9910_2.h"
 #include <tcpsupp.h>
 #define PORT 1111
-#define RABBIT_IP "10.10.6.100"
 #define TCP_BUFF 960 //960 = max # of bytes per data transmission
-
-// Bytes sent to Rabbit to indicate certain functions
-#define COMMANDWORD_SEND 0x00
-#define COMMANDWORD_CLEAR 0x01
-#define COMMANDWORD_SETUP_DDS 0x02
-#define COMMANDWORD_FINALIZE 0xff
-
-#define COMMAND_LIST_ROW_LENGTH 15
 
 // Ramp rate will now vary with current version
 // to prevent frequency step size from hitting zero
@@ -312,7 +301,7 @@ void RunOnce(void)
 	for(i=1;i<=mindex;i++)
 		printf("%0.1f\t",MetaTimeArray[i]);
 	printf("\nANALOG CHANNEL LINE\n");
-	for(j=1;j<=NUMBERANALOGCHANNELS;j++)  
+	for(j=1;j<=NUMBERANALOGCHANNELS;j++)
 	{
 		printf("\nCHANNEL LINE #%d\t",j);
 		for (i=1;i<=mindex;i++)
@@ -321,16 +310,16 @@ void RunOnce(void)
 		for (i=1;i<=mindex;i++)
 			printf("%d\t",MetaAnalogArray[j][i].fcn);
 	}
-	
+
 	printf("\n\nDIG CHANNEL LINEs\n");
-	for(j=1;j<=NUMBERDIGITALCHANNELS;j++)  
+	for(j=1;j<=NUMBERDIGITALCHANNELS;j++)
 	{
 		printf("\nCHANNEL LINE #%d\t",j);
 		for (i=1;i<=mindex;i++)
 			printf("%0.0f\t",MetaDigitalArray[j][i]);
-			
+
 	}
-	
+
 	printf("\n\nDDS1 LINE\nEndFreq:\t");
 	for (i=1;i<=mindex;i++)
 			printf("%0.0f\t",MetaDDSArray[i].end_frequency);
@@ -342,7 +331,7 @@ void RunOnce(void)
 			printf("%d\t",MetaDDSArray[i].is_stop);
 	printf("\nAmplitude:\t");
 	for (i=1;i<=mindex;i++)
-			printf("%0.0f\t",MetaDDSArray[i].amplitude);	 
+			printf("%0.0f\t",MetaDDSArray[i].amplitude);
 	printf("\nDelta Time:\t");								  //At this Point all the delta time vals are zero (all conditions)
 	for (i=1;i<=mindex;i++)									  //Not being used???
 			printf("%0.0f\t",MetaDDSArray[i].delta_time);*/
@@ -355,35 +344,35 @@ void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS +
 					 ddsoptions_struct DDSArray[500], ddsoptions_struct DDS2Array[500], dds3options_struct DDS3Array[500], int numtimes)
 {
 	/*
-		
+
 	TMatrix[update period#] -- stores the interval time of each column
 	AMat[channel#][update period#] -- stores info located in the analog table
-	DMat[channel#][update period#] -- 
+	DMat[channel#][update period#] --
 	DDS -- note is_stop=1 means DDS OFF
-	
+
 	all the above have 500 update period elements note that valid elements are base1
-	
+
 	numtimes = the actual number of valid update period elements.
 
-	
+
 	Generate the data that is sent to the ADwin and sends the data.
-	From the meta-lists, we generate 3 arrays.  
-	UpdateNum - each entry is the number of channel updates that we perform during the ADwin EVENT, where an 
-				ADwin event is an update cycle, i.e. 10 microseconds, 100 microseconds... etc.  We advance  through this 
+	From the meta-lists, we generate 3 arrays.
+	UpdateNum - each entry is the number of channel updates that we perform during the ADwin EVENT, where an
+				ADwin event is an update cycle, i.e. 10 microseconds, 100 microseconds... etc.  We advance  through this
 				array once per ADwin Event.  UpdateNum controls how fast we scan through ChNum and ChVal
 	ChNum - 	An array that contains the channel number to be updated. Synchronous with ChVal.  	   Channels listed below
-	ChVal -		An array that contains the value to be written to a channel. Synchronous with ChVal.  	
-		
-	ChNum -     Value 1-32:  Analog lines, 4 cards with 8 lines each.  ChVal is -10V to 10V   
+	ChVal -		An array that contains the value to be written to a channel. Synchronous with ChVal.
+
+	ChNum -     Value 1-32:  Analog lines, 4 cards with 8 lines each.  ChVal is -10V to 10V
 				Value 51:	 DDS1 line.   ChVal is either a 2-bit value (0-3) to write, or (4-7) a reset signal
-				Value 52:	 DDS2 line.   ChVal is either a 2-bit value (0-3) to write, or (4-7) a reset signal				
+				Value 52:	 DDS2 line.   ChVal is either a 2-bit value (0-3) to write, or (4-7) a reset signal
 				Value 101, 102  First 16 and last 16 lines on the first DIO card.  ChVal is a 16 bit integer
 				Value 103, 104	First 16 and last 16 lines on the second DIO card. ChVal is a 16 bit integer
-				
+
     Mar 09_2006:Added ChNum 201,202   These  are codes to enable/disable looping.
-                Corresponding ChVal is the number of loops. 
+                Corresponding ChVal is the number of loops.
 	dds_cmd_seq List of dds commands, parsed into 2-bit sections, or reset lines to be written
-				Commands are listed along with the time they should occur at.	
+				Commands are listed along with the time they should occur at.
 	*/
 	BOOL UseCompression, ArraysToDebug, StreamSettings;
 	int *UpdateNum;
@@ -442,217 +431,14 @@ void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS +
 		GetCtrlVal(panelHandle, PANEL_NUM_DDS2_OFFSET, &DDS2offset);
 		GetCtrlVal(panelHandle, PANEL_NUM_DDS3_OFFSET, &DDS3offset);
 		// read offsets to add to DDSArray
-		// Send signals to Rabbit DDS - Sandro Gvakharia, October 2010
-		for (m = 1; m <= numtimes; m++)
-		{
-			DDSArray[m].start_frequency = DDSArray[m].start_frequency + DDSoffset;
-			DDSArray[m].end_frequency = DDSArray[m].end_frequency + DDSoffset;
-			/******************** Sandro Gvakharia, October 2010 ********************/
-			if (DDSArray[m].is_stop == 0)
-			{
-				int connected;
-				unsigned int tcp_handle;
-				char *error;
-				int tcpErr;
-				double *freqinput1 = malloc(sizeof(double));
-				double *freqinput2 = malloc(sizeof(double));
-				double *timelength = malloc(sizeof(double));
-				double freqword;
-				double ramprate;
-				int c;
-				unsigned char *commandword = malloc(sizeof(unsigned char));
-				unsigned char *commandlistrow = malloc(sizeof(unsigned char) * COMMAND_LIST_ROW_LENGTH);
-				unsigned char sweepdir;
-
-				// Only set sweep if frequencies are below 40% of the system clock frequency.
-				// Time length must be set greater than 0
-				freqinput1[0] = DDSArray[m].start_frequency;
-				freqinput2[0] = DDSArray[m].end_frequency;
-				timelength[0] = TMatrix[m];
-
-				if ((freqinput1[0] <= (0.4 * REFCLK)) && (freqinput2[0] <= (0.4 * REFCLK)) && timelength[0] > 0)
-				{
-					// Determine sweep direction (sweep from higher to lower frequency or vice versa)
-					sweepdir = freqinput1[0] > freqinput2[0]; // sweepdir = 1 is sweep from high to low
-
-					//printf("%d\n", sweepdir);
-
-					// Convert first input frequency to FTW
-					freqword = freqinput1[0] * pow(2, NUMBITS) / REFCLK;
-
-					// Tuning word list will also indicate to the Rabbit the direction of the sweep
-					commandlistrow[0] = sweepdir;
-
-					// Tuning word list will have higher frequency in indices 1 through 4,
-					// and lower frequency in indices 5 through 8.
-
-					// Place first input FTW in command list row,
-					// breaking the tuning word up into 4 bytes
-					for (c = 3; c >= 0; c--)
-					{
-						commandlistrow[(4 + 4 * (!sweepdir)) - c] = (char)(freqword / pow(2, 8 * c));
-						freqword -= (commandlistrow[(4 + 4 * (!sweepdir)) - c] * pow(2, 8 * c));
-					}
-
-					printf("\n");
-
-					// Convert second input frequency to FTW
-					freqword = freqinput2[0] * pow(2, NUMBITS) / REFCLK;
-
-					// Place second input FTW in command list row,
-					// breaking the tuning word up into 4 bytes
-					for (c = 3; c >= 0; c--)
-					{
-						commandlistrow[(4 + 4 * sweepdir) - c] = (char)(freqword / pow(2, 8 * c));
-						freqword -= (commandlistrow[(4 + 4 * sweepdir) - c] * pow(2, 8 * c));
-					}
-
-					// In setting frequency in time step, start with a ramp rate
-					// of 1 and work up
-
-					ramprate = 0.0;
-					freqword = 0.0;
-
-					while (freqword < 10.0)
-					{
-						// Increase ramp rate until freqword is large enough
-						ramprate = ramprate + 1.0;
-
-						// From time length of sweep, calculate an appropriate delta frequency (in MHz)
-						// Need to multiply ramp rate by four because the DDS clock operates
-						// at a quarter of the frequency of the reference clock.
-						freqword = (fabs(freqinput1[0] - freqinput2[0]) * (4 * ramprate)) / (1000 * timelength[0] * REFCLK);
-
-						// Convert delta frequency t ramp step size tuning word
-						freqword = freqword * pow(2, NUMBITS) / REFCLK;
-					}
-
-					//printf("\nThe ramp rate is:%f\n\n", ramprate);
-
-					// Place ramp step size tuning word into indices 9 through 12
-					// of the command list row, breaking the tuning word up into 4 bytes.
-					for (c = 3; c >= 0; c--)
-					{
-						commandlistrow[12 - c] = (char)(freqword / pow(2, 8 * c));
-						freqword -= (commandlistrow[12 - c] * pow(2, 8 * c));
-					}
-
-					// Place ramp rate into indices 14 through 13
-					// of the command list row, breaking the tuning word up into 2 bytes.
-					for (c = 1; c >= 0; c--)
-					{
-						commandlistrow[14 - c] = (char)(ramprate / pow(2, 8 * c));
-						ramprate -= (commandlistrow[14 - c] * pow(2, 8 * c));
-					}
-
-					// Print out command list row to be sent, for debugging purposes
-
-					for (c = 0; c < COMMAND_LIST_ROW_LENGTH; c++)
-					{
-						if (c == 0)
-						{
-							if (commandlistrow[c])
-							{
-								printf("Sweep from high to low");
-							}
-							else
-							{
-								printf("Sweep from low to high");
-							}
-							printf("\nFrom %f to %f", freqinput1[0], freqinput2[0]);
-						}
-						else
-						{
-							if (c == 1)
-							{
-								printf("\nUpper Limit FTW\n");
-							}
-							if (c == 5)
-							{
-								printf("\nLower Limit FTW\n");
-							}
-							if (c == 9)
-							{
-								printf("\nRamp Step Size Word\n");
-							}
-							if (c == 13)
-							{
-								printf("\nRamp Rate\n");
-							}
-							printf("%x ", commandlistrow[c]);
-						}
-					}
-					printf("\n\n");
-
-					printf("Connecting...\n");
-					connected = ConnectToTCPServer(&tcp_handle, PORT, RABBIT_IP, 0, 0, 5000);
-					error = GetTCPSystemErrorString();
-					if (connected == 0)
-					{
-						printf("Success!\n");
-						ResumeTimerCallbacks();
-					}
-					else if (connected < 0)
-					{
-						printf("TCP Connection Error: %d\n", connected);
-						error = tcp_errorlookup(connected);
-						printf(error);
-						break;
-					}
-
-					// Send command word to Rabbit
-					// Causes Rabbit to stop listening for a connection
-					commandword[0] = COMMANDWORD_SETUP_DDS;
-					ClientTCPWrite(tcp_handle, commandword, 1, 0);
-					// Send command word to Rabbit
-					// Indicates sending of tuning words
-					commandword[0] = COMMANDWORD_SEND;
-					ClientTCPWrite(tcp_handle, commandword, 1, 0);
-					ClientTCPWrite(tcp_handle, commandlistrow, COMMAND_LIST_ROW_LENGTH, 0);
-					// Send command word to Rabbit
-					// Causes Rabbit to stop listening for a connection
-					commandword[0] = COMMANDWORD_FINALIZE;
-					ClientTCPWrite(tcp_handle, commandword, 1, 0);
-
-					//Disconnect from Rabbit
-					if ((tcpErr = DisconnectFromTCPServer(tcp_handle)) < 0)
-					{
-						printf("Error Closing Socket\n");
-						printf(tcp_errorlookup(tcpErr));
-					}
-					else
-					{
-						printf("Connection Closed\n");
-						SuspendTimerCallbacks();
-					}
-					//	break;
-				}
-				if (timelength[0] <= 0)
-				{
-					printf("Invalid sweep time input\n");
-				}
-				else if (!((freqinput1[0] <= (0.4 * REFCLK)) && (freqinput2[0] <= (0.4 * REFCLK))))
-				{
-					printf("Frequency input must be below 0.4 of the frequency of the DDS system clock\n");
-				}
-			}
-			/******************** Sandro Gvakharia ********************/
-
-			// uncomment these as needed to run DDS2,3
-			/*	DDS2Array[m].start_frequency=DDS2Array[m].start_frequency+DDS2offset;
-			DDS2Array[m].end_frequency=DDS2Array[m].end_frequency+DDS2offset;
-			DDS3Array[m].start_frequency=DDS3Array[m].start_frequency+DDS3offset;
-			DDS3Array[m].end_frequency=DDS3Array[m].end_frequency+DDS3offset;
-			*/
-		}
 
 		dds_cmd_seq = create_ad9852_cmd_sequence(DDSArray, numtimes, DDSFreq.PLLmult,
 												 DDSFreq.extclock, EventPeriod / 1000);
 		// again, uncomment as needed
-		/*  dds_cmd_seq_AD9858 = create_ad9858_cmd_sequence(DDS2Array, numtimes,DDS2_CLOCK, 
+		/*  dds_cmd_seq_AD9858 = create_ad9858_cmd_sequence(DDS2Array, numtimes,DDS2_CLOCK,
 		EventPeriod/1000,0);	   // assume frequency offset of 0 MHz
 	    */
-		/*dds_cmd_seq = create_ad9852_cmd_sequence(DDS3Array, numtimes,DDSFreq.PLLmult, 
+		/*dds_cmd_seq = create_ad9852_cmd_sequence(DDS3Array, numtimes,DDSFreq.PLLmult,
 		DDSFreq.extclock,EventPeriod/1000);
    	    */
 		//dynamically allocate the memory for the time array (instead of using a static array:UpdateNum)
@@ -726,7 +512,7 @@ void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS +
 				{
 					digval2 = digval2 + DMat[k][i] * pow(2, (DChName[k].chnum - 100) - 1);
 				}
-				/*		
+				/*
 				if(digchannel<=16)
 				{
 					digval=digval+DMat[k][i]*pow(2,DChName[k].chnum-1);
@@ -767,16 +553,16 @@ void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS +
 			{
 				nupcurrent++;
 				nuptotal++;
-				ChNum[nuptotal]=103;		   
-				ChVal[nuptotal]=digval3;		
+				ChNum[nuptotal]=103;
+				ChVal[nuptotal]=digval3;
 			}
 			LastDVal3=digval3;
 			if(!(digval4==LastDVal4))
 			{
 				nupcurrent++;
 				nuptotal++;
-				ChNum[nuptotal]=104;		   
-				ChVal[nuptotal]=digval4;		
+				ChNum[nuptotal]=104;
+				ChVal[nuptotal]=digval4;
 			}
 			LastDVal4=digval4;
 */
@@ -810,8 +596,8 @@ void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS +
 					nuptotal++;
 					ChNum[nuptotal] = 52; //dummy channel
 					ChVal[nuptotal] = tmp_dds;
-				
-				} //done the DDS2				
+
+				} //done the DDS2
 		*/
 
 				while (k < usefcn)
@@ -1413,7 +1199,7 @@ void LoadLastSettings(int check)
 //*****************************************************************************************
 
 void SaveSettings(void)
-/* Modified:  
+/* Modified:
 Feb 09, 2006   Clear the Debug box before saving. (was causing insanely large save files, and slowed down loading of old panels.)
 */
 {
@@ -2883,8 +2669,8 @@ void LoadArrays(char savedname[500], int csize)
 	/* Laods all Panel attributes and values which are not saved automatically by the NI function SavePanelState.
 	   the values are stored in the .arr file by SaveArrays
 	   x,y, and zval give the 3D table dimensions but are not critical to the saving/loading operation
-	   
-	   Note that if the lengths of any of the data arrays are changed previous saves will not be able to be laoded. 
+
+	   Note that if the lengths of any of the data arrays are changed previous saves will not be able to be laoded.
 	   If necessary See AdwinGUI Panel Converter V11-V12 (created June 01, 2006)
 	*/
 
@@ -2984,8 +2770,8 @@ void SaveArrays(char savedname[500], int csize)
 	/* Saves all Panel attributes and values which are not saved automatically by the NI function SavePanelState
 	   The values are stored in the .arr file
 	   x,y, and zval give the 3D table dimensions but are not critical to the saving/loading operation
-	   
-	   Note that if the lengths of any of the data arrays are changed previous saves will not be able to be laoded. 
+
+	   Note that if the lengths of any of the data arrays are changed previous saves will not be able to be laoded.
 	   If necessary See AdwinGUI Panel Converter V11-V12 (created June 01, 2006)
 	*/
 
@@ -3159,7 +2945,7 @@ Description: Sets how to display the data, graphically or numerically
 -------
 Return Value: void
 -------
-Parameter1: 
+Parameter1:
 int display_setting: type of display
 VAL_CELL_NUMERIC : graphic
 VAL_CELL_PICTURE : numeric
@@ -3201,7 +2987,7 @@ Description: Sets which channel to display: analog, digital or both
 -------
 Return Value: void
 -------
-Parameter1: 
+Parameter1:
 int display_setting: channel to display
 1: both
 2: analog
