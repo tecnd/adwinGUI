@@ -1318,7 +1318,6 @@ void DrawNewTable(int isdimmed)
 				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_CTRL_VAL, 888.0);
 
 			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_CELL_DIMMED, 0);
-			SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, MakePoint(i, j), ATTR_CELL_DIMMED, 0);
 
 			// get Analog table parameters for that cell... e.g. start/end values, function to get there
 
@@ -1381,7 +1380,6 @@ void DrawNewTable(int isdimmed)
 			SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel1), ddstable[i][page].start_frequency);
 		}
 		SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel1), ATTR_CELL_DIMMED, 0);
-		SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, MakePoint(i, DDSChannel1), ATTR_CELL_DIMMED, 0);
 
 		if (ddstable[i][page].amplitude == 0.0 || ddstable[i][page].is_stop)
 		{
@@ -1407,7 +1405,6 @@ void DrawNewTable(int isdimmed)
 			SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel2), dds2table[i][page].start_frequency);
 		}
 		SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel2), ATTR_CELL_DIMMED, 0);
-		SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, MakePoint(i, DDSChannel2), ATTR_CELL_DIMMED, 0);
 
 		if (dds2table[i][page].amplitude == 0.0 || dds2table[i][page].is_stop)
 		{
@@ -1433,7 +1430,6 @@ void DrawNewTable(int isdimmed)
 			SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel3), dds3table[i][page].start_frequency);
 		}
 		SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel3), ATTR_CELL_DIMMED, 0);
-		SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, MakePoint(i, DDSChannel3), ATTR_CELL_DIMMED, 0);
 
 		if (dds3table[i][page].amplitude == 0.0 || dds3table[i][page].is_stop)
 		{
