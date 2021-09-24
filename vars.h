@@ -14,13 +14,7 @@ Macro Definitions
 								 // 5 for DD2 (K40 evap)                         \
 								 // reserved for DDS1                            \
 								 // reserved for DDS2                            \
-								 // reserved for DDS3				  NU
-#if NUMBERANALOGCHANNELS > NUMBERDIGITALCHANNELS
-#define MAX_CHANNELS NUMBERANALOGCHANNELS
-#else
-#define MAX_CHANNELS NUMBERDIGITALCHANNELS
-#endif
-
+								 // reserved for DDS3
 #define NUMBERDDS 3		   // Number of DDS's
 #define NUMBEROFCOLUMNS 17 //
 #define TRUE 1

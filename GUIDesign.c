@@ -1244,6 +1244,13 @@ Feb 09, 2006   Clear the Debug box before saving. (was causing insanely large sa
 	}
 	strcpy(defaultdir, "");
 }
+// Helper function to alternate color every three rows
+int ColorPicker(int index)
+{
+	index--; // correct for 1-based indices
+	if ((index / 3) % 2) return VAL_GRAY;
+	else return 0x00B0B0B0;
+}
 //*********************************************************************
 void DrawNewTable(int isdimmed)
 //if isdimmed=0/FALSE  Draw everything, editing mode
@@ -1261,12 +1268,6 @@ void DrawNewTable(int isdimmed)
 
 	int ispicture = 1, celltype = 0; //celtype has 3 values.  0=Numeric, 1=String, 2=Picture
 	// list of colours used for different rows, alternate after every 3 rows
-	int ColourTable[MAX_CHANNELS+1];
-	for (int i = 0; i < MAX_CHANNELS; i++)
-	{
-		if ((i / 3) % 2) ColourTable[i+1] = VAL_GRAY;
-		else ColourTable[i+1] = 0x00B0B0B0;
-	}
 
 	GetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, &analogtable_visible);
 	GetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, &digtable_visible);
@@ -1332,13 +1333,13 @@ void DrawNewTable(int isdimmed)
 
 			// get Analog table parameters for that cell... e.g. start/end values, function to get there
 
-			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, ColourTable[j]);
+			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, ColorPicker(j));
 			// Change the cell color depending on the function type
 			if (cmode == 1)
 			{
 				if (vnow == 0)
 				{
-					SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, ColourTable[j]);
+					SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, ColorPicker(j));
 				}
 				else
 				{
@@ -1376,7 +1377,7 @@ void DrawNewTable(int isdimmed)
 			else
 			{
 				SetTableCellVal(panelHandle, PANEL_DIGTABLE, MakePoint(i, j), 0);
-				SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, ColourTable[j]);
+				SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, ColorPicker(j));
 			}
 		} //Done digital drawing.
 
