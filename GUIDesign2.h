@@ -5,7 +5,6 @@
 
 void LoadSettings(void);
 void SaveSettings(void);
-void LoadLastSettings(int check);
 void ShiftColumn3(int col, int page,int dir);
 void RunOnce(void);
 int  GetPage(void);

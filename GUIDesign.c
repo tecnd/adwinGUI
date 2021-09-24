@@ -1145,26 +1145,10 @@ void UpdateScanValue(int Reset)
 //*****************************************************************************************
 void LoadSettings(void)
 {
-	int status;
-	//If .ini exists, then open the file dialog.  Else just open the file dialog.  Add a method to load
-	//last used settings on program startup.
-	FILE *fpini;
-	char c, fsavename[500] = "";
-	static char defaultdir[200] = "C:\\UserDate\\Data";
-
-	//Check if .ini file exists.  Load it if it does.
-	if (!(fpini = fopen("gui.ini", "r")) == NULL)
-	{
-		char fname[100] = "";
-		int inisize = 0;
-		while (fscanf(fpini, "%c", &c) != -1)
-			fname[inisize++] = c; //Read the contained name
-	}
-	fclose(fpini);
-
+	char fsavename[500];
 	// prompt for a file, if selected then load the Panel and Arrays
-	status = FileSelectPopup(defaultdir, "*.pan", "", "Load Settings", VAL_LOAD_BUTTON, 0, 0, 1, 1, fsavename);
-	if (!(status == 0))
+	int status = FileSelectPopupEx("C:\\UserDate\\Data", "*.pan", "", "Load Settings", VAL_LOAD_BUTTON, 0, 0, fsavename);
+	if (status != VAL_NO_FILE_SELECTED)
 	{
 		RecallPanelState(PANEL, fsavename, 1);
 		LoadArrays(fsavename, strlen(fsavename));
@@ -1173,76 +1157,24 @@ void LoadSettings(void)
 	{
 		MessagePopup("File Error", "No file was selected");
 	}
-
-	DrawNewTable(0);
-	strcpy(defaultdir, "");
-}
-//*****************************************************************************************
-void LoadLastSettings(int check)
-{
-	//If .ini exists, then open the file dialog.  Else just open the file dialog.  Add a method to load
-	//last used settings on program startup.
-	FILE *fpini = fopen("gui.ini", "r");
-	char c = 0, fname[100] = "", loadname[100] = "";
-	int inisize = 0;
-	//Check if .ini file exists.  Load it if it does.
-	if (fpini)
-	{
-		while (fscanf(fpini, "%c", &c) != -1)
-			fname[inisize++] = c; //Read the contained name
-		fclose(fpini);
-		c = fname[inisize - 1];
-		strncpy(loadname, fname, inisize - 2);
-	}
-	if ((check == 0) || (c == 49)) // 49 is the ascii code for "1"
-	{
-		RecallPanelState(PANEL, loadname, 1);
-		LoadArrays(fname, strlen(loadname));
-	}
 	DrawNewTable(0);
 }
-//*****************************************************************************************
 
 void SaveSettings(void)
-/* Modified:
-Feb 09, 2006   Clear the Debug box before saving. (was causing insanely large save files, and slowed down loading of old panels.)
-*/
 {
-	// Save settings:  First look for file .ini  This will be a simple 1 line file staating the name of the last file
-	//saved.  Load this up and use as the starting name in the file dialog.
-	FILE *fpini;
-	char c, fsavename[500] = "";
-	static char defaultdir[200] = "C:\\UserDate\\Data";
-	int status, loadonboot = 0;
-	//Check if .ini file exists.  Load it if it does.
-	if (!(fpini = fopen("gui.ini", "r")) == NULL) // if "gui.ini" exists, then read it  Just contains a filename.
-	{											  //If not, do nothing
-		char fname[100] = "";
-		int inisize = 0;
-		while (fscanf(fpini, "%c", &c) != -1)
-			fname[inisize++] = c; //Read the contained name
-	}
-	fclose(fpini);
+	char fsavename[500] = "";
 
-	status = FileSelectPopup(defaultdir, "*.pan", "", "Save Settings", VAL_SAVE_BUTTON, 0, 0, 1, 1, fsavename);
-	GetMenuBarAttribute(menuHandle, MENU_FILE_BOOTLOAD, ATTR_CHECKED, &loadonboot);
-	if (!(status == 0))
+	int status = FileSelectPopupEx("C:\\UserDate\\Data", "*.pan", "", "Save Settings", VAL_SAVE_BUTTON, 0, 0, fsavename);
+	if (status != VAL_NO_FILE_SELECTED)
 	{
 		ClearListCtrl(panelHandle, PANEL_DEBUG); // added Feb 09, 2006
 		SavePanelState(PANEL, fsavename, 1);
-		if (!(fpini = fopen("gui.ini", "w")) == NULL)
-		{
-			fprintf(fpini, fsavename);
-			fprintf(fpini, "\n%d", loadonboot);
-		}
-		fclose(fpini);
 		SaveArrays(fsavename, strlen(fsavename));
 	}
 	else
 	{
 		MessagePopup("File Error", "No file was selected");
 	}
-	strcpy(defaultdir, "");
 }
 // Helper function to alternate color every three rows
 int ColorPicker(int index)
