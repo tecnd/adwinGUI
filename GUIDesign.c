@@ -1182,19 +1182,18 @@ void LoadLastSettings(int check)
 {
 	//If .ini exists, then open the file dialog.  Else just open the file dialog.  Add a method to load
 	//last used settings on program startup.
-	FILE *fpini;
-	char fname[100] = "", c, loadname[100] = "";
+	FILE *fpini = fopen("gui.ini", "r");
+	char c = 0, fname[100] = "", loadname[100] = "";
 	int inisize = 0;
 	//Check if .ini file exists.  Load it if it does.
-	if (!(fpini = fopen("gui.ini", "r")) == NULL)
+	if (fpini)
 	{
 		while (fscanf(fpini, "%c", &c) != -1)
 			fname[inisize++] = c; //Read the contained name
+		fclose(fpini);
+		c = fname[inisize - 1];
+		strncpy(loadname, fname, inisize - 2);
 	}
-	fclose(fpini);
-
-	c = fname[inisize - 1];
-	strncpy(loadname, fname, inisize - 2);
 	if ((check == 0) || (c == 49)) // 49 is the ascii code for "1"
 	{
 		RecallPanelState(PANEL, loadname, 1);
