@@ -15,13 +15,20 @@
 //Works with DDS1, Rb Evaporation
 /*********************** Sandro Gvakharia October 2010 **********************/
 
-#include <utility.h>
-#include "Scan.h"
 #include <userint.h>
+#include <utility.h>
+#include "Adwin.h"
+#include "Scan.h"
+#include "scan2.h"
+#include "vars.h"
 #include "GUIDesign.h"
 #include "GUIDesign2.h"
 #include "AnalogSettings2.h"
+#include "AnalogControl2.h"
 #include "DigitalSettings2.h"
+#include "DDSControl2.h"
+#include "DDSSettings2.h"
+#include "ddstranslator.h"
 /***** Sandro Gvakharia, October 2010 *****/
 #include <tcpsupp.h>
 #define PORT 1111
@@ -167,7 +174,7 @@ void RunOnce(void)
 	//could/should change these following defs and use malloc instead, but they should never exceed.. 170 or so.
 	double MetaTimeArray[500];
 	int MetaDigitalArray[NUMBERDIGITALCHANNELS + 1][500];
-	struct AnVals MetaAnalogArray[NUMBERANALOGCHANNELS + 1][500];
+	struct AnalogTableValues MetaAnalogArray[NUMBERANALOGCHANNELS + 1][500];
 	ddsoptions_struct MetaDDSArray[500];
 	ddsoptions_struct MetaDDS2Array[500];
 	dds3options_struct MetaDDS3Array[500];
@@ -340,7 +347,7 @@ void RunOnce(void)
 	BuildUpdateList(MetaTimeArray, MetaAnalogArray, MetaDigitalArray, MetaDDSArray, MetaDDS2Array, MetaDDS3Array, tsize);
 }
 //*****************************************************************************************
-void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS + 1][500], int DMat[NUMBERDIGITALCHANNELS + 1][500],
+void BuildUpdateList(double TMatrix[], struct AnalogTableValues AMat[NUMBERANALOGCHANNELS + 1][500], int DMat[NUMBERDIGITALCHANNELS + 1][500],
 					 ddsoptions_struct DDSArray[500], ddsoptions_struct DDS2Array[500], dds3options_struct DDS3Array[500], int numtimes)
 {
 	/*
@@ -575,7 +582,7 @@ void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS +
 			while (t < NewTimeMat[i] - 1)
 			{
 				t++;
-				k = 0;
+				int k = 0;
 				nupcurrent = 0;
 				//look for a new DDS command, start_offset=0
 				tmp_dds = get_dds_cmd(dds_cmd_seq, count - 1 - start_offset); //dds translator(zero base) runs 1 behind this counter
@@ -713,13 +720,13 @@ void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS +
 
 		// determine if we should reset values to zero after a cycle
 		GetMenuBarAttribute(menuHandle, MENU_SETTINGS_RESETZERO, ATTR_CHECKED, &checkresettozero);
-		for (i = 1; i <= NUMBERANALOGCHANNELS; i++)
+		for (int i = 1; i <= NUMBERANALOGCHANNELS; i++)
 		{
 			ResetToZeroAtEnd[i - 1] = AChName[i].resettozero;
 			//			printf("Analog Chn = %d, Reset-to-zero = %d \n", i, ResetToZeroAtEnd[i-1]);
 		}
 		digchannelsum = 0;
-		for (i = 1; i <= 16; i++)
+		for (int i = 1; i <= 16; i++)
 		{
 			if (DChName[i].resettolow == TRUE)
 			{
@@ -727,8 +734,8 @@ void BuildUpdateList(double TMatrix[], struct AnVals AMat[NUMBERANALOGCHANNELS +
 			}
 		}
 		//		ResetToZeroAtEnd[101]=digchannelsum;// lower 16 digital channels
-		for (i = 17; i <= NUMBERDIGITALCHANNELS; i++)
-			digchannelsum = 0;
+		digchannelsum = 0;
+		for (int i = 17; i <= NUMBERDIGITALCHANNELS; i++)
 		{
 			if (DChName[i].resettolow == TRUE)
 			{
@@ -1247,7 +1254,7 @@ void DrawNewTable(int isdimmed)
 //                turns dark yellow. might pick a better color.
 
 {
-	int i, j, m, picmode, page, cmode;
+	int j, m, picmode, page, cmode;
 	int analogtable_visible = 0;
 	int digtable_visible = 0;
 	double vnow = 0;
@@ -1255,7 +1262,7 @@ void DrawNewTable(int isdimmed)
 	int ispicture = 1, celltype = 0; //celtype has 3 values.  0=Numeric, 1=String, 2=Picture
 	// list of colours used for different rows, alternate after every 3 rows
 	int ColourTable[MAX_CHANNELS+1];
-	for (i = 0; i < MAX_CHANNELS; i++)
+	for (int i = 0; i < MAX_CHANNELS; i++)
 	{
 		if ((i / 3) % 2) ColourTable[i+1] = VAL_GRAY;
 		else ColourTable[i+1] = 0x00B0B0B0;
@@ -1293,7 +1300,7 @@ void DrawNewTable(int isdimmed)
 	}
 	picmode = 0;
 
-	for (i = 1; i <= NUMBEROFCOLUMNS; i++) // scan over the columns
+	for (int i = 1; i <= NUMBEROFCOLUMNS; i++) // scan over the columns
 	{
 
 		SetTableCellAttribute(panelHandle, PANEL_TIMETABLE, MakePoint(i, 1), ATTR_CELL_DIMMED, 0);
@@ -1463,7 +1470,7 @@ void DrawNewTable(int isdimmed)
 	if (isdimmed == TRUE)
 	{
 		int nozerofound = TRUE; // haven't encountered a zero yet... so keep going
-		for (i = 1; i <= NUMBEROFCOLUMNS; i++)
+		for (int i = 1; i <= NUMBEROFCOLUMNS; i++)
 		{
 			BOOL dimset = FALSE;
 			if ((nozerofound == FALSE) || (TimeArray[i][page] == 0)) // if we have seen a zero before, or we see one now, then
@@ -2549,7 +2556,7 @@ void CVICALLBACK COPYCOLUMN_CALLBACK(int menuBar, int menuItem, void *callbackDa
 			AnalogClip[j].tscale = AnalogTable[cpoint.x][j][page].tscale;
 		}
 
-		for (j = 1; j <= NUMBERDIGITALCHANNELS; j++)
+		for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++)
 			DigClip[j] = DigTableValues[cpoint.x][j][page];
 
 		ddsclip.start_frequency = ddstable[cpoint.x][page].start_frequency;
@@ -3076,9 +3083,9 @@ void SaveLastGuiSettings(void)
 void CVICALLBACK EXPORT_PANEL_CALLBACK(int menuBar, int menuItem, void *callbackData,
 									   int panel)
 {
-	char fexportname[200];
+	char fexportname[260];
 
-	FileSelectPopup("", "*.export", "", "Export Panel?", VAL_SAVE_BUTTON, 0, 0, 1, 1, fexportname);
+	FileSelectPopupEx("", "*.export", "", "Export Panel?", VAL_SAVE_BUTTON, 0, 0, fexportname);
 	ExportPanel(fexportname, strlen(fexportname));
 }
 //******************************************************************************************************
@@ -3091,7 +3098,7 @@ void ExportPanel(char fexportname[200], int fnamesize)
 	char fcnmode[6] = " LEJ"; // step, linear, exponential, const-jerk:  Step is assumed if blank
 	double MetaTimeArray[500];
 	int MetaDigitalArray[NUMBERDIGITALCHANNELS + 1][500];
-	struct AnVals MetaAnalogArray[NUMBERANALOGCHANNELS + 1][500];
+	struct AnalogTableValues MetaAnalogArray[NUMBERANALOGCHANNELS + 1][500];
 	double DDSfreq1[500], DDSfreq2[500], DDScurrent[500], DDSstop[500];
 	int mindex, tsize;
 	fcnmode[0] = ' ';
