@@ -86,14 +86,19 @@ Dec16	Made the last panel mobile, such that it can be inserted into other pages.
 */
 
 #define ALLOC_GLOBALS
+#include <ansi_c.h>
+#include <userint.h>
+#include <cvirte.h>
+#include "AnalogSettings.h"
+#include "AnalogSettings2.h"
+#include "DigitalSettings2.h"
+#include "GUIDesign.h"
+#include "GUIDesign2.h"
 #include "main.h"
 #include "Adwin.h"
 #include <time.h>
 #define VAR_DECLS 1
 #include "vars.h"
-//#include <userint.h>
-//#include <stdio.h>
-//#include  <Windows.h>
 
 int main(int argc, char *argv[])
 {

@@ -1,5 +1,7 @@
 #include <userint.h>
-
+#include <ansi_c.h>
+#include "vars.h"
+#include "GUIDesign2.h"
 #include "AnalogControl.h"
 #include "AnalogControl2.h"
 

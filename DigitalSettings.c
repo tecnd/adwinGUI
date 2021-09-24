@@ -1,5 +1,7 @@
 #include <userint.h>
-
+#include <ansi_c.h>
+#include "vars.h"
+#include "GUIDesign.h"
 #include "DigitalSettings.h"
 #include "DigitalSettings2.h"
 /*

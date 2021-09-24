@@ -17,7 +17,7 @@ ADWIN sequencer commands
 
 typedef struct dds_cmd_sequence_struct * dds_cmds_ptr;
 
-/* erase all stored (compiled) ADWIN commands and release associated memory 
+/* erase all stored (compiled) ADWIN commands and release associated memory
 After this call dead_cmds points to nothing, and should be reset to NULL
 immediately unless something else is assigned to it
 */

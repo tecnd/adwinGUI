@@ -1,5 +1,3 @@
-
-
 #ifndef VAR_DEFS // Make sure this file is included only once
 #define VAR_DEFS
 

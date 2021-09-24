@@ -1,6 +1,6 @@
 #ifndef GUIDESIGN2_H
 #define GUIDESIGN2_H
-
+#include "vars.h"
 #define PRINT_TO_DEBUG //if defined, outputs the array to the debug window
 
 void LoadSettings(void);

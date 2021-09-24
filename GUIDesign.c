@@ -17,6 +17,7 @@
 
 #include <userint.h>
 #include <utility.h>
+#include <ansi_c.h>
 #include "Adwin.h"
 #include "Scan.h"
 #include "scan2.h"
@@ -3085,7 +3086,11 @@ void CVICALLBACK EXPORT_PANEL_CALLBACK(int menuBar, int menuItem, void *callback
 {
 	char fexportname[260];
 
-	FileSelectPopupEx("", "*.export", "", "Export Panel?", VAL_SAVE_BUTTON, 0, 0, fexportname);
+	int status = FileSelectPopupEx("", "*.export", "", "Export Panel?", VAL_SAVE_BUTTON, 0, 0, fexportname);
+	if (status == VAL_NO_FILE_SELECTED)
+	{
+		return;
+	}
 	ExportPanel(fexportname, strlen(fexportname));
 }
 //******************************************************************************************************
