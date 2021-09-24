@@ -69,7 +69,7 @@ This function is publicly accessible, so needs to check for NULL pointers.
 */
 int get_dds_cmd(dds_cmds_ptr cmd_sequence, unsigned long event_index)
 {
-	unsigned long lbound, ubound, mid;
+	unsigned long lbound, ubound;
 	unsigned long *times;
 
 	if (cmd_sequence == NULL)
@@ -86,7 +86,7 @@ int get_dds_cmd(dds_cmds_ptr cmd_sequence, unsigned long event_index)
 		/* lbound <= mid < ubound because of integer divide, so it's within
 			search space and a safe array index
 		*/
-		mid = (lbound + ubound) / 2;
+		unsigned long mid = (lbound + ubound) / 2;
 
 		if (times[mid] == event_index)
 			return (int)cmd_sequence->cmds[mid];
@@ -116,12 +116,10 @@ Never pass in a null pointer (locally-maintained invariant).
 static void check_cmd_array_size(dds_cmds_ptr cmd_sequence,
 								 unsigned long min_size)
 {
-	unsigned long new_size;
-
 	if (min_size > cmd_sequence->array_size)
 	{
 		/* if we need to grow, grow to larger of min_size or 2* current size */
-		new_size = 2 * cmd_sequence->array_size;
+		unsigned long new_size = 2 * cmd_sequence->array_size;
 		new_size = min_size > new_size ? min_size : new_size;
 
 		/* realloc to new size */
@@ -177,12 +175,12 @@ static unsigned long append_byte(dds_cmds_ptr cmd_seq,
 	{ /* specific time requested */
 		if (cmd_time < next_avail)
 		{
-			printf("%d\n", cmd_time);
-			printf("%d\n", next_avail);
+			printf("%lu\n", cmd_time);
+			printf("%lu\n", next_avail);
 			printf("WARNING: tried to send a DDS command before the previous "
 				   "one had completed.\n"
 				   "Deferring to next available time slot\n"
-				   "Tried to write to event %d ",
+				   "Tried to write to event %lu ",
 				   next_avail);
 			cmd_time = next_avail;
 		} /* else specific request was ok, leave it */
@@ -942,7 +940,6 @@ static void set_ad9852_ramp_rate(ad9852_shadow_struct *shadow,
 
 	unsigned long ramp_rate;
 	unsigned char new_ramprate_reg[3];
-	int i;
 
 	/* output frequency steps every (ramp_rate + 1) system clock periods
 	so we want:
@@ -956,7 +953,7 @@ static void set_ad9852_ramp_rate(ad9852_shadow_struct *shadow,
 	new_ramprate_reg[1] = (unsigned char)(ramp_rate >> 8);
 	new_ramprate_reg[0] = (unsigned char)ramp_rate;
 
-	for (i = 0; i < 3; ++i)
+	for (int i = 0; i < 3; ++i)
 	{
 		if (shadow->ramp_rate_clock[i] != new_ramprate_reg[i])
 		{
@@ -973,7 +970,6 @@ static void set_ad9858_ramp_rate(ad9858_shadow_struct *shadow,
 
 	unsigned int ramp_rate;
 	unsigned char new_ramprate_word[2];
-	int i;
 
 	/* output frequency steps every 8*DFRRW system clock periods
 	so we want:
@@ -986,7 +982,7 @@ static void set_ad9858_ramp_rate(ad9858_shadow_struct *shadow,
 	new_ramprate_word[1] = (unsigned char)(ramp_rate >> 8);
 	new_ramprate_word[0] = (unsigned char)ramp_rate;
 
-	for (i = 0; i < 2; ++i)
+	for (int i = 0; i < 2; ++i)
 	{
 		if (shadow->delta_freq_ramp_rate_word[i] != new_ramprate_word[i])
 		{
@@ -1009,10 +1005,7 @@ static BOOL ad9852_convert_freq(unsigned char *freq_reg,
 								double frequency,
 								double sysclk)
 {
-	int i;
-	double shift_factor;
-	double frequency_ratio;
-	unsigned char new_byte_val;
+	double frequency_ratio = frequency / sysclk;
 	BOOL was_modified = FALSE;
 
 	/* The frequency is specified as a fixed-point 48-bit fraction according to
@@ -1024,12 +1017,10 @@ static BOOL ad9852_convert_freq(unsigned char *freq_reg,
 	and so forth
 	*/
 
-	frequency_ratio = frequency / sysclk;
-
-	for (i = 5, shift_factor = 256; i >= 0; --i, shift_factor *= 256)
+	for (int i = 5, shift_factor = 256; i >= 0; --i, shift_factor *= 256)
 	{
 		/* cast to unsigned char takes care of modulus and truncation */
-		new_byte_val = frequency_ratio * shift_factor;
+		unsigned char new_byte_val = frequency_ratio * shift_factor;
 		if (freq_reg[i] != new_byte_val)
 		{
 			freq_reg[i] = new_byte_val;
@@ -1043,9 +1034,7 @@ static BOOL ad9858_convert_freq(unsigned char *freq_reg,
 								double frequency,
 								double sysclk)
 {
-	int i;
 	long frequency_ratio;
-	unsigned char new_byte_val;
 	BOOL was_modified = FALSE;
 
 	/* This case is much simpler: the frequency is a 32-bit fraction (out of
@@ -1058,10 +1047,10 @@ static BOOL ad9858_convert_freq(unsigned char *freq_reg,
 
 	frequency_ratio = frequency * 4294967296.0 / sysclk;
 
-	for (i = 0; i < 4; ++i, frequency_ratio >>= 8)
+	for (int i = 0; i < 4; ++i, frequency_ratio >>= 8)
 	{
 		/* cast to unsigned char takes care of modulus and truncation */
-		new_byte_val = (unsigned char)frequency_ratio;
+		unsigned char new_byte_val = (unsigned char)frequency_ratio;
 		if (freq_reg[i] != new_byte_val)
 		{
 			freq_reg[i] = new_byte_val;
@@ -1265,7 +1254,6 @@ dds_cmds_ptr create_ad9852_cmd_sequence(ddsoptions_struct *dds_settings,
 	//when set to 1 DDS is Powered Down (0 when on)
 	int DDS_PD = 0;
 
-	long i;
 	double idealtime;
 	double sysclk;
 
@@ -1302,7 +1290,7 @@ dds_cmds_ptr create_ad9852_cmd_sequence(ddsoptions_struct *dds_settings,
 							dds_settings[1], sysclk);
 
 	//Edited by Dave Burns -- attempt to eliminate redundant DDS updates
-	for (i = 2; i <= num_settings; i++)
+	for (long i = 2; i <= num_settings; i++)
 	{
 		//set the start time based on the start time
 		//and delta time of the previous element
@@ -1342,7 +1330,6 @@ dds_cmds_ptr create_ad9858_cmd_sequence(ddsoptions_struct *dds_settings,
 	dds_cmds_ptr cmd_sequence = NULL;
 	ad9858_shadow_struct shadow;
 
-	long i;
 	double idealtime;
 
 	if (dds_settings == NULL || num_settings < 1)
@@ -1381,7 +1368,7 @@ dds_cmds_ptr create_ad9858_cmd_sequence(ddsoptions_struct *dds_settings,
 	execute_ad9858_settings(cmd_sequence, NEXT_AVAILABLE, &shadow,
 							dds_settings[1], refclk, frequency_offset);
 
-	for (i = 2; i <= num_settings; i++)
+	for (long i = 2; i <= num_settings; i++)
 	{
 		//set the start time based on the start time
 		//and delta time of the previous element
