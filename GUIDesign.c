@@ -726,28 +726,6 @@ void BuildUpdateList(double TMatrix[], struct AnalogTableValues AMat[NUMBERANALO
 			ResetToZeroAtEnd[i - 1] = AChName[i].resettozero;
 			//			printf("Analog Chn = %d, Reset-to-zero = %d \n", i, ResetToZeroAtEnd[i-1]);
 		}
-		digchannelsum = 0;
-		for (int i = 1; i <= 16; i++)
-		{
-			if (DChName[i].resettolow == TRUE)
-			{
-				digchannelsum += 2 ^ (i - 1);
-			}
-		}
-		//		ResetToZeroAtEnd[101]=digchannelsum;// lower 16 digital channels
-		digchannelsum = 0;
-		for (int i = 17; i <= NUMBERDIGITALCHANNELS; i++)
-		{
-			if (DChName[i].resettolow == TRUE)
-			{
-				digchannelsum += 2 ^ (i - 17);
-			}
-		}
-		//		ResetToZeroAtEnd[102]=digchannelsum;// digital channels 17-24
-		//ResetToZeroAtEnd[25]=0;// lower 16 digital channels
-		//ResetToZeroAtEnd[26]=0;// digital channels 17-24
-		//		ResetToZeroAtEnd[27]=0;// master override....if ==1 then reset none
-		//		if(checkresettozero==0) { ResetToZeroAtEnd[27]=1;}
 
 		SetData_Long(4, ResetToZeroAtEnd, 1, NUMBERANALOGCHANNELS);
 		// done evaluating channels that are reset to  zero (low)
@@ -759,8 +737,6 @@ void BuildUpdateList(double TMatrix[], struct AnalogTableValues AMat[NUMBERANALO
 	// more debug info
 	tstop = clock();
 	timeused = tstop - tstart;
-	t = Start_Process(processnum);
-	tstop = clock();
 	sprintf(buff, "Time to transfer and start ADwin:   %d", timeused);
 
 	GetMenuBarAttribute(menuHandle, MENU_PREFS_STREAM_SETTINGS, ATTR_CHECKED, &StreamSettings);
@@ -865,13 +841,10 @@ void OptimizeTimeLoop(int *UpdateNum, int count, int *newcount)
 	// This routine compresses the updatenum list by replacing long strings of 0 with a single line.
 	// i.e.  if we see 2000 zero's in a row, just write -2000 instead.
 
-	int i = 0, k = 0; // i is the counter through the original UpdateNum list
-	int j = 0;		  // t is the counter through the NewUpdateNum list
-	int t = 0;
+	int i = 1; 			// i is the counter through the original UpdateNum list
+	int t = 1;		  	// t is the counter through the NewUpdateNum list
 	int LowZeroThreshold, HighZeroThreshold;
 	int numberofzeros;
-	i = 1;
-	t = 1;
 	LowZeroThreshold = 0;		// minimum number of consecutive zero's to encounter before optimizing
 	HighZeroThreshold = 100000; // maximum number of consecutive zero's to optimize
 								//  We do not want to exceed the counter on the ADwin
@@ -886,7 +859,7 @@ void OptimizeTimeLoop(int *UpdateNum, int count, int *newcount)
 		}
 		else // found a 0
 		{	 // now we need to scan to find the # of zeros
-			j = 1;
+			int j = 1;
 			while (((i + j) < (count + 1)) && (UpdateNum[i + j] == 0))
 			{
 				j++;
@@ -896,7 +869,7 @@ void OptimizeTimeLoop(int *UpdateNum, int count, int *newcount)
 				numberofzeros = j;
 				if (numberofzeros <= LowZeroThreshold)
 				{
-					for (k = 1; k <= numberofzeros; k++)
+					for (int k = 1; k <= numberofzeros; k++)
 					{
 						UpdateNum[t] = 0;
 						t++;
@@ -2276,15 +2249,7 @@ void CVICALLBACK BOOTADWIN_CALLBACK(int menuBar, int menuItem, void *callbackDat
 	Boot("C:\\ADWIN\\ADWIN11.BTL", 0);
 	processnum = Load_Process("TransferData_May25_2012.TB1"); //Updated May 25, 2012 - Seth Aubin
 }
-//*********************************************************************************************************
 
-void CVICALLBACK BOOTLOAD_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								   int panel)
-{
-	int ischecked = 0;
-	GetMenuBarAttribute(menuHandle, MENU_FILE_BOOTLOAD, ATTR_CHECKED, &ischecked);
-	SetMenuBarAttribute(menuHandle, MENU_FILE_BOOTLOAD, ATTR_CHECKED, abs(ischecked - 1));
-}
 //**********************************************************************************************
 void CVICALLBACK CLEARPANEL_CALLBACK(int menuBar, int menuItem, void *callbackData,
 									 int panel)
@@ -2998,9 +2963,9 @@ void CVICALLBACK RESETZERO_CALLBACK(int
 									int menuItem, void *callbackData,
 									int panel)
 {
-	int ischecked = 0;
-	GetMenuBarAttribute(menuHandle, MENU_SETTINGS_RESETZERO, ATTR_CHECKED, &ischecked);
-	SetMenuBarAttribute(menuHandle, MENU_SETTINGS_RESETZERO, ATTR_CHECKED, abs(ischecked - 1));
+	int checked = 0;
+	GetMenuBarAttribute(menuHandle, MENU_SETTINGS_RESETZERO, ATTR_CHECKED, &checked);
+	SetMenuBarAttribute(menuHandle, MENU_SETTINGS_RESETZERO, ATTR_CHECKED, abs(checked - 1));
 }
 //***********************************************************************************************
 void SaveLastGuiSettings(void)
@@ -3270,10 +3235,9 @@ void CVICALLBACK SHOWARRAY_CALLBACK(int menuBar, int menuItem, void *callbackDat
 void CVICALLBACK DDS_OFF_CALLBACK(int menuBar, int menuItem, void *callbackData,
 								  int panel)
 {
-	int i = 0, j = 0;
-	for (j = 0; j < NUMBEROFPAGES; j++)
+	for (int j = 0; j < NUMBEROFPAGES; j++)
 	{
-		for (i = 0; i < NUMBEROFCOLUMNS; i++)
+		for (int i = 0; i < NUMBEROFCOLUMNS; i++)
 		{
 			ddstable[i][j].is_stop = TRUE;
 		}
