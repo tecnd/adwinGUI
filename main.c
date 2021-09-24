@@ -401,7 +401,7 @@ void Initialization()
 	return;
 }
 //***************************************************************************************************
-void ConvertIntToStr(int int_val, char *int_str)
+/*void ConvertIntToStr(int int_val, char *int_str)
 {
 
 	int i, j;
@@ -415,7 +415,7 @@ void ConvertIntToStr(int int_val, char *int_str)
 
 	return;
 }
-
+*/
 //***************************************************************************************************
 void DrawCanvasArrows(void)
 {
