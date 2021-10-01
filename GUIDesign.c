@@ -865,13 +865,10 @@ void OptimizeTimeLoop(int *UpdateNum, int count, int *newcount)
 	// This routine compresses the updatenum list by replacing long strings of 0 with a single line.
 	// i.e.  if we see 2000 zero's in a row, just write -2000 instead.
 
-	int i = 0, k = 0; // i is the counter through the original UpdateNum list
-	int j = 0;		  // t is the counter through the NewUpdateNum list
-	int t = 0;
+	int i = 1; 			// i is the counter through the original UpdateNum list
+	int t = 1;			// t is the counter through the NewUpdateNum list
 	int LowZeroThreshold, HighZeroThreshold;
 	int numberofzeros;
-	i = 1;
-	t = 1;
 	LowZeroThreshold = 0;		// minimum number of consecutive zero's to encounter before optimizing
 	HighZeroThreshold = 100000; // maximum number of consecutive zero's to optimize
 								//  We do not want to exceed the counter on the ADwin
@@ -886,7 +883,7 @@ void OptimizeTimeLoop(int *UpdateNum, int count, int *newcount)
 		}
 		else // found a 0
 		{	 // now we need to scan to find the # of zeros
-			j = 1;
+			int j = 1;
 			while (((i + j) < (count + 1)) && (UpdateNum[i + j] == 0))
 			{
 				j++;
@@ -896,7 +893,7 @@ void OptimizeTimeLoop(int *UpdateNum, int count, int *newcount)
 				numberofzeros = j;
 				if (numberofzeros <= LowZeroThreshold)
 				{
-					for (k = 1; k <= numberofzeros; k++)
+					for (int k = 1; k <= numberofzeros; k++)
 					{
 						UpdateNum[t] = 0;
 						t++;
