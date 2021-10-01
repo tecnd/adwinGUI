@@ -737,8 +737,6 @@ void BuildUpdateList(double TMatrix[], struct AnalogTableValues AMat[NUMBERANALO
 	// more debug info
 	tstop = clock();
 	timeused = tstop - tstart;
-	t = Start_Process(processnum);
-	tstop = clock();
 	sprintf(buff, "Time to transfer and start ADwin:   %d", timeused);
 
 	GetMenuBarAttribute(menuHandle, MENU_PREFS_STREAM_SETTINGS, ATTR_CHECKED, &StreamSettings);
@@ -2960,9 +2958,9 @@ void CVICALLBACK RESETZERO_CALLBACK(int
 									int menuItem, void *callbackData,
 									int panel)
 {
-	int ischecked = 0;
-	GetMenuBarAttribute(menuHandle, MENU_SETTINGS_RESETZERO, ATTR_CHECKED, &ischecked);
-	SetMenuBarAttribute(menuHandle, MENU_SETTINGS_RESETZERO, ATTR_CHECKED, abs(ischecked - 1));
+	int checked = 0;
+	GetMenuBarAttribute(menuHandle, MENU_SETTINGS_RESETZERO, ATTR_CHECKED, &checked);
+	SetMenuBarAttribute(menuHandle, MENU_SETTINGS_RESETZERO, ATTR_CHECKED, abs(checked - 1));
 }
 //***********************************************************************************************
 void SaveLastGuiSettings(void)
