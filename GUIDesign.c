@@ -842,7 +842,7 @@ void OptimizeTimeLoop(int *UpdateNum, int count, int *newcount)
 	// i.e.  if we see 2000 zero's in a row, just write -2000 instead.
 
 	int i = 1; 			// i is the counter through the original UpdateNum list
-	int t = 1;		  	// t is the counter through the NewUpdateNum list
+	int t = 1;			// t is the counter through the NewUpdateNum list
 	int LowZeroThreshold, HighZeroThreshold;
 	int numberofzeros;
 	LowZeroThreshold = 0;		// minimum number of consecutive zero's to encounter before optimizing
@@ -1166,7 +1166,7 @@ void DrawNewTable(int isdimmed)
 //                turns dark yellow. might pick a better color.
 
 {
-	int j, m, picmode, page, cmode;
+	int picmode, page, cmode;
 	int analogtable_visible = 0;
 	int digtable_visible = 0;
 	double vnow = 0;
@@ -1210,7 +1210,7 @@ void DrawNewTable(int isdimmed)
 	{
 
 		SetTableCellAttribute(panelHandle, PANEL_TIMETABLE, MakePoint(i, 1), ATTR_CELL_DIMMED, 0);
-		for (j = 1; j <= NUMBERANALOGCHANNELS; j++) // scan over analog channels
+		for (int j = 1; j <= NUMBERANALOGCHANNELS; j++) // scan over analog channels
 		{
 			cmode = AnalogTable[i][j][page].fcn;
 			vnow = AnalogTable[i][j][page].fval;
@@ -1272,7 +1272,7 @@ void DrawNewTable(int isdimmed)
 				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_YELLOW);
 			}
 		}
-		for (j = 1; j <= NUMBERDIGITALCHANNELS; j++) // scan over analog channels
+		for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++) // scan over analog channels
 		{
 			// if a digital value is high, colour the cell red
 			if (DigTableValues[i][j][page] == 1)
@@ -1402,7 +1402,7 @@ void DrawNewTable(int isdimmed)
 				picmode = 2;
 			}
 
-			for (j = 1; j <= NUMBERANALOGCHANNELS; j++)
+			for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
 			{
 				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_CELL_DIMMED, dimset);
 				SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, MakePoint(i, j), ATTR_CELL_DIMMED, dimset);
@@ -1414,7 +1414,7 @@ void DrawNewTable(int isdimmed)
 	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, digtable_visible);
 	SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_VISIBLE, 1);
 
-	for (m = 1; m <= NUMBEROFCOLUMNS; m++)
+	for (int m = 1; m <= NUMBEROFCOLUMNS; m++)
 	{
 		SetTableCellAttribute(panelHandle, PANEL_TIMETABLE, MakePoint(m, 1), ATTR_TEXT_BGCOLOR, VAL_WHITE);
 	}
@@ -2013,7 +2013,7 @@ int CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event,
 								   void *callbackData, int eventData1, int eventData2)
 {
 	double dval, tscaleold;
-	int page, i, j;
+	int page;
 	ChangedVals = TRUE;
 	switch (event)
 	{
@@ -2024,7 +2024,7 @@ int CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event,
 					   // at a change event seems to work.
 		page = GetPage();
 
-		for (i = 1; i <= NUMBEROFCOLUMNS; i++)
+		for (int i = 1; i <= NUMBEROFCOLUMNS; i++)
 		{
 			double oldtime = TimeArray[i][page];
 			GetTableCellVal(PANEL, PANEL_TIMETABLE, MakePoint(i, 1), &dval);
@@ -2037,7 +2037,7 @@ int CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event,
 				ratio = 1;
 			}
 
-			for (j = 1; j <= NUMBERANALOGCHANNELS; j++)
+			for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
 			{
 				tscaleold = AnalogTable[i][j][page].tscale; // use this  and next line to auto-scale the time
 				AnalogTable[i][j][page].tscale = tscaleold * ratio;
@@ -2338,7 +2338,7 @@ void ShiftColumn3(int col, int page, int dir)
 //Replaced Malfunctioning ShiftColumn and ShiftColumn2(see previous AdwinGUI releases)
 {
 
-	int i, j, status, start, zerocol;
+	int i, status, start, zerocol;
 	printf("col %d", col);
 
 	if (dir == -1) //shifts cols right (insertion)
@@ -2350,14 +2350,14 @@ void ShiftColumn3(int col, int page, int dir)
 	for (i = 0; i < NUMBEROFCOLUMNS - col; i++)
 	{
 		TimeArray[start + dir * i][page] = TimeArray[start + dir * (i + 1)][page];
-		for (j = 1; j <= NUMBERANALOGCHANNELS; j++)
+		for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
 		{
 			AnalogTable[start + dir * i][j][page].fcn = AnalogTable[start + dir * (i + 1)][j][page].fcn;
 			AnalogTable[start + dir * i][j][page].fval = AnalogTable[start + dir * (i + 1)][j][page].fval;
 			AnalogTable[start + dir * i][j][page].tscale = AnalogTable[start + dir * (i + 1)][j][page].tscale;
 		}
 
-		for (j = 1; j <= NUMBERDIGITALCHANNELS; j++)
+		for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++)
 			DigTableValues[start + dir * i][j][page] = DigTableValues[start + dir * (i + 1)][j][page];
 
 		ddstable[start + dir * i][page].start_frequency = ddstable[start + dir * (i + 1)][page].start_frequency;
@@ -2396,14 +2396,14 @@ void ShiftColumn3(int col, int page, int dir)
 		if (dir == 1)
 			TimeArray[zerocol][page] = 0;
 
-		for (j = 1; j <= NUMBERANALOGCHANNELS; j++)
+		for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
 		{
 			AnalogTable[zerocol][j][page].fcn = 1;
 			AnalogTable[zerocol][j][page].fval = 0;
 			AnalogTable[zerocol][j][page].tscale = 1;
 		}
 
-		for (j = 1; j <= NUMBERDIGITALCHANNELS; j++)
+		for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++)
 			DigTableValues[start + dir * i][j][page] = DigTableValues[start + dir * (i + 1)][j][page];
 
 		ddstable[zerocol][page].start_frequency = 0;
@@ -2814,8 +2814,6 @@ Parameters: new top, left and height values for the list box
 *************************************************************************/
 void ReshapeDigitalTable(int top, int left, int height)
 {
-	int j;
-
 	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_HEIGHT, height);
 	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_LEFT, left);
 	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_TOP, top);
@@ -2823,7 +2821,7 @@ void ReshapeDigitalTable(int top, int left, int height)
 	SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_LEFT, left - 165);
 	SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_HEIGHT, height);
 
-	for (j = 1; j <= NUMBERDIGITALCHANNELS; j++)
+	for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++)
 	{
 		SetTableRowAttribute(panelHandle, PANEL_DIGTABLE, j, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
 		SetTableRowAttribute(panelHandle, PANEL_DIGTABLE, j, ATTR_ROW_HEIGHT, (height) / (NUMBERDIGITALCHANNELS));
@@ -2850,9 +2848,6 @@ VAL_CELL_PICTURE : numeric
 *************************************************************************/
 void SetDisplayType(int display_setting)
 {
-
-	int i, j;
-
 	//set button status
 	if (display_setting == VAL_CELL_NUMERIC)
 	{
@@ -2864,9 +2859,9 @@ void SetDisplayType(int display_setting)
 	}
 
 	//	printf("called Display Type with value:   %d \n",display_setting);
-	for (i = 1; i <= NUMBEROFCOLUMNS; i++)
+	for (int i = 1; i <= NUMBEROFCOLUMNS; i++)
 	{
-		for (j = 1; j <= NUMBERANALOGCHANNELS; j++)
+		for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
 		{
 			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j),
 								  ATTR_CELL_TYPE, display_setting);
@@ -2995,7 +2990,6 @@ void ExportPanel(char fexportname[200], int fnamesize)
 {
 
 	FILE *fexport;
-	int i = 0, j = 0, k = 0;
 	char buff[500], bigbuff[2000];
 	char fcnmode[6] = " LEJ"; // step, linear, exponential, const-jerk:  Step is assumed if blank
 	double MetaTimeArray[500];
@@ -3018,13 +3012,13 @@ void ExportPanel(char fexportname[200], int fnamesize)
 	//check each page...find used columns and dim out unused....(with 0 or negative values)
 	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_TABLE_MODE, VAL_COLUMN);
 	mindex = 0;
-	for (k = 1; k <= NUMBEROFPAGES; k++) //go through for each page
+	for (int k = 1; k <= NUMBEROFPAGES; k++) //go through for each page
 	{
 		if (ischecked[k] == 1) //if the page is selected
 		{
 			int nozerofound = 1;
 			//go through for each time column
-			for (i = 1; i < NUMBEROFCOLUMNS; i++)
+			for (int i = 1; i < NUMBEROFCOLUMNS; i++)
 			{
 				if ((nozerofound == 1) && (TimeArray[i][k] > 0))
 				//ignore all columns after the first time=0
@@ -3033,7 +3027,7 @@ void ExportPanel(char fexportname[200], int fnamesize)
 					MetaTimeArray[mindex] = TimeArray[i][k];
 
 					//go through for each analog channel
-					for (j = 1; j <= NUMBERANALOGCHANNELS; j++)
+					for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
 					{
 						MetaAnalogArray[j][mindex].fcn = AnalogTable[i][j][k].fcn;
 						MetaAnalogArray[j][mindex].fval = AnalogTable[i][j][k].fval;
@@ -3056,7 +3050,7 @@ void ExportPanel(char fexportname[200], int fnamesize)
 	// now write to file
 	// write header
 	sprintf(bigbuff, "Time(ms)");
-	for (i = 1; i <= tsize; i++)
+	for (int i = 1; i <= tsize; i++)
 	{
 		strcat(bigbuff, ",");
 		sprintf(buff, "%f", MetaTimeArray[i]);
@@ -3065,10 +3059,10 @@ void ExportPanel(char fexportname[200], int fnamesize)
 	strcat(bigbuff, "\n");
 	fprintf(fexport, bigbuff);
 	//done header, now write analog lines
-	for (j = 1; j <= NUMBERANALOGCHANNELS; j++)
+	for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
 	{
 		sprintf(bigbuff, AChName[j].chname);
-		for (i = 1; i <= tsize; i++)
+		for (int i = 1; i <= tsize; i++)
 		{
 			strcat(bigbuff, ",");
 			strncat(bigbuff, fcnmode + MetaAnalogArray[j][i].fcn - 1, 1);
@@ -3080,7 +3074,7 @@ void ExportPanel(char fexportname[200], int fnamesize)
 	}
 	//done analog lines, now write DDS
 	sprintf(bigbuff, "DDS");
-	for (i = 1; i <= tsize; i++)
+	for (int i = 1; i <= tsize; i++)
 	{
 		strcat(bigbuff, ",");
 		if (DDSstop[i] == TRUE)
@@ -3102,10 +3096,10 @@ void ExportPanel(char fexportname[200], int fnamesize)
 	}
 	fprintf(fexport, bigbuff);
 	//done DDS, now do digital
-	for (j = 1; j <= NUMBERDIGITALCHANNELS; j++)
+	for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++)
 	{
 		sprintf(bigbuff, DChName[j].chname);
-		for (i = 1; i <= tsize; i++)
+		for (int i = 1; i <= tsize; i++)
 		{
 			strcat(bigbuff, ",");
 			sprintf(buff, "%d", MetaDigitalArray[j][i]);
@@ -3125,7 +3119,6 @@ void CVICALLBACK CONFIG_EXPORT_CALLBACK(int menuBar, int menuItem, void *callbac
 {
 
 	FILE *fconfig;
-	int i = 0;
 	char buff[500], fconfigname[200], buff3[31];
 
 	FileSelectPopup("", "*.config", "", "Save Configuration", VAL_SAVE_BUTTON, 0, 0, 1, 1, fconfigname);
@@ -3140,7 +3133,7 @@ void CVICALLBACK CONFIG_EXPORT_CALLBACK(int menuBar, int menuItem, void *callbac
 	fprintf(fconfig, buff);
 	sprintf(buff, "Row,Channel,Name,tbias,tfcn,MaxVolts,MinVolts,Units\n");
 	fprintf(fconfig, buff);
-	for (i = 1; i <= NUMBERANALOGCHANNELS; i++)
+	for (int i = 1; i <= NUMBERANALOGCHANNELS; i++)
 	{
 		strncpy(buff3, AChName[i].chname, 30);
 		sprintf(buff, "%d,%d,%s,%f,%f,%f,%f,%s\n", i, AChName[i].chnum, buff3, AChName[i].tbias, AChName[i].tfcn, AChName[i].maxvolts, AChName[i].minvolts, AChName[i].units);
@@ -3152,7 +3145,7 @@ void CVICALLBACK CONFIG_EXPORT_CALLBACK(int menuBar, int menuItem, void *callbac
 	sprintf(buff, "Row,Channel,Name\n");
 	fprintf(fconfig, buff);
 
-	for (i = 1; i <= NUMBERDIGITALCHANNELS; i++)
+	for (int i = 1; i <= NUMBERDIGITALCHANNELS; i++)
 	{
 		sprintf(buff, "%d,%d,%s\n", i, DChName[i].chnum, DChName[i].chname);
 		fprintf(fconfig, buff);
