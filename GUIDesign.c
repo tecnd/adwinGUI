@@ -737,6 +737,7 @@ void BuildUpdateList(double TMatrix[], struct AnalogTableValues AMat[NUMBERANALO
 	// more debug info
 	tstop = clock();
 	timeused = tstop - tstart;
+	Start_Process(processnum);
 	sprintf(buff, "Time to transfer and start ADwin:   %d", timeused);
 
 	GetMenuBarAttribute(menuHandle, MENU_PREFS_STREAM_SETTINGS, ATTR_CHECKED, &StreamSettings);

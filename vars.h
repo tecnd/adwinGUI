@@ -122,7 +122,7 @@ struct DigitalChannelProperties
 } DChName[MAXDIGITAL];
 
 double EventPeriod; //The Update Period Defined by the pull down menu (in ms)
-int processnum;
+short processnum;
 
 struct DDSClock
 {
