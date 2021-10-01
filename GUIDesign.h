@@ -1,6 +1,5 @@
 /**************************************************************************/
 /* LabWindows/CVI User Interface Resource (UIR) Include File              */
-/* Copyright (c) National Instruments 2006. All Rights Reserved.          */
 /*                                                                        */
 /* WARNING: Do not add to, delete from, or otherwise modify the contents  */
 /*          of this include file.                                         */
@@ -14,139 +13,142 @@
 
      /* Panels and Controls: */
 
-#define  PANEL                           1
-#define  PANEL_CHECKBOX_10               2
-#define  PANEL_CHECKBOX_9                3
-#define  PANEL_CHECKBOX_8                4
-#define  PANEL_CHECKBOX_7                5
-#define  PANEL_CHECKBOX_6                6
-#define  PANEL_CHECKBOX_5                7
-#define  PANEL_CHECKBOX_4                8
-#define  PANEL_CHECKBOX_3                9
-#define  PANEL_CHECKBOX_2                10
-#define  PANEL_CHECKBOX                  11
-#define  PANEL_LABEL_6                   12
-#define  PANEL_LABEL_7                   13
-#define  PANEL_LABEL_8                   14
-#define  PANEL_LABEL_9                   15
-#define  PANEL_LABEL_5                   16
-#define  PANEL_LABEL_4                   17
-#define  PANEL_LABEL_3                   18
-#define  PANEL_LABEL_2                   19
-#define  PANEL_LABEL_1                   20
-#define  PANEL_LABEL_10                  21
-#define  PANEL_TIMETABLE                 22      /* callback function: TIMETABLE_CALLBACK */
-#define  PANEL_ANALOGTABLE               23      /* callback function: ANALOGTABLE_CALLBACK */
-#define  PANEL_TB_SHOWPHASE10            24      /* callback function: TOGGLE10_CALLBACK */
-#define  PANEL_TB_SHOWPHASE9             25      /* callback function: TOGGLE9_CALLBACK */
-#define  PANEL_DIGTABLE                  26      /* callback function: DIGTABLE_CALLBACK */
-#define  PANEL_TB_SHOWPHASE8             27      /* callback function: TOGGLE8_CALLBACK */
-#define  PANEL_TB_SHOWPHASE7             28      /* callback function: TOGGLE7_CALLBACK */
-#define  PANEL_TB_SHOWPHASE6             29      /* callback function: TOGGLE6_CALLBACK */
-#define  PANEL_TB_SHOWPHASE5             30      /* callback function: TOGGLE5_CALLBACK */
-#define  PANEL_TB_SHOWPHASE4             31      /* callback function: TOGGLE4_CALLBACK */
-#define  PANEL_TB_SHOWPHASE3             32      /* callback function: TOGGLE3_CALLBACK */
-#define  PANEL_TB_SHOWPHASE2             33      /* callback function: TOGGLE2_CALLBACK */
-#define  PANEL_TB_SHOWPHASE1             34      /* callback function: TOGGLE1_CALLBACK */
-#define  PANEL_CMD_SCAN                  35      /* callback function: CMD_SCAN_CALLBACK */
-#define  PANEL_CMD_RUN                   36      /* callback function: CMD_RUN_CALLBACK */
-#define  PANEL_DEBUG                     37
-#define  PANEL_TOGGLEREPEAT              38
-#define  PANEL_CMDSTOP                   39      /* callback function: CMDSTOP_CALLBACK */
-#define  PANEL_TGL_NUMERICTABLE          40      /* callback function: TGLNUMERIC_CALLBACK */
-#define  PANEL_DISPLAYDIAL               41      /* callback function: DISPLAYDIAL_CALLBACK */
-#define  PANEL_TBL_ANALOGUNITS           42
-#define  PANEL_TBL_DIGNAMES              43
-#define  PANEL_TBL_ANAMES                44
-#define  PANEL_TIMER                     45      /* callback function: TIMER_CALLBACK */
-#define  PANEL_NUM_INSERTIONCOL          46      /* callback function: NUM_INSERTIONCOL_CALLBACK */
-#define  PANEL_NUM_INSERTIONPAGE         47      /* callback function: NUM_INSERTIONPAGE_CALLBACK */
-#define  PANEL_NUM_DDS3_OFFSET           48
-#define  PANEL_NUM_DDS2_OFFSET           49
-#define  PANEL_NUM_DDS_OFFSET            50
-#define  PANEL_SCAN_TABLE                51
-#define  PANEL_CANVAS_END                52
-#define  PANEL_CANVAS_START              53
-#define  PANEL_DECORATION                54
-#define  PANEL_NUM_LOOP_REPS             55
-#define  PANEL_NUM_LOOPCOL2              56
-#define  PANEL_NUM_LOOPPAGE2             57
-#define  PANEL_NUM_LOOPCOL1              58
-#define  PANEL_NUM_LOOPPAGE1             59
-#define  PANEL_SWITCH_LOOP               60      /* callback function: SWITCH_LOOP_CALLBACK */
-#define  PANEL_DECORATION_2              61
-#define  PANEL_CANVAS_LOOPLINE           62
-#define  PANEL_Looping                   63
+#define  PANEL                            1
+#define  PANEL_CHECKBOX_10                2       /* control type: radioButton, callback function: (none) */
+#define  PANEL_CHECKBOX_9                 3       /* control type: radioButton, callback function: (none) */
+#define  PANEL_CHECKBOX_8                 4       /* control type: radioButton, callback function: (none) */
+#define  PANEL_CHECKBOX_7                 5       /* control type: radioButton, callback function: (none) */
+#define  PANEL_CHECKBOX_6                 6       /* control type: radioButton, callback function: (none) */
+#define  PANEL_CHECKBOX_5                 7       /* control type: radioButton, callback function: (none) */
+#define  PANEL_CHECKBOX_4                 8       /* control type: radioButton, callback function: (none) */
+#define  PANEL_CHECKBOX_3                 9       /* control type: radioButton, callback function: (none) */
+#define  PANEL_CHECKBOX_2                 10      /* control type: radioButton, callback function: (none) */
+#define  PANEL_CHECKBOX                   11      /* control type: radioButton, callback function: (none) */
+#define  PANEL_LABEL_6                    12      /* control type: table, callback function: (none) */
+#define  PANEL_LABEL_7                    13      /* control type: table, callback function: (none) */
+#define  PANEL_LABEL_8                    14      /* control type: table, callback function: (none) */
+#define  PANEL_LABEL_9                    15      /* control type: table, callback function: (none) */
+#define  PANEL_LABEL_5                    16      /* control type: table, callback function: (none) */
+#define  PANEL_LABEL_4                    17      /* control type: table, callback function: (none) */
+#define  PANEL_LABEL_3                    18      /* control type: table, callback function: (none) */
+#define  PANEL_LABEL_2                    19      /* control type: table, callback function: (none) */
+#define  PANEL_LABEL_1                    20      /* control type: table, callback function: (none) */
+#define  PANEL_LABEL_10                   21      /* control type: table, callback function: (none) */
+#define  PANEL_TIMETABLE                  22      /* control type: table, callback function: TIMETABLE_CALLBACK */
+#define  PANEL_ANALOGTABLE                23      /* control type: table, callback function: ANALOGTABLE_CALLBACK */
+#define  PANEL_TB_SHOWPHASE10             24      /* control type: textButton, callback function: TOGGLE10_CALLBACK */
+#define  PANEL_TB_SHOWPHASE9              25      /* control type: textButton, callback function: TOGGLE9_CALLBACK */
+#define  PANEL_DIGTABLE                   26      /* control type: table, callback function: DIGTABLE_CALLBACK */
+#define  PANEL_TB_SHOWPHASE8              27      /* control type: textButton, callback function: TOGGLE8_CALLBACK */
+#define  PANEL_TB_SHOWPHASE7              28      /* control type: textButton, callback function: TOGGLE7_CALLBACK */
+#define  PANEL_TB_SHOWPHASE6              29      /* control type: textButton, callback function: TOGGLE6_CALLBACK */
+#define  PANEL_TB_SHOWPHASE5              30      /* control type: textButton, callback function: TOGGLE5_CALLBACK */
+#define  PANEL_TB_SHOWPHASE4              31      /* control type: textButton, callback function: TOGGLE4_CALLBACK */
+#define  PANEL_TB_SHOWPHASE3              32      /* control type: textButton, callback function: TOGGLE3_CALLBACK */
+#define  PANEL_TB_SHOWPHASE2              33      /* control type: textButton, callback function: TOGGLE2_CALLBACK */
+#define  PANEL_TB_SHOWPHASE1              34      /* control type: textButton, callback function: TOGGLE1_CALLBACK */
+#define  PANEL_CMD_SCAN                   35      /* control type: command, callback function: CMD_SCAN_CALLBACK */
+#define  PANEL_CMD_RUN                    36      /* control type: command, callback function: CMD_RUN_CALLBACK */
+#define  PANEL_DEBUG                      37      /* control type: listBox, callback function: (none) */
+#define  PANEL_TOGGLEREPEAT               38      /* control type: textButton, callback function: (none) */
+#define  PANEL_CMDSTOP                    39      /* control type: command, callback function: CMDSTOP_CALLBACK */
+#define  PANEL_TGL_NUMERICTABLE           40      /* control type: textButton, callback function: TGLNUMERIC_CALLBACK */
+#define  PANEL_DISPLAYDIAL                41      /* control type: slide, callback function: DISPLAYDIAL_CALLBACK */
+#define  PANEL_TBL_ANALOGUNITS            42      /* control type: table, callback function: (none) */
+#define  PANEL_TBL_DIGNAMES               43      /* control type: table, callback function: (none) */
+#define  PANEL_TBL_ANAMES                 44      /* control type: table, callback function: (none) */
+#define  PANEL_TIMER                      45      /* control type: timer, callback function: TIMER_CALLBACK */
+#define  PANEL_NUM_INSERTIONCOL           46      /* control type: numeric, callback function: NUM_INSERTIONCOL_CALLBACK */
+#define  PANEL_NUM_INSERTIONPAGE          47      /* control type: numeric, callback function: NUM_INSERTIONPAGE_CALLBACK */
+#define  PANEL_NUM_DDS3_OFFSET            48      /* control type: numeric, callback function: (none) */
+#define  PANEL_NUM_DDS2_OFFSET            49      /* control type: numeric, callback function: (none) */
+#define  PANEL_NUM_DDS_OFFSET             50      /* control type: numeric, callback function: (none) */
+#define  PANEL_SCAN_TABLE                 51      /* control type: table, callback function: (none) */
+#define  PANEL_CANVAS_END                 52      /* control type: canvas, callback function: (none) */
+#define  PANEL_CANVAS_START               53      /* control type: canvas, callback function: (none) */
+#define  PANEL_DECORATION                 54      /* control type: deco, callback function: (none) */
+#define  PANEL_NUM_LOOP_REPS              55      /* control type: numeric, callback function: (none) */
+#define  PANEL_NUM_LOOPCOL2               56      /* control type: numeric, callback function: (none) */
+#define  PANEL_NUM_LOOPPAGE2              57      /* control type: numeric, callback function: (none) */
+#define  PANEL_NUM_LOOPCOL1               58      /* control type: numeric, callback function: (none) */
+#define  PANEL_NUM_LOOPPAGE1              59      /* control type: numeric, callback function: (none) */
+#define  PANEL_SWITCH_LOOP                60      /* control type: binary, callback function: SWITCH_LOOP_CALLBACK */
+#define  PANEL_DECORATION_2               61      /* control type: deco, callback function: (none) */
+#define  PANEL_CANVAS_LOOPLINE            62      /* control type: canvas, callback function: (none) */
+#define  PANEL_Looping                    63      /* control type: textMsg, callback function: (none) */
 
-#define  SUBPANEL1                       2
-#define  SUBPANEL1_TEXTBOX               2
+#define  SUBPANEL1                        2
+#define  SUBPANEL1_TEXTBOX                2       /* control type: textBox, callback function: (none) */
 
-#define  SUBPANEL2                       3
-#define  SUBPANEL2_NUM_SCANITER          2
-#define  SUBPANEL2_NUM_SCANSTEP          3
-#define  SUBPANEL2_NUM_SCANVAL           4
+#define  SUBPANEL2                        3
+#define  SUBPANEL2_NUM_SCANITER           2       /* control type: numeric, callback function: (none) */
+#define  SUBPANEL2_NUM_SCANSTEP           3       /* control type: numeric, callback function: (none) */
+#define  SUBPANEL2_NUM_SCANVAL            4       /* control type: numeric, callback function: (none) */
+
+
+     /* Control Arrays: */
+
+          /* (no control arrays in the resource file) */
 
 
      /* Menu Bars, Menus, and Menu Items: */
 
-#define  MENU                            1
-#define  MENU_FILE                       2
-#define  MENU_FILE_LOADSET               3       /* callback function: MENU_CALLBACK */
-#define  MENU_FILE_SAVESET               4       /* callback function: MENU_CALLBACK */
-#define  MENU_FILE_BOOTLOAD              5       /* callback function: BOOTLOAD_CALLBACK */
-#define  MENU_FILE_MENU_EXPORT_CHANNEL   6       /* callback function: CONFIG_EXPORT_CALLBACK */
-#define  MENU_FILE_MENU_EXPORT_PANEL     7       /* callback function: EXPORT_PANEL_CALLBACK */
-#define  MENU_FILE_QuitCallback          8       /* callback function: EXIT */
-#define  MENU_SETTINGS                   9
-#define  MENU_SETTINGS_ANALOG            10      /* callback function: ANALOGSET_CALLBACK */
-#define  MENU_SETTINGS_DIGITAL           11      /* callback function: DIGITALSET_CALLBACK */
-#define  MENU_SETTINGS_DDSSETUP          12      /* callback function: DDSSETUP_CALLBACK */
-#define  MENU_SETTINGS_CONTROLTEXT       13
-#define  MENU_SETTINGS_CONTROLTEXT_SUBMEN 14
-#define  MENU_SETTINGS_CONTROLTEXT_TITLE1 15     /* callback function: TITLE1_CALLBACK */
-#define  MENU_SETTINGS_CONTROLTEXT_TITLE2 16     /* callback function: TITLE2_CALLBACK */
-#define  MENU_SETTINGS_CONTROLTEXT_TITLE3 17     /* callback function: TITLE3_CALLBACK */
-#define  MENU_SETTINGS_CONTROLTEXT_TITLE4 18     /* callback function: TITLE4_CALLBACK */
-#define  MENU_SETTINGS_CONTROLTEXT_TITLE5 19     /* callback function: TITLE5_CALLBACK */
-#define  MENU_SETTINGS_CONTROLTEXT_TITLE6 20     /* callback function: TITLE6_CALLBACK */
-#define  MENU_SETTINGS_CONTROLTEXT_TITLE7 21     /* callback function: TITLE7_CALLBACK */
-#define  MENU_SETTINGS_CONTROLTEXT_TITLE8 22     /* callback function: TITLE8_CALLBACK */
-#define  MENU_SETTINGS_CONTROLTEXT_TITLE9 23     /* callback function: TITLE9_CALLBACK */
-#define  MENU_SETTINGS_CONTROLTEXT_TITLEX 24     /* callback function: TITLEX_CALLBACK */
-#define  MENU_SETTINGS_DEBUG             25      /* callback function: MENU_DEBUG_CALLBACK */
-#define  MENU_SETTINGS_BOOTADWIN         26      /* callback function: BOOTADWIN_CALLBACK */
-#define  MENU_SETTINGS_CLEARPANEL        27      /* callback function: CLEARPANEL_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO         28      /* callback function: RESETZERO_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO_SUBMENU 29
-#define  MENU_SETTINGS_RESETZERO_SETLOW  30      /* callback function: MENU_ALLLOW_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO_HOLD    31      /* callback function: MENU_HOLD_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO_BYCHNL  32      /* callback function: MENU_BYCHANNEL_CALLBACK */
-#define  MENU_SETTINGS_SCANSETTING       33      /* callback function: SCANSETTING_CALLBACK */
-#define  MENU_SETTINGS_NOTECHECK         34      /* callback function: NOTECHECK_CALLBACK */
-#define  MENU_EDITMATRIX                 35
-#define  MENU_EDITMATRIX_INSERTCOLUMN    36      /* callback function: INSERTCOLUMN_CALLBACK */
-#define  MENU_EDITMATRIX_DELETECOLUMN    37      /* callback function: DELETECOLUMN_CALLBACK */
-#define  MENU_EDITMATRIX_COPYCOLUMN      38      /* callback function: COPYCOLUMN_CALLBACK */
-#define  MENU_EDITMATRIX_PASTECOLUMN     39      /* callback function: PASTECOLUMN_CALLBACK */
-#define  MENU_UPDATEPERIOD               40
-#define  MENU_UPDATEPERIOD_SETGD5        41      /* callback function: SETGD5_CALLBACK */
-#define  MENU_UPDATEPERIOD_SETGD10       42      /* callback function: SETGD10_CALLBACK */
-#define  MENU_UPDATEPERIOD_SETGD100      43      /* callback function: SETGD100_CALLBACK */
-#define  MENU_UPDATEPERIOD_SETGD1000     44      /* callback function: SETGD1000_CALLBACK */
-#define  MENU_PREFS                      45
-#define  MENU_PREFS_COMPRESSION          46      /* callback function: COMPRESSION_CALLBACK */
-#define  MENU_PREFS_SIMPLETIMING         47      /* callback function: SIMPLETIMING_CALLBACK */
-#define  MENU_PREFS_SHOWARRAY            48      /* callback function: SHOWARRAY_CALLBACK */
-#define  MENU_PREFS_DDS_OFF              49      /* callback function: DDS_OFF_CALLBACK */
-#define  MENU_PREFS_STREAM_SETTINGS      50      /* callback function: STREAM_CALLBACK */
+#define  MENU                             1
+#define  MENU_FILE                        2
+#define  MENU_FILE_LOADSET                3       /* callback function: MENU_CALLBACK */
+#define  MENU_FILE_SAVESET                4       /* callback function: MENU_CALLBACK */
+#define  MENU_FILE_MENU_EXPORT_CHANNEL    5       /* callback function: CONFIG_EXPORT_CALLBACK */
+#define  MENU_FILE_MENU_EXPORT_PANEL      6       /* callback function: EXPORT_PANEL_CALLBACK */
+#define  MENU_FILE_QuitCallback           7       /* callback function: EXIT */
+#define  MENU_SETTINGS                    8
+#define  MENU_SETTINGS_ANALOG             9       /* callback function: ANALOGSET_CALLBACK */
+#define  MENU_SETTINGS_DIGITAL            10      /* callback function: DIGITALSET_CALLBACK */
+#define  MENU_SETTINGS_DDSSETUP           11      /* callback function: DDSSETUP_CALLBACK */
+#define  MENU_SETTINGS_CONTROLTEXT        12
+#define  MENU_SETTINGS_CONTROLTEXT_SUBMENU 13
+#define  MENU_SETTINGS_CONTROLTEXT_TITLE1 14      /* callback function: TITLE1_CALLBACK */
+#define  MENU_SETTINGS_CONTROLTEXT_TITLE2 15      /* callback function: TITLE2_CALLBACK */
+#define  MENU_SETTINGS_CONTROLTEXT_TITLE3 16      /* callback function: TITLE3_CALLBACK */
+#define  MENU_SETTINGS_CONTROLTEXT_TITLE4 17      /* callback function: TITLE4_CALLBACK */
+#define  MENU_SETTINGS_CONTROLTEXT_TITLE5 18      /* callback function: TITLE5_CALLBACK */
+#define  MENU_SETTINGS_CONTROLTEXT_TITLE6 19      /* callback function: TITLE6_CALLBACK */
+#define  MENU_SETTINGS_CONTROLTEXT_TITLE7 20      /* callback function: TITLE7_CALLBACK */
+#define  MENU_SETTINGS_CONTROLTEXT_TITLE8 21      /* callback function: TITLE8_CALLBACK */
+#define  MENU_SETTINGS_CONTROLTEXT_TITLE9 22      /* callback function: TITLE9_CALLBACK */
+#define  MENU_SETTINGS_CONTROLTEXT_TITLEX 23      /* callback function: TITLEX_CALLBACK */
+#define  MENU_SETTINGS_DEBUG              24      /* callback function: MENU_DEBUG_CALLBACK */
+#define  MENU_SETTINGS_BOOTADWIN          25      /* callback function: BOOTADWIN_CALLBACK */
+#define  MENU_SETTINGS_CLEARPANEL         26      /* callback function: CLEARPANEL_CALLBACK */
+#define  MENU_SETTINGS_RESETZERO          27      /* callback function: RESETZERO_CALLBACK */
+#define  MENU_SETTINGS_RESETZERO_SUBMENU  28
+#define  MENU_SETTINGS_RESETZERO_SETLOW   29      /* callback function: MENU_ALLLOW_CALLBACK */
+#define  MENU_SETTINGS_RESETZERO_HOLD     30      /* callback function: MENU_HOLD_CALLBACK */
+#define  MENU_SETTINGS_RESETZERO_BYCHNL   31      /* callback function: MENU_BYCHANNEL_CALLBACK */
+#define  MENU_SETTINGS_SCANSETTING        32      /* callback function: SCANSETTING_CALLBACK */
+#define  MENU_SETTINGS_NOTECHECK          33      /* callback function: NOTECHECK_CALLBACK */
+#define  MENU_EDITMATRIX                  34
+#define  MENU_EDITMATRIX_INSERTCOLUMN     35      /* callback function: INSERTCOLUMN_CALLBACK */
+#define  MENU_EDITMATRIX_DELETECOLUMN     36      /* callback function: DELETECOLUMN_CALLBACK */
+#define  MENU_EDITMATRIX_COPYCOLUMN       37      /* callback function: COPYCOLUMN_CALLBACK */
+#define  MENU_EDITMATRIX_PASTECOLUMN      38      /* callback function: PASTECOLUMN_CALLBACK */
+#define  MENU_UPDATEPERIOD                39
+#define  MENU_UPDATEPERIOD_SETGD5         40      /* callback function: SETGD5_CALLBACK */
+#define  MENU_UPDATEPERIOD_SETGD10        41      /* callback function: SETGD10_CALLBACK */
+#define  MENU_UPDATEPERIOD_SETGD100       42      /* callback function: SETGD100_CALLBACK */
+#define  MENU_UPDATEPERIOD_SETGD1000      43      /* callback function: SETGD1000_CALLBACK */
+#define  MENU_PREFS                       44
+#define  MENU_PREFS_COMPRESSION           45      /* callback function: COMPRESSION_CALLBACK */
+#define  MENU_PREFS_SIMPLETIMING          46      /* callback function: SIMPLETIMING_CALLBACK */
+#define  MENU_PREFS_SHOWARRAY             47      /* callback function: SHOWARRAY_CALLBACK */
+#define  MENU_PREFS_DDS_OFF               48      /* callback function: DDS_OFF_CALLBACK */
+#define  MENU_PREFS_STREAM_SETTINGS       49      /* callback function: STREAM_CALLBACK */
 
 
-     /* Callback Prototypes: */ 
+     /* Callback Prototypes: */
 
 void CVICALLBACK ANALOGSET_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK ANALOGTABLE_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 void CVICALLBACK BOOTADWIN_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
-void CVICALLBACK BOOTLOAD_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK CLEARPANEL_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK CMD_RUN_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK CMD_SCAN_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
