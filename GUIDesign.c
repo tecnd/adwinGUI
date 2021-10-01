@@ -30,6 +30,7 @@
 #include "DDSControl2.h"
 #include "DDSSettings2.h"
 #include "ddstranslator.h"
+#include "main.h"
 /***** Sandro Gvakharia, October 2010 *****/
 #include <tcpsupp.h>
 #define PORT 1111
@@ -1629,16 +1630,7 @@ int CVICALLBACK TOGGLE1_CALLBACK(int panel, int control, int event,
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 0);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 0);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 1);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_4, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
+		setVisibleLabel(1);
 		currentpage = 1;
 		ChangedVals = TRUE;
 		DrawNewTable(isdimmed);
@@ -1664,16 +1656,7 @@ int CVICALLBACK TOGGLE2_CALLBACK(int panel, int control, int event,
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 0);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 0);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 1);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_4, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
+		setVisibleLabel(2);
 		ChangedVals = TRUE;
 		currentpage = 2;
 		DrawNewTable(isdimmed);
@@ -1698,16 +1681,7 @@ int CVICALLBACK TOGGLE3_CALLBACK(int panel, int control, int event,
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 0);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 0);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 1);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_4, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
+		setVisibleLabel(3);
 		ChangedVals = TRUE;
 		currentpage = 3;
 		DrawNewTable(isdimmed);
@@ -1732,16 +1706,7 @@ int CVICALLBACK TOGGLE4_CALLBACK(int panel, int control, int event,
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 0);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 0);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_4, ATTR_VISIBLE, 1);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
+		setVisibleLabel(4);
 		ChangedVals = TRUE;
 		currentpage = 4;
 		DrawNewTable(isdimmed);
@@ -1766,16 +1731,7 @@ int CVICALLBACK TOGGLE5_CALLBACK(int panel, int control, int event,
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 0);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 0);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_4, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 1);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
+		setVisibleLabel(5);
 		ChangedVals = TRUE;
 		currentpage = 5;
 		DrawNewTable(isdimmed);
@@ -1800,16 +1756,7 @@ int CVICALLBACK TOGGLE6_CALLBACK(int panel, int control, int event,
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 0);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 0);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_4, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 1);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
+		setVisibleLabel(6);
 		ChangedVals = TRUE;
 		currentpage = 6;
 		DrawNewTable(isdimmed);
@@ -1834,16 +1781,7 @@ int CVICALLBACK TOGGLE7_CALLBACK(int panel, int control, int event,
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 0);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 0);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_4, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 1);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
+		setVisibleLabel(7);
 		ChangedVals = TRUE;
 		currentpage = 7;
 		DrawNewTable(isdimmed);
@@ -1868,16 +1806,7 @@ int CVICALLBACK TOGGLE8_CALLBACK(int panel, int control, int event,
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 1);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 0);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_4, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 1);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
+		setVisibleLabel(8);
 		ChangedVals = TRUE;
 		currentpage = 8;
 		DrawNewTable(isdimmed);
@@ -1902,16 +1831,7 @@ int CVICALLBACK TOGGLE9_CALLBACK(int panel, int control, int event,
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 0);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 1);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_4, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 1);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
+		setVisibleLabel(9);
 		ChangedVals = TRUE;
 		currentpage = 9;
 		DrawNewTable(isdimmed);
@@ -1936,18 +1856,7 @@ int CVICALLBACK TOGGLE10_CALLBACK(int panel, int control, int event,
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 0);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 0);
 		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 1);
-
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_4, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
-		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 1);
-
+		setVisibleLabel(10);
 		ChangedVals = TRUE;
 		currentpage = 10;
 		DrawNewTable(isdimmed);

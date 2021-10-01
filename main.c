@@ -287,37 +287,28 @@ void Initialization()
 	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERANALOGCHANNELS + NUMBERDDS);
 	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERDIGITALCHANNELS);
 
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_1, ATTR_VISIBLE, 1);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_2, ATTR_VISIBLE, 0);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_3, ATTR_VISIBLE, 0);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_4, ATTR_VISIBLE, 0);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_5, ATTR_VISIBLE, 0);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_6, ATTR_VISIBLE, 0);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_7, ATTR_VISIBLE, 0);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
+	// Generate labels
+	for (int i = 0; i < NUMBEROFPAGES; i++)
+	{
+		int newTable = NewCtrl(panelHandle, CTRL_TABLE, "Desc.", 88, 165);
+		SetCtrlAttribute(panelHandle, newTable, ATTR_HEIGHT, 25);
+		SetCtrlAttribute(panelHandle, newTable, ATTR_WIDTH, 686);
+		SetCtrlAttribute(panelHandle, newTable, ATTR_LABEL_TOP, 93);
+		SetCtrlAttribute(panelHandle, newTable, ATTR_LABEL_LEFT, 130);
+		SetCtrlAttribute(panelHandle, newTable, ATTR_TABLE_MODE, VAL_GRID);
+		SetCtrlAttribute(panelHandle, newTable, ATTR_CELL_TYPE, VAL_CELL_STRING);
+		SetCtrlAttribute(panelHandle, newTable, ATTR_COLUMN_LABELS_VISIBLE, 0);
+		SetCtrlAttribute(panelHandle, newTable, ATTR_ROW_LABELS_VISIBLE, 0);
+		SetCtrlAttribute(panelHandle, newTable, ATTR_SCROLL_BARS, VAL_NO_SCROLL_BARS);
+		SetCtrlAttribute(panelHandle, newTable, ATTR_HORIZONTAL_GRID_COLOR, VAL_RED);
+		SetCtrlAttribute(panelHandle, newTable, ATTR_VERTICAL_GRID_COLOR, VAL_RED);
+		InsertTableRows(panelHandle, newTable, -1, 1, VAL_USE_MASTER_CELL_TYPE);
+		InsertTableColumns(panelHandle, newTable, -1, 17, VAL_USE_MASTER_CELL_TYPE);
+		SetTableColumnAttribute(panelHandle, newTable, -1, ATTR_COLUMN_WIDTH, 40);
+		LabelArray[i] = newTable;
+	}
 
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_1, ATTR_LEFT, 165);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_1, ATTR_TOP, 88);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_2, ATTR_LEFT, 165);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_2, ATTR_TOP, 88);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_3, ATTR_LEFT, 165);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_3, ATTR_TOP, 88);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_4, ATTR_LEFT, 165);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_4, ATTR_TOP, 88);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_5, ATTR_LEFT, 165);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_5, ATTR_TOP, 88);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_6, ATTR_LEFT, 165);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_6, ATTR_TOP, 88);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_7, ATTR_LEFT, 165);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_7, ATTR_TOP, 88);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_LEFT, 165);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_TOP, 88);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_LEFT, 165);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_TOP, 88);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_LEFT, 165);
-	SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_TOP, 88);
+	setVisibleLabel(1);
 
 	// Reposition the page boxes and checkboxes
 	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE1, ATTR_TOP, 30);
@@ -399,6 +390,14 @@ void Initialization()
 	//	DrawNewTable(0);
 
 	return;
+}
+
+void setVisibleLabel(int labelNum)
+{
+	for (int i = 0; i < NUMBEROFPAGES; i++)
+	{
+		SetCtrlAttribute(panelHandle, LabelArray[i], ATTR_VISIBLE, (i == labelNum) ? 1 : 0);
+	}
 }
 //***************************************************************************************************
 /*void ConvertIntToStr(int int_val, char *int_str)
