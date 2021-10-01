@@ -5,9 +5,10 @@
 ' Control_long_Delays_for_Stop   = No
 ' Priority                       = High
 ' Version                        = 1
-' ADbasic_Version                = 5.0.5
+' ADbasic_Version                = 6.3.1
 ' Optimize                       = No
-' Info_Last_Save                 = ORCHID  ORCHID\labadmin
+' Stacksize                      = 1000
+' Info_Last_Save                 = NIGHTSHADE  NIGHTSHADE\labadmin
 '<Header End>
 #include ADwinPRO_ALL.inc
 'Updated to new ADbasic code - Ben Sofka
@@ -15,9 +16,9 @@ dim i,j,k,lightcount,litup,eventcount,delaymultinuse as long
 dim DATA_1[5000000] as long
 dim DATA_2[5000000] as long
 dim DATA_3[5000000] as float
-dim DATA_4[100] as long	' a list of which channels are reset to zero on completion
+dim DATA_4[100] as long  ' a list of which channels are reset to zero on completion
 dim value as float
-dim counts,maxcount,updates,i,j,k as long
+dim counts,maxcount,updates as long
 dim ch as long
 dim val,val_lower,val_upper,val_lower2,val_upper2 as long
 dim tempval as long 
@@ -37,8 +38,8 @@ SUB Light_LED(lit) as
   SELECTCASE lit
     CASE 1
       P2_SET_LED(2,0)
-      P2_SET_LED(1,1)		
-    CASE 2		
+      P2_SET_LED(1,1)    
+    CASE 2    
       P2_SET_LED(1,0)
       P2_SET_LED(2,1)
     CASE 3
@@ -55,7 +56,7 @@ SUB Light_LED(lit) as
       P2_SET_LED(2,1)
     CASE 8
       P2_SET_LED(2,0)
-      P2_SET_LED(1,1)		
+      P2_SET_LED(1,1)    
     CASE 9
       P2_SET_LED(1,0)
       P2_SET_LED(4,1)
@@ -102,10 +103,10 @@ INIT:
   delay=PAR_2 ' 300000=>1ms for T11 Processor: Updated July 14 2009 - Ben Sofka
   PROCESSDELAY=delay
   'DDS digital line setup
-  dataline=31 				' data line
-  clock=30				' data clock
-  ioupdate=29			' update line.  transfers data from buffer into registers
-  ioreset=28			' resets input buffers
+  dataline=31         ' data line
+  clock=30        ' data clock
+  ioupdate=29      ' update line.  transfers data from buffer into registers
+  ioreset=28      ' resets input buffers
   masterreset=27
 
   'DDS2 digital lines (base 0)
@@ -119,12 +120,19 @@ INIT:
   DigProg2(1,65535)
   DigProg1(2,65535)
   DigProg2(2,65535)
-  DigProg1(3,65535)
-  DigProg2(3,65535)
+  
+  ' Seth Aubin: removed these lines --> we do not have a 3rd DIO card
+  'DigProg1(3,65535)
+  'DigProg2(3,65535)
+  ' ------------------------------------------------------------------
+  
   'Configure cards for synchronous output
   SYNCENABLE(1,dio,1)
   SYNCENABLE(2,dio,1)
-  SYNCENABLE(3,dio,1)
+  
+  ' Seth Aubin: removed these lines --> we do not have a 3rd DIO card
+  'SYNCENABLE(3,dio,1)
+  ' ------------------------------------------------------------------
 
   SYNCENABLE(1,da,1)
   SYNCENABLE(2,da,1)
@@ -144,28 +152,31 @@ INIT:
   FPar_11=DATA_2[1]
   FPar_12=DATA_2[2]
   FPar_13=DATA_2[3]
-  ' Make sure the DDS lines are low.
-  DIGOUT_F(2,clock,0)
-  DIGOUT_F(2,dataline,0)
-  DIGOUT_F(2,ioreset,0)
-  DIGOUT_F(2,ioupdate,0)
-  DIGOUT_F(2,masterreset,0)
-
+ 
+  'Seth Aubin (May 25, 2012): removed these lines --> we do not have a DDS
+  '
+  '' Make sure the DDS lines are low.
+  'DIGOUT_F(2,clock,0)
+  'DIGOUT_F(2,dataline,0)
+  'DIGOUT_F(2,ioreset,0)
+  'DIGOUT_F(2,ioupdate,0)
+  'DIGOUT_F(2,masterreset,0)
+  
 
 EVENT:
-  P2_SYNC_ALL(1)    'Force synchronized output now.  We are sending out the data programmed in the last cycle.
+  P2_SYNC_ALL(1111b)    'Force synchronized output now.  We are sending out the data programmed in the last cycle.
   ' THis way all the outputs are updated at the beginning of an event, which is well timed.
   ' Doing Syncall() at the end of an event causes the channel outputs to move around in time, depending on how many channels
   ' are being programmed.
 
   eventcount=eventcount+delaymultinuse
   if(eventcount>leddelay) then
-    eventcount=0			
+    eventcount=0      
     if(litup=14) then 
       litup=0
     endif
     litup=litup+1
-    Light_LED(litup)		
+    Light_LED(litup)    
   endif
 
   delayinuse=delay   ' reset the PROCESSDELAY
@@ -185,39 +196,42 @@ EVENT:
   val_upper2=0
   counts=counts+1  'Number of events so far
 
+  ' Added by Seth Aubin on August 2, 2010.
+  DIG_LATCH(1)  'required for operation of DIO 1 ..suppose to be like P2_SYNC_ALL
+  DIG_LATCH(2)  'required for operation of DIO 1 ..suppose to be like P2_SYNC_ALL
 
   IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each elementof DATA_1 for an update
     For i=1 to DATA_1[counts] 'B: Loop over number of updates at this time
       updates=updates+1
       ch=DATA_2[updates]
 
-      '*****************Analog outs***********************			
+      '*****************Analog outs***********************      
       if((ch>=1) and (ch<=32)) then
         AnalogWrite(ch,DATA_3[updates])
       endif
-		
+    
       '*****************DDS outs*************************
-      if(ch=51) then  'AA: is ch=51, then act on the code to write to the DDS1
-        DDS1Write(DATA_3[updates])
-      endif			
-		
-      if(ch=52) then  'BB: is ch=52, then write 2 bits to the DDS2
-        DDS2Write(DATA_3[updates])
-      ENDIF	'end BB
+      'if(ch=51) then  'AA: is ch=51, then act on the code to write to the DDS1
+      '  DDS1Write(DATA_3[updates])
+      'endif      
+    
+      'if(ch=52) then  'BB: is ch=52, then write 2 bits to the DDS2
+      '  DDS2Write(DATA_3[updates])
+      'ENDIF  'end BB
 
       '***********************Digital outs**********
       if(ch=101) then
         val_lower=DATA_3[updates]
-        DIG_WRITELATCH32(2,val_lower)
+        DIG_WRITELATCH32(1,val_lower) ' Seth Aubin, Aug. 2, 2010: "2" -->"1"
       endif
-	
+      
       if(ch=102) then
         val_upper=DATA_3[updates]
-        DIG_WRITELATCH32(3,val_upper)
+        DIG_WRITELATCH32(2,val_upper) ' Seth Aubin, Aug. 2, 2010: "3" -->"2"
       endif
-						
-    NEXT i						'B for loop	
-  ENDIF				'A:
+            
+    NEXT i            'B for loop  
+  ENDIF        'A:
   If(counts>=maxcount+1) then end
 
 
@@ -229,21 +243,24 @@ FINISH:
   'If (Data_4[27]=0) then
   For i= 1 to 8
     if(DATA_4[i]=1) then
-      P2_WRITE_DAC(1,i,V(0)) 	
+      P2_WRITE_DAC(1,i,V(0))   
     ENDIF
     if(DATA_4[i+8]=1) then
-      P2_WRITE_DAC(2,i,V(0)) 	
+      P2_WRITE_DAC(2,i,V(0))   
     ENDIF
     if(DATA_4[i+16]=1) then
-      P2_WRITE_DAC(3,i,V(0)) 	
+      P2_WRITE_DAC(3,i,V(0))   
     ENDIF
     if(DATA_4[i+24]=1) then
-      P2_WRITE_DAC(4,i,V(0)) 	
+      P2_WRITE_DAC(4,i,V(0))   
     ENDIF
   Next i
-  'set line 28 high... forget why...
-  DIG_WRITELATCH32(2,2^28)
-  'ENDIF
+  
+  'Seth Aubin (25 May 2012): removed this line --> we do not have a DDS.
+  '
+  ''set line 28 high... forget why...
+  'DIG_WRITELATCH32(2,2^28)
+  ''ENDIF
 
   P2_SYNC_ALL(1)
 
@@ -252,15 +269,15 @@ SUB AnalogWrite(achannel, avalue)
   if((achannel>=1)and(achannel<=8)) then
     P2_WRITE_DAC(1,achannel,V(avalue))
   endif
-			
+      
   if((achannel>=9)and(achannel<=16)) then
     P2_WRITE_DAC(2,achannel-8,V(avalue))
   endif
-			
+      
   if((achannel>=17)and(achannel<=24)) then
     P2_WRITE_DAC(3,achannel-16,V(avalue))
   endif
-	  
+    
   if((achannel>=25)and(achannel<=32)) then
     P2_WRITE_DAC(4,achannel-24,V(avalue))
   endif
@@ -269,12 +286,12 @@ ENDSUB
 SUB DDS1Write(digvalue)
   dim tempval as long
   dim dataline,clock,ioupdate,ioreset,masterreset as long
-  dataline=31 				' data line
-  clock=30				' data clock
-  ioupdate=29			' update line.  transfers data from buffer into registers
-  ioreset=28			' resets input buffers
+  dataline=31         ' data line
+  clock=30        ' data clock
+  ioupdate=29      ' update line.  transfers data from buffer into registers
+  ioreset=28      ' resets input buffers
   masterreset=27
-  if(digvalue<=3) then	' write 2 bits to the data line of the DDS
+  if(digvalue<=3) then  ' write 2 bits to the data line of the DDS
     tempval = digvalue 'have to convert to long first
     ' on Mar 25, we added opto-couplers to the DDS interfacing
     ' this adds a 500ns (roughly) delay to each update
@@ -299,8 +316,8 @@ SUB DDS1Write(digvalue)
         IF(digvalue=6) then
           DIGOUT_F(2,masterreset,1)  ' Leave this doubled as the reset pulse needs to be > 800ns 
           DIGOUT_F(2,masterreset,1)
-          DIGOUT_F(2,masterreset,0)							
-          DIGOUT_F(2,masterreset,0)									
+          DIGOUT_F(2,masterreset,0)              
+          DIGOUT_F(2,masterreset,0)                  
         ENDIF
       endif
     endif
@@ -316,7 +333,7 @@ SUB DDS2WRITE(dvalue)
   ioupdate9858=19
   'ioreset9858=23
   masterreset9858=18
-  if(dvalue<=3) then	' write 2 bits to the data line of the DDS
+  if(dvalue<=3) then  ' write 2 bits to the data line of the DDS
     tempval = dvalue 'have to convert to long first
     DIGOUT_F(2,dataline9858,SHIFT_RIGHT((tempval and 2),1))
     DIGOUT_F(2,clock9858,1)
@@ -335,7 +352,7 @@ SUB DDS2WRITE(dvalue)
       Else 
         IF(dvalue=6) then
           DIGOUT_F(2,masterreset9858,1)
-          DIGOUT_F(2,masterreset9858,0)									
+          DIGOUT_F(2,masterreset9858,0)                  
         ENDIF
       endif
     endif

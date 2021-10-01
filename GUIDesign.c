@@ -694,7 +694,7 @@ void BuildUpdateList(double TMatrix[], struct AnalogTableValues AMat[NUMBERANALO
 		}
 		if (didprocess == FALSE) // is the ADwin process already loaded?
 		{
-			processnum = Load_Process("TransferData_May25_2012.TB1"); //Updated May 25, 2012 - Seth Aubin
+			Load_Process("ADbasic\\TransferData.TB1");
 			didprocess = 1;
 		}
 
@@ -737,8 +737,9 @@ void BuildUpdateList(double TMatrix[], struct AnalogTableValues AMat[NUMBERANALO
 	// more debug info
 	tstop = clock();
 	timeused = tstop - tstart;
-	Start_Process(processnum);
 	sprintf(buff, "Time to transfer and start ADwin:   %d", timeused);
+
+	Start_Process(1); // start the process on ADwin
 
 	GetMenuBarAttribute(menuHandle, MENU_PREFS_STREAM_SETTINGS, ATTR_CHECKED, &StreamSettings);
 	if (StreamSettings == TRUE)
