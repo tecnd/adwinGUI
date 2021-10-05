@@ -300,8 +300,8 @@ void Initialization()
 		SetCtrlAttribute(panelHandle, newTable, ATTR_COLUMN_LABELS_VISIBLE, 0);
 		SetCtrlAttribute(panelHandle, newTable, ATTR_ROW_LABELS_VISIBLE, 0);
 		SetCtrlAttribute(panelHandle, newTable, ATTR_SCROLL_BARS, VAL_NO_SCROLL_BARS);
-		SetCtrlAttribute(panelHandle, newTable, ATTR_HORIZONTAL_GRID_COLOR, VAL_RED);
-		SetCtrlAttribute(panelHandle, newTable, ATTR_VERTICAL_GRID_COLOR, VAL_RED);
+		SetCtrlAttribute(panelHandle, newTable, ATTR_HORIZONTAL_GRID_COLOR, VAL_BLACK);
+		SetCtrlAttribute(panelHandle, newTable, ATTR_VERTICAL_GRID_COLOR, VAL_BLACK);
 		InsertTableRows(panelHandle, newTable, -1, 1, VAL_USE_MASTER_CELL_TYPE);
 		InsertTableColumns(panelHandle, newTable, -1, 17, VAL_USE_MASTER_CELL_TYPE);
 		SetTableColumnAttribute(panelHandle, newTable, -1, ATTR_COLUMN_WIDTH, 40);
