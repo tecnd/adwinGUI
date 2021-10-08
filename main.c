@@ -102,7 +102,6 @@ Dec16	Made the last panel mobile, such that it can be inserted into other pages.
 
 int main(int argc, char *argv[])
 {
-	int i, j, k;
 	if (InitCVIRTE(0, argv, 0) == 0)
 		return -1; /* out of memory */
 	if ((panelHandle = LoadPanel(0, "GUIDesign.uir", PANEL)) < 0)
@@ -129,15 +128,15 @@ int main(int argc, char *argv[])
 
 	SetCtrlAttribute(panelHandle, PANEL_DEBUG, ATTR_VISIBLE, 0);
 	// Initialize arrays (to avoid undefined elements causing -99 to be written)
-	for (j = 0; j <= NUMBERANALOGCHANNELS; j++)
+	for (int j = 0; j <= NUMBERANALOGCHANNELS; j++)
 	{
 		//ramp over # of analog chanels
 		AChName[j].tfcn = 1;
 		AChName[j].tbias = 0;
 		AChName[j].resettozero = 1;
-		for (i = 0; i <= NUMBEROFCOLUMNS; i++) // ramp over # of cells per page
+		for (int i = 0; i <= NUMBEROFCOLUMNS; i++) // ramp over # of cells per page
 		{
-			for (k = 0; k < NUMBEROFPAGES; k++) // ramp over pages
+			for (int k = 0; k < NUMBEROFPAGES; k++) // ramp over pages
 			{
 				AnalogTable[i][j][k].fcn = 1;
 				AnalogTable[i][j][k].fval = 0.0;
@@ -146,19 +145,19 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	for (j = 0; j <= NUMBERDIGITALCHANNELS; j++)
+	for (int j = 0; j <= NUMBERDIGITALCHANNELS; j++)
 	{
-		for (i = 0; i <= NUMBEROFCOLUMNS; i++) // ramp over # of cells per page
+		for (int i = 0; i <= NUMBEROFCOLUMNS; i++) // ramp over # of cells per page
 		{
-			for (k = 0; k < NUMBEROFPAGES; k++) // ramp over pages
+			for (int k = 0; k < NUMBEROFPAGES; k++) // ramp over pages
 				DigTableValues[i][j][k] = 0;
 		}
 	}
 
 	//initialize dds_tables, don't assume anything...
-	for (i = 0; i < NUMBEROFCOLUMNS; i++)
+	for (int i = 0; i < NUMBEROFCOLUMNS; i++)
 	{
-		for (j = 0; j < NUMBEROFPAGES; j++)
+		for (int j = 0; j < NUMBEROFPAGES; j++)
 		{
 			ddstable[i][j].start_frequency = 0.0;
 			ddstable[i][j].end_frequency = 0.0;
@@ -247,7 +246,11 @@ void Initialization()
 	NewCtrlMenuItem(panelHandle, PANEL_DIGTABLE, "Paste", -1, Dig_Cell_Paste, 0);
 	HideBuiltInCtrlMenuItem(panelHandle, PANEL_DIGTABLE, -4); //Hides Sort Command
 
-	InsertTableRows(panelHandle, PANEL_DIGTABLE, -1, NUMBERDIGITALCHANNELS - 1, VAL_CELL_PICTURE);
+	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_TABLE_MODE, VAL_GRID);
+	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_ENABLE_COLUMN_SIZING, 0);
+	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_ENABLE_ROW_SIZING, 0);
+	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_HIDE_HILITE, 1);
+	InsertTableRows(panelHandle, PANEL_DIGTABLE, -1, NUMBERDIGITALCHANNELS - 1, VAL_USE_MASTER_CELL_TYPE);
 	InsertTableRows(panelHandle, PANEL_TBL_DIGNAMES, -1, NUMBERDIGITALCHANNELS - 1, VAL_USE_MASTER_CELL_TYPE);
 
 	for (i = 1; i <= NUMBERDIGITALCHANNELS; i++)
@@ -261,6 +264,8 @@ void Initialization()
 	HideBuiltInCtrlMenuItem(panelHandle, PANEL_ANALOGTABLE, -4); //Hides Sort Command
 
 	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_TABLE_MODE, VAL_GRID);
+	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_ENABLE_COLUMN_SIZING, 0);
+	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_ENABLE_ROW_SIZING, 0);
 	SetTableColumnAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_PRECISION, 3);
 
 	InsertTableRows(panelHandle, PANEL_ANALOGTABLE, -1, NUMBERANALOGCHANNELS + NUMBERDDS - 1, VAL_CELL_NUMERIC);

@@ -7,8 +7,8 @@ Macro Definitions
 
 #define DefaultEventPeriod 0.100 // in milliseconds
 #define AdwinTick 0.000025		 //Adwin clock cycle, in ms.
-#define NUMBERANALOGCHANNELS 32	 // Number of analog Channels available for control
-#define NUMBERDIGITALCHANNELS 36 // number of digital channels DISPLAYED!!!      \
+#define NUMBERANALOGCHANNELS 40	 // Number of analog Channels available for control
+#define NUMBERDIGITALCHANNELS 64 // number of digital channels DISPLAYED!!!      \
 								 // some are not user controlled, e.g. DDS lines \
 								 // 32 in total.  5 used for DDS1                \
 								 // 5 for DD2 (K40 evap)                         \
@@ -44,23 +44,6 @@ typedef struct ddsoptions_struct
 	BOOL is_stop;
 } ddsoptions_struct;
 
-typedef struct dds2options_struct
-{
-	float start_frequency; /* in MHz*/
-	float end_frequency;
-	float amplitude;
-	float delta_time;
-	BOOL is_stop;
-} dds2options_struct;
-
-typedef struct dds3options_struct
-{
-	float start_frequency; /* in MHz*/
-	float end_frequency;
-	float amplitude;
-	float delta_time;
-	BOOL is_stop;
-} dds3options_struct;
 /************************************************************************
 Global Variables
 *************************************************************************/
@@ -74,10 +57,7 @@ int ischecked[NUMBEROFPAGES], isdimmed;
 BOOL ChangedVals;
 BOOL UseSimpleTiming;
 
-struct Switches
-{
-	BOOL loop_active;
-} Switches;
+BOOL loop_active;
 
 struct LoopPoints
 {
@@ -89,8 +69,7 @@ struct LoopPoints
 
 struct AnalogTableValues
 {
-	int fcn;																		 //fcn is an integer refering to a function to use.
-																					 // 1-step, 2-linear, 3- exp, 4- 'S' curve 5-sine 6-"same as last cell"
+	int fcn;																		 //fcn is an integer refering to a function to use.																					 // 1-step, 2-linear, 3- exp, 4- 'S' curve 5-sine 6-"same as last cell"
 	double fval;																	 //the final value
 	double tscale;																	 //the timescale to approach final value
 } AnalogTable[NUMBEROFCOLUMNS + 1][NUMBERANALOGCHANNELS + NUMBERDDS][NUMBEROFPAGES]; //+1 needed because all code done assumed base 1 arrays...
@@ -133,7 +112,7 @@ struct DDSClock
 
 ddsoptions_struct ddstable[NUMBEROFCOLUMNS + 1][NUMBEROFPAGES];	 //17 columns (actually only 14, but in case we expand), 10 pages
 ddsoptions_struct dds2table[NUMBEROFCOLUMNS + 1][NUMBEROFPAGES]; //17 columns (actually only 14, but in case we expand), 10 pages
-dds3options_struct dds3table[NUMBEROFCOLUMNS + 1][NUMBEROFPAGES];
+ddsoptions_struct dds3table[NUMBEROFCOLUMNS + 1][NUMBEROFPAGES];
 int Active_DDS_Panel; // 1 for Rb evap dds, 2 for K40 evap dds, 3 for HFS dds
 
 /* Parameter Scan variables*/

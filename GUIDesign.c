@@ -179,7 +179,7 @@ void RunOnce(void)
 	struct AnalogTableValues MetaAnalogArray[NUMBERANALOGCHANNELS + 1][500];
 	ddsoptions_struct MetaDDSArray[500];
 	ddsoptions_struct MetaDDS2Array[500];
-	dds3options_struct MetaDDS3Array[500];
+	ddsoptions_struct MetaDDS3Array[500];
 	int i, j, k, mindex, tsize;
 	int insertpage, insertcolumn, x, y, lastpagenum, FinalPageToUse;
 	BOOL nozerofound_2;
@@ -350,7 +350,7 @@ void RunOnce(void)
 }
 //*****************************************************************************************
 void BuildUpdateList(double TMatrix[], struct AnalogTableValues AMat[NUMBERANALOGCHANNELS + 1][500], int DMat[NUMBERDIGITALCHANNELS + 1][500],
-					 ddsoptions_struct DDSArray[500], ddsoptions_struct DDS2Array[500], dds3options_struct DDS3Array[500], int numtimes)
+					 ddsoptions_struct DDSArray[500], ddsoptions_struct DDS2Array[500], ddsoptions_struct DDS3Array[500], int numtimes)
 {
 	/*
 
@@ -1553,7 +1553,7 @@ void DrawLoopIndicators()
 	page = GetPage();
 	CanvasClear(panelHandle, PANEL_CANVAS_LOOPLINE, VAL_ENTIRE_OBJECT);
 
-	if (Switches.loop_active)
+	if (loop_active)
 	{
 		if (page == LoopPoints.startpage)
 		{
@@ -1583,7 +1583,7 @@ void DrawLoopIndicators()
 	xstartoffset = 10;
 	xendoffset = 10;
 
-	if (Switches.loop_active)
+	if (loop_active)
 	{
 		SetCtrlAttribute(panelHandle, PANEL_CANVAS_LOOPLINE, ATTR_PEN_WIDTH, 2);
 		SetCtrlAttribute(panelHandle, PANEL_CANVAS_LOOPLINE, ATTR_PEN_COLOR, 0x00FF00L);
@@ -2732,13 +2732,13 @@ void ReshapeDigitalTable(int top, int left, int height)
 	SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_LEFT, left - 165);
 	SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_HEIGHT, height);
 
+	int cellHeight = height / NUMBERDIGITALCHANNELS;
 	for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++)
 	{
 		SetTableRowAttribute(panelHandle, PANEL_DIGTABLE, j, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
-		SetTableRowAttribute(panelHandle, PANEL_DIGTABLE, j, ATTR_ROW_HEIGHT, (height) / (NUMBERDIGITALCHANNELS));
+		SetTableRowAttribute(panelHandle, PANEL_DIGTABLE, j, ATTR_ROW_HEIGHT, cellHeight);
 		SetTableRowAttribute(panelHandle, PANEL_TBL_DIGNAMES, j, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
-
-		SetTableRowAttribute(panelHandle, PANEL_TBL_DIGNAMES, j, ATTR_ROW_HEIGHT, (height) / (NUMBERDIGITALCHANNELS));
+		SetTableRowAttribute(panelHandle, PANEL_TBL_DIGNAMES, j, ATTR_ROW_HEIGHT, cellHeight);
 	}
 }
 /************************************************************************
@@ -2811,21 +2811,23 @@ void SetChannelDisplayed(int display_setting)
 	switch (display_setting)
 	{
 	case 1:				 //both
-		heightpos = 550; // 380 for 25 rows works... use 410 for 27 rows
+		heightpos = 17 * (NUMBERANALOGCHANNELS + NUMBERDDS) + 16; // 380 for 25 rows works... use 410 for 27 rows
 		toppos1 = 155;
 		leftpos = 170;
-		toppos2 = toppos1 + heightpos;
+		toppos2 = toppos1 + heightpos + 50;
 		//toppos2=1280-100-heightpos;
 		//toppos2=155+380+50;
 
 		ReshapeAnalogTable(toppos1, 170, heightpos); //passed top, left and height
-		ReshapeDigitalTable(toppos2, 170, heightpos - 60);
+		ReshapeDigitalTable(toppos2, 170, 17*NUMBERDIGITALCHANNELS + 6);
 
 		SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, 1);
 		SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, 1);
 		SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_VISIBLE, 1);
 		SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_VISIBLE, 1);
 		SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_VISIBLE, 1);
+
+		SetCtrlAttribute(panelHandle, PANEL_SCAN_TABLE, ATTR_TOP, toppos2);
 
 		break;
 
@@ -3283,7 +3285,7 @@ int CVICALLBACK SWITCH_LOOP_CALLBACK(int panel, int control, int event,
 	case EVENT_COMMIT:
 		ValuesGood = FALSE;
 		LoopSwitchOn = FALSE;
-		Switches.loop_active = FALSE; // set default loop condition to false
+		loop_active = FALSE; // set default loop condition to false
 
 		GetCtrlVal(panelHandle, PANEL_SWITCH_LOOP, &LoopSwitchOn);
 
@@ -3312,13 +3314,13 @@ int CVICALLBACK SWITCH_LOOP_CALLBACK(int panel, int control, int event,
 
 		if (ValuesGood && LoopSwitchOn)
 		{
-			Switches.loop_active = TRUE;
+			loop_active = TRUE;
 			MoveCanvasStart(colstart, TRUE);
 			MoveCanvasEnd(colend, TRUE);
 		}
 		else
 		{
-			Switches.loop_active = FALSE;
+			loop_active = FALSE;
 			MoveCanvasStart(colstart, FALSE);
 			MoveCanvasEnd(colend, FALSE);
 		}

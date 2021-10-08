@@ -13,11 +13,10 @@ void CheckActivePages(void);
 void SaveArrays(char*,int);
 void LoadArrays(char*,int);
 void ExportPanel(char*,int);
-void BuildUpdateList(double TMatrix[],struct AnalogTableValues AMat[NUMBERANALOGCHANNELS+1][500],int DMat[NUMBERDIGITALCHANNELS+1][500],ddsoptions_struct DDSArray[500],ddsoptions_struct DDS2Array[500],dds3options_struct DDS3Array[500], int tsize);
+void BuildUpdateList(double TMatrix[],struct AnalogTableValues AMat[NUMBERANALOGCHANNELS+1][500],int DMat[NUMBERDIGITALCHANNELS+1][500],ddsoptions_struct DDSArray[500],ddsoptions_struct DDS2Array[500],ddsoptions_struct DDS3Array[500], int tsize);
 double CalcFcnValue(int fcn,double Vinit,double Vfinal, double timescale,double telapsed,double celltime);
 
 void ReshapeAnalogTable(int,int,int);
-void ReshapeDigitalTable(int,int,int);
 void SetChannelDisplayed(int display_setting); //analog, digital of both
 void SetDisplayType(int display_setting); //toggle graphic and numeric
 double CheckIfWithinLimits(double OutputVoltage, int linenumber);
