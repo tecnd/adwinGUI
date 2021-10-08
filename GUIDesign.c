@@ -2679,38 +2679,36 @@ Parameters: new top, left and height values for the list box
 *************************************************************************/
 void ReshapeAnalogTable(int top, int left, int height)
 {
-	int tempint;
-	int modheight;
+	int cellHeight = height / (NUMBERANALOGCHANNELS + NUMBERDDS);
+	int unitTableHeight = cellHeight * NUMBERANALOGCHANNELS;
 
-	SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
-	SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_ROW_HEIGHT, (height) / (NUMBERANALOGCHANNELS + NUMBERDDS));
-	SetTableRowAttribute(panelHandle, PANEL_TBL_ANAMES, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
-	SetTableRowAttribute(panelHandle, PANEL_TBL_ANAMES, -1, ATTR_ROW_HEIGHT, (height) / (NUMBERANALOGCHANNELS + NUMBERDDS));
-	SetTableRowAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
-	SetTableRowAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, -1, ATTR_ROW_HEIGHT, (height) / (NUMBERANALOGCHANNELS + NUMBERDDS));
-	modheight = (NUMBERANALOGCHANNELS + NUMBERDDS) * (int)((height) / (NUMBERANALOGCHANNELS + NUMBERDDS)) + 3;
-
-	//resize the analog table and all it's related list boxes
-	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_HEIGHT, modheight);
-	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_LEFT, left);
+	// resize the analog table and all it's related list boxes
 	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_TOP, top);
+	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_LEFT, left);
+	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_HEIGHT, height);
 
-	SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_LEFT, left - 165);
 	SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_TOP, top);
-	SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_HEIGHT, modheight);
+	SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_LEFT, left - 165);
+	SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_HEIGHT, height);
 
-	SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_HEIGHT, modheight);
 	SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_TOP, top);
 	SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_LEFT, left + 705);
+	SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_HEIGHT, unitTableHeight);
+
+	SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
+	SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_ROW_HEIGHT, cellHeight);
+	SetTableRowAttribute(panelHandle, PANEL_TBL_ANAMES, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
+	SetTableRowAttribute(panelHandle, PANEL_TBL_ANAMES, -1, ATTR_ROW_HEIGHT, cellHeight);
+	SetTableRowAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
+	SetTableRowAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, -1, ATTR_ROW_HEIGHT, cellHeight);
 
 	// move the DDS offsets
-	tempint = height / 27;
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS_OFFSET, ATTR_TOP, top + height - 3 * tempint - 6);
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS_OFFSET, ATTR_LEFT, 880);
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS2_OFFSET, ATTR_TOP, top + height - 2 * tempint - 5);
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS2_OFFSET, ATTR_LEFT, 880);
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS3_OFFSET, ATTR_TOP, top + height - 1 * tempint - 4);
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS3_OFFSET, ATTR_LEFT, 880);
+	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS_OFFSET, ATTR_TOP, top + unitTableHeight);
+	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS_OFFSET, ATTR_LEFT, left + 705);
+	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS2_OFFSET, ATTR_TOP, top + unitTableHeight + cellHeight);
+	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS2_OFFSET, ATTR_LEFT, left + 705);
+	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS3_OFFSET, ATTR_TOP, top + unitTableHeight + 2 * cellHeight);
+	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS3_OFFSET, ATTR_LEFT, left + 705);
 }
 /************************************************************************
 Author: Stefan
@@ -2733,13 +2731,10 @@ void ReshapeDigitalTable(int top, int left, int height)
 	SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_HEIGHT, height);
 
 	int cellHeight = height / NUMBERDIGITALCHANNELS;
-	for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++)
-	{
-		SetTableRowAttribute(panelHandle, PANEL_DIGTABLE, j, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
-		SetTableRowAttribute(panelHandle, PANEL_DIGTABLE, j, ATTR_ROW_HEIGHT, cellHeight);
-		SetTableRowAttribute(panelHandle, PANEL_TBL_DIGNAMES, j, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
-		SetTableRowAttribute(panelHandle, PANEL_TBL_DIGNAMES, j, ATTR_ROW_HEIGHT, cellHeight);
-	}
+	SetTableRowAttribute(panelHandle, PANEL_DIGTABLE, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
+	SetTableRowAttribute(panelHandle, PANEL_DIGTABLE, -1, ATTR_ROW_HEIGHT, cellHeight);
+	SetTableRowAttribute(panelHandle, PANEL_TBL_DIGNAMES, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
+	SetTableRowAttribute(panelHandle, PANEL_TBL_DIGNAMES, -1, ATTR_ROW_HEIGHT, cellHeight);
 }
 /************************************************************************
 Author: David McKay
@@ -2799,27 +2794,23 @@ int display_setting: channel to display
 *************************************************************************/
 void SetChannelDisplayed(int display_setting)
 {
-	int toppos1, toppos2, leftpos, heightpos;
-	//hide everything
+	// hide everything
 	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, 0);
 	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, 0);
 	SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_VISIBLE, 0);
 	SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_VISIBLE, 0);
 	SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_VISIBLE, 0);
-	//ATTR_LABEL_VISIBLE
 
 	switch (display_setting)
 	{
-	case 1:				 //both
-		heightpos = 17 * (NUMBERANALOGCHANNELS + NUMBERDDS) + 16; // 380 for 25 rows works... use 410 for 27 rows
-		toppos1 = 155;
-		leftpos = 170;
-		toppos2 = toppos1 + heightpos + 50;
-		//toppos2=1280-100-heightpos;
-		//toppos2=155+380+50;
+	case 1:	// both
+		int analogHeight = 17 * (NUMBERANALOGCHANNELS + NUMBERDDS) + 6; // 17 high cells, +6 to stop table from scrolling
+		int analogTop = 155;
+		int leftpos = 170;
+		int digitalTop = analogTop + analogHeight + 50;
 
-		ReshapeAnalogTable(toppos1, 170, heightpos); //passed top, left and height
-		ReshapeDigitalTable(toppos2, 170, 17*NUMBERDIGITALCHANNELS + 6);
+		ReshapeAnalogTable(analogTop, leftpos, 17 * (NUMBERANALOGCHANNELS + NUMBERDDS) + 6);
+		ReshapeDigitalTable(digitalTop, leftpos, 17 * NUMBERDIGITALCHANNELS + 6);
 
 		SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, 1);
 		SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, 1);
@@ -2827,13 +2818,11 @@ void SetChannelDisplayed(int display_setting)
 		SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_VISIBLE, 1);
 		SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_VISIBLE, 1);
 
-		SetCtrlAttribute(panelHandle, PANEL_SCAN_TABLE, ATTR_TOP, toppos2);
-
+		SetCtrlAttribute(panelHandle, PANEL_SCAN_TABLE, ATTR_TOP, digitalTop);
 		break;
 
-	case 2: //analog table
-
-		ReshapeAnalogTable(155, 170, 600); //passed top, left and height
+	case 2: // analog table
+		ReshapeAnalogTable(155, 170, 600);
 
 		SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, 1);
 		SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_VISIBLE, 1);
@@ -2841,8 +2830,6 @@ void SetChannelDisplayed(int display_setting)
 		break;
 
 	case 3: // digital table
-
-		//passed top, left and height
 		ReshapeDigitalTable(155, 170, 500);
 
 		SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, 1);
