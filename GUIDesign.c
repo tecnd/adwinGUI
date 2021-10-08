@@ -31,32 +31,11 @@
 #include "DDSSettings2.h"
 #include "ddstranslator.h"
 #include "main.h"
-/***** Sandro Gvakharia, October 2010 *****/
-#include <tcpsupp.h>
-#define PORT 1111
-#define TCP_BUFF 960 //960 = max # of bytes per data transmission
 
-// Ramp rate will now vary with current version
-// to prevent frequency step size from hitting zero
-//#define RAMPRATE 1	// Assume a static ramp rate of 1 (fastest possible)
-
-#define REFCLK 1000 // 1 GHz reference clock
-//#define REFCLK 50		// 50 MHz reference clock (when PLL is not used)
-
-#define NUMBITS 32 // FTW is 32 bits long
-
-/*****************************************/
-
-//Clipboard for copy/paste functions
+//Clipboard to hold data from copy/paste cells
 double TimeClip;
 int ClipColumn = -1;
-struct AnalogTableClip
-{
-	int fcn;	   //fcn is an integer refering to a function to use.
-				   // 0-step, 1-linear, 2- exp, 3- 'S' curve, 4 sine wave
-	double fval;   //the final value
-	double tscale; //the timescale to approach final value
-} AnalogClip[NUMBERANALOGCHANNELS + 1];
+struct AnalogTableValues AnalogClip[NUMBERANALOGCHANNELS + 1];
 int DigClip[NUMBERDIGITALCHANNELS + 1];
 ddsoptions_struct ddsclip, dds2clip, dds3clip;
 
