@@ -1911,7 +1911,7 @@ int CVICALLBACK DIGTABLE_CALLBACK(int panel, int control, int event,
 		}
 		else
 		{
-			SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, pval, ATTR_TEXT_BGCOLOR, VAL_GRAY);
+			SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, pval, ATTR_TEXT_BGCOLOR, ColorPicker(pval.y));
 			DigTableValues[pval.x][pval.y][page] = 0;
 		}
 		break;
