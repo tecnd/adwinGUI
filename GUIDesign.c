@@ -362,7 +362,7 @@ void BuildUpdateList(double TMatrix[], struct AnalogTableValues AMat[NUMBERANALO
 	dds_cmd_seq List of dds commands, parsed into 2-bit sections, or reset lines to be written
 				Commands are listed along with the time they should occur at.
 	*/
-	BOOL UseCompression, ArraysToDebug, StreamSettings;
+	BOOL UseCompression, ArraysToDebug;
 	int *UpdateNum;
 	int *ChNum;
 	float *ChVal;
@@ -720,12 +720,6 @@ void BuildUpdateList(double TMatrix[], struct AnalogTableValues AMat[NUMBERANALO
 	sprintf(buff, "Time to transfer and start ADwin:   %d", timeused);
 
 	Start_Process(1); // start the process on ADwin
-
-	GetMenuBarAttribute(menuHandle, MENU_PREFS_STREAM_SETTINGS, ATTR_CHECKED, &StreamSettings);
-	if (StreamSettings == TRUE)
-	{
-		//Fill IN
-	}
 
 	// even more debug info
 	InsertListItem(panelHandle, PANEL_DEBUG, -1, buff, 1);
@@ -3162,18 +3156,6 @@ void CVICALLBACK NOTECHECK_CALLBACK(int menuBar, int menuItem, void *callbackDat
 	}
 }
 
-void CVICALLBACK STREAM_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	BOOL status;
-	GetMenuBarAttribute(menuHandle, MENU_PREFS_STREAM_SETTINGS, ATTR_CHECKED, &status);
-	SetMenuBarAttribute(menuHandle, MENU_PREFS_STREAM_SETTINGS, ATTR_CHECKED, !status);
-	if (!status == TRUE)
-	{
-		char fstreamdir[250];
-		DirSelectPopup("", "Select Stream Folder", 1, 1, fstreamdir);
-	}
-}
 //**************************************************************************************************************
 void ExportScanBuffer(void)
 {

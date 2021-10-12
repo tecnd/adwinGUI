@@ -131,7 +131,6 @@
 #define  MENU_PREFS_SIMPLETIMING          46      /* callback function: SIMPLETIMING_CALLBACK */
 #define  MENU_PREFS_SHOWARRAY             47      /* callback function: SHOWARRAY_CALLBACK */
 #define  MENU_PREFS_DDS_OFF               48      /* callback function: DDS_OFF_CALLBACK */
-#define  MENU_PREFS_STREAM_SETTINGS       49      /* callback function: STREAM_CALLBACK */
 
 
      /* Callback Prototypes: */
@@ -172,7 +171,6 @@ void CVICALLBACK SETGD10_CALLBACK(int menubar, int menuItem, void *callbackData,
 void CVICALLBACK SETGD5_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SHOWARRAY_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SIMPLETIMING_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
-void CVICALLBACK STREAM_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK SWITCH_LOOP_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK TGLNUMERIC_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK TIMER_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
