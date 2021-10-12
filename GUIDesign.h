@@ -48,24 +48,21 @@
 #define  PANEL_TBL_DIGNAMES               33      /* control type: table, callback function: (none) */
 #define  PANEL_TBL_ANAMES                 34      /* control type: table, callback function: (none) */
 #define  PANEL_TIMER                      35      /* control type: timer, callback function: TIMER_CALLBACK */
-#define  PANEL_NUM_INSERTIONCOL           36      /* control type: numeric, callback function: NUM_INSERTIONCOL_CALLBACK */
-#define  PANEL_NUM_INSERTIONPAGE          37      /* control type: numeric, callback function: NUM_INSERTIONPAGE_CALLBACK */
-#define  PANEL_NUM_DDS3_OFFSET            38      /* control type: numeric, callback function: (none) */
-#define  PANEL_NUM_DDS2_OFFSET            39      /* control type: numeric, callback function: (none) */
-#define  PANEL_NUM_DDS_OFFSET             40      /* control type: numeric, callback function: (none) */
-#define  PANEL_SCAN_TABLE                 41      /* control type: table, callback function: (none) */
-#define  PANEL_CANVAS_END                 42      /* control type: canvas, callback function: (none) */
-#define  PANEL_CANVAS_START               43      /* control type: canvas, callback function: (none) */
-#define  PANEL_DECORATION                 44      /* control type: deco, callback function: (none) */
-#define  PANEL_NUM_LOOP_REPS              45      /* control type: numeric, callback function: (none) */
-#define  PANEL_NUM_LOOPCOL2               46      /* control type: numeric, callback function: (none) */
-#define  PANEL_NUM_LOOPPAGE2              47      /* control type: numeric, callback function: (none) */
-#define  PANEL_NUM_LOOPCOL1               48      /* control type: numeric, callback function: (none) */
-#define  PANEL_NUM_LOOPPAGE1              49      /* control type: numeric, callback function: (none) */
-#define  PANEL_SWITCH_LOOP                50      /* control type: binary, callback function: SWITCH_LOOP_CALLBACK */
-#define  PANEL_DECORATION_2               51      /* control type: deco, callback function: (none) */
-#define  PANEL_CANVAS_LOOPLINE            52      /* control type: canvas, callback function: (none) */
-#define  PANEL_Looping                    53      /* control type: textMsg, callback function: (none) */
+#define  PANEL_NUM_DDS3_OFFSET            36      /* control type: numeric, callback function: (none) */
+#define  PANEL_NUM_DDS2_OFFSET            37      /* control type: numeric, callback function: (none) */
+#define  PANEL_NUM_DDS_OFFSET             38      /* control type: numeric, callback function: (none) */
+#define  PANEL_SCAN_TABLE                 39      /* control type: table, callback function: (none) */
+#define  PANEL_CANVAS_END                 40      /* control type: canvas, callback function: (none) */
+#define  PANEL_CANVAS_START               41      /* control type: canvas, callback function: (none) */
+#define  PANEL_NUM_LOOP_REPS              42      /* control type: numeric, callback function: (none) */
+#define  PANEL_NUM_LOOPCOL2               43      /* control type: numeric, callback function: (none) */
+#define  PANEL_NUM_LOOPPAGE2              44      /* control type: numeric, callback function: (none) */
+#define  PANEL_NUM_LOOPCOL1               45      /* control type: numeric, callback function: (none) */
+#define  PANEL_NUM_LOOPPAGE1              46      /* control type: numeric, callback function: (none) */
+#define  PANEL_SWITCH_LOOP                47      /* control type: binary, callback function: SWITCH_LOOP_CALLBACK */
+#define  PANEL_DECORATION_2               48      /* control type: deco, callback function: (none) */
+#define  PANEL_CANVAS_LOOPLINE            49      /* control type: canvas, callback function: (none) */
+#define  PANEL_Looping                    50      /* control type: textMsg, callback function: (none) */
 
 #define  SUBPANEL1                        2
 #define  SUBPANEL1_TEXTBOX                2       /* control type: textBox, callback function: (none) */
@@ -160,8 +157,6 @@ void CVICALLBACK MENU_CALLBACK(int menubar, int menuItem, void *callbackData, in
 void CVICALLBACK MENU_DEBUG_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK MENU_HOLD_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK NOTECHECK_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
-int  CVICALLBACK NUM_INSERTIONCOL_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
-int  CVICALLBACK NUM_INSERTIONPAGE_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 void CVICALLBACK PASTECOLUMN_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK RESETZERO_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SCANSETTING_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);

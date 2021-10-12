@@ -153,125 +153,62 @@ void RunOnce(void)
 {
 
 	//could/should change these following defs and use malloc instead, but they should never exceed.. 170 or so.
-	double MetaTimeArray[500];
-	int MetaDigitalArray[NUMBERDIGITALCHANNELS + 1][500];
-	struct AnalogTableValues MetaAnalogArray[NUMBERANALOGCHANNELS + 1][500];
+	double MetaTimeArray[500] = {0.}; // initialize the 0th element even though we're not using it, otherwise will raise uninitialized exception
+	int MetaDigitalArray[NUMBERDIGITALCHANNELS + 1][500] = {0};
+	struct AnalogTableValues MetaAnalogArray[NUMBERANALOGCHANNELS + 1][500] = {{0, 0., 0.}};
 	ddsoptions_struct MetaDDSArray[500];
 	ddsoptions_struct MetaDDS2Array[500];
 	ddsoptions_struct MetaDDS3Array[500];
-	int i, j, k, mindex, tsize;
-	int insertpage, insertcolumn, x, y, lastpagenum, FinalPageToUse;
-	BOOL nozerofound_2;
-
-	isdimmed = TRUE;
-	lastpagenum = 10;
-	// Find the position of the imaging panel (last panel on the GUI), this panel can be positioned inside other panels
-	GetCtrlVal(panelHandle, PANEL_NUM_INSERTIONPAGE, &insertpage);
-	GetCtrlVal(panelHandle, PANEL_NUM_INSERTIONCOL, &insertcolumn);
 
 	//Lets build the times list first...so we know how long it will be.
 	//check each page...find columns in use and dim out unused....(with 0 or negative time values)
-	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_TABLE_MODE, VAL_COLUMN);
-	mindex = 0;
-	FinalPageToUse = NUMBEROFPAGES - 2; //issues with '0 or 1 indexing'.  If there are 10 pages, we end at 9.
-	//Page 10(imaging) handled separately.
-
-	if (insertpage == NUMBEROFPAGES - 1) //if the imaging page is set for 10, then set the final page as 10.
-	{
-		FinalPageToUse++;
-	}
+	int mindex = 0;
 	//go through for each page
-	for (k = 1; k <= FinalPageToUse; k++) // numberofpages-1 because last page is 'mobile'
+	for (int page = 1; page <= NUMBEROFPAGES - 1; page++)
 	{
-		if (ischecked[k] == 1) //if the page is selected (checkbox is checked)
+		if (ischecked[page] == 1) //if the page is selected (checkbox is checked)
 		{
 			BOOL nozerofound = TRUE;
 			//go through for each time column
-			for (i = 1; i <= NUMBEROFCOLUMNS; i++)
+			for (int col = 1; col <= NUMBEROFCOLUMNS; col++)
 			{
-				if ((i == insertcolumn) && (k == insertpage) && (k != NUMBEROFPAGES - 1))
-				{
-					nozerofound_2 = TRUE;
-					if (ischecked[lastpagenum] == 1)
-					{
-						for (x = 1; x <= NUMBEROFCOLUMNS; x++)
-						{
-							if ((nozerofound == TRUE) && (nozerofound_2 == TRUE) && (TimeArray[x][lastpagenum] > 0))
-							{
-								mindex++;
-								MetaTimeArray[mindex] = TimeArray[x][lastpagenum];
-								for (y = 1; y <= NUMBERANALOGCHANNELS; y++)
-								{
-									//Sets MetaArray with appropriate fcn val when "same" selected
-									if (AnalogTable[x][y][lastpagenum].fcn == 6)
-									{
-										MetaAnalogArray[y][mindex].fcn = 1; //on the right for repeat function, currently set to hold val //MetaAnalogArray[y][mindex].fcn=MetaAnalogArray[y][mindex-1].fcn;
-										MetaAnalogArray[y][mindex].fval = MetaAnalogArray[y][mindex - 1].fval;
-										MetaAnalogArray[y][mindex].tscale = MetaAnalogArray[y][mindex - 1].tscale;
-									}
-									else
-									{
-										MetaAnalogArray[y][mindex].fcn = AnalogTable[x][y][lastpagenum].fcn;
-										MetaAnalogArray[y][mindex].fval = AnalogTable[x][y][lastpagenum].fval;
-										MetaAnalogArray[y][mindex].tscale = AnalogTable[x][y][lastpagenum].tscale;
-									}
-								}
-								for (y = 1; y <= NUMBERDIGITALCHANNELS; y++)
-								{
-									MetaDigitalArray[y][mindex] = DigTableValues[x][y][lastpagenum];
-								}
-								MetaDDSArray[mindex] = ddstable[x][lastpagenum];
-								MetaDDS2Array[mindex] = dds2table[x][lastpagenum];
-								MetaDDS3Array[mindex] = dds3table[x][lastpagenum];
-							}
-							else if (TimeArray[x][lastpagenum] == 0)
-							{
-								nozerofound_2 = 0;
-							}
-						}
-					}
-				}
-				/*end A */
-
-				if ((nozerofound == 1) && (TimeArray[i][k] > 0))
+				if ((nozerofound) && (TimeArray[col][page] > 0))
 				//ignore all columns after the first
 				// time 0 (for that page)
 				{
 					mindex++; //increase the number of columns counter
-					MetaTimeArray[mindex] = TimeArray[i][k];
+					MetaTimeArray[mindex] = TimeArray[col][page];
 
 					//go through for each analog channel
-					for (j = 1; j <= NUMBERANALOGCHANNELS; j++)
+					for (int channel = 1; channel <= NUMBERANALOGCHANNELS; channel++)
 					{
 						//Sets MetaArray with appropriate fcn val when "same" selected
-						if (AnalogTable[i][j][k].fcn == 6)
+						if (AnalogTable[col][channel][page].fcn == 6)
 						{
-							MetaAnalogArray[j][mindex].fcn = 1; //on the right for repeat function, currently set to hold val ////MetaAnalogArray[j][mindex].fcn=MetaAnalogArray[j][mindex-1].fcn;
-							MetaAnalogArray[j][mindex].fval = MetaAnalogArray[j][mindex - 1].fval;
-							MetaAnalogArray[j][mindex].tscale = MetaAnalogArray[j][mindex - 1].tscale;
+							MetaAnalogArray[channel][mindex].fcn = 1; //on the right for repeat function, currently set to hold val ////MetaAnalogArray[j][mindex].fcn=MetaAnalogArray[j][mindex-1].fcn;
+							MetaAnalogArray[channel][mindex].fval = MetaAnalogArray[channel][mindex - 1].fval;
+							MetaAnalogArray[channel][mindex].tscale = MetaAnalogArray[channel][mindex - 1].tscale;
 						}
 						else
 						{
-							MetaAnalogArray[j][mindex].fcn = AnalogTable[i][j][k].fcn;
-							MetaAnalogArray[j][mindex].fval = AnalogTable[i][j][k].fval;
-							MetaAnalogArray[j][mindex].tscale = AnalogTable[i][j][k].tscale;
+							MetaAnalogArray[channel][mindex].fcn = AnalogTable[col][channel][page].fcn;
+							MetaAnalogArray[channel][mindex].fval = AnalogTable[col][channel][page].fval;
+							MetaAnalogArray[channel][mindex].tscale = AnalogTable[col][channel][page].tscale;
 						}
 					}
-					for (j = 1; j <= NUMBERDIGITALCHANNELS; j++)
+					for (int channel = 1; channel <= NUMBERDIGITALCHANNELS; channel++)
 					{
-						MetaDigitalArray[j][mindex] = DigTableValues[i][j][k];
+						MetaDigitalArray[channel][mindex] = DigTableValues[col][channel][page];
 					}
 					/* ddsoptions_struct contains floats and ints, so shallow copy is ok */
-					MetaDDSArray[mindex] = ddstable[i][k];
-					MetaDDS2Array[mindex] = dds2table[i][k];
-					MetaDDS3Array[mindex] = dds3table[i][k];
-					MetaDDSArray[mindex].delta_time = TimeArray[i][k] / 1000;
-					MetaDDS2Array[mindex].delta_time = TimeArray[i][k] / 1000;
-					MetaDDS3Array[mindex].delta_time = TimeArray[i][k] / 1000;
-					// Don't know why the preceding line is necessary...
-					// But the time information wasn't always copied in... or it was erased elsewhere
+					MetaDDSArray[mindex] = ddstable[col][page];
+					MetaDDS2Array[mindex] = dds2table[col][page];
+					MetaDDS3Array[mindex] = dds3table[col][page];
+					MetaDDSArray[mindex].delta_time = TimeArray[col][page] / 1000;
+					MetaDDS2Array[mindex].delta_time = TimeArray[col][page] / 1000;
+					MetaDDS3Array[mindex].delta_time = TimeArray[col][page] / 1000;
 				}
-				else if (TimeArray[i][k] == 0)
+				else if (TimeArray[col][page] == 0)
 				{
 					nozerofound = FALSE;
 				}
@@ -279,53 +216,56 @@ void RunOnce(void)
 		}
 	}
 	isdimmed = TRUE;
+	DrawNewTable(isdimmed);
 
-	DrawNewTable(TRUE);
-	tsize = mindex; //tsize is the number of columns
-
-	//Prints MetaIndexes for testting only
-
-	/*	printf("UPDATE TIMES\t");
-	for(i=1;i<=mindex;i++)
+	//Prints MetaIndexes for testing only
+/*
+	printf("UPDATE TIMES\t");
+	for (int i = 1; i <= mindex; i++)
 		printf("%0.1f\t",MetaTimeArray[i]);
+
 	printf("\nANALOG CHANNEL LINE\n");
-	for(j=1;j<=NUMBERANALOGCHANNELS;j++)
+	for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
 	{
 		printf("\nCHANNEL LINE #%d\t",j);
-		for (i=1;i<=mindex;i++)
+		for (int i = 1; i <= mindex; i++)
 			printf("%0.0f\t",MetaAnalogArray[j][i].fval);
+
 		printf("\n\t\tFNC#\t");
-		for (i=1;i<=mindex;i++)
+		for (int i = 1; i <= mindex; i++)
 			printf("%d\t",MetaAnalogArray[j][i].fcn);
 	}
 
 	printf("\n\nDIG CHANNEL LINEs\n");
-	for(j=1;j<=NUMBERDIGITALCHANNELS;j++)
+	for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++)
 	{
 		printf("\nCHANNEL LINE #%d\t",j);
-		for (i=1;i<=mindex;i++)
-			printf("%0.0f\t",MetaDigitalArray[j][i]);
-
+		for (int i = 1; i <= mindex; i++)
+			printf("%i\t",MetaDigitalArray[j][i]);
 	}
 
 	printf("\n\nDDS1 LINE\nEndFreq:\t");
-	for (i=1;i<=mindex;i++)
-			printf("%0.0f\t",MetaDDSArray[i].end_frequency);
+	for (int i = 1; i <= mindex; i++)
+		printf("%0.0f\t",MetaDDSArray[i].end_frequency);
+
 	printf("\nStartFreq:\t");
-	for (i=1;i<=mindex;i++)
-			printf("%0.0f\t",MetaDDSArray[i].start_frequency);
+	for (int i = 1; i <= mindex; i++)
+		printf("%0.0f\t",MetaDDSArray[i].start_frequency);
+
 	printf("\nis_stop:\t");
-	for (i=1;i<=mindex;i++)
-			printf("%d\t",MetaDDSArray[i].is_stop);
+	for (int i = 1; i <= mindex; i++)
+		printf("%d\t",MetaDDSArray[i].is_stop);
+
 	printf("\nAmplitude:\t");
-	for (i=1;i<=mindex;i++)
-			printf("%0.0f\t",MetaDDSArray[i].amplitude);
-	printf("\nDelta Time:\t");								  //At this Point all the delta time vals are zero (all conditions)
-	for (i=1;i<=mindex;i++)									  //Not being used???
-			printf("%0.0f\t",MetaDDSArray[i].delta_time);*/
+	for (int i = 1; i <= mindex; i++)
+		printf("%0.0f\t",MetaDDSArray[i].amplitude);
+
+	printf("\nDelta Time:\t");								//At this Point all the delta time vals are zero (all conditions)
+	for (int i = 1; i <= mindex; i++)						//Not being used???
+		printf("%0.0f\t",MetaDDSArray[i].delta_time);*/
 
 	// Send the new arrays to BuildUpdateList()
-	BuildUpdateList(MetaTimeArray, MetaAnalogArray, MetaDigitalArray, MetaDDSArray, MetaDDS2Array, MetaDDS3Array, tsize);
+	BuildUpdateList(MetaTimeArray, MetaAnalogArray, MetaDigitalArray, MetaDDSArray, MetaDDS2Array, MetaDDS3Array, mindex);
 }
 //*****************************************************************************************
 void BuildUpdateList(double TMatrix[], struct AnalogTableValues AMat[NUMBERANALOGCHANNELS + 1][500], int DMat[NUMBERDIGITALCHANNELS + 1][500],
@@ -1409,17 +1349,6 @@ void DrawNewTable(int isdimmed)
 			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(PScan.Column, 25), ATTR_TEXT_BGCOLOR, VAL_DK_YELLOW);
 			break;
 		}
-	}
-
-	if (currentpage == 10)
-	{
-		SetCtrlAttribute(panelHandle, PANEL_NUM_INSERTIONPAGE, ATTR_DIMMED, 0);
-		SetCtrlAttribute(panelHandle, PANEL_NUM_INSERTIONCOL, ATTR_DIMMED, 0);
-	}
-	else
-	{
-		SetCtrlAttribute(panelHandle, PANEL_NUM_INSERTIONPAGE, ATTR_DIMMED, 1);
-		SetCtrlAttribute(panelHandle, PANEL_NUM_INSERTIONCOL, ATTR_DIMMED, 1);
 	}
 	DrawLoopIndicators(); // Draw the arrows indicating loop position
 }
@@ -3042,30 +2971,6 @@ void CVICALLBACK MENU_BYCHANNEL_CALLBACK(int menuBar, int menuItem, void *callba
 {
 }
 
-//**************************************************************************************************************
-
-int CVICALLBACK NUM_INSERTIONPAGE_CALLBACK(int panel, int control, int event,
-										   void *callbackData, int eventData1, int eventData2)
-{
-	switch (event)
-	{
-	case EVENT_COMMIT:
-		ChangedVals = TRUE;
-	}
-	return 0;
-}
-//**************************************************************************************************************
-int CVICALLBACK NUM_INSERTIONCOL_CALLBACK(int panel, int control, int event,
-										  void *callbackData, int eventData1, int eventData2)
-{
-	switch (event)
-	{
-	case EVENT_COMMIT:
-		ChangedVals = TRUE;
-		break;
-	}
-	return 0;
-}
 //**************************************************************************************************************
 void CVICALLBACK COMPRESSION_CALLBACK(int menuBar, int menuItem, void *callbackData,
 									  int panel)
