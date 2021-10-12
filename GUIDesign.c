@@ -32,6 +32,10 @@
 #include "ddstranslator.h"
 #include "main.h"
 
+// Forward declarations of functions
+void BuildUpdateList(double[500], struct AnalogTableValues[NUMBERANALOGCHANNELS + 1][500], int[NUMBERDIGITALCHANNELS + 1][500],
+					 ddsoptions_struct[500], ddsoptions_struct[500], ddsoptions_struct[500], int);
+
 //Clipboard to hold data from copy/paste cells
 double TimeClip;
 int ClipColumn = -1;
@@ -268,7 +272,7 @@ void RunOnce(void)
 	BuildUpdateList(MetaTimeArray, MetaAnalogArray, MetaDigitalArray, MetaDDSArray, MetaDDS2Array, MetaDDS3Array, mindex);
 }
 //*****************************************************************************************
-void BuildUpdateList(double TMatrix[], struct AnalogTableValues AMat[NUMBERANALOGCHANNELS + 1][500], int DMat[NUMBERDIGITALCHANNELS + 1][500],
+void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERANALOGCHANNELS + 1][500], int DMat[NUMBERDIGITALCHANNELS + 1][500],
 					 ddsoptions_struct DDSArray[500], ddsoptions_struct DDS2Array[500], ddsoptions_struct DDS3Array[500], int numtimes)
 {
 	/*
