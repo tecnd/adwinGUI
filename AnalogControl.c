@@ -79,7 +79,7 @@ void SetControlPanel(void)
 	lastvalue = 0;
 	while (!FOUNDVAL)
 	{
-		if (cz >= NUMBEROFPAGES) // technically NUMBEROFPAGES is 1 more than the actual number of pages, inconsistent I know -KW
+		if (cz > NUMBEROFPAGES)
 		{
 			break; // didn't find it, end the loop
 		}

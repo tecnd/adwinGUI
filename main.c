@@ -136,11 +136,11 @@ int main(int argc, char *argv[])
 		AChName[j].resettozero = 1;
 		for (int i = 0; i <= NUMBEROFCOLUMNS; i++) // ramp over # of cells per page
 		{
-			for (int k = 0; k < NUMBEROFPAGES; k++) // ramp over pages
+			for (int page = 0; page <= NUMBEROFPAGES; page++) // ramp over pages
 			{
-				AnalogTable[i][j][k].fcn = 1;
-				AnalogTable[i][j][k].fval = 0.0;
-				AnalogTable[i][j][k].tscale = 1;
+				AnalogTable[i][j][page].fcn = 1;
+				AnalogTable[i][j][page].fval = 0.0;
+				AnalogTable[i][j][page].tscale = 1;
 			}
 		}
 	}
@@ -149,15 +149,15 @@ int main(int argc, char *argv[])
 	{
 		for (int i = 0; i <= NUMBEROFCOLUMNS; i++) // ramp over # of cells per page
 		{
-			for (int k = 0; k < NUMBEROFPAGES; k++) // ramp over pages
-				DigTableValues[i][j][k] = 0;
+			for (int page = 0; page <= NUMBEROFPAGES; page++) // ramp over pages
+				DigTableValues[i][j][page] = 0;
 		}
 	}
 
 	//initialize dds_tables, don't assume anything...
 	for (int i = 0; i < NUMBEROFCOLUMNS; i++)
 	{
-		for (int j = 0; j < NUMBEROFPAGES; j++)
+		for (int j = 0; j <= NUMBEROFPAGES; j++)
 		{
 			ddstable[i][j].start_frequency = 0.0;
 			ddstable[i][j].end_frequency = 0.0;
@@ -287,7 +287,7 @@ void Initialization()
 	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERDIGITALCHANNELS);
 
 	// Generate labels
-	for (int i = 0; i < NUMBEROFPAGES; i++)
+	for (int i = 0; i <= NUMBEROFPAGES; i++)
 	{
 		int newTable = NewCtrl(panelHandle, CTRL_TABLE, "Desc.", 88, 165);
 		SetCtrlAttribute(panelHandle, newTable, ATTR_HEIGHT, 25);
@@ -393,7 +393,7 @@ void Initialization()
 
 void setVisibleLabel(int labelNum)
 {
-	for (int i = 0; i < NUMBEROFPAGES; i++)
+	for (int i = 0; i <= NUMBEROFPAGES; i++)
 	{
 		SetCtrlAttribute(panelHandle, LabelArray[i], ATTR_VISIBLE, (i == labelNum) ? 1 : 0);
 	}

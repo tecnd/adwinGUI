@@ -168,7 +168,7 @@ void RunOnce(void)
 	//check each page...find columns in use and dim out unused....(with 0 or negative time values)
 	int mindex = 0;
 	//go through for each page
-	for (int page = 1; page <= NUMBEROFPAGES - 1; page++)
+	for (int page = 1; page <= NUMBEROFPAGES; page++)
 	{
 		if (ischecked[page] == 1) //if the page is selected (checkbox is checked)
 		{
@@ -2069,29 +2069,29 @@ void CVICALLBACK CLEARPANEL_CALLBACK(int menuBar, int menuItem, void *callbackDa
 	if (status == 1)
 	{
 		ChangedVals = 1;
-		for (int i = 1; i <= NUMBEROFCOLUMNS; i++)
+		for (int col = 1; col <= NUMBEROFCOLUMNS; col++)
 		{
-			for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
+			for (int channel = 1; channel <= NUMBERANALOGCHANNELS; channel++)
 			{
-				for (int k = 0; k < NUMBEROFPAGES; k++)
+				for (int page = 0; page <= NUMBEROFPAGES; page++)
 				{
-					AnalogTable[i][j][k].fcn = 1;
-					AnalogTable[i][j][k].fval = 0;
-					AnalogTable[i][j][k].tscale = 0;
-					DigTableValues[i][j][k] = 0;
-					TimeArray[i][k] = 0;
-					ddstable[i][k].start_frequency = 0;
-					ddstable[i][k].end_frequency = 0;
-					ddstable[i][k].amplitude = 0;
-					ddstable[i][k].is_stop = 0;
-					dds2table[i][k].start_frequency = 0;
-					dds2table[i][k].end_frequency = 0;
-					dds2table[i][k].amplitude = 0;
-					dds2table[i][k].is_stop = 0;
-					dds3table[i][k].start_frequency = 0;
-					dds3table[i][k].end_frequency = 0;
-					dds3table[i][k].amplitude = 0;
-					dds3table[i][k].is_stop = 0;
+					AnalogTable[col][channel][page].fcn = 1;
+					AnalogTable[col][channel][page].fval = 0;
+					AnalogTable[col][channel][page].tscale = 0;
+					DigTableValues[col][channel][page] = 0;
+					TimeArray[col][page] = 0;
+					ddstable[col][page].start_frequency = 0;
+					ddstable[col][page].end_frequency = 0;
+					ddstable[col][page].amplitude = 0;
+					ddstable[col][page].is_stop = 0;
+					dds2table[col][page].start_frequency = 0;
+					dds2table[col][page].end_frequency = 0;
+					dds2table[col][page].amplitude = 0;
+					dds2table[col][page].is_stop = 0;
+					dds3table[col][page].start_frequency = 0;
+					dds3table[col][page].end_frequency = 0;
+					dds3table[col][page].amplitude = 0;
+					dds3table[col][page].is_stop = 0;
 				}
 			}
 		}
@@ -2484,7 +2484,7 @@ void SaveArrays(char savedname[500], int csize)
 	*/
 
 	FILE *fdata;
-	int xval = NUMBEROFCOLUMNS, yval = NUMBERANALOGCHANNELS + NUMBERDIGITALCHANNELS + NUMBERDDS, zval = NUMBEROFPAGES - 1;
+	int xval = NUMBEROFCOLUMNS, yval = NUMBERANALOGCHANNELS + NUMBERDIGITALCHANNELS + NUMBERDDS, zval = NUMBEROFPAGES;
 	int usupd5, usupd10, usupd100, usupd1000, updatePer; //Update Period Check
 	char buff[500] = "", buff2[100];
 	strncpy(buff, savedname, csize - 4);
@@ -2811,34 +2811,34 @@ void ExportPanel(char fexportname[200], int fnamesize)
 	//check each page...find used columns and dim out unused....(with 0 or negative values)
 	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_TABLE_MODE, VAL_COLUMN);
 	mindex = 0;
-	for (int k = 1; k <= NUMBEROFPAGES; k++) //go through for each page
+	for (int page = 1; page <= NUMBEROFPAGES; page++) //go through for each page
 	{
-		if (ischecked[k] == 1) //if the page is selected
+		if (ischecked[page] == 1) //if the page is selected
 		{
 			int nozerofound = 1;
 			//go through for each time column
-			for (int i = 1; i < NUMBEROFCOLUMNS; i++)
+			for (int col = 1; col < NUMBEROFCOLUMNS; col++)
 			{
-				if ((nozerofound == 1) && (TimeArray[i][k] > 0))
+				if ((nozerofound == 1) && (TimeArray[col][page] > 0))
 				//ignore all columns after the first time=0
 				{
 					mindex++; //increase the number of columns counter
-					MetaTimeArray[mindex] = TimeArray[i][k];
+					MetaTimeArray[mindex] = TimeArray[col][page];
 
 					//go through for each analog channel
-					for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
+					for (int channel = 1; channel <= NUMBERANALOGCHANNELS; channel++)
 					{
-						MetaAnalogArray[j][mindex].fcn = AnalogTable[i][j][k].fcn;
-						MetaAnalogArray[j][mindex].fval = AnalogTable[i][j][k].fval;
-						MetaAnalogArray[j][mindex].tscale = AnalogTable[i][j][k].tscale;
-						MetaDigitalArray[j][mindex] = DigTableValues[i][j][k];
-						DDScurrent[mindex] = ddstable[i][k].amplitude;
-						DDSfreq1[mindex] = ddstable[i][k].start_frequency;
-						DDSfreq2[mindex] = ddstable[i][k].end_frequency;
-						DDSstop[mindex] = ddstable[i][k].is_stop;
+						MetaAnalogArray[channel][mindex].fcn = AnalogTable[col][channel][page].fcn;
+						MetaAnalogArray[channel][mindex].fval = AnalogTable[col][channel][page].fval;
+						MetaAnalogArray[channel][mindex].tscale = AnalogTable[col][channel][page].tscale;
+						MetaDigitalArray[channel][mindex] = DigTableValues[col][channel][page];
+						DDScurrent[mindex] = ddstable[col][page].amplitude;
+						DDSfreq1[mindex] = ddstable[col][page].start_frequency;
+						DDSfreq2[mindex] = ddstable[col][page].end_frequency;
+						DDSstop[mindex] = ddstable[col][page].is_stop;
 					}
 				}
-				else if (TimeArray[i][k] == 0)
+				else if (TimeArray[col][page] == 0)
 				{
 					nozerofound = 0;
 				}
@@ -3003,7 +3003,7 @@ void CVICALLBACK SHOWARRAY_CALLBACK(int menuBar, int menuItem, void *callbackDat
 void CVICALLBACK DDS_OFF_CALLBACK(int menuBar, int menuItem, void *callbackData,
 								  int panel)
 {
-	for (int j = 0; j < NUMBEROFPAGES; j++)
+	for (int j = 0; j <= NUMBEROFPAGES; j++)
 	{
 		for (int i = 0; i < NUMBEROFCOLUMNS; i++)
 		{

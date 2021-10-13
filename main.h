@@ -1,7 +1,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-int LabelArray[NUMBEROFPAGES];
+int LabelArray[NUMBEROFPAGES + 1];
 
 void Initialization(void);
 void ConvertIntToStr(int int_val, char *int_str);
