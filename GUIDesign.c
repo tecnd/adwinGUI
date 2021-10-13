@@ -1537,27 +1537,12 @@ int CVICALLBACK TOGGLE_CALLBACK(int panel, int control, int event,
 
 void CheckActivePages(void)
 {
-	int bool;
-	GetCtrlVal(panelHandle, PANEL_CHECKBOX, &bool);
-	ischecked[1] = bool;
-	GetCtrlVal(panelHandle, PANEL_CHECKBOX_2, &bool);
-	ischecked[2] = bool;
-	GetCtrlVal(panelHandle, PANEL_CHECKBOX_3, &bool);
-	ischecked[3] = bool;
-	GetCtrlVal(panelHandle, PANEL_CHECKBOX_4, &bool);
-	ischecked[4] = bool;
-	GetCtrlVal(panelHandle, PANEL_CHECKBOX_5, &bool);
-	ischecked[5] = bool;
-	GetCtrlVal(panelHandle, PANEL_CHECKBOX_6, &bool);
-	ischecked[6] = bool;
-	GetCtrlVal(panelHandle, PANEL_CHECKBOX_7, &bool);
-	ischecked[7] = bool;
-	GetCtrlVal(panelHandle, PANEL_CHECKBOX_8, &bool);
-	ischecked[8] = bool;
-	GetCtrlVal(panelHandle, PANEL_CHECKBOX_9, &bool);
-	ischecked[9] = bool;
-	GetCtrlVal(panelHandle, PANEL_CHECKBOX_10, &bool);
-	ischecked[10] = bool;
+	for (int i = 1; i <= NUMBEROFPAGES; i++)
+	{
+		BOOL bool;
+		GetCtrlVal(panelHandle, CheckboxArray[i], &bool);
+		ischecked[i] = bool;
+	}
 }
 //***************************************************************************************************
 

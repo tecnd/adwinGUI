@@ -204,7 +204,6 @@ void Initialization()
 {
 	//Changes:
 	//Mar09, 2006:  Force DDS 1 frequency settings at loadtime.
-	int x0, dx;
 	PScan.Scan_Active = FALSE;
 	PScan.Use_Scan_List = FALSE;
 	//
@@ -297,7 +296,7 @@ void Initialization()
 		SetTableColumnAttribute(panelHandle, newTable, -1, ATTR_COLUMN_WIDTH, 40);
 		LabelArray[i] = newTable;
 
-		//Generate buttons
+		// Generate buttons
 		int newTB = NewCtrl(panelHandle, CTRL_SQUARE_TEXT_BUTTON, "", 30, 165 + (i - 1) * 65);
 		SetCtrlAttribute(panelHandle, newTB, ATTR_HEIGHT, 25);
 		SetCtrlAttribute(panelHandle, newTB, ATTR_WIDTH, 45);
@@ -306,6 +305,10 @@ void Initialization()
 		SetCtrlAttribute(panelHandle, newTB, ATTR_ON_COLOR, 0x66CC99);
 		InstallCtrlCallback(panelHandle, newTB, TOGGLE_CALLBACK, NULL);
 		ButtonArray[i] = newTB;
+
+		// Generate checkboxes
+		int newCB = NewCtrl(panelHandle, CTRL_CHECK_BOX, "On/Off", 60, 165 + (i - 1) * 65);
+		CheckboxArray[i] = newCB;
 	}
 
 	// Set default button names
@@ -321,42 +324,8 @@ void Initialization()
 	SetCtrlAttribute(panelHandle, ButtonArray[NUMBEROFPAGES], ATTR_OFF_TEXT, "Imaging");
 
 	SetCtrlVal(panelHandle, ButtonArray[1], 1);
+	SetCtrlVal(panelHandle, CheckboxArray[1], 1);
 	setVisibleLabel(1);
-
-
-	// Reposition the page boxes and checkboxes
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX, ATTR_TOP, 60);
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_2, ATTR_TOP, 60);
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_3, ATTR_TOP, 60);
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_4, ATTR_TOP, 60);
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_5, ATTR_TOP, 60);
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_6, ATTR_TOP, 60);
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_7, ATTR_TOP, 60);
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_8, ATTR_TOP, 60);
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_9, ATTR_TOP, 60);
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_10, ATTR_TOP, 60);
-	x0 = 165;
-	dx = 65;
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX, ATTR_LEFT, x0);
-	x0 = x0 + dx;
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_2, ATTR_LEFT, x0);
-	x0 = x0 + dx;
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_3, ATTR_LEFT, x0);
-	x0 = x0 + dx;
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_4, ATTR_LEFT, x0);
-	x0 = x0 + dx;
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_5, ATTR_LEFT, x0);
-	x0 = x0 + dx;
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_6, ATTR_LEFT, x0);
-	x0 = x0 + dx;
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_7, ATTR_LEFT, x0);
-	x0 = x0 + dx;
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_8, ATTR_LEFT, x0);
-	x0 = x0 + dx;
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_9, ATTR_LEFT, x0);
-	x0 = x0 + dx;
-	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_10, ATTR_LEFT, x0);
-	x0 = x0 + dx;
 
 	SetCtrlAttribute(panelHandle_sub2, SUBPANEL2, ATTR_VISIBLE, 0);
 

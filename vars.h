@@ -19,7 +19,7 @@ Macro Definitions
 #define NUMBEROFCOLUMNS 17
 #define TRUE 1
 #define FALSE 0
-#define NUMBEROFPAGES 10
+#define NUMBEROFPAGES 11
 
 #define DDS2_CLOCK 983.04 // clock speed of DDS 2 in MHz
 #define DDS3CLOCK 300.0	  // clock speed of DDS 2 in MHz
