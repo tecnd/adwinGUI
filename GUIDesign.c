@@ -1512,252 +1512,23 @@ void DrawLoopIndicators()
 }
 
 //*************************************************************************************
-int CVICALLBACK TOGGLE1_CALLBACK(int panel, int control, int event,
-								 void *callbackData, int eventData1, int eventData2)
-{
 
-	switch (event)
-	{
-	case EVENT_COMMIT:
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE1, 1);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE2, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE3, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE4, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE5, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE6, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE7, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 0);
-		setVisibleLabel(1);
-		currentpage = 1;
-		ChangedVals = TRUE;
-		DrawNewTable(isdimmed);
-
-		break;
-	}
-	return 0;
-}
-
-int CVICALLBACK TOGGLE2_CALLBACK(int panel, int control, int event,
-								 void *callbackData, int eventData1, int eventData2)
+int CVICALLBACK TOGGLE_CALLBACK(int panel, int control, int event,
+								void *callbackData, int eventData1, int eventData2)
 {
 	switch (event)
 	{
 	case EVENT_COMMIT:
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE1, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE2, 1);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE3, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE4, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE5, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE6, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE7, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 0);
-		setVisibleLabel(2);
+		for (int i = 1; i <= NUMBEROFPAGES; i++)
+		{
+			SetCtrlVal(panelHandle, ButtonArray[i], control == ButtonArray[i]);
+			if (control == ButtonArray[i])
+			{
+				setVisibleLabel(i);
+				currentpage = i;
+			}
+		}
 		ChangedVals = TRUE;
-		currentpage = 2;
-		DrawNewTable(isdimmed);
-		break;
-	}
-	return 0;
-}
-
-int CVICALLBACK TOGGLE3_CALLBACK(int panel, int control, int event,
-								 void *callbackData, int eventData1, int eventData2)
-{
-	switch (event)
-	{
-	case EVENT_COMMIT:
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE1, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE2, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE3, 1);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE4, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE5, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE6, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE7, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 0);
-		setVisibleLabel(3);
-		ChangedVals = TRUE;
-		currentpage = 3;
-		DrawNewTable(isdimmed);
-		break;
-	}
-	return 0;
-}
-
-int CVICALLBACK TOGGLE4_CALLBACK(int panel, int control, int event,
-								 void *callbackData, int eventData1, int eventData2)
-{
-	switch (event)
-	{
-	case EVENT_COMMIT:
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE1, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE2, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE3, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE4, 1);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE5, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE6, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE7, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 0);
-		setVisibleLabel(4);
-		ChangedVals = TRUE;
-		currentpage = 4;
-		DrawNewTable(isdimmed);
-		break;
-	}
-	return 0;
-}
-
-int CVICALLBACK TOGGLE5_CALLBACK(int panel, int control, int event,
-								 void *callbackData, int eventData1, int eventData2)
-{
-	switch (event)
-	{
-	case EVENT_COMMIT:
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE1, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE2, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE3, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE4, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE5, 1);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE6, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE7, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 0);
-		setVisibleLabel(5);
-		ChangedVals = TRUE;
-		currentpage = 5;
-		DrawNewTable(isdimmed);
-		break;
-	}
-	return 0;
-}
-
-int CVICALLBACK TOGGLE6_CALLBACK(int panel, int control, int event,
-								 void *callbackData, int eventData1, int eventData2)
-{
-	switch (event)
-	{
-	case EVENT_COMMIT:
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE1, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE2, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE3, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE4, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE5, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE6, 1);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE7, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 0);
-		setVisibleLabel(6);
-		ChangedVals = TRUE;
-		currentpage = 6;
-		DrawNewTable(isdimmed);
-		break;
-	}
-	return 0;
-}
-
-int CVICALLBACK TOGGLE7_CALLBACK(int panel, int control, int event,
-								 void *callbackData, int eventData1, int eventData2)
-{
-	switch (event)
-	{
-	case EVENT_COMMIT:
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE1, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE2, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE3, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE4, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE5, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE6, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE7, 1);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 0);
-		setVisibleLabel(7);
-		ChangedVals = TRUE;
-		currentpage = 7;
-		DrawNewTable(isdimmed);
-		break;
-	}
-	return 0;
-}
-
-int CVICALLBACK TOGGLE8_CALLBACK(int panel, int control, int event,
-								 void *callbackData, int eventData1, int eventData2)
-{
-	switch (event)
-	{
-	case EVENT_COMMIT:
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE1, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE2, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE3, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE4, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE5, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE6, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE7, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 1);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 0);
-		setVisibleLabel(8);
-		ChangedVals = TRUE;
-		currentpage = 8;
-		DrawNewTable(isdimmed);
-		break;
-	}
-	return 0;
-}
-
-int CVICALLBACK TOGGLE9_CALLBACK(int panel, int control, int event,
-								 void *callbackData, int eventData1, int eventData2)
-{
-	switch (event)
-	{
-	case EVENT_COMMIT:
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE1, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE2, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE3, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE4, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE5, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE6, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE7, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 1);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 0);
-		setVisibleLabel(9);
-		ChangedVals = TRUE;
-		currentpage = 9;
-		DrawNewTable(isdimmed);
-		break;
-	}
-	return 0;
-}
-
-int CVICALLBACK TOGGLE10_CALLBACK(int panel, int control, int event,
-								  void *callbackData, int eventData1, int eventData2)
-{
-	switch (event)
-	{
-	case EVENT_COMMIT:
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE1, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE2, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE3, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE4, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE5, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE6, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE7, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE8, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE9, 0);
-		SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE10, 1);
-		setVisibleLabel(10);
-		ChangedVals = TRUE;
-		currentpage = 10;
 		DrawNewTable(isdimmed);
 		break;
 	}
@@ -1896,8 +1667,8 @@ void CVICALLBACK TITLE1_CALLBACK(int menuBar, int menuItem, void *callbackData,
 	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 1 control button", buff, sizeof buff - 2);
 	if (status == 0)
 	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE1, ATTR_ON_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE1, ATTR_OFF_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[1], ATTR_ON_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[1], ATTR_OFF_TEXT, buff);
 	}
 }
 
@@ -1908,8 +1679,8 @@ void CVICALLBACK TITLE2_CALLBACK(int menuBar, int menuItem, void *callbackData,
 	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 2 control button", buff, sizeof buff - 2);
 	if (status == 0)
 	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE2, ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE2, ATTR_ON_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[2], ATTR_OFF_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[2], ATTR_ON_TEXT, buff);
 	}
 }
 
@@ -1920,8 +1691,8 @@ void CVICALLBACK TITLE3_CALLBACK(int menuBar, int menuItem, void *callbackData,
 	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 3 control button", buff, sizeof buff - 2);
 	if (status == 0)
 	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE3, ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE3, ATTR_ON_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[3], ATTR_OFF_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[3], ATTR_ON_TEXT, buff);
 	}
 }
 
@@ -1932,8 +1703,8 @@ void CVICALLBACK TITLE4_CALLBACK(int menuBar, int menuItem, void *callbackData,
 	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 4 control button", buff, sizeof buff - 2);
 	if (status == 0)
 	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE4, ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE4, ATTR_ON_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[4], ATTR_OFF_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[4], ATTR_ON_TEXT, buff);
 	}
 }
 
@@ -1944,8 +1715,8 @@ void CVICALLBACK TITLE5_CALLBACK(int menuBar, int menuItem, void *callbackData,
 	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 1 control button", buff, sizeof buff - 2);
 	if (status == 0)
 	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE5, ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE5, ATTR_ON_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[5], ATTR_OFF_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[5], ATTR_ON_TEXT, buff);
 	}
 }
 
@@ -1956,8 +1727,8 @@ void CVICALLBACK TITLE6_CALLBACK(int menuBar, int menuItem, void *callbackData,
 	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 6 control button", buff, sizeof buff - 2);
 	if (status == 0)
 	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE6, ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE6, ATTR_ON_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[6], ATTR_OFF_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[6], ATTR_ON_TEXT, buff);
 	}
 }
 
@@ -1968,8 +1739,8 @@ void CVICALLBACK TITLE7_CALLBACK(int menuBar, int menuItem, void *callbackData,
 	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 7 control button", buff, sizeof buff - 2);
 	if (status == 0)
 	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE7, ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE7, ATTR_ON_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[7], ATTR_OFF_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[7], ATTR_ON_TEXT, buff);
 	}
 }
 
@@ -1980,8 +1751,8 @@ void CVICALLBACK TITLE8_CALLBACK(int menuBar, int menuItem, void *callbackData,
 	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 8 control button", buff, sizeof buff - 2);
 	if (status == 0)
 	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE8, ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE8, ATTR_ON_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[8], ATTR_OFF_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[8], ATTR_ON_TEXT, buff);
 	}
 }
 
@@ -1992,8 +1763,8 @@ void CVICALLBACK TITLE9_CALLBACK(int menuBar, int menuItem, void *callbackData,
 	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 9 control button", buff, sizeof buff - 2);
 	if (status == 0)
 	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE9, ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE9, ATTR_ON_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[9], ATTR_OFF_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[9], ATTR_ON_TEXT, buff);
 	}
 }
 
@@ -2005,8 +1776,8 @@ void CVICALLBACK TITLEX_CALLBACK(int menuBar, int menuItem, void *callbackData,
 	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 10 control button", buff, sizeof buff - 2);
 	if (status == 0)
 	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE10, ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE10, ATTR_ON_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[10], ATTR_OFF_TEXT, buff);
+		SetCtrlAttribute(panelHandle, ButtonArray[10], ATTR_ON_TEXT, buff);
 	}
 }
 
@@ -2404,29 +2175,6 @@ void LoadArrays(char savedname[500], int csize)
 	fread(&AChName, (sizeof AChName), 1, fdata);
 	fread(&DChName, sizeof DChName, 1, fdata);
 	fread(&ddstable, (sizeof ddstable), 1, fdata);
-	fread(&buff2, sizeof buff2, 1, fdata);
-
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE1, ATTR_OFF_TEXT, buff2);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE1, ATTR_ON_TEXT, buff2);
-	fread(&buff2, sizeof buff2, 1, fdata);
-
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE2, ATTR_OFF_TEXT, buff2);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE2, ATTR_ON_TEXT, buff2);
-	fread(&buff2, sizeof buff2, 1, fdata);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE3, ATTR_OFF_TEXT, buff2);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE3, ATTR_ON_TEXT, buff2);
-	fread(&buff2, sizeof buff2, 1, fdata);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE4, ATTR_OFF_TEXT, buff2);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE4, ATTR_ON_TEXT, buff2);
-	fread(&buff2, sizeof buff2, 1, fdata);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE5, ATTR_OFF_TEXT, buff2);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE5, ATTR_ON_TEXT, buff2);
-	fread(&buff2, sizeof buff2, 1, fdata);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE6, ATTR_OFF_TEXT, buff2);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE6, ATTR_ON_TEXT, buff2);
-	fread(&buff2, sizeof buff2, 1, fdata);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE7, ATTR_OFF_TEXT, buff2);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE7, ATTR_ON_TEXT, buff2);
 	fread(&dds2table, (sizeof dds2table), 1, fdata);
 	fread(&dds3table, (sizeof dds3table), 1, fdata);
 
@@ -2512,20 +2260,6 @@ void SaveArrays(char savedname[500], int csize)
 	fwrite(&AChName, sizeof AChName, 1, fdata);
 	fwrite(&DChName, sizeof DChName, 1, fdata);
 	fwrite(&ddstable, sizeof ddstable, 1, fdata);
-	GetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE1, ATTR_OFF_TEXT, buff2);
-	fwrite(&buff2, sizeof buff2, 1, fdata);
-	GetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE2, ATTR_OFF_TEXT, buff2);
-	fwrite(&buff2, sizeof buff2, 1, fdata);
-	GetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE3, ATTR_OFF_TEXT, buff2);
-	fwrite(&buff2, sizeof buff2, 1, fdata);
-	GetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE4, ATTR_OFF_TEXT, buff2);
-	fwrite(&buff2, sizeof buff2, 1, fdata);
-	GetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE5, ATTR_OFF_TEXT, buff2);
-	fwrite(&buff2, sizeof buff2, 1, fdata);
-	GetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE6, ATTR_OFF_TEXT, buff2);
-	fwrite(&buff2, sizeof buff2, 1, fdata);
-	GetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE7, ATTR_OFF_TEXT, buff2);
-	fwrite(&buff2, sizeof buff2, 1, fdata);
 	fwrite(&dds2table, sizeof dds2table, 1, fdata);
 	fwrite(&dds3table, sizeof dds3table, 1, fdata);
 

@@ -191,15 +191,6 @@ int main(int argc, char *argv[])
 	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD1000, ATTR_CHECKED, 0);
 	currentpage = 1;
 
-	//Sets the First Page as Active
-	SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE1, 1);
-	SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE2, 0);
-	SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE3, 0);
-	SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE4, 0);
-	SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE5, 0);
-	SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE6, 0);
-	SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE7, 0);
-
 	Initialization();
 
 	DisplayPanel(panelHandle);
@@ -287,7 +278,7 @@ void Initialization()
 	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERDIGITALCHANNELS);
 
 	// Generate labels
-	for (int i = 0; i <= NUMBEROFPAGES; i++)
+	for (int i = 1; i <= NUMBEROFPAGES; i++)
 	{
 		int newTable = NewCtrl(panelHandle, CTRL_TABLE, "Desc.", 88, 165);
 		SetCtrlAttribute(panelHandle, newTable, ATTR_HEIGHT, 25);
@@ -305,43 +296,35 @@ void Initialization()
 		InsertTableColumns(panelHandle, newTable, -1, 17, VAL_USE_MASTER_CELL_TYPE);
 		SetTableColumnAttribute(panelHandle, newTable, -1, ATTR_COLUMN_WIDTH, 40);
 		LabelArray[i] = newTable;
+
+		//Generate buttons
+		int newTB = NewCtrl(panelHandle, CTRL_SQUARE_TEXT_BUTTON, "", 30, 165 + (i - 1) * 65);
+		SetCtrlAttribute(panelHandle, newTB, ATTR_HEIGHT, 25);
+		SetCtrlAttribute(panelHandle, newTB, ATTR_WIDTH, 45);
+		SetCtrlAttribute(panelHandle, newTB, ATTR_ON_TEXT, "Shown");
+		SetCtrlAttribute(panelHandle, newTB, ATTR_OFF_TEXT, "Hidden");
+		SetCtrlAttribute(panelHandle, newTB, ATTR_ON_COLOR, 0x66CC99);
+		InstallCtrlCallback(panelHandle, newTB, TOGGLE_CALLBACK, NULL);
+		ButtonArray[i] = newTB;
 	}
 
+	// Set default button names
+	SetCtrlAttribute(panelHandle, ButtonArray[1], ATTR_ON_TEXT, "MOT");
+	SetCtrlAttribute(panelHandle, ButtonArray[1], ATTR_OFF_TEXT, "MOT");
+	SetCtrlAttribute(panelHandle, ButtonArray[2], ATTR_ON_TEXT, "B-Trap");
+	SetCtrlAttribute(panelHandle, ButtonArray[2], ATTR_OFF_TEXT, "B-Trap");
+	SetCtrlAttribute(panelHandle, ButtonArray[3], ATTR_ON_TEXT, "Xfer");
+	SetCtrlAttribute(panelHandle, ButtonArray[3], ATTR_OFF_TEXT, "Xfer");
+	SetCtrlAttribute(panelHandle, ButtonArray[4], ATTR_ON_TEXT, "Evap");
+	SetCtrlAttribute(panelHandle, ButtonArray[4], ATTR_OFF_TEXT, "Evap");
+	SetCtrlAttribute(panelHandle, ButtonArray[NUMBEROFPAGES], ATTR_ON_TEXT, "Imaging");
+	SetCtrlAttribute(panelHandle, ButtonArray[NUMBEROFPAGES], ATTR_OFF_TEXT, "Imaging");
+
+	SetCtrlVal(panelHandle, ButtonArray[1], 1);
 	setVisibleLabel(1);
 
+
 	// Reposition the page boxes and checkboxes
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE1, ATTR_TOP, 30);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE2, ATTR_TOP, 30);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE3, ATTR_TOP, 30);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE4, ATTR_TOP, 30);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE5, ATTR_TOP, 30);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE6, ATTR_TOP, 30);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE7, ATTR_TOP, 30);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE8, ATTR_TOP, 30);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE9, ATTR_TOP, 30);
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE10, ATTR_TOP, 30);
-	x0 = 165;
-	dx = 65;
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE1, ATTR_LEFT, x0);
-	x0 = x0 + dx;
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE2, ATTR_LEFT, x0);
-	x0 = x0 + dx;
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE3, ATTR_LEFT, x0);
-	x0 = x0 + dx;
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE4, ATTR_LEFT, x0);
-	x0 = x0 + dx;
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE5, ATTR_LEFT, x0);
-	x0 = x0 + dx;
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE6, ATTR_LEFT, x0);
-	x0 = x0 + dx;
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE7, ATTR_LEFT, x0);
-	x0 = x0 + dx;
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE8, ATTR_LEFT, x0);
-	x0 = x0 + dx;
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE9, ATTR_LEFT, x0);
-	x0 = x0 + dx;
-	SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE10, ATTR_LEFT, x0);
-	x0 = x0 + dx;
 	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX, ATTR_TOP, 60);
 	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_2, ATTR_TOP, 60);
 	SetCtrlAttribute(panelHandle, PANEL_CHECKBOX_3, ATTR_TOP, 60);
@@ -393,9 +376,9 @@ void Initialization()
 
 void setVisibleLabel(int labelNum)
 {
-	for (int i = 0; i <= NUMBEROFPAGES; i++)
+	for (int i = 1; i <= NUMBEROFPAGES; i++)
 	{
-		SetCtrlAttribute(panelHandle, LabelArray[i], ATTR_VISIBLE, (i == labelNum) ? 1 : 0);
+		SetCtrlAttribute(panelHandle, LabelArray[i], ATTR_VISIBLE, i == labelNum);
 	}
 }
 //***************************************************************************************************

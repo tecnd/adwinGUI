@@ -26,43 +26,33 @@
 #define  PANEL_CHECKBOX                   11      /* control type: radioButton, callback function: (none) */
 #define  PANEL_TIMETABLE                  12      /* control type: table, callback function: TIMETABLE_CALLBACK */
 #define  PANEL_ANALOGTABLE                13      /* control type: table, callback function: ANALOGTABLE_CALLBACK */
-#define  PANEL_TB_SHOWPHASE10             14      /* control type: textButton, callback function: TOGGLE10_CALLBACK */
-#define  PANEL_TB_SHOWPHASE9              15      /* control type: textButton, callback function: TOGGLE9_CALLBACK */
-#define  PANEL_DIGTABLE                   16      /* control type: table, callback function: DIGTABLE_CALLBACK */
-#define  PANEL_TB_SHOWPHASE8              17      /* control type: textButton, callback function: TOGGLE8_CALLBACK */
-#define  PANEL_TB_SHOWPHASE7              18      /* control type: textButton, callback function: TOGGLE7_CALLBACK */
-#define  PANEL_TB_SHOWPHASE6              19      /* control type: textButton, callback function: TOGGLE6_CALLBACK */
-#define  PANEL_TB_SHOWPHASE5              20      /* control type: textButton, callback function: TOGGLE5_CALLBACK */
-#define  PANEL_TB_SHOWPHASE4              21      /* control type: textButton, callback function: TOGGLE4_CALLBACK */
-#define  PANEL_TB_SHOWPHASE3              22      /* control type: textButton, callback function: TOGGLE3_CALLBACK */
-#define  PANEL_TB_SHOWPHASE2              23      /* control type: textButton, callback function: TOGGLE2_CALLBACK */
-#define  PANEL_TB_SHOWPHASE1              24      /* control type: textButton, callback function: TOGGLE1_CALLBACK */
-#define  PANEL_CMD_SCAN                   25      /* control type: command, callback function: CMD_SCAN_CALLBACK */
-#define  PANEL_CMD_RUN                    26      /* control type: command, callback function: CMD_RUN_CALLBACK */
-#define  PANEL_DEBUG                      27      /* control type: listBox, callback function: (none) */
-#define  PANEL_TOGGLEREPEAT               28      /* control type: textButton, callback function: (none) */
-#define  PANEL_CMDSTOP                    29      /* control type: command, callback function: CMDSTOP_CALLBACK */
-#define  PANEL_TGL_NUMERICTABLE           30      /* control type: textButton, callback function: TGLNUMERIC_CALLBACK */
-#define  PANEL_DISPLAYDIAL                31      /* control type: slide, callback function: DISPLAYDIAL_CALLBACK */
-#define  PANEL_TBL_ANALOGUNITS            32      /* control type: table, callback function: (none) */
-#define  PANEL_TBL_DIGNAMES               33      /* control type: table, callback function: (none) */
-#define  PANEL_TBL_ANAMES                 34      /* control type: table, callback function: (none) */
-#define  PANEL_TIMER                      35      /* control type: timer, callback function: TIMER_CALLBACK */
-#define  PANEL_NUM_DDS3_OFFSET            36      /* control type: numeric, callback function: (none) */
-#define  PANEL_NUM_DDS2_OFFSET            37      /* control type: numeric, callback function: (none) */
-#define  PANEL_NUM_DDS_OFFSET             38      /* control type: numeric, callback function: (none) */
-#define  PANEL_SCAN_TABLE                 39      /* control type: table, callback function: (none) */
-#define  PANEL_CANVAS_END                 40      /* control type: canvas, callback function: (none) */
-#define  PANEL_CANVAS_START               41      /* control type: canvas, callback function: (none) */
-#define  PANEL_NUM_LOOP_REPS              42      /* control type: numeric, callback function: (none) */
-#define  PANEL_NUM_LOOPCOL2               43      /* control type: numeric, callback function: (none) */
-#define  PANEL_NUM_LOOPPAGE2              44      /* control type: numeric, callback function: (none) */
-#define  PANEL_NUM_LOOPCOL1               45      /* control type: numeric, callback function: (none) */
-#define  PANEL_NUM_LOOPPAGE1              46      /* control type: numeric, callback function: (none) */
-#define  PANEL_SWITCH_LOOP                47      /* control type: binary, callback function: SWITCH_LOOP_CALLBACK */
-#define  PANEL_DECORATION_2               48      /* control type: deco, callback function: (none) */
-#define  PANEL_CANVAS_LOOPLINE            49      /* control type: canvas, callback function: (none) */
-#define  PANEL_Looping                    50      /* control type: textMsg, callback function: (none) */
+#define  PANEL_DIGTABLE                   14      /* control type: table, callback function: DIGTABLE_CALLBACK */
+#define  PANEL_CMD_SCAN                   15      /* control type: command, callback function: CMD_SCAN_CALLBACK */
+#define  PANEL_CMD_RUN                    16      /* control type: command, callback function: CMD_RUN_CALLBACK */
+#define  PANEL_DEBUG                      17      /* control type: listBox, callback function: (none) */
+#define  PANEL_TOGGLEREPEAT               18      /* control type: textButton, callback function: (none) */
+#define  PANEL_CMDSTOP                    19      /* control type: command, callback function: CMDSTOP_CALLBACK */
+#define  PANEL_TGL_NUMERICTABLE           20      /* control type: textButton, callback function: TGLNUMERIC_CALLBACK */
+#define  PANEL_DISPLAYDIAL                21      /* control type: slide, callback function: DISPLAYDIAL_CALLBACK */
+#define  PANEL_TBL_ANALOGUNITS            22      /* control type: table, callback function: (none) */
+#define  PANEL_TBL_DIGNAMES               23      /* control type: table, callback function: (none) */
+#define  PANEL_TBL_ANAMES                 24      /* control type: table, callback function: (none) */
+#define  PANEL_TIMER                      25      /* control type: timer, callback function: TIMER_CALLBACK */
+#define  PANEL_NUM_DDS3_OFFSET            26      /* control type: numeric, callback function: (none) */
+#define  PANEL_NUM_DDS2_OFFSET            27      /* control type: numeric, callback function: (none) */
+#define  PANEL_NUM_DDS_OFFSET             28      /* control type: numeric, callback function: (none) */
+#define  PANEL_SCAN_TABLE                 29      /* control type: table, callback function: (none) */
+#define  PANEL_CANVAS_END                 30      /* control type: canvas, callback function: (none) */
+#define  PANEL_CANVAS_START               31      /* control type: canvas, callback function: (none) */
+#define  PANEL_NUM_LOOP_REPS              32      /* control type: numeric, callback function: (none) */
+#define  PANEL_NUM_LOOPCOL2               33      /* control type: numeric, callback function: (none) */
+#define  PANEL_NUM_LOOPPAGE2              34      /* control type: numeric, callback function: (none) */
+#define  PANEL_NUM_LOOPCOL1               35      /* control type: numeric, callback function: (none) */
+#define  PANEL_NUM_LOOPPAGE1              36      /* control type: numeric, callback function: (none) */
+#define  PANEL_SWITCH_LOOP                37      /* control type: binary, callback function: SWITCH_LOOP_CALLBACK */
+#define  PANEL_DECORATION_2               38      /* control type: deco, callback function: (none) */
+#define  PANEL_CANVAS_LOOPLINE            39      /* control type: canvas, callback function: (none) */
+#define  PANEL_Looping                    40      /* control type: textMsg, callback function: (none) */
 
 #define  SUBPANEL1                        2
 #define  SUBPANEL1_TEXTBOX                2       /* control type: textBox, callback function: (none) */
@@ -180,16 +170,6 @@ void CVICALLBACK TITLE7_CALLBACK(int menubar, int menuItem, void *callbackData, 
 void CVICALLBACK TITLE8_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK TITLE9_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK TITLEX_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
-int  CVICALLBACK TOGGLE10_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
-int  CVICALLBACK TOGGLE1_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
-int  CVICALLBACK TOGGLE2_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
-int  CVICALLBACK TOGGLE3_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
-int  CVICALLBACK TOGGLE4_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
-int  CVICALLBACK TOGGLE5_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
-int  CVICALLBACK TOGGLE6_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
-int  CVICALLBACK TOGGLE7_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
-int  CVICALLBACK TOGGLE8_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
-int  CVICALLBACK TOGGLE9_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 
 
 #ifdef __cplusplus
