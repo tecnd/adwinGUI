@@ -1293,22 +1293,22 @@ void DrawNewTable(int isdimmed)
 	}
 	// So far, all columns are undimmed
 	//now check if we need to dim out any columns(of timetable,AnalogTable and DigTable
-	if (isdimmed == TRUE)
+	if (isdimmed)
 	{
-		int nozerofound = TRUE; // haven't encountered a zero yet... so keep going
-		for (int i = 1; i <= NUMBEROFCOLUMNS; i++)
+		BOOL nozerofound = TRUE; // haven't encountered a zero yet... so keep going
+		for (int col = 1; col <= NUMBEROFCOLUMNS; col++)
 		{
 			BOOL dimset = FALSE;
-			if ((nozerofound == FALSE) || (TimeArray[i][page] == 0)) // if we have seen a zero before, or we see one now, then
+			if ((nozerofound == FALSE) || (TimeArray[col][page] == 0)) // if we have seen a zero before, or we see one now, then
 			{
 				nozerofound = FALSE; // Flag that tells us to dim out all remaining columns
 				dimset = TRUE;		 // Flag to dim out this column
 			}
-			else if ((nozerofound == TRUE) && (TimeArray[i][page] < 0)) // if we haven't seen a zero, but this column has a negative time then...
+			else if ((nozerofound == TRUE) && (TimeArray[col][page] < 0)) // if we haven't seen a zero, but this column has a negative time then...
 			{
 				dimset = TRUE;
 			}
-			SetTableCellAttribute(panelHandle, PANEL_TIMETABLE, MakePoint(i, 1), ATTR_CELL_DIMMED, dimset);
+			SetTableCellAttribute(panelHandle, PANEL_TIMETABLE, MakePoint(col, 1), ATTR_CELL_DIMMED, dimset);
 			if (ispicture == 0)
 			{
 				picmode = 0;
@@ -1321,23 +1321,16 @@ void DrawNewTable(int isdimmed)
 			{
 				picmode = 2;
 			}
-
-			for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
-			{
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_CELL_DIMMED, dimset);
-				SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, MakePoint(i, j), ATTR_CELL_DIMMED, dimset);
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_CELL_TYPE, picmode);
-			}
+			SetTableCellRangeAttribute(panelHandle, PANEL_ANALOGTABLE, VAL_TABLE_COLUMN_RANGE(col), ATTR_CELL_DIMMED, dimset);
+			SetTableCellRangeAttribute(panelHandle, PANEL_ANALOGTABLE, VAL_TABLE_COLUMN_RANGE(col), ATTR_CELL_TYPE, picmode);
+			SetTableCellRangeAttribute(panelHandle, PANEL_DIGTABLE, VAL_TABLE_COLUMN_RANGE(col), ATTR_CELL_DIMMED, dimset);
 		}
 	}
 	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, analogtable_visible);
 	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, digtable_visible);
 	SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_VISIBLE, 1);
 
-	for (int m = 1; m <= NUMBEROFCOLUMNS; m++)
-	{
-		SetTableCellAttribute(panelHandle, PANEL_TIMETABLE, MakePoint(m, 1), ATTR_TEXT_BGCOLOR, VAL_WHITE);
-	}
+	SetTableCellRangeAttribute(panelHandle, PANEL_TIMETABLE, VAL_TABLE_ROW_RANGE(1), ATTR_TEXT_BGCOLOR, VAL_WHITE);
 
 	if ((currentpage == PScan.Page) && (PScan.Scan_Active == TRUE)) //display the cell active for a parameter scan
 	{

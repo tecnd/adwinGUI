@@ -191,8 +191,6 @@ int main(int argc, char *argv[])
 	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD1000, ATTR_CHECKED, 0);
 	currentpage = 1;
 
-	//LoadLastSettings(1); //This feature is not fully implemented
-
 	//Sets the First Page as Active
 	SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE1, 1);
 	SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE2, 0);
@@ -201,9 +199,6 @@ int main(int argc, char *argv[])
 	SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE5, 0);
 	SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE6, 0);
 	SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE7, 0);
-
-	// autochange the size of the analog table on main panel
-	//	DrawNewTable(0);
 
 	Initialization();
 
@@ -218,7 +213,6 @@ void Initialization()
 {
 	//Changes:
 	//Mar09, 2006:  Force DDS 1 frequency settings at loadtime.
-	int i = 0;
 	int x0, dx;
 	PScan.Scan_Active = FALSE;
 	PScan.Use_Scan_List = FALSE;
@@ -253,7 +247,7 @@ void Initialization()
 	InsertTableRows(panelHandle, PANEL_DIGTABLE, -1, NUMBERDIGITALCHANNELS - 1, VAL_USE_MASTER_CELL_TYPE);
 	InsertTableRows(panelHandle, PANEL_TBL_DIGNAMES, -1, NUMBERDIGITALCHANNELS - 1, VAL_USE_MASTER_CELL_TYPE);
 
-	for (i = 1; i <= NUMBERDIGITALCHANNELS; i++)
+	for (int i = 1; i <= NUMBERDIGITALCHANNELS; i++)
 	{
 		SetTableCellVal(panelHandle, PANEL_TBL_DIGNAMES, MakePoint(2, i), i);
 	}
@@ -277,7 +271,7 @@ void Initialization()
 	NewCtrlMenuItem(panelHandle, PANEL_SCAN_TABLE, "Load Values", -1, Scan_Table_Load, 0);
 	HideBuiltInCtrlMenuItem(panelHandle, PANEL_SCAN_TABLE, -4);
 
-	for (i = 1; i <= NUMBERANALOGCHANNELS; i++)
+	for (int i = 1; i <= NUMBERANALOGCHANNELS; i++)
 	{
 		SetTableCellVal(panelHandle, PANEL_TBL_ANAMES, MakePoint(2, i), i);
 	}
