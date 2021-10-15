@@ -203,17 +203,14 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
-/************************************************************************
-Author: Stefan
--------
-Date Created: August 2004
--------
-Description: Resizes the analog table on the gui
--------
-Return Value: void
--------
-Parameters: new top, left and height values for the list box
-*************************************************************************/
+
+/**
+Resizes and moves analog table, analog channel names table, unit name table, and DDS offset controls.
+@author Stefan, Kerry Wang
+@param top Pixels from the top edge
+@param left Pixels from the left edge
+@param height Total pixel height of analog table
+*/
 void ReshapeAnalogTable(int top, int left, int height)
 {
 	int cellHeight = height / (NUMBERANALOGCHANNELS + NUMBERDDS);
@@ -247,17 +244,14 @@ void ReshapeAnalogTable(int top, int left, int height)
 	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS3_OFFSET, ATTR_TOP, top + unitTableHeight + 2 * cellHeight);
 	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS3_OFFSET, ATTR_LEFT, left + 705);
 }
-/************************************************************************
-Author: Stefan
--------
-Date Created: August 2004
--------
-Description: Resizes the digital table on the gui
--------
-Return Value: void
--------
-Parameters: new top, left and height values for the list box
-*************************************************************************/
+
+/**
+Resizes and moves digital table, digital channel names table.
+@author Stefan, Kerry Wang
+@param top Pixels from the top edge
+@param left Pixels from the left edge
+@param height Total pixel height of digital table
+*/
 void ReshapeDigitalTable(int top, int left, int height)
 {
 	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_HEIGHT, height);
@@ -294,7 +288,10 @@ void BuildTables()
 	DrawNewTable(0);
 	return;
 }
-//**********************************************************************************
+
+/**
+Initializes the GUI.
+*/
 void Initialization()
 {
 	//Changes:
