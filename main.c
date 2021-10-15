@@ -1,6 +1,7 @@
 /**
 @file main.c
 Contains code to build the GUI layout.
+@todo Move update history and notes from comments to documentation
 */
 //IDEAS:
 /*
@@ -104,6 +105,9 @@ Dec16	Made the last panel mobile, such that it can be inserted into other pages.
 #define VAR_DECLS 1
 #include "vars.h"
 
+/**
+Entry point. Handles initializing data arrays and GUI elements.
+*/
 int main(int argc, char *argv[])
 {
 	if (InitCVIRTE(0, argv, 0) == 0)
@@ -450,6 +454,11 @@ void Initialization()
 	return;
 }
 
+/**
+Sets which label is visible.
+@author Kerry Wang
+@param labelNum 1-based index of label to display
+*/
 void setVisibleLabel(int labelNum)
 {
 	for (int i = 1; i <= NUMBEROFPAGES; i++)

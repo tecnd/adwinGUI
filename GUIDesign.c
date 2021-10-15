@@ -1,3 +1,8 @@
+/**
+@file GUIDesign.c
+Contains functions and callbacks for primary GUI.
+Boots the ADwin, handles compilation of the arrays into ADwin-friendly format.
+*/
 // Modified by Seth Aubin on August 2, 2010
 //  change to the "ADbasic binary file: "TransferData_August02_2010.TB1"
 //  purpose: activate DIO 1 and DIO 2 outputs.
@@ -45,11 +50,12 @@ ddsoptions_struct ddsclip, dds2clip, dds3clip;
 
 extern int Active_DDS_PANEL;
 
-//***************************************************************************************************
-//Executed when the "RUN" button is pressed.
-//Disables scanning capability, saves the GUI  in C:/LastGui.pan    Just in case of a crash
-//Activates the TIMER if necessary.
-//Starts the routine to generate new data for ADwin
+/**
+Executed when the "RUN" button is pressed.
+Disables scanning capability, saves the GUI  in C:/LastGui.pan    Just in case of a crash
+Activates the TIMER if necessary.
+Starts the routine to generate new data for ADwin
+*/
 int CVICALLBACK CMD_RUN_CALLBACK(int panel, int control, int event,
 								 void *callbackData, int eventData1, int eventData2)
 {
@@ -78,9 +84,11 @@ int CVICALLBACK CMD_RUN_CALLBACK(int panel, int control, int event,
 
 	return 0;
 }
-//*********************************************************************************
-//pretty much a copy of the CMD_RUN routine, but activates the SCAN flag and resets the scan counter
-// could be integrated into the CMD_RUN routine.... but this works
+
+/**
+pretty much a copy of the CMD_RUN routine, but activates the SCAN flag and resets the scan counter
+@todo could be integrated into the CMD_RUN routine.... but this works
+*/
 int CVICALLBACK CMD_SCAN_CALLBACK(int panel, int control, int event,
 								  void *callbackData, int eventData1, int eventData2)
 {
@@ -102,10 +110,11 @@ int CVICALLBACK CMD_SCAN_CALLBACK(int panel, int control, int event,
 	return 0;
 }
 
-//*********************************************************************************************************
-//TIMER is a CVI object.  Whenever its countdown reaches 0, it executes the following code.
-//TIMER is activated in the CMD_RUN, CMD_SCAN and BUILDUPDATELIST routines.
-//it gets de-activated in this routine, and when we hit CMD_STOP
+/**
+TIMER is a CVI object.  Whenever its countdown reaches 0, it executes the following code.
+TIMER is activated in the CMD_RUN, CMD_SCAN and BUILDUPDATELIST routines.
+it gets de-activated in this routine, and when we hit CMD_STOP
+*/
 int CVICALLBACK TIMER_CALLBACK(int panel, int control, int event,
 							   void *callbackData, int eventData1, int eventData2)
 {
@@ -125,13 +134,13 @@ int CVICALLBACK TIMER_CALLBACK(int panel, int control, int event,
 	}
 	return 0;
 }
-//*********************************************************************************************************
-//By: Stefan Myrskog
-//Turns off the TIMER object, and turns off the "repeat" button
-//Lets the ADwin finish its current program.  Interrupting the program partway can be bad for the
-//equipment as the variables are not cleared in memory and updates get out of sync.
-//Edited: Aug8, 2005
-//Change:  Force all panel controls related to scanning to hide.
+
+/**
+Turns off the TIMER object, and turns off the "repeat" button
+Lets the ADwin finish its current program.  Interrupting the program partway can be bad for the
+equipment as the variables are not cleared in memory and updates get out of sync.
+@author Stefan Myrskog
+*/
 int CVICALLBACK CMDSTOP_CALLBACK(int panel, int control, int event,
 								 void *callbackData, int eventData1, int eventData2)
 {
@@ -150,12 +159,14 @@ int CVICALLBACK CMDSTOP_CALLBACK(int panel, int control, int event,
 	}
 	return 0;
 }
-//**************************************************************************************************
-void RunOnce(void)
-//Converts the 10 'pages' (3D array) into single 2D array 'metatables'
-//Ignores dimmed out columns and pages
-{
 
+/**
+Converts the 10 'pages' (3D array) into single 2D array 'metatables'
+Ignores dimmed out columns and pages
+@todo Change meta arrays to be malloc'd at runtime
+*/
+void RunOnce(void)
+{
 	//could/should change these following defs and use malloc instead, but they should never exceed.. 170 or so.
 	double MetaTimeArray[500] = {0.}; // initialize the 0th element even though we're not using it, otherwise will raise uninitialized exception
 	int MetaDigitalArray[NUMBERDIGITALCHANNELS + 1][500] = {0};
@@ -271,41 +282,41 @@ void RunOnce(void)
 	// Send the new arrays to BuildUpdateList()
 	BuildUpdateList(MetaTimeArray, MetaAnalogArray, MetaDigitalArray, MetaDDSArray, MetaDDS2Array, MetaDDS3Array, mindex);
 }
-//*****************************************************************************************
+
+/**
+@param TMatrix[] Stores the interval time of each column
+@param AMat[] Stores info located in the analog table
+@param DMat[] Stores info located in the digital table
+@param DDSArray[] note is_stop=1 means DDS OFF
+
+all the above have 500 update period elements note that valid elements are base1
+
+@param numtimes = the actual number of valid update period elements.
+
+Generate the data that is sent to the ADwin and sends the data.
+From the meta-lists, we generate 3 arrays.
+- UpdateNum - each entry is the number of channel updates that we perform during the ADwin EVENT, where an
+	ADwin event is an update cycle, i.e. 10 microseconds, 100 microseconds... etc. We advance through this
+	array once per ADwin Event.  UpdateNum controls how fast we scan through ChNum and ChVal
+- ChNum - An array that contains the channel number to be updated. Synchronous with ChVal. Channels listed below
+- ChVal - An array that contains the value to be written to a channel. Synchronous with ChVal.
+
+- ChNum
+	- Value 1-32: Analog lines, 4 cards with 8 lines each.  ChVal is -10V to 10V
+	- Value 51: DDS1 line. ChVal is either a 2-bit value (0-3) to write, or (4-7) a reset signal
+	- Value 52: DDS2 line. ChVal is either a 2-bit value (0-3) to write, or (4-7) a reset signal
+	- Value 101, 102 First 16 and last 16 lines on the first DIO card.  ChVal is a 16 bit integer
+	- Value 103, 104 First 16 and last 16 lines on the second DIO card. ChVal is a 16 bit integer
+	- ChNum 201, 202 These are codes to enable/disable looping. Corresponding ChVal is the number of loops.
+	.
+- dds_cmd_seq - List of dds commands, parsed into 2-bit sections, or reset lines to be written
+	Commands are listed along with the time they should occur at.
+.
+@todo Remove old DDS code
+*/
 void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERANALOGCHANNELS + 1][500], int DMat[NUMBERDIGITALCHANNELS + 1][500],
 					 ddsoptions_struct DDSArray[500], ddsoptions_struct DDS2Array[500], ddsoptions_struct DDS3Array[500], int numtimes)
 {
-	/*
-
-	TMatrix[update period#] -- stores the interval time of each column
-	AMat[channel#][update period#] -- stores info located in the analog table
-	DMat[channel#][update period#] --
-	DDS -- note is_stop=1 means DDS OFF
-
-	all the above have 500 update period elements note that valid elements are base1
-
-	numtimes = the actual number of valid update period elements.
-
-
-	Generate the data that is sent to the ADwin and sends the data.
-	From the meta-lists, we generate 3 arrays.
-	UpdateNum - each entry is the number of channel updates that we perform during the ADwin EVENT, where an
-				ADwin event is an update cycle, i.e. 10 microseconds, 100 microseconds... etc.  We advance  through this
-				array once per ADwin Event.  UpdateNum controls how fast we scan through ChNum and ChVal
-	ChNum - 	An array that contains the channel number to be updated. Synchronous with ChVal.  	   Channels listed below
-	ChVal -		An array that contains the value to be written to a channel. Synchronous with ChVal.
-
-	ChNum -     Value 1-32:  Analog lines, 4 cards with 8 lines each.  ChVal is -10V to 10V
-				Value 51:	 DDS1 line.   ChVal is either a 2-bit value (0-3) to write, or (4-7) a reset signal
-				Value 52:	 DDS2 line.   ChVal is either a 2-bit value (0-3) to write, or (4-7) a reset signal
-				Value 101, 102  First 16 and last 16 lines on the first DIO card.  ChVal is a 16 bit integer
-				Value 103, 104	First 16 and last 16 lines on the second DIO card. ChVal is a 16 bit integer
-
-    Mar 09_2006:Added ChNum 201,202   These  are codes to enable/disable looping.
-                Corresponding ChVal is the number of loops.
-	dds_cmd_seq List of dds commands, parsed into 2-bit sections, or reset lines to be written
-				Commands are listed along with the time they should occur at.
-	*/
 	BOOL UseCompression, ArraysToDebug;
 	int *UpdateNum;
 	int *ChNum;
@@ -690,7 +701,9 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 
 }
 
-//*****************************************************************************************
+/**
+@todo Write documentation
+*/
 double CalcFcnValue(int fcn, double Vinit, double Vfinal, double timescale, double telapsed, double celltime)
 {
 	double value = -99, amplitude, slope, aconst, bconst, tms, frequency, newtime;
@@ -755,12 +768,14 @@ double CalcFcnValue(int fcn, double Vinit, double Vfinal, double timescale, doub
 	// Check if the value exceeds the allowed voltage limits.
 	return value;
 }
-//*****************************************************************************************
+
+/**
+This routine compresses the updatenum list by replacing long strings of 0 with a single line.
+i.e. if we see 2000 zero's in a row, just write -2000 instead.
+@todo fill in params
+*/
 void OptimizeTimeLoop(int *UpdateNum, int count, int *newcount)
 {
-	// This routine compresses the updatenum list by replacing long strings of 0 with a single line.
-	// i.e.  if we see 2000 zero's in a row, just write -2000 instead.
-
 	int i = 1; 			// i is the counter through the original UpdateNum list
 	int t = 1;			// t is the counter through the NewUpdateNum list
 	int LowZeroThreshold, HighZeroThreshold;
@@ -827,7 +842,9 @@ void OptimizeTimeLoop(int *UpdateNum, int count, int *newcount)
 // existing problem: if the final value isn't exactly reached by the steps, then the last stage is skipped and the
 // cycle doesn't end
 // has to do with numsteps.  Should be programmed with ceiling(), not abs
-
+/**
+@todo Write documentation
+*/
 void UpdateScanValue(int Reset)
 {
 	int cx, cy, cz;
@@ -1035,7 +1052,10 @@ void UpdateScanValue(int Reset)
 		ExportScanBuffer(); // prompt to write out information
 	}
 }
-//*****************************************************************************************
+
+/**
+Loads panel values from file
+*/
 void LoadSettings(void)
 {
 	char fsavename[500];
@@ -1053,6 +1073,9 @@ void LoadSettings(void)
 	DrawNewTable(0);
 }
 
+/**
+Saves panel values to *.pan file
+*/
 void SaveSettings(void)
 {
 	char fsavename[500] = "";
@@ -1069,22 +1092,25 @@ void SaveSettings(void)
 		MessagePopup("File Error", "No file was selected");
 	}
 }
-// Helper function to alternate color every three rows
+
+/**
+Helper function to alternate color every three rows
+@author Kerry Wang
+@param index 1-based index to get color for
+@return Hex code for gray or light gray, depending on index
+*/
 int ColorPicker(int index)
 {
 	index--; // correct for 1-based indices
 	if ((index / 3) % 2) return VAL_GRAY;
 	else return 0x00B0B0B0;
 }
-//*********************************************************************
-void DrawNewTable(int isdimmed)
-//if isdimmed=0/FALSE  Draw everything, editing mode
-//if isdimmed=1/TRUE   Dim out appropriate columns....
-// Make isdimmed a global I guess...
-// Jan 24,2006:   Now dim/invisible appropriate 'arrows' that indicate loop points.
-// May 12, 2005:  Updated to change color of cell that is active by a parameter scan.  This cell (ANalog, Time or DDS) now
-//                turns dark yellow. might pick a better color.
 
+/**
+Redraws analog and digital tables.
+@param isdimmed Whether or not to dim disabled columns
+*/
+void DrawNewTable(int isdimmed)
 {
 	int page, cmode;
 	int analogtable_visible = 0;
