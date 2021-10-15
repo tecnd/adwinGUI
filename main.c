@@ -1,3 +1,7 @@
+/**
+@file main.c
+Contains code to build the GUI layout.
+*/
 //IDEAS:
 /*
 Add a killswitch...to interupt the ADwin hardware.  Dangerous because it will leave the outputs in
@@ -199,6 +203,97 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+/************************************************************************
+Author: Stefan
+-------
+Date Created: August 2004
+-------
+Description: Resizes the analog table on the gui
+-------
+Return Value: void
+-------
+Parameters: new top, left and height values for the list box
+*************************************************************************/
+void ReshapeAnalogTable(int top, int left, int height)
+{
+	int cellHeight = height / (NUMBERANALOGCHANNELS + NUMBERDDS);
+	int unitTableHeight = cellHeight * NUMBERANALOGCHANNELS;
+
+	// resize the analog table and all it's related list boxes
+	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_TOP, top);
+	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_LEFT, left);
+	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_HEIGHT, height);
+
+	SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_TOP, top);
+	SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_LEFT, left - 165);
+	SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_HEIGHT, height);
+
+	SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_TOP, top);
+	SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_LEFT, left + 705);
+	SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_HEIGHT, unitTableHeight);
+
+	SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
+	SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_ROW_HEIGHT, cellHeight);
+	SetTableRowAttribute(panelHandle, PANEL_TBL_ANAMES, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
+	SetTableRowAttribute(panelHandle, PANEL_TBL_ANAMES, -1, ATTR_ROW_HEIGHT, cellHeight);
+	SetTableRowAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
+	SetTableRowAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, -1, ATTR_ROW_HEIGHT, cellHeight);
+
+	// move the DDS offsets
+	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS_OFFSET, ATTR_TOP, top + unitTableHeight);
+	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS_OFFSET, ATTR_LEFT, left + 705);
+	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS2_OFFSET, ATTR_TOP, top + unitTableHeight + cellHeight);
+	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS2_OFFSET, ATTR_LEFT, left + 705);
+	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS3_OFFSET, ATTR_TOP, top + unitTableHeight + 2 * cellHeight);
+	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS3_OFFSET, ATTR_LEFT, left + 705);
+}
+/************************************************************************
+Author: Stefan
+-------
+Date Created: August 2004
+-------
+Description: Resizes the digital table on the gui
+-------
+Return Value: void
+-------
+Parameters: new top, left and height values for the list box
+*************************************************************************/
+void ReshapeDigitalTable(int top, int left, int height)
+{
+	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_HEIGHT, height);
+	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_LEFT, left);
+	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_TOP, top);
+	SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_TOP, top);
+	SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_LEFT, left - 165);
+	SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_HEIGHT, height);
+
+	int cellHeight = height / NUMBERDIGITALCHANNELS;
+	SetTableRowAttribute(panelHandle, PANEL_DIGTABLE, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
+	SetTableRowAttribute(panelHandle, PANEL_DIGTABLE, -1, ATTR_ROW_HEIGHT, cellHeight);
+	SetTableRowAttribute(panelHandle, PANEL_TBL_DIGNAMES, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
+	SetTableRowAttribute(panelHandle, PANEL_TBL_DIGNAMES, -1, ATTR_ROW_HEIGHT, cellHeight);
+}
+
+/**
+Resizes and moves tables into place.
+@todo move table-related calls from Initialization() to here
+@author David McKay, Kerry Wang
+*/
+void BuildTables()
+{
+	int analogHeight = 17 * (NUMBERANALOGCHANNELS + NUMBERDDS) + 6; // 17 high cells, +6 to stop table from scrolling
+	int analogTop = 155;
+	int leftpos = 170;
+	int digitalTop = analogTop + analogHeight + 50;
+
+	ReshapeAnalogTable(analogTop, leftpos, 17 * (NUMBERANALOGCHANNELS + NUMBERDDS) + 6);
+	ReshapeDigitalTable(digitalTop, leftpos, 17 * NUMBERDIGITALCHANNELS + 6);
+
+	SetCtrlAttribute(panelHandle, PANEL_SCAN_TABLE, ATTR_TOP, digitalTop);
+
+	DrawNewTable(0);
+	return;
+}
 //**********************************************************************************
 void Initialization()
 {
@@ -333,7 +428,7 @@ void Initialization()
 	PScan.Analog.Iterations_Per_Step = 1;
 	PScan.Scan_Active = FALSE;
 	//set to display both analog and digital channels
-	SetChannelDisplayed(1);
+	BuildTables();
 	DrawCanvasArrows();
 	//
 	//set to graphical display

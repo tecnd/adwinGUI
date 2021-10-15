@@ -15,8 +15,6 @@ void LoadArrays(char*,int);
 void ExportPanel(char*,int);
 double CalcFcnValue(int fcn,double Vinit,double Vfinal, double timescale,double telapsed,double celltime);
 
-void ReshapeAnalogTable(int,int,int);
-void SetChannelDisplayed(int display_setting); //analog, digital of both
 void SetDisplayType(int display_setting); //toggle graphic and numeric
 double CheckIfWithinLimits(double OutputVoltage, int linenumber);
 void SaveLastGuiSettings(void);

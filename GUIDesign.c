@@ -1086,13 +1086,10 @@ void DrawNewTable(int isdimmed)
 //                turns dark yellow. might pick a better color.
 
 {
-	int picmode, page, cmode;
+	int page, cmode;
 	int analogtable_visible = 0;
 	int digtable_visible = 0;
 	double vnow = 0;
-
-	int ispicture = 1, celltype = 0; //celtype has 3 values.  0=Numeric, 1=String, 2=Picture
-	// list of colours used for different rows, alternate after every 3 rows
 
 	GetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, &analogtable_visible);
 	GetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, &digtable_visible);
@@ -1100,16 +1097,6 @@ void DrawNewTable(int isdimmed)
 	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, 0);
 	SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_VISIBLE, 0);
 	page = GetPage(); // Check which page is active.
-
-	GetCtrlVal(panelHandle, PANEL_TGL_NUMERICTABLE, &celltype);
-	if (celltype == 2)
-	{
-		ispicture = TRUE;
-	}
-	else
-	{
-		ispicture = FALSE;
-	}
 
 	CheckActivePages();
 	if (ischecked[page] == FALSE)
@@ -1124,7 +1111,6 @@ void DrawNewTable(int isdimmed)
 		SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_DIMMED, 0);
 		SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_DIMMED, 0);
 	}
-	picmode = 0;
 
 	for (int i = 1; i <= NUMBEROFCOLUMNS; i++) // scan over the columns
 	{
@@ -1309,17 +1295,14 @@ void DrawNewTable(int isdimmed)
 				dimset = TRUE;
 			}
 			SetTableCellAttribute(panelHandle, PANEL_TIMETABLE, MakePoint(col, 1), ATTR_CELL_DIMMED, dimset);
-			if (ispicture == 0)
+			int picmode;
+			if (dimset)
 			{
-				picmode = 0;
+				picmode = VAL_CELL_PICTURE;
 			}
-			if (ispicture == 1)
+			else
 			{
-				picmode = 2;
-			}
-			if (dimset == TRUE)
-			{
-				picmode = 2;
+				picmode = VAL_CELL_NUMERIC;
 			}
 			SetTableCellRangeAttribute(panelHandle, PANEL_ANALOGTABLE, VAL_TABLE_COLUMN_RANGE(col), ATTR_CELL_DIMMED, dimset);
 			SetTableCellRangeAttribute(panelHandle, PANEL_ANALOGTABLE, VAL_TABLE_COLUMN_RANGE(col), ATTR_CELL_TYPE, picmode);
@@ -2094,31 +2077,7 @@ void CVICALLBACK PASTECOLUMN_CALLBACK(int menuBar, int menuItem, void *callbackD
 	else
 		ConfirmPopup("Copy Column", "No Column Selected");
 }
-//**********************************************************************************
 
-int CVICALLBACK TGLNUMERIC_CALLBACK(int panel, int control, int event,
-									void *callbackData, int eventData1, int eventData2)
-{
-	int val = 0;
-	switch (event)
-	{
-	case EVENT_COMMIT:
-		// find out if the button is pressed or not
-		// change buttons to appropriate mode and draw new table
-		GetCtrlVal(panelHandle, PANEL_TGL_NUMERICTABLE, &val);
-		if (val == 0)
-		{
-			SetDisplayType(VAL_CELL_NUMERIC);
-		}
-		else
-		{
-			SetDisplayType(VAL_CELL_PICTURE);
-		}
-
-		break;
-	}
-	return 0;
-}
 //**********************************************************************************
 void CVICALLBACK DDSSETUP_CALLBACK(int menuBar, int menuItem, void *callbackData,
 								   int panel)
@@ -2267,198 +2226,7 @@ void SaveArrays(char savedname[500], int csize)
 
 	fclose(fdata);
 }
-//********************************************************************************************
-int CVICALLBACK DISPLAYDIAL_CALLBACK(int panel, int control, int event,
-									 void *callbackData, int eventData1, int eventData2)
-{
-	int dialval = 0;
-	switch (event)
-	{
-	case EVENT_COMMIT:
-		GetCtrlVal(panelHandle, PANEL_DISPLAYDIAL, &dialval);
-		// Now change the size of the tables depending on the dial value.
 
-		SetChannelDisplayed(dialval);
-
-		break;
-	}
-	return 0;
-}
-/************************************************************************
-Author: Stefan
--------
-Date Created: August 2004
--------
-Description: Resizes the analog table on the gui
--------
-Return Value: void
--------
-Parameters: new top, left and height values for the list box
-*************************************************************************/
-void ReshapeAnalogTable(int top, int left, int height)
-{
-	int cellHeight = height / (NUMBERANALOGCHANNELS + NUMBERDDS);
-	int unitTableHeight = cellHeight * NUMBERANALOGCHANNELS;
-
-	// resize the analog table and all it's related list boxes
-	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_TOP, top);
-	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_LEFT, left);
-	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_HEIGHT, height);
-
-	SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_TOP, top);
-	SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_LEFT, left - 165);
-	SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_HEIGHT, height);
-
-	SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_TOP, top);
-	SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_LEFT, left + 705);
-	SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_HEIGHT, unitTableHeight);
-
-	SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
-	SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_ROW_HEIGHT, cellHeight);
-	SetTableRowAttribute(panelHandle, PANEL_TBL_ANAMES, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
-	SetTableRowAttribute(panelHandle, PANEL_TBL_ANAMES, -1, ATTR_ROW_HEIGHT, cellHeight);
-	SetTableRowAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
-	SetTableRowAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, -1, ATTR_ROW_HEIGHT, cellHeight);
-
-	// move the DDS offsets
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS_OFFSET, ATTR_TOP, top + unitTableHeight);
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS_OFFSET, ATTR_LEFT, left + 705);
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS2_OFFSET, ATTR_TOP, top + unitTableHeight + cellHeight);
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS2_OFFSET, ATTR_LEFT, left + 705);
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS3_OFFSET, ATTR_TOP, top + unitTableHeight + 2 * cellHeight);
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS3_OFFSET, ATTR_LEFT, left + 705);
-}
-/************************************************************************
-Author: Stefan
--------
-Date Created: August 2004
--------
-Description: Resizes the digital table on the gui
--------
-Return Value: void
--------
-Parameters: new top, left and height values for the list box
-*************************************************************************/
-void ReshapeDigitalTable(int top, int left, int height)
-{
-	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_HEIGHT, height);
-	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_LEFT, left);
-	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_TOP, top);
-	SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_TOP, top);
-	SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_LEFT, left - 165);
-	SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_HEIGHT, height);
-
-	int cellHeight = height / NUMBERDIGITALCHANNELS;
-	SetTableRowAttribute(panelHandle, PANEL_DIGTABLE, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
-	SetTableRowAttribute(panelHandle, PANEL_DIGTABLE, -1, ATTR_ROW_HEIGHT, cellHeight);
-	SetTableRowAttribute(panelHandle, PANEL_TBL_DIGNAMES, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
-	SetTableRowAttribute(panelHandle, PANEL_TBL_DIGNAMES, -1, ATTR_ROW_HEIGHT, cellHeight);
-}
-/************************************************************************
-Author: David McKay
--------
-Date Created: August 23, 2004
--------
-Date Modified: August 23, 2004
--------
-Description: Sets how to display the data, graphically or numerically
--------
-Return Value: void
--------
-Parameter1:
-int display_setting: type of display
-VAL_CELL_NUMERIC : graphic
-VAL_CELL_PICTURE : numeric
-*************************************************************************/
-void SetDisplayType(int display_setting)
-{
-	//set button status
-	if (display_setting == VAL_CELL_NUMERIC)
-	{
-		SetCtrlVal(panelHandle, PANEL_TGL_NUMERICTABLE, 0);
-	}
-	else if (display_setting == VAL_CELL_PICTURE)
-	{
-		SetCtrlVal(panelHandle, PANEL_TGL_NUMERICTABLE, 1);
-	}
-
-	//	printf("called Display Type with value:   %d \n",display_setting);
-	for (int i = 1; i <= NUMBEROFCOLUMNS; i++)
-	{
-		for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
-		{
-			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j),
-								  ATTR_CELL_TYPE, display_setting);
-		}
-	}
-}
-
-/************************************************************************
-Author: David McKay
--------
-Date Created: August 23, 2004
--------
-Date Modified: August 23, 2004
--------
-Description: Sets which channel to display: analog, digital or both
--------
-Return Value: void
--------
-Parameter1:
-int display_setting: channel to display
-1: both
-2: analog
-3: digital
-*************************************************************************/
-void SetChannelDisplayed(int display_setting)
-{
-	// hide everything
-	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, 0);
-	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, 0);
-	SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_VISIBLE, 0);
-	SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_VISIBLE, 0);
-	SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_VISIBLE, 0);
-
-	switch (display_setting)
-	{
-	case 1:	// both
-		int analogHeight = 17 * (NUMBERANALOGCHANNELS + NUMBERDDS) + 6; // 17 high cells, +6 to stop table from scrolling
-		int analogTop = 155;
-		int leftpos = 170;
-		int digitalTop = analogTop + analogHeight + 50;
-
-		ReshapeAnalogTable(analogTop, leftpos, 17 * (NUMBERANALOGCHANNELS + NUMBERDDS) + 6);
-		ReshapeDigitalTable(digitalTop, leftpos, 17 * NUMBERDIGITALCHANNELS + 6);
-
-		SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, 1);
-		SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, 1);
-		SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_VISIBLE, 1);
-		SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_VISIBLE, 1);
-		SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_VISIBLE, 1);
-
-		SetCtrlAttribute(panelHandle, PANEL_SCAN_TABLE, ATTR_TOP, digitalTop);
-		break;
-
-	case 2: // analog table
-		ReshapeAnalogTable(155, 170, 600);
-
-		SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, 1);
-		SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_VISIBLE, 1);
-		SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_VISIBLE, 1);
-		break;
-
-	case 3: // digital table
-		ReshapeDigitalTable(155, 170, 500);
-
-		SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, 1);
-		SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_VISIBLE, 1);
-		break;
-	}
-
-	SetCtrlVal(panelHandle, PANEL_DISPLAYDIAL, display_setting);
-	DrawNewTable(0);
-	return;
-}
 //***********************************************************************************************
 double CheckIfWithinLimits(double OutputVoltage, int linenumber)
 {
