@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['scanbuff_17',['ScanBuff',['../struct_scan_buff.html',1,'']]],
-  ['scanparameters_18',['ScanParameters',['../struct_scan_parameters.html',1,'']]],
-  ['scanset_19',['ScanSet',['../struct_scan_set.html',1,'']]]
+  ['loadsettings_22',['LoadSettings',['../_g_u_i_design_8c.html#aeb2eb8ec1d703539637b101a4c278862',1,'GUIDesign.c']]]
 ];

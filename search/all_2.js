@@ -1,10 +1,8 @@
 var searchData=
 [
-  ['dds_5fcmd_5fsequence_5fstruct_6',['dds_cmd_sequence_struct',['../structdds__cmd__sequence__struct.html',1,'']]],
-  ['ddsclock_7',['DDSClock',['../struct_d_d_s_clock.html',1,'']]],
-  ['ddsfloorscanparameters_8',['DDSFloorScanParameters',['../struct_d_d_s_floor_scan_parameters.html',1,'']]],
-  ['ddsoptions_5fstruct_9',['ddsoptions_struct',['../structddsoptions__struct.html',1,'']]],
-  ['ddsparameters_10',['DDSParameters',['../struct_d_d_s_parameters.html',1,'']]],
-  ['ddsscanparameters_11',['DDSScanParameters',['../struct_d_d_s_scan_parameters.html',1,'']]],
-  ['digitalchannelproperties_12',['DigitalChannelProperties',['../struct_digital_channel_properties.html',1,'']]]
+  ['calcfcnvalue_7',['CalcFcnValue',['../_g_u_i_design_8c.html#a8ebe8e978a5e857b0c0ca79331ccbb27',1,'GUIDesign.c']]],
+  ['cmd_5frun_5fcallback_8',['CMD_RUN_CALLBACK',['../_g_u_i_design_8c.html#a0afae188565a4cb3ad38dabe6b90ed11',1,'GUIDesign.c']]],
+  ['cmd_5fscan_5fcallback_9',['CMD_SCAN_CALLBACK',['../_g_u_i_design_8c.html#a72eab897f9261404259eb19c5dad54da',1,'GUIDesign.c']]],
+  ['cmdstop_5fcallback_10',['CMDSTOP_CALLBACK',['../_g_u_i_design_8c.html#a1fc77427b09aa7c9e9f01c98e33c1de6',1,'GUIDesign.c']]],
+  ['colorpicker_11',['ColorPicker',['../_g_u_i_design_8c.html#a9d29ccfd4f86eb398523b68673316ffb',1,'GUIDesign.c']]]
 ];
