@@ -210,13 +210,15 @@ Resizes and moves analog table, analog channel names table, unit name table, and
 @param top Pixels from the top edge
 @param left Pixels from the left edge
 @param height Total pixel height of analog table
+@param width Total pixel width of analog table
 */
-void ReshapeAnalogTable(int top, int left, int height)
+void ReshapeAnalogTable(int top, int left, int height, int width)
 {
 	int cellHeight = height / (NUMBERANALOGCHANNELS + NUMBERDDS);
+	int cellWidth = width / NUMBEROFCOLUMNS;
 	int unitTableHeight = cellHeight * NUMBERANALOGCHANNELS;
 
-	// resize the analog table and all it's related list boxes
+	// resize the analog table and all its related list boxes
 	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_TOP, top);
 	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_LEFT, left);
 	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_HEIGHT, height);
@@ -226,11 +228,13 @@ void ReshapeAnalogTable(int top, int left, int height)
 	SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_HEIGHT, height);
 
 	SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_TOP, top);
-	SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_LEFT, left + 705);
+	SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_LEFT, left + CELL_WIDTH * NUMBEROFCOLUMNS + TABLE_MARGIN_RIGHT);
 	SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_HEIGHT, unitTableHeight);
 
 	SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
 	SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_ROW_HEIGHT, cellHeight);
+	SetTableColumnAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
+	SetTableColumnAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_COLUMN_WIDTH, cellWidth);
 	SetTableRowAttribute(panelHandle, PANEL_TBL_ANAMES, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
 	SetTableRowAttribute(panelHandle, PANEL_TBL_ANAMES, -1, ATTR_ROW_HEIGHT, cellHeight);
 	SetTableRowAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
@@ -238,22 +242,29 @@ void ReshapeAnalogTable(int top, int left, int height)
 
 	// move the DDS offsets
 	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS_OFFSET, ATTR_TOP, top + unitTableHeight);
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS_OFFSET, ATTR_LEFT, left + 705);
+	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS_OFFSET, ATTR_LEFT, left + CELL_WIDTH * NUMBEROFCOLUMNS + TABLE_MARGIN_RIGHT);
 	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS2_OFFSET, ATTR_TOP, top + unitTableHeight + cellHeight);
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS2_OFFSET, ATTR_LEFT, left + 705);
+	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS2_OFFSET, ATTR_LEFT, left + CELL_WIDTH * NUMBEROFCOLUMNS + TABLE_MARGIN_RIGHT);
 	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS3_OFFSET, ATTR_TOP, top + unitTableHeight + 2 * cellHeight);
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS3_OFFSET, ATTR_LEFT, left + 705);
+	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS3_OFFSET, ATTR_LEFT, left + CELL_WIDTH * NUMBEROFCOLUMNS + TABLE_MARGIN_RIGHT);
+
+	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_NUM_VISIBLE_COLUMNS, NUMBEROFCOLUMNS);
+	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERANALOGCHANNELS + NUMBERDDS);
 }
 
 /**
-Resizes and moves digital table, digital channel names table.
+Resizes and moves digital table, digital channel names table, and scan table.
 @author Stefan, Kerry Wang
 @param top Pixels from the top edge
 @param left Pixels from the left edge
 @param height Total pixel height of digital table
+@param width Total pixel width of digital table
 */
-void ReshapeDigitalTable(int top, int left, int height)
+void ReshapeDigitalTable(int top, int left, int height, int width)
 {
+	int cellHeight = height / NUMBERDIGITALCHANNELS;
+	int cellWidth = width / NUMBEROFCOLUMNS;
+
 	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_HEIGHT, height);
 	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_LEFT, left);
 	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_TOP, top);
@@ -261,11 +272,20 @@ void ReshapeDigitalTable(int top, int left, int height)
 	SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_LEFT, left - 165);
 	SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_HEIGHT, height);
 
-	int cellHeight = height / NUMBERDIGITALCHANNELS;
 	SetTableRowAttribute(panelHandle, PANEL_DIGTABLE, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
 	SetTableRowAttribute(panelHandle, PANEL_DIGTABLE, -1, ATTR_ROW_HEIGHT, cellHeight);
+	SetTableColumnAttribute(panelHandle, PANEL_DIGTABLE, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
+	SetTableColumnAttribute(panelHandle, PANEL_DIGTABLE, -1, ATTR_COLUMN_WIDTH, cellWidth);
+
 	SetTableRowAttribute(panelHandle, PANEL_TBL_DIGNAMES, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
 	SetTableRowAttribute(panelHandle, PANEL_TBL_DIGNAMES, -1, ATTR_ROW_HEIGHT, cellHeight);
+
+	// Move the scan table
+	SetCtrlAttribute(panelHandle, PANEL_SCAN_TABLE, ATTR_TOP, top);
+	SetCtrlAttribute(panelHandle, PANEL_SCAN_TABLE, ATTR_LEFT, left + CELL_WIDTH * NUMBEROFCOLUMNS + TABLE_MARGIN_RIGHT);
+
+	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_NUM_VISIBLE_COLUMNS, NUMBEROFCOLUMNS);
+	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERDIGITALCHANNELS);
 }
 
 /**
@@ -275,17 +295,77 @@ Resizes and moves tables into place.
 */
 void BuildTables()
 {
-	int analogHeight = 17 * (NUMBERANALOGCHANNELS + NUMBERDDS) + 6; // 17 high cells, +6 to stop table from scrolling
+	// Build Time Table
+	SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_TABLE_MODE, VAL_GRID);
+	SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_ENABLE_COLUMN_SIZING, 0);
+	SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_ENABLE_ROW_SIZING, 0);
+	SetTableRowAttribute(panelHandle, PANEL_TIMETABLE, -1, ATTR_PRECISION, 3);
+
+	InsertTableColumns(panelHandle, PANEL_TIMETABLE, -1, NUMBEROFCOLUMNS - 1, VAL_CELL_NUMERIC);
+	SetTableColumnAttribute(panelHandle, PANEL_TIMETABLE, -1, ATTR_COLUMN_WIDTH, CELL_WIDTH);
+	SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_NUM_VISIBLE_COLUMNS, NUMBEROFCOLUMNS);
+
+	// Build Analog Table
+	SetTableColumnAttribute(panelHandle, PANEL_TBL_ANAMES, 1, ATTR_CELL_TYPE, VAL_CELL_STRING);
+	SetTableColumnAttribute(panelHandle, PANEL_TBL_ANAMES, 2, ATTR_CELL_TYPE, VAL_CELL_NUMERIC);
+	SetTableColumnAttribute(panelHandle, PANEL_TBL_ANAMES, 2, ATTR_DATA_TYPE, VAL_UNSIGNED_INTEGER);
+	SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_TABLE_MODE, VAL_COLUMN);
+
+	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_TABLE_MODE, VAL_GRID);
+	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_ENABLE_COLUMN_SIZING, 0);
+	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_ENABLE_ROW_SIZING, 0);
+	SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_PRECISION, 3);
+
+	InsertTableColumns(panelHandle, PANEL_ANALOGTABLE, -1, NUMBEROFCOLUMNS - 1, VAL_CELL_NUMERIC);
+	InsertTableRows(panelHandle, PANEL_ANALOGTABLE, -1, NUMBERANALOGCHANNELS + NUMBERDDS - 1, VAL_CELL_NUMERIC);
+	InsertTableRows(panelHandle, PANEL_TBL_ANAMES, -1, NUMBERANALOGCHANNELS + NUMBERDDS - 1, VAL_USE_MASTER_CELL_TYPE);
+	InsertTableRows(panelHandle, PANEL_TBL_ANALOGUNITS, -1, NUMBERANALOGCHANNELS - 1, VAL_USE_MASTER_CELL_TYPE);
+	SetAnalogChannels();
+
+	for (int i = 1; i <= NUMBERANALOGCHANNELS; i++)
+	{
+		SetTableCellVal(panelHandle, PANEL_TBL_ANAMES, MakePoint(2, i), i);
+	}
+
+	// Build Digital Table
+	SetTableColumnAttribute(panelHandle, PANEL_TBL_DIGNAMES, 1, ATTR_CELL_TYPE, VAL_CELL_STRING);
+	SetTableColumnAttribute(panelHandle, PANEL_TBL_DIGNAMES, 2, ATTR_CELL_TYPE, VAL_CELL_NUMERIC);
+	SetTableColumnAttribute(panelHandle, PANEL_TBL_DIGNAMES, 2, ATTR_DATA_TYPE, VAL_UNSIGNED_INTEGER);
+	SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_TABLE_MODE, VAL_COLUMN);
+
+	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_TABLE_MODE, VAL_GRID);
+	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_ENABLE_COLUMN_SIZING, 0);
+	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_ENABLE_ROW_SIZING, 0);
+	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_HILITE_ONLY_WHEN_PANEL_ACTIVE, 1);
+	InsertTableColumns(panelHandle, PANEL_DIGTABLE, -1, NUMBEROFCOLUMNS - 1, VAL_USE_MASTER_CELL_TYPE);
+	InsertTableRows(panelHandle, PANEL_DIGTABLE, -1, NUMBERDIGITALCHANNELS - 1, VAL_USE_MASTER_CELL_TYPE);
+	InsertTableRows(panelHandle, PANEL_TBL_DIGNAMES, -1, NUMBERDIGITALCHANNELS - 1, VAL_USE_MASTER_CELL_TYPE);
+
+	for (int i = 1; i <= NUMBERDIGITALCHANNELS; i++)
+	{
+		SetTableCellVal(panelHandle, PANEL_TBL_DIGNAMES, MakePoint(2, i), i);
+	}
+
+	// Move and resize tables
+	int analogHeight = CELL_HEIGHT * (NUMBERANALOGCHANNELS + NUMBERDDS) + 6; // +6 to stop table from scrolling
 	int analogTop = 155;
-	int leftpos = 170;
+	int leftpos = 165;
 	int digitalTop = analogTop + analogHeight + 50;
 
-	ReshapeAnalogTable(analogTop, leftpos, 17 * (NUMBERANALOGCHANNELS + NUMBERDDS) + 6);
-	ReshapeDigitalTable(digitalTop, leftpos, 17 * NUMBERDIGITALCHANNELS + 6);
+	ReshapeAnalogTable(analogTop, leftpos, CELL_HEIGHT * (NUMBERANALOGCHANNELS + NUMBERDDS) + 6, CELL_WIDTH * NUMBEROFCOLUMNS);
+	ReshapeDigitalTable(digitalTop, leftpos, CELL_HEIGHT * NUMBERDIGITALCHANNELS + 6, CELL_WIDTH * NUMBEROFCOLUMNS);
 
-	SetCtrlAttribute(panelHandle, PANEL_SCAN_TABLE, ATTR_TOP, digitalTop);
+	// Right-click menus
+	NewCtrlMenuItem(panelHandle, PANEL_ANALOGTABLE, "Copy", -1, Analog_Cell_Copy, 0);
+	NewCtrlMenuItem(panelHandle, PANEL_ANALOGTABLE, "Paste", -1, Analog_Cell_Paste, 0);
+	HideBuiltInCtrlMenuItem(panelHandle, PANEL_ANALOGTABLE, -4); //Hides Sort Command
 
-	DrawNewTable(0);
+	NewCtrlMenuItem(panelHandle, PANEL_DIGTABLE, "Copy", -1, Dig_Cell_Copy, 0); 	// Adds Popup Menu Item "Copy"
+	NewCtrlMenuItem(panelHandle, PANEL_DIGTABLE, "Paste", -1, Dig_Cell_Paste, 0);
+	HideBuiltInCtrlMenuItem(panelHandle, PANEL_DIGTABLE, -4); 						// Hides Sort Command
+
+	NewCtrlMenuItem(panelHandle, PANEL_SCAN_TABLE, "Load Values", -1, Scan_Table_Load, 0);
+	HideBuiltInCtrlMenuItem(panelHandle, PANEL_SCAN_TABLE, -4);
 	return;
 }
 
@@ -298,79 +378,20 @@ void Initialization()
 	//Mar09, 2006:  Force DDS 1 frequency settings at loadtime.
 	PScan.Scan_Active = FALSE;
 	PScan.Use_Scan_List = FALSE;
-	//
 	DDSFreq.extclock = 15.036;
 	DDSFreq.PLLmult = 8;
 	DDSFreq.clock = DDSFreq.extclock * (double)DDSFreq.PLLmult;
-	//	SetCtrlAttribute (panelHandle, PANEL_LABNOTE_TXT, ATTR_VISIBLE, FALSE);
 
-	//Add in any extra rows (if the number of channels increases)
-	//July4, added another row for DDS2
-
-	//Build display panels (text/channel num)
-	SetTableColumnAttribute(panelHandle, PANEL_TBL_ANAMES, 1, ATTR_CELL_TYPE, VAL_CELL_STRING);
-	SetTableColumnAttribute(panelHandle, PANEL_TBL_ANAMES, 2, ATTR_CELL_TYPE, VAL_CELL_NUMERIC);
-	SetTableColumnAttribute(panelHandle, PANEL_TBL_ANAMES, 2, ATTR_DATA_TYPE, VAL_UNSIGNED_INTEGER);
-	SetTableColumnAttribute(panelHandle, PANEL_TBL_DIGNAMES, 1, ATTR_CELL_TYPE, VAL_CELL_STRING);
-	SetTableColumnAttribute(panelHandle, PANEL_TBL_DIGNAMES, 2, ATTR_CELL_TYPE, VAL_CELL_NUMERIC);
-	SetTableColumnAttribute(panelHandle, PANEL_TBL_DIGNAMES, 2, ATTR_DATA_TYPE, VAL_UNSIGNED_INTEGER);
-	SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_TABLE_MODE, VAL_COLUMN);
-	SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_TABLE_MODE, VAL_COLUMN);
-
-	// Build Digital Table
-	NewCtrlMenuItem(panelHandle, PANEL_DIGTABLE, "Copy", -1, Dig_Cell_Copy, 0); //Adds Popup Menu Item "Copy"
-	NewCtrlMenuItem(panelHandle, PANEL_DIGTABLE, "Paste", -1, Dig_Cell_Paste, 0);
-	HideBuiltInCtrlMenuItem(panelHandle, PANEL_DIGTABLE, -4); //Hides Sort Command
-
-	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_TABLE_MODE, VAL_GRID);
-	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_ENABLE_COLUMN_SIZING, 0);
-	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_ENABLE_ROW_SIZING, 0);
-	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_HILITE_ONLY_WHEN_PANEL_ACTIVE, 1);
-	InsertTableRows(panelHandle, PANEL_DIGTABLE, -1, NUMBERDIGITALCHANNELS - 1, VAL_USE_MASTER_CELL_TYPE);
-	InsertTableRows(panelHandle, PANEL_TBL_DIGNAMES, -1, NUMBERDIGITALCHANNELS - 1, VAL_USE_MASTER_CELL_TYPE);
-
-	for (int i = 1; i <= NUMBERDIGITALCHANNELS; i++)
-	{
-		SetTableCellVal(panelHandle, PANEL_TBL_DIGNAMES, MakePoint(2, i), i);
-	}
-
-	//Build Analog Table
-	NewCtrlMenuItem(panelHandle, PANEL_ANALOGTABLE, "Copy", -1, Analog_Cell_Copy, 0);
-	NewCtrlMenuItem(panelHandle, PANEL_ANALOGTABLE, "Paste", -1, Analog_Cell_Paste, 0);
-	HideBuiltInCtrlMenuItem(panelHandle, PANEL_ANALOGTABLE, -4); //Hides Sort Command
-
-	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_TABLE_MODE, VAL_GRID);
-	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_ENABLE_COLUMN_SIZING, 0);
-	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_ENABLE_ROW_SIZING, 0);
-	SetTableColumnAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_PRECISION, 3);
-
-	InsertTableRows(panelHandle, PANEL_ANALOGTABLE, -1, NUMBERANALOGCHANNELS + NUMBERDDS - 1, VAL_CELL_NUMERIC);
-	InsertTableRows(panelHandle, PANEL_TBL_ANAMES, -1, NUMBERANALOGCHANNELS + NUMBERDDS - 1, VAL_USE_MASTER_CELL_TYPE);
-	InsertTableRows(panelHandle, PANEL_TBL_ANALOGUNITS, -1, NUMBERANALOGCHANNELS - 1, VAL_USE_MASTER_CELL_TYPE);
-	SetAnalogChannels();
-
-	//Scan Table RC Menu
-	NewCtrlMenuItem(panelHandle, PANEL_SCAN_TABLE, "Load Values", -1, Scan_Table_Load, 0);
-	HideBuiltInCtrlMenuItem(panelHandle, PANEL_SCAN_TABLE, -4);
-
-	for (int i = 1; i <= NUMBERANALOGCHANNELS; i++)
-	{
-		SetTableCellVal(panelHandle, PANEL_TBL_ANAMES, MakePoint(2, i), i);
-	}
-
-	SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_PRECISION, 3);
+	BuildTables();
 
 	// Change Analog Settings window
 	SetCtrlAttribute(panelHandle2, ANLGPANEL_NUM_ACH_LINE, ATTR_MAX_VALUE, NUMBERANALOGCHANNELS);
 	SetCtrlAttribute(panelHandle2, ANLGPANEL_NUM_ACHANNEL, ATTR_MAX_VALUE, NUMBERANALOGCHANNELS);
 
-	// change GUI
-	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERANALOGCHANNELS + NUMBERDDS);
-	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERDIGITALCHANNELS);
-
-	// Generate labels
+	int button_spacing = 60;
 	for (int i = 1; i <= NUMBEROFPAGES; i++)
 	{
+		// Generate labels
 		int newTable = NewCtrl(panelHandle, CTRL_TABLE, "Desc.", 88, 165);
 		SetCtrlAttribute(panelHandle, newTable, ATTR_HEIGHT, 25);
 		SetCtrlAttribute(panelHandle, newTable, ATTR_WIDTH, 686);
@@ -384,12 +405,13 @@ void Initialization()
 		SetCtrlAttribute(panelHandle, newTable, ATTR_HORIZONTAL_GRID_COLOR, VAL_BLACK);
 		SetCtrlAttribute(panelHandle, newTable, ATTR_VERTICAL_GRID_COLOR, VAL_BLACK);
 		InsertTableRows(panelHandle, newTable, -1, 1, VAL_USE_MASTER_CELL_TYPE);
-		InsertTableColumns(panelHandle, newTable, -1, 17, VAL_USE_MASTER_CELL_TYPE);
+		InsertTableColumns(panelHandle, newTable, -1, NUMBEROFCOLUMNS, VAL_USE_MASTER_CELL_TYPE);
 		SetTableColumnAttribute(panelHandle, newTable, -1, ATTR_COLUMN_WIDTH, 40);
+		SetCtrlAttribute(panelHandle, newTable, ATTR_NUM_VISIBLE_COLUMNS, NUMBEROFCOLUMNS);
 		LabelArray[i] = newTable;
 
 		// Generate buttons
-		int newTB = NewCtrl(panelHandle, CTRL_SQUARE_TEXT_BUTTON, "", 30, 165 + (i - 1) * 65);
+		int newTB = NewCtrl(panelHandle, CTRL_SQUARE_TEXT_BUTTON, "", 30, 165 + (i - 1) * button_spacing);
 		SetCtrlAttribute(panelHandle, newTB, ATTR_HEIGHT, 25);
 		SetCtrlAttribute(panelHandle, newTB, ATTR_WIDTH, 45);
 		SetCtrlAttribute(panelHandle, newTB, ATTR_ON_TEXT, "Shown");
@@ -399,7 +421,7 @@ void Initialization()
 		ButtonArray[i] = newTB;
 
 		// Generate checkboxes
-		int newCB = NewCtrl(panelHandle, CTRL_CHECK_BOX, "On/Off", 60, 165 + (i - 1) * 65);
+		int newCB = NewCtrl(panelHandle, CTRL_CHECK_BOX, "On/Off", 60, 165 + (i - 1) * button_spacing);
 		CheckboxArray[i] = newCB;
 	}
 
@@ -424,14 +446,7 @@ void Initialization()
 	PScan.Analog.Scan_Step_Size = 1.0;
 	PScan.Analog.Iterations_Per_Step = 1;
 	PScan.Scan_Active = FALSE;
-	//set to display both analog and digital channels
-	BuildTables();
-	DrawCanvasArrows();
-	//
-	//set to graphical display
-	//	SetDisplayType(VAL_CELL_NUMERIC);
-	//	DrawNewTable(0);
-
+	DrawNewTable(isdimmed);
 	return;
 }
 
@@ -441,67 +456,4 @@ void setVisibleLabel(int labelNum)
 	{
 		SetCtrlAttribute(panelHandle, LabelArray[i], ATTR_VISIBLE, i == labelNum);
 	}
-}
-//***************************************************************************************************
-/*void ConvertIntToStr(int int_val, char *int_str)
-{
-
-	int i, j;
-
-	for (i = j = floor(log10(int_val)); i >= 0; i--)
-	{
-		int_str[i] = (char)(((int)'0') + floor(((int)floor((int_val / pow(10, (j - i)))) % 10)));
-	}
-
-	int_str[j + 1] = '\0';
-
-	return;
-}
-*/
-//***************************************************************************************************
-void DrawCanvasArrows(void)
-{
-	int loopx = 0, loopx0 = 0;
-	// draws an arrow in each of 2 canvas's on the GUI.  These canvas's are moved around to indicate the location
-	// of a loop in the Adwin output.
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_START, ATTR_PEN_WIDTH, 1);
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_START, ATTR_PEN_COLOR, VAL_DK_GREEN);
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_START, ATTR_PICT_BGCOLOR, VAL_TRANSPARENT);
-
-	CanvasDrawLine(panelHandle, PANEL_CANVAS_START, MakePoint(0, 0), MakePoint(15, 0));
-	CanvasDrawLine(panelHandle, PANEL_CANVAS_START, MakePoint(15, 0), MakePoint(8, 12));
-	CanvasDrawLine(panelHandle, PANEL_CANVAS_START, MakePoint(8, 12), MakePoint(0, 0));
-	CanvasDrawLine(panelHandle, PANEL_CANVAS_START, MakePoint(8, 11), MakePoint(1, 1));
-	CanvasDrawLine(panelHandle, PANEL_CANVAS_START, MakePoint(8, 10), MakePoint(2, 2));
-	CanvasDrawLine(panelHandle, PANEL_CANVAS_START, MakePoint(0, 0), MakePoint(8, 4));
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_START, ATTR_PEN_WIDTH, 4);
-	CanvasDrawLine(panelHandle, PANEL_CANVAS_START, MakePoint(4, 2), MakePoint(11, 2));
-	CanvasDrawLine(panelHandle, PANEL_CANVAS_START, MakePoint(11, 2), MakePoint(8, 8));
-	CanvasDrawLine(panelHandle, PANEL_CANVAS_START, MakePoint(8, 8), MakePoint(4, 2));
-
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_END, ATTR_PEN_WIDTH, 1);
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_END, ATTR_PEN_COLOR, VAL_DK_RED);
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_END, ATTR_PICT_BGCOLOR, VAL_TRANSPARENT);
-	CanvasDrawLine(panelHandle, PANEL_CANVAS_END, MakePoint(0, 0), MakePoint(8, 4));
-
-	CanvasDrawLine(panelHandle, PANEL_CANVAS_END, MakePoint(0, 0), MakePoint(15, 0));
-	CanvasDrawLine(panelHandle, PANEL_CANVAS_END, MakePoint(15, 0), MakePoint(8, 12));
-	CanvasDrawLine(panelHandle, PANEL_CANVAS_END, MakePoint(8, 12), MakePoint(0, 0));
-	CanvasDrawLine(panelHandle, PANEL_CANVAS_END, MakePoint(8, 11), MakePoint(1, 1));
-	CanvasDrawLine(panelHandle, PANEL_CANVAS_END, MakePoint(8, 10), MakePoint(2, 2));
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_END, ATTR_PEN_WIDTH, 4);
-	CanvasDrawLine(panelHandle, PANEL_CANVAS_END, MakePoint(4, 2), MakePoint(11, 2));
-	CanvasDrawLine(panelHandle, PANEL_CANVAS_END, MakePoint(11, 2), MakePoint(8, 8));
-	CanvasDrawLine(panelHandle, PANEL_CANVAS_END, MakePoint(8, 8), MakePoint(4, 2));
-
-	loopx0 = 170; //horizontal offset
-	loopx = 8;	  //x position...in horizontal table units
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_START, ATTR_LEFT, loopx0 + loopx * 40);
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_START, ATTR_TOP, 141);
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_END, ATTR_LEFT, loopx0 + loopx * 40 + 25);
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_END, ATTR_TOP, 141);
-
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_LOOPLINE, ATTR_LEFT, 168);
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_LOOPLINE, ATTR_TOP, 140);
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_LOOPLINE, ATTR_WIDTH, 685);
 }

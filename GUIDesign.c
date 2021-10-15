@@ -1330,7 +1330,6 @@ void DrawNewTable(int isdimmed)
 			break;
 		}
 	}
-	DrawLoopIndicators(); // Draw the arrows indicating loop position
 }
 
 //*****************************************************************************************
@@ -1423,75 +1422,6 @@ int GetPage(void)
 {
 	return currentpage;
 	//Scan and find out what page we are on....
-}
-
-//*************************************************************************************
-void DrawLoopIndicators()
-{
-	int page, dx, xendoffset, xstartoffset;
-	int canvaswidth;
-
-	GetCtrlAttribute(panelHandle, PANEL_CANVAS_LOOPLINE, ATTR_WIDTH, &canvaswidth);
-	page = GetPage();
-	CanvasClear(panelHandle, PANEL_CANVAS_LOOPLINE, VAL_ENTIRE_OBJECT);
-
-	if (loop_active)
-	{
-		if (page == LoopPoints.startpage)
-		{
-			MoveCanvasStart(LoopPoints.startcol, TRUE);
-		}
-		else
-		{
-			MoveCanvasStart(LoopPoints.startcol, FALSE);
-		}
-		if (page == LoopPoints.endpage)
-		{
-			MoveCanvasEnd(LoopPoints.endcol, TRUE);
-		}
-		else
-		{
-			MoveCanvasEnd(LoopPoints.endcol, FALSE);
-		}
-	}
-	else
-	{
-		MoveCanvasStart(LoopPoints.startcol, FALSE);
-		MoveCanvasEnd(LoopPoints.endcol, FALSE);
-	}
-
-	// If good, then draw a connecting line
-	dx = 40;
-	xstartoffset = 10;
-	xendoffset = 10;
-
-	if (loop_active)
-	{
-		SetCtrlAttribute(panelHandle, PANEL_CANVAS_LOOPLINE, ATTR_PEN_WIDTH, 2);
-		SetCtrlAttribute(panelHandle, PANEL_CANVAS_LOOPLINE, ATTR_PEN_COLOR, 0x00FF00L);
-
-		int xposstart = (LoopPoints.startcol - 1) * dx + xstartoffset;
-		int xposend = (LoopPoints.endcol) * dx - xstartoffset;
-
-		if ((page == LoopPoints.startpage) && !(page == LoopPoints.endpage))
-		{
-			xposend = canvaswidth;
-		}
-		if (!(page == LoopPoints.startpage) && (page == LoopPoints.endpage))
-		{
-			xposstart = 0 + xstartoffset;
-		}
-		if ((page > LoopPoints.startpage) && (page < LoopPoints.endpage))
-		{
-			xposstart = 0 + xstartoffset;
-			xposend = canvaswidth;
-		}
-		CanvasDrawLine(panelHandle, PANEL_CANVAS_LOOPLINE, MakePoint(xposstart, 8), MakePoint(xposend, 8));
-		if ((page < LoopPoints.startpage) || (page > LoopPoints.endpage))
-		{
-			CanvasClear(panelHandle, PANEL_CANVAS_LOOPLINE, VAL_ENTIRE_OBJECT);
-		}
-	}
 }
 
 //*************************************************************************************
@@ -2588,83 +2518,6 @@ void ExportScanBuffer(void)
 		}
 		fclose(fbuffer);
 	}
-}
-//**************************************************************************************************************
-void MoveCanvasStart(int XPos, int IsVisible)
-{
-	int x0 = 170, dx = 40;
-
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_START, ATTR_LEFT, x0 + (XPos - 1) * dx);
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_START, ATTR_TOP, 141);
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_START, ATTR_VISIBLE, IsVisible);
-}
-//**************************************************************************************************************
-void MoveCanvasEnd(int XPos, int IsVisible)
-{
-	int x0 = 170, dx = 40, xwidth = 25;
-
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_END, ATTR_LEFT, x0 + (XPos - 1) * dx + xwidth);
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_END, ATTR_TOP, 141);
-	SetCtrlAttribute(panelHandle, PANEL_CANVAS_END, ATTR_VISIBLE, IsVisible);
-}
-
-//**************************************************************************************************************
-//Jan24, 2006
-// ensure start/stop ordering is correct, if not, then swap them
-// Move Loop start and stop indicators, and refresh display
-int CVICALLBACK SWITCH_LOOP_CALLBACK(int panel, int control, int event,
-									 void *callbackData, int eventData1, int eventData2)
-{
-	int pagestart, pageend, colstart, colend;
-	BOOL ValuesGood, LoopSwitchOn;
-	switch (event)
-	{
-	case EVENT_COMMIT:
-		ValuesGood = FALSE;
-		LoopSwitchOn = FALSE;
-		loop_active = FALSE; // set default loop condition to false
-
-		GetCtrlVal(panelHandle, PANEL_SWITCH_LOOP, &LoopSwitchOn);
-
-		GetCtrlVal(panelHandle, PANEL_NUM_LOOPPAGE1, &pagestart);
-		GetCtrlVal(panelHandle, PANEL_NUM_LOOPPAGE2, &pageend);
-		GetCtrlVal(panelHandle, PANEL_NUM_LOOPCOL1, &colstart);
-		GetCtrlVal(panelHandle, PANEL_NUM_LOOPCOL2, &colend);
-
-		if ((pagestart > pageend) || ((pagestart == pageend) && (colstart > colend)))
-		{
-			ValuesGood = FALSE;
-			MessagePopup("Bad Conditions", "Start and end cells do not compute");
-			SetCtrlVal(panelHandle, PANEL_SWITCH_LOOP, FALSE);
-
-			MoveCanvasStart(colstart, FALSE);
-			MoveCanvasEnd(colend, FALSE);
-		}
-		else
-		{
-			ValuesGood = TRUE;
-			LoopPoints.startpage = pagestart;
-			LoopPoints.endpage = pageend;
-			LoopPoints.startcol = colstart;
-			LoopPoints.endcol = colend;
-		}
-
-		if (ValuesGood && LoopSwitchOn)
-		{
-			loop_active = TRUE;
-			MoveCanvasStart(colstart, TRUE);
-			MoveCanvasEnd(colend, TRUE);
-		}
-		else
-		{
-			loop_active = FALSE;
-			MoveCanvasStart(colstart, FALSE);
-			MoveCanvasEnd(colend, FALSE);
-		}
-		DrawNewTable(1);
-		break;
-	}
-	return 0;
 }
 
 void CVICALLBACK Dig_Cell_Copy(int panelHandle, int controlID, int MenuItemID, void *callbackData)

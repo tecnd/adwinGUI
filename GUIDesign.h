@@ -30,17 +30,6 @@
 #define  PANEL_NUM_DDS2_OFFSET            15      /* control type: numeric, callback function: (none) */
 #define  PANEL_NUM_DDS_OFFSET             16      /* control type: numeric, callback function: (none) */
 #define  PANEL_SCAN_TABLE                 17      /* control type: table, callback function: (none) */
-#define  PANEL_CANVAS_END                 18      /* control type: canvas, callback function: (none) */
-#define  PANEL_CANVAS_START               19      /* control type: canvas, callback function: (none) */
-#define  PANEL_NUM_LOOP_REPS              20      /* control type: numeric, callback function: (none) */
-#define  PANEL_NUM_LOOPCOL2               21      /* control type: numeric, callback function: (none) */
-#define  PANEL_NUM_LOOPPAGE2              22      /* control type: numeric, callback function: (none) */
-#define  PANEL_NUM_LOOPCOL1               23      /* control type: numeric, callback function: (none) */
-#define  PANEL_NUM_LOOPPAGE1              24      /* control type: numeric, callback function: (none) */
-#define  PANEL_SWITCH_LOOP                25      /* control type: binary, callback function: SWITCH_LOOP_CALLBACK */
-#define  PANEL_DECORATION_2               26      /* control type: deco, callback function: (none) */
-#define  PANEL_CANVAS_LOOPLINE            27      /* control type: canvas, callback function: (none) */
-#define  PANEL_Looping                    28      /* control type: textMsg, callback function: (none) */
 
 #define  SUBPANEL1                        2
 #define  SUBPANEL1_TEXTBOX                2       /* control type: textBox, callback function: (none) */
@@ -143,7 +132,6 @@ void CVICALLBACK SETGD10_CALLBACK(int menubar, int menuItem, void *callbackData,
 void CVICALLBACK SETGD5_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SHOWARRAY_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SIMPLETIMING_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
-int  CVICALLBACK SWITCH_LOOP_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK TIMER_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 void CVICALLBACK TITLE1_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);

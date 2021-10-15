@@ -16,10 +16,15 @@ Macro Definitions
 								 // reserved for DDS2                            \
 								 // reserved for DDS3
 #define NUMBERDDS 3		   // Number of DDS's
-#define NUMBEROFCOLUMNS 17
+#define NUMBEROFCOLUMNS 20
 #define TRUE 1
 #define FALSE 0
-#define NUMBEROFPAGES 11
+#define NUMBEROFPAGES 14
+
+// Table layout defines
+#define CELL_HEIGHT 17
+#define CELL_WIDTH 40
+#define TABLE_MARGIN_RIGHT 20
 
 #define DDS2_CLOCK 983.04 // clock speed of DDS 2 in MHz
 #define DDS3CLOCK 300.0	  // clock speed of DDS 2 in MHz
@@ -54,16 +59,6 @@ int pic_off, pic_static, pic_change, pic_don;
 int ischecked[NUMBEROFPAGES + 1], isdimmed;
 BOOL ChangedVals;
 BOOL UseSimpleTiming;
-
-BOOL loop_active;
-
-struct LoopPoints
-{
-	int startpage;
-	int endpage;
-	int startcol;
-	int endcol;
-} LoopPoints;
 
 struct AnalogTableValues
 {
