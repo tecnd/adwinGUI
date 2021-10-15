@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['scanbuff_18',['ScanBuff',['../struct_scan_buff.html',1,'']]],
-  ['scanparameters_19',['ScanParameters',['../struct_scan_parameters.html',1,'']]],
-  ['scanset_20',['ScanSet',['../struct_scan_set.html',1,'']]]
+  ['timescanparameters_20',['TimeScanParameters',['../struct_time_scan_parameters.html',1,'']]],
+  ['todo_20list_21',['Todo List',['../todo.html',1,'']]]
 ];
