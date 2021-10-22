@@ -22,13 +22,10 @@ dim counts,maxcount,updates as long
 dim ch as long
 dim val,val_lower,val_upper,val_lower2,val_upper2 as long
 dim tempval as long 
-dim dataline,clock, ioupdate,ioreset,masterreset as long
-dim dataline9858,clock9858,ioupdate9858,ioreset9858,masterreset9858 as long
 dim digitallow as long
 dim delay,delayinuse as long
 dim numbertoskip as long
 dim leddelay as float
-dim digitalactive,digital2active as long
 
 Function V(value) as float
   V=(value+10)/20*65535
@@ -102,19 +99,6 @@ INIT:
   ' 7 (maybe) RF switch  
   delay=PAR_2 ' 300000=>1ms for T11 Processor: Updated July 14 2009 - Ben Sofka
   PROCESSDELAY=delay
-  'DDS digital line setup
-  dataline=31         ' data line
-  clock=30        ' data clock
-  ioupdate=29      ' update line.  transfers data from buffer into registers
-  ioreset=28      ' resets input buffers
-  masterreset=27
-
-  'DDS2 digital lines (base 0)
-  dataline9858=21
-  clock9858=22
-  ioupdate9858=19
-  'ioreset9858=23
-  masterreset9858=18
 
   DigProg1(1,65535)
   DigProg2(1,65535)
@@ -188,8 +172,6 @@ EVENT:
 
 
   ' reset the variables controlling digital output.
-  digitalactive=0
-  digital2active=0
   val_lower=0
   val_upper=0
   val_lower2=0
@@ -282,79 +264,4 @@ SUB AnalogWrite(achannel, avalue)
     P2_WRITE_DAC(4,achannel-24,V(avalue))
   endif
 ENDSUB
-'***************************************************
-SUB DDS1Write(digvalue)
-  dim tempval as long
-  dim dataline,clock,ioupdate,ioreset,masterreset as long
-  dataline=31         ' data line
-  clock=30        ' data clock
-  ioupdate=29      ' update line.  transfers data from buffer into registers
-  ioreset=28      ' resets input buffers
-  masterreset=27
-  if(digvalue<=3) then  ' write 2 bits to the data line of the DDS
-    tempval = digvalue 'have to convert to long first
-    ' on Mar 25, we added opto-couplers to the DDS interfacing
-    ' this adds a 500ns (roughly) delay to each update
-    ' 3 updates takes 500ns, so each one opto-coupler delay is 
-    '160 ns different from another, timing will be ruined.
-    ' so, double each line so pulses are 1us instead
-    DIGOUT_F(2,dataline,SHIFT_RIGHT((tempval and 2),1))
-    DIGOUT_F(2,clock,1)
-    DIGOUT_F(2,clock,0)
-    DIGOUT_F(2,dataline,(tempval and 1))
-    DIGOUT_F(2,clock,1)
-    DIGOUT_F(2,clock,0)
-  ELSE 
-    IF(digvalue=4) then 'write to the i/o reset pin to reset the buffer.  
-      'DIGOUT_F(2,ioreset,1)  ' Currently disabled
-      'DIGOUT_F(2,ioreset,0)
-    Else 
-      IF(digvalue=5) then
-        DIGOUT_F(2,ioupdate,1)
-        DIGOUT_F(2,ioupdate,0)
-      Else 
-        IF(digvalue=6) then
-          DIGOUT_F(2,masterreset,1)  ' Leave this doubled as the reset pulse needs to be > 800ns 
-          DIGOUT_F(2,masterreset,1)
-          DIGOUT_F(2,masterreset,0)              
-          DIGOUT_F(2,masterreset,0)                  
-        ENDIF
-      endif
-    endif
-  endif
-ENDSUB
-'***************************************************
-SUB DDS2WRITE(dvalue)
-  dim tempval as long
-  dim dataline9858,clock9858,ioupdate9858,ioreset9858,masterreset9858 as long
-  'DDS2 digital lines (base 0)
-  dataline9858=21
-  clock9858=22
-  ioupdate9858=19
-  'ioreset9858=23
-  masterreset9858=18
-  if(dvalue<=3) then  ' write 2 bits to the data line of the DDS
-    tempval = dvalue 'have to convert to long first
-    DIGOUT_F(2,dataline9858,SHIFT_RIGHT((tempval and 2),1))
-    DIGOUT_F(2,clock9858,1)
-    DIGOUT_F(2,clock9858,0)
-    DIGOUT_F(2,dataline9858,(tempval and 1))
-    DIGOUT_F(2,clock9858,1)
-    DIGOUT_F(2,clock9858,0)
-  ELSE 
-    IF(dvalue=4) then 'write to the i/o update pin to transfer to registers
-      'DIGOUT_F(2,ioreset9858,1)
-      'DIGOUT_F(2,ioreset9858,0)
-    Else 
-      IF(dvalue=5) then
-        DIGOUT_F(2,ioupdate9858,1)
-        DIGOUT_F(2,ioupdate9858,0)
-      Else 
-        IF(dvalue=6) then
-          DIGOUT_F(2,masterreset9858,1)
-          DIGOUT_F(2,masterreset9858,0)                  
-        ENDIF
-      endif
-    endif
-  endif
-ENDSUB
+
