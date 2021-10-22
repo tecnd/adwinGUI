@@ -9,16 +9,9 @@ Boots the ADwin, handles compilation of the arrays into ADwin-friendly format.
 
 #include "ScanTableLoader.h"
 
-//To DO:  add more DDS 'clips' for copy/paste routines
-
 //2006
 //March 9:  Reorder the routines to more closely match the order in which they are executed.
 //          Applies to the 'engine' but not the cosmetic/table handling routnes
-
-/*********************** Sandro Gvakharia October 2010 **********************/
-//Added DDS vars starting at line 21, added DDS code starting at line 462.
-//Works with DDS1, Rb Evaporation
-/*********************** Sandro Gvakharia October 2010 **********************/
 
 #include <userint.h>
 #include <utility.h>
@@ -298,10 +291,8 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 	static int didprocess = 0;
 	int memused;
 	int timeused;
-	int digchannelsum;
 	int newcount;
 	// variables for timechannel optimization
-	int start_offset = 0;
 	time_t tstart, tstop;
 
 	//Change run button appearance while operating
@@ -1234,20 +1225,8 @@ int CVICALLBACK ANALOGTABLE_CALLBACK(int panel, int control, int event,
 		currentx = cpoint.x;
 		currenty = cpoint.y;
 		currentpage = GetPage();
-
-		if ((currenty > NUMBERANALOGCHANNELS) && (currenty <= NUMBERANALOGCHANNELS + NUMBERDDS))
-		{
-			Active_DDS_Panel = currenty - NUMBERANALOGCHANNELS;
-
-			SetDDSControlPanel(Active_DDS_Panel);
-			panel_to_display = panelHandle6; // Program DDS
-		}
-		else
-		{
-
-			SetControlPanel();
-			panel_to_display = panelHandle4; // Program Analog Channel
-		}
+		SetControlPanel();
+		panel_to_display = panelHandle4; // Program Analog Channel
 
 		sprintf(buff, "x:%d   y:%d    z:%d", currentx, currenty, currentpage);
 		SetPanelAttribute(panel_to_display, ATTR_TITLE, buff);
@@ -1596,18 +1575,6 @@ void CVICALLBACK CLEARPANEL_CALLBACK(int menuBar, int menuItem, void *callbackDa
 					AnalogTable[col][channel][page].tscale = 0;
 					DigTableValues[col][channel][page] = 0;
 					TimeArray[col][page] = 0;
-					ddstable[col][page].start_frequency = 0;
-					ddstable[col][page].end_frequency = 0;
-					ddstable[col][page].amplitude = 0;
-					ddstable[col][page].is_stop = 0;
-					dds2table[col][page].start_frequency = 0;
-					dds2table[col][page].end_frequency = 0;
-					dds2table[col][page].amplitude = 0;
-					dds2table[col][page].is_stop = 0;
-					dds3table[col][page].start_frequency = 0;
-					dds3table[col][page].end_frequency = 0;
-					dds3table[col][page].amplitude = 0;
-					dds3table[col][page].is_stop = 0;
 				}
 			}
 		}
@@ -1684,22 +1651,9 @@ void ShiftColumn3(int col, int page, int dir)
 		}
 
 		for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++)
+		{
 			DigTableValues[start + dir * i][j][page] = DigTableValues[start + dir * (i + 1)][j][page];
-
-		ddstable[start + dir * i][page].start_frequency = ddstable[start + dir * (i + 1)][page].start_frequency;
-		ddstable[start + dir * i][page].end_frequency = ddstable[start + dir * (i + 1)][page].end_frequency;
-		ddstable[start + dir * i][page].amplitude = ddstable[start + dir * (i + 1)][page].amplitude;
-		ddstable[start + dir * i][page].is_stop = ddstable[start + dir * (i + 1)][page].is_stop;
-
-		dds2table[start + dir * i][page].start_frequency = dds2table[start + dir * (i + 1)][page].start_frequency;
-		dds2table[start + dir * i][page].end_frequency = dds2table[start + dir * (i + 1)][page].end_frequency;
-		dds2table[start + dir * i][page].amplitude = dds2table[start + dir * (i + 1)][page].amplitude;
-		dds2table[start + dir * i][page].is_stop = dds2table[start + dir * (i + 1)][page].is_stop;
-
-		dds3table[start + dir * i][page].start_frequency = dds3table[start + dir * (i + 1)][page].start_frequency;
-		dds3table[start + dir * i][page].end_frequency = dds3table[start + dir * (i + 1)][page].end_frequency;
-		dds3table[start + dir * i][page].amplitude = dds3table[start + dir * (i + 1)][page].amplitude;
-		dds3table[start + dir * i][page].is_stop = dds3table[start + dir * (i + 1)][page].is_stop;
+		}
 	}
 
 	//if we inserted a column, then set all values to zero
@@ -1730,22 +1684,9 @@ void ShiftColumn3(int col, int page, int dir)
 		}
 
 		for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++)
+		{
 			DigTableValues[start + dir * i][j][page] = DigTableValues[start + dir * (i + 1)][j][page];
-
-		ddstable[zerocol][page].start_frequency = 0;
-		ddstable[zerocol][page].end_frequency = 0;
-		ddstable[zerocol][page].amplitude = 0;
-		ddstable[zerocol][page].is_stop = FALSE;
-
-		dds2table[zerocol][page].start_frequency = 0;
-		dds2table[zerocol][page].end_frequency = 0;
-		dds2table[zerocol][page].amplitude = 0;
-		dds2table[zerocol][page].is_stop = FALSE;
-
-		dds3table[zerocol][page].start_frequency = 0;
-		dds3table[zerocol][page].end_frequency = 0;
-		dds3table[zerocol][page].amplitude = 0;
-		dds3table[zerocol][page].is_stop = FALSE;
+		}
 	}
 	ChangedVals = 1;
 	DrawNewTable(0);
@@ -1781,23 +1722,9 @@ void CVICALLBACK COPYCOLUMN_CALLBACK(int menuBar, int menuItem, void *callbackDa
 		}
 
 		for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++)
+		{
 			DigClip[j] = DigTableValues[cpoint.x][j][page];
-
-		ddsclip.start_frequency = ddstable[cpoint.x][page].start_frequency;
-		ddsclip.end_frequency = ddstable[cpoint.x][page].end_frequency;
-		ddsclip.amplitude = ddstable[cpoint.x][page].amplitude;
-		ddsclip.is_stop = ddstable[cpoint.x][page].is_stop;
-
-		dds2clip.start_frequency = dds2table[cpoint.x][page].start_frequency;
-		dds2clip.end_frequency = dds2table[cpoint.x][page].end_frequency;
-		dds2clip.amplitude = dds2table[cpoint.x][page].amplitude;
-		dds2clip.is_stop = dds2table[cpoint.x][page].is_stop;
-
-		dds3clip.start_frequency = dds3table[cpoint.x][page].start_frequency;
-		dds3clip.end_frequency = dds3table[cpoint.x][page].end_frequency;
-		dds3clip.amplitude = dds3table[cpoint.x][page].amplitude;
-		dds3clip.is_stop = dds3table[cpoint.x][page].is_stop;
-
+		}
 		DrawNewTable(0); //draws undimmed table if already dimmed
 	}
 }
@@ -1833,34 +1760,11 @@ void CVICALLBACK PASTECOLUMN_CALLBACK(int menuBar, int menuItem, void *callbackD
 				AnalogTable[cpoint.x][j][page].tscale = AnalogClip[j].tscale;
 				DigTableValues[cpoint.x][j][page] = DigClip[j];
 			}
-			ddstable[cpoint.x][page].start_frequency = ddsclip.start_frequency;
-			ddstable[cpoint.x][page].end_frequency = ddsclip.end_frequency;
-			ddstable[cpoint.x][page].amplitude = ddsclip.amplitude;
-			ddstable[cpoint.x][page].is_stop = ddsclip.is_stop;
-
-			dds2table[cpoint.x][page].start_frequency = dds2clip.start_frequency;
-			dds2table[cpoint.x][page].end_frequency = dds2clip.end_frequency;
-			dds2table[cpoint.x][page].amplitude = dds2clip.amplitude;
-			dds2table[cpoint.x][page].is_stop = dds2clip.is_stop;
-
-			dds3table[cpoint.x][page].start_frequency = dds3clip.start_frequency;
-			dds3table[cpoint.x][page].end_frequency = dds3clip.end_frequency;
-			dds3table[cpoint.x][page].amplitude = dds3clip.amplitude;
-			dds3table[cpoint.x][page].is_stop = dds3clip.is_stop;
-
 			DrawNewTable(0);
 		}
 	}
 	else
 		ConfirmPopup("Copy Column", "No Column Selected");
-}
-
-//**********************************************************************************
-void CVICALLBACK DDSSETUP_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								   int panel)
-{
-	LoadDDSSettings();
-	DisplayPanel(panelHandle5);
 }
 
 //**********************************************************************************
@@ -1876,7 +1780,7 @@ void LoadArrays(char savedname[500], int csize)
 
 	FILE *fdata;
 	int xval = 16, yval = 16, zval = 10, updatePer;
-	char buff[500] = "", buff2[100] = "";
+	char buff[500] = "";
 	strncat(buff, savedname, csize - 4);
 	strcat(buff, ".arr");
 	if ((fdata = fopen(buff, "r")) == NULL)
@@ -1895,9 +1799,6 @@ void LoadArrays(char savedname[500], int csize)
 	fread(&DigTableValues, (sizeof DigTableValues), 1, fdata);
 	fread(&AChName, (sizeof AChName), 1, fdata);
 	fread(&DChName, sizeof DChName, 1, fdata);
-	fread(&ddstable, (sizeof ddstable), 1, fdata);
-	fread(&dds2table, (sizeof dds2table), 1, fdata);
-	fread(&dds3table, (sizeof dds3table), 1, fdata);
 
 	//Update Period Retrieved and Set
 	fread(&updatePer, sizeof updatePer, 1, fdata);
@@ -1930,13 +1831,8 @@ void LoadArrays(char savedname[500], int csize)
 	else
 		SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD1000, ATTR_CHECKED, 0);
 
-	fread(&DDSFreq.extclock, sizeof DDSFreq.extclock, 1, fdata);
-	fread(&DDSFreq.PLLmult, sizeof DDSFreq.PLLmult, 1, fdata);
-	DDSFreq.clock = DDSFreq.extclock * DDSFreq.PLLmult;
-
 	fclose(fdata);
 
-	LoadDDSSettings(); //Enters the DDSsettings into the GUI Panel
 	SetAnalogChannels();
 	SetDigitalChannels();
 }
@@ -1953,7 +1849,7 @@ void SaveArrays(char savedname[500], int csize)
 	*/
 
 	FILE *fdata;
-	int xval = NUMBEROFCOLUMNS, yval = NUMBERANALOGCHANNELS + NUMBERDIGITALCHANNELS + NUMBERDDS, zval = NUMBEROFPAGES;
+	int xval = NUMBEROFCOLUMNS, yval = NUMBERANALOGCHANNELS + NUMBERDIGITALCHANNELS, zval = NUMBEROFPAGES;
 	int usupd5, usupd10, usupd100, usupd1000, updatePer; //Update Period Check
 	char buff[500] = "", buff2[100];
 	strncpy(buff, savedname, csize - 4);
@@ -1980,9 +1876,6 @@ void SaveArrays(char savedname[500], int csize)
 
 	fwrite(&AChName, sizeof AChName, 1, fdata);
 	fwrite(&DChName, sizeof DChName, 1, fdata);
-	fwrite(&ddstable, sizeof ddstable, 1, fdata);
-	fwrite(&dds2table, sizeof dds2table, 1, fdata);
-	fwrite(&dds3table, sizeof dds3table, 1, fdata);
 
 	GetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD5, ATTR_CHECKED, &usupd5);
 	GetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD10, ATTR_CHECKED, &usupd10);
@@ -1998,8 +1891,6 @@ void SaveArrays(char savedname[500], int csize)
 	else if (usupd1000 == 1)
 		updatePer = 1000;
 	fwrite(&updatePer, sizeof updatePer, 1, fdata);
-	fwrite(&DDSFreq.extclock, sizeof DDSFreq.extclock, 1, fdata);
-	fwrite(&DDSFreq.PLLmult, sizeof DDSFreq.PLLmult, 1, fdata);
 
 	fclose(fdata);
 }
@@ -2058,7 +1949,6 @@ void ExportPanel(char fexportname[200], int fnamesize)
 	double MetaTimeArray[500];
 	int MetaDigitalArray[NUMBERDIGITALCHANNELS + 1][500];
 	struct AnalogTableValues MetaAnalogArray[NUMBERANALOGCHANNELS + 1][500];
-	double DDSfreq1[500], DDSfreq2[500], DDScurrent[500], DDSstop[500];
 	int mindex, tsize;
 	fcnmode[0] = ' ';
 	fcnmode[1] = 'L';
@@ -2096,10 +1986,6 @@ void ExportPanel(char fexportname[200], int fnamesize)
 						MetaAnalogArray[channel][mindex].fval = AnalogTable[col][channel][page].fval;
 						MetaAnalogArray[channel][mindex].tscale = AnalogTable[col][channel][page].tscale;
 						MetaDigitalArray[channel][mindex] = DigTableValues[col][channel][page];
-						DDScurrent[mindex] = ddstable[col][page].amplitude;
-						DDSfreq1[mindex] = ddstable[col][page].start_frequency;
-						DDSfreq2[mindex] = ddstable[col][page].end_frequency;
-						DDSstop[mindex] = ddstable[col][page].is_stop;
 					}
 				}
 				else if (TimeArray[col][page] == 0)
@@ -2135,29 +2021,7 @@ void ExportPanel(char fexportname[200], int fnamesize)
 		strcat(bigbuff, "\n");
 		fprintf(fexport, bigbuff);
 	}
-	//done analog lines, now write DDS
-	sprintf(bigbuff, "DDS");
-	for (int i = 1; i <= tsize; i++)
-	{
-		strcat(bigbuff, ",");
-		if (DDSstop[i] == TRUE)
-		{
-			strcat(bigbuff, "OFF");
-		}
-		else
-		{
-			strcat(bigbuff, "ma");
-			sprintf(buff, "%4.2f", DDScurrent[i]);
-			strcat(bigbuff, buff);
-			strcat(bigbuff, "_FA");
-			sprintf(buff, "%4.2f", DDSfreq1[i]);
-			strcat(bigbuff, buff);
-			strcat(bigbuff, "_FB");
-			sprintf(buff, "%4.2f", DDSfreq2[i]);
-			strcat(bigbuff, buff);
-		}
-	}
-	fprintf(fexport, bigbuff);
+
 	//done DDS, now do digital
 	for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++)
 	{
@@ -2263,18 +2127,6 @@ void CVICALLBACK SHOWARRAY_CALLBACK(int menuBar, int menuItem, void *callbackDat
 		SetMenuBarAttribute(menuHandle, MENU_PREFS_SHOWARRAY, ATTR_CHECKED, TRUE);
 	}
 }
-//**************************************************************************************************************
-void CVICALLBACK DDS_OFF_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								  int panel)
-{
-	for (int j = 0; j <= NUMBEROFPAGES; j++)
-	{
-		for (int i = 0; i < NUMBEROFCOLUMNS; i++)
-		{
-			ddstable[i][j].is_stop = TRUE;
-		}
-	}
-}
 
 //**************************************************************************************************************
 
@@ -2344,9 +2196,6 @@ void ExportScanBuffer(void)
 			break;
 		case 1:
 			sprintf(buff, "Time Scan\nColumn,%d,Page,%d\n", PScan.Column, PScan.Page);
-			break;
-		case 2:
-			sprintf(buff, "DDS Scan\nColumn,%d,Page,%d\n", PScan.Column, PScan.Page);
 			break;
 		}
 		fprintf(fbuffer, buff);
@@ -2421,7 +2270,7 @@ void CVICALLBACK Dig_Cell_Paste(int panelHandle, int controlID, int MenuItemID, 
 void CVICALLBACK Analog_Cell_Copy(int panelHandle, int controlID, int MenuItemID, void *callbackData)
 {
 	//This function copies the contents of the active AnalogTable Cell to the Clipboard Globals
-	//Handles Analog Channels DDS1,DDS2,DDS3, it is called by right clicking on the Analog Table and Selecing "Copy"
+	//Handles Analog Channels, it is called by right clicking on the Analog Table and Selecing "Copy"
 
 	int page;
 	Point pval = {0, 0};
@@ -2435,20 +2284,12 @@ void CVICALLBACK Analog_Cell_Copy(int panelHandle, int controlID, int MenuItemID
 		AnalogClip[0].fval = AnalogTable[pval.x][pval.y][page].fval;
 		AnalogClip[0].tscale = AnalogTable[pval.x][pval.y][page].tscale;
 	}
-	else if (pval.y <= NUMBERANALOGCHANNELS + NUMBERDDS)
-		;
-	{
-		ddsclip.start_frequency = ddstable[pval.x][page].start_frequency;
-		ddsclip.end_frequency = ddstable[pval.x][page].end_frequency;
-		ddsclip.amplitude = ddstable[pval.x][page].amplitude;
-		ddsclip.is_stop = ddstable[pval.x][page].is_stop;
-	}
 }
 
 void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID, int MenuItemID, void *callbackData)
 {
 	//Replaces Highlighted Cell contents with the values copied to the clipboard using Analog_Cell_Copy
-	//This function Handles copies and pastes of analog channel and dds data.
+	//This function Handles copies and pastes of analog channel data.
 
 	int page, col, row;
 	Rect selection;
@@ -2473,39 +2314,6 @@ void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID, int MenuItemI
 		}
 	}
 
-	//Paste made into multiple cells of DDS channels
-	else if (selection.top > NUMBERANALOGCHANNELS && selection.top > 0)
-	{
-		for (row = selection.top; row <= selection.top + (selection.height - 1); row++)
-		{
-
-			for (col = selection.left; col <= selection.left + (selection.width - 1); col++)
-			{
-				if (row == NUMBERANALOGCHANNELS + 1)
-				{
-					ddstable[col][page].start_frequency = ddsclip.start_frequency;
-					ddstable[col][page].end_frequency = ddsclip.end_frequency;
-					ddstable[col][page].amplitude = ddsclip.amplitude;
-					ddstable[col][page].is_stop = ddsclip.is_stop;
-				}
-				else if (row == NUMBERANALOGCHANNELS + 2)
-				{
-					dds2table[col][page].start_frequency = ddsclip.start_frequency;
-					dds2table[col][page].end_frequency = ddsclip.end_frequency;
-					dds2table[col][page].amplitude = ddsclip.amplitude;
-					dds2table[col][page].is_stop = ddsclip.is_stop;
-				}
-				else if (row == NUMBERANALOGCHANNELS + 3)
-				{
-					dds3table[col][page].start_frequency = ddsclip.start_frequency;
-					dds3table[col][page].end_frequency = ddsclip.end_frequency;
-					dds3table[col][page].amplitude = ddsclip.amplitude;
-					dds3table[col][page].is_stop = ddsclip.is_stop;
-				}
-			}
-		}
-	}
-
 	//Paste Made into single Cell
 	else if (selection.top == 0)
 		;
@@ -2516,27 +2324,6 @@ void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID, int MenuItemI
 			AnalogTable[pval.x][pval.y][page].fcn = AnalogClip[0].fcn;
 			AnalogTable[pval.x][pval.y][page].fval = AnalogClip[0].fval;
 			AnalogTable[pval.x][pval.y][page].tscale = AnalogClip[0].tscale;
-		}
-		else if (pval.y == NUMBERANALOGCHANNELS + 1)
-		{
-			ddstable[pval.x][page].start_frequency = ddsclip.start_frequency;
-			ddstable[pval.x][page].end_frequency = ddsclip.end_frequency;
-			ddstable[pval.x][page].amplitude = ddsclip.amplitude;
-			ddstable[pval.x][page].is_stop = ddsclip.is_stop;
-		}
-		else if (pval.y == NUMBERANALOGCHANNELS + 2)
-		{
-			dds2table[pval.x][page].start_frequency = ddsclip.start_frequency;
-			dds2table[pval.x][page].end_frequency = ddsclip.end_frequency;
-			dds2table[pval.x][page].amplitude = ddsclip.amplitude;
-			dds2table[pval.x][page].is_stop = ddsclip.is_stop;
-		}
-		else if (pval.y == NUMBERANALOGCHANNELS + 3)
-		{
-			dds3table[pval.x][page].start_frequency = ddsclip.start_frequency;
-			dds3table[pval.x][page].end_frequency = ddsclip.end_frequency;
-			dds3table[pval.x][page].amplitude = ddsclip.amplitude;
-			dds3table[pval.x][page].is_stop = ddsclip.is_stop;
 		}
 	}
 	ChangedVals = 1;
