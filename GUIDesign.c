@@ -267,7 +267,6 @@ From the meta-lists, we generate 3 arrays.
 - dds_cmd_seq - List of dds commands, parsed into 2-bit sections, or reset lines to be written
 	Commands are listed along with the time they should occur at.
 .
-@todo Remove old DDS code
 */
 void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERANALOGCHANNELS + 1][500], int DMat[NUMBERDIGITALCHANNELS + 1][500], int numtimes)
 {
@@ -1348,9 +1347,6 @@ int CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event,
 				AnalogTable[i][j][page].tscale = tscaleold * ratio;
 				//		AnalogTable[i][j][page].tscale=dval;	  //use this line to force timescale to period
 			}
-
-			//set the delta time value for the dds array
-			//	ddstable[i][page].delta_time = dval/1000;
 		}
 
 		/* for testing prints TimeArray to STDIO

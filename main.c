@@ -125,10 +125,6 @@ int main(int argc, char *argv[])
 		return -1;
 	if ((panelHandle4 = LoadPanel(0, "AnalogControl.uir", PANEL)) < 0)
 		return -1;
-	if ((panelHandle5 = LoadPanel(0, "DDSSettings.uir", PANEL)) < 0)
-		return -1;
-	if ((panelHandle6 = LoadPanel(0, "DDSControl.uir", PANEL)) < 0)
-		return -1;
 	if ((panelHandle7 = LoadPanel(0, "Scan.uir", PANEL)) < 0)
 		return -1;
 	if ((panelHandle8 = LoadPanel(0, "ScanTableLoader.uir", PANEL)) < 0)
@@ -162,31 +158,6 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	//initialize dds_tables, don't assume anything...
-	for (int i = 0; i < NUMBEROFCOLUMNS; i++)
-	{
-		for (int j = 0; j <= NUMBEROFPAGES; j++)
-		{
-			ddstable[i][j].start_frequency = 0.0;
-			ddstable[i][j].end_frequency = 0.0;
-			ddstable[i][j].amplitude = 0.0;
-			ddstable[i][j].delta_time = 0.0;
-			ddstable[i][j].is_stop = TRUE;
-
-			dds2table[i][j].start_frequency = 0.0;
-			dds2table[i][j].end_frequency = 0.0;
-			dds2table[i][j].amplitude = 0.0;
-			dds2table[i][j].delta_time = 0.0;
-			dds2table[i][j].is_stop = TRUE;
-
-			dds3table[i][j].start_frequency = 0.0;
-			dds3table[i][j].end_frequency = 0.0;
-			dds3table[i][j].amplitude = 0.0;
-			dds3table[i][j].delta_time = 0.0;
-			dds3table[i][j].is_stop = TRUE;
-		}
-	}
-
 	// done initializing
 
 	EventPeriod = DefaultEventPeriod;
@@ -209,7 +180,7 @@ int main(int argc, char *argv[])
 }
 
 /**
-Resizes and moves analog table, analog channel names table, unit name table, and DDS offset controls.
+Resizes and moves analog table, analog channel names table, and unit name table.
 @author Stefan, Kerry Wang
 @param top Pixels from the top edge
 @param left Pixels from the left edge
@@ -218,7 +189,7 @@ Resizes and moves analog table, analog channel names table, unit name table, and
 */
 void ReshapeAnalogTable(int top, int left, int height, int width)
 {
-	int cellHeight = height / (NUMBERANALOGCHANNELS + NUMBERDDS);
+	int cellHeight = height / (NUMBERANALOGCHANNELS);
 	int cellWidth = width / NUMBEROFCOLUMNS;
 	int unitTableHeight = cellHeight * NUMBERANALOGCHANNELS;
 
@@ -244,16 +215,8 @@ void ReshapeAnalogTable(int top, int left, int height, int width)
 	SetTableRowAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, -1, ATTR_SIZE_MODE, VAL_USE_EXPLICIT_SIZE);
 	SetTableRowAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, -1, ATTR_ROW_HEIGHT, cellHeight);
 
-	// move the DDS offsets
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS_OFFSET, ATTR_TOP, top + unitTableHeight);
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS_OFFSET, ATTR_LEFT, left + CELL_WIDTH * NUMBEROFCOLUMNS + TABLE_MARGIN_RIGHT);
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS2_OFFSET, ATTR_TOP, top + unitTableHeight + cellHeight);
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS2_OFFSET, ATTR_LEFT, left + CELL_WIDTH * NUMBEROFCOLUMNS + TABLE_MARGIN_RIGHT);
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS3_OFFSET, ATTR_TOP, top + unitTableHeight + 2 * cellHeight);
-	SetCtrlAttribute(panelHandle, PANEL_NUM_DDS3_OFFSET, ATTR_LEFT, left + CELL_WIDTH * NUMBEROFCOLUMNS + TABLE_MARGIN_RIGHT);
-
 	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_NUM_VISIBLE_COLUMNS, NUMBEROFCOLUMNS);
-	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERANALOGCHANNELS + NUMBERDDS);
+	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_NUM_VISIBLE_ROWS, NUMBERANALOGCHANNELS);
 }
 
 /**
@@ -321,8 +284,8 @@ void BuildTables()
 	SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_PRECISION, 3);
 
 	InsertTableColumns(panelHandle, PANEL_ANALOGTABLE, -1, NUMBEROFCOLUMNS - 1, VAL_CELL_NUMERIC);
-	InsertTableRows(panelHandle, PANEL_ANALOGTABLE, -1, NUMBERANALOGCHANNELS + NUMBERDDS - 1, VAL_CELL_NUMERIC);
-	InsertTableRows(panelHandle, PANEL_TBL_ANAMES, -1, NUMBERANALOGCHANNELS + NUMBERDDS - 1, VAL_USE_MASTER_CELL_TYPE);
+	InsertTableRows(panelHandle, PANEL_ANALOGTABLE, -1, NUMBERANALOGCHANNELS - 1, VAL_CELL_NUMERIC);
+	InsertTableRows(panelHandle, PANEL_TBL_ANAMES, -1, NUMBERANALOGCHANNELS - 1, VAL_USE_MASTER_CELL_TYPE);
 	InsertTableRows(panelHandle, PANEL_TBL_ANALOGUNITS, -1, NUMBERANALOGCHANNELS - 1, VAL_USE_MASTER_CELL_TYPE);
 	SetAnalogChannels();
 
@@ -351,12 +314,12 @@ void BuildTables()
 	}
 
 	// Move and resize tables
-	int analogHeight = CELL_HEIGHT * (NUMBERANALOGCHANNELS + NUMBERDDS) + 6; // +6 to stop table from scrolling
+	int analogHeight = CELL_HEIGHT * (NUMBERANALOGCHANNELS) + 6; // +6 to stop table from scrolling
 	int analogTop = 155;
 	int leftpos = 165;
 	int digitalTop = analogTop + analogHeight + 50;
 
-	ReshapeAnalogTable(analogTop, leftpos, CELL_HEIGHT * (NUMBERANALOGCHANNELS + NUMBERDDS) + 6, CELL_WIDTH * NUMBEROFCOLUMNS);
+	ReshapeAnalogTable(analogTop, leftpos, CELL_HEIGHT * (NUMBERANALOGCHANNELS) + 6, CELL_WIDTH * NUMBEROFCOLUMNS);
 	ReshapeDigitalTable(digitalTop, leftpos, CELL_HEIGHT * NUMBERDIGITALCHANNELS + 6, CELL_WIDTH * NUMBEROFCOLUMNS);
 
 	// Right-click menus
@@ -382,9 +345,6 @@ void Initialization()
 	//Mar09, 2006:  Force DDS 1 frequency settings at loadtime.
 	PScan.Scan_Active = FALSE;
 	PScan.Use_Scan_List = FALSE;
-	DDSFreq.extclock = 15.036;
-	DDSFreq.PLLmult = 8;
-	DDSFreq.clock = DDSFreq.extclock * (double)DDSFreq.PLLmult;
 
 	BuildTables();
 

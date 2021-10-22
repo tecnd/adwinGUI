@@ -8,9 +8,8 @@
 /*
 Displays information on the SCAN panel, and reads the information.
 This code doesn't act on the scan information, that is done in GUIDesign.c::UpdateScanValue
-Scan has 4 modes of operation:
-Analog, Time, DDS (single cell) and DDS(floor)
-
+Scan has 2 modes of operation:
+Analog, Time
 */
 
 int CVICALLBACK CALLBACK_SCANOK (int panel, int control, int event,
@@ -30,7 +29,7 @@ int CVICALLBACK CALLBACK_SCANOK (int panel, int control, int event,
 
 //********************************************************************************************************
 // last update:  May 11, 2005
-// May12, 2005:  initialize for time and DDS scans
+// May12, 2005:  initialize for time scans
 
 void InitializeScanPanel(void)
 {
@@ -51,19 +50,6 @@ void InitializeScanPanel(void)
  	SetCtrlVal (panelHandle7, SCANPANEL_NUM_TIMEEND, 	PScan.Time.End_Of_Scan);
  	SetCtrlVal (panelHandle7, SCANPANEL_NUM_TIMESTEP, 	PScan.Time.Scan_Step_Size);
  	SetCtrlVal (panelHandle7, SCANPANEL_NUM_TIMEITER,  	PScan.Time.Iterations_Per_Step);
-
- 	SetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSBASEFREQ,PScan.DDS.Base_Freq);
- 	SetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSSTART,  	PScan.DDS.Start_Of_Scan);
- 	SetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSEND, 	PScan.DDS.End_Of_Scan);
- 	SetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSSTEP, 	PScan.DDS.Scan_Step_Size);
- 	SetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSITER,   	PScan.DDS.Iterations_Per_Step);
- 	SetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSCURRENT,	PScan.DDS.Current);
-
-	SetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSFLOORSTART, PScan.DDSFloor.Floor_Start);
-	SetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSFLOOREND,   PScan.DDSFloor.Floor_End);
-	SetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSFLOORSTEP,  PScan.DDSFloor.Floor_Step);
-	SetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSFLOORITER,  PScan.DDSFloor.Iterations_Per_Step);
-
 
 	DisplayPanel(panelHandle7);
 }
@@ -90,23 +76,7 @@ void ReadScanValues(void)
  	GetCtrlVal (panelHandle7, SCANPANEL_NUM_TIMESTEP,  &PScan.Time.Scan_Step_Size);
  	GetCtrlVal (panelHandle7, SCANPANEL_NUM_TIMEITER,  &PScan.Time.Iterations_Per_Step);
 
- 	GetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSBASEFREQ, &PScan.DDS.Start_Of_Scan);
- 	GetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSSTART,    &PScan.DDS.Start_Of_Scan);
- 	GetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSEND,      &PScan.DDS.End_Of_Scan);
- 	GetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSSTEP,     &PScan.DDS.Scan_Step_Size);
- 	GetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSITER,     &PScan.DDS.Iterations_Per_Step);
-	GetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSBASEFREQ, &PScan.DDS.Base_Freq);
-	GetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSCURRENT,  &PScan.DDS.Current);
-
-	GetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSFLOORSTART, &PScan.DDSFloor.Floor_Start);
-	GetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSFLOOREND,   &PScan.DDSFloor.Floor_End);
-	GetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSFLOORSTEP,  &PScan.DDSFloor.Floor_Step);
-	GetCtrlVal (panelHandle7, SCANPANEL_NUM_DDSFLOORITER,  &PScan.DDSFloor.Iterations_Per_Step);
-
 	ScanVal.Current_Step=0;
-
-
-
 }
 
 
@@ -147,50 +117,12 @@ int CVICALLBACK CALLBACK_TIMESCANOK (int panel, int control, int event,
 	return 0;
 }
 
-
-//********************************************************************************************************
-// last update:
-int CVICALLBACK CALLBACK_DDSSCANOK (int panel, int control, int event,
-		void *callbackData, int eventData1, int eventData2)
-{
-	switch (event)
-		{
-		case EVENT_COMMIT:
-
-			ReadScanValues();
-			PScan.ScanMode=2;// set to DDS scan
-			HidePanel(panelHandle7);
-			HidePanel(panelHandle4);
-			break;
-		}
-	return 0;
-}
-
-
-//********************************************************************************************************
-// Added Mar09, 2006
-int CVICALLBACK CALLBACK_DDSFLOORSCANOK (int panel, int control, int event,
-		void *callbackData, int eventData1, int eventData2)
-{
-	switch (event)
-		{
-		case EVENT_COMMIT:
-
-			ReadScanValues();
-			PScan.ScanMode=3;// set to scan the DDS Floor
-			HidePanel(panelHandle7);
-			HidePanel(panelHandle4);
-			break;
-		}
-	return 0;
-}
 //********************************************************************************************************
 
 int CVICALLBACK CMD_GETSCANVALS_CALLBACK (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
 {
 	int cx=0,cy=0,cz=0;
-	double dtemp;
 	switch (event)
 		{
 		case EVENT_COMMIT:
@@ -209,19 +141,6 @@ int CVICALLBACK CMD_GETSCANVALS_CALLBACK (int panel, int control, int event,
 			PScan.Time.End_Of_Scan			=TimeArray[cx][cz];
 			PScan.Time.Scan_Step_Size		=0.1;
 			PScan.Time.Iterations_Per_Step	=1;
-
-			PScan.DDS.Base_Freq				=ddstable[cx][cz].start_frequency;
-			PScan.DDS.Start_Of_Scan			=ddstable[cx][cz].end_frequency;
-			PScan.DDS.End_Of_Scan			=ddstable[cx][cz].end_frequency;
-			PScan.DDS.Iterations_Per_Step	=1;
-			PScan.DDS.Current				=ddstable[cx][cz].amplitude;
-
-			GetCtrlVal (panelHandle, PANEL_NUM_DDS_OFFSET, &dtemp);
-			PScan.DDSFloor.Floor_Start		=dtemp;
-			PScan.DDSFloor.Floor_End		=dtemp;
-			PScan.DDSFloor.Floor_Step		=0.1;
-			PScan.DDSFloor.Iterations_Per_Step=1;
-
 
 			InitializeScanPanel();
 			DisplayPanel(panelHandle7);

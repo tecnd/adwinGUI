@@ -33,7 +33,7 @@ typedef int BOOL;
 Global Variables
 *************************************************************************/
 
-int panelHandle, panelHandle2, panelHandle3, panelHandle4, panelHandle5, panelHandle6, panelHandle7, panelHandle8;
+int panelHandle, panelHandle2, panelHandle3, panelHandle4, panelHandle7, panelHandle8;
 int panelHandle_sub1, panelHandle_sub2;
 int menuHandle;
 int currentx, currenty, currentpage;
@@ -47,7 +47,7 @@ struct AnalogTableValues
 	int fcn;																		 //fcn is an integer refering to a function to use.																					 // 1-step, 2-linear, 3- exp, 4- 'S' curve 5-sine 6-"same as last cell"
 	double fval;																	 //the final value
 	double tscale;																	 //the timescale to approach final value
-} AnalogTable[NUMBEROFCOLUMNS + 1][NUMBERANALOGCHANNELS][NUMBEROFPAGES + 1]; //+1 needed because all code done assumed base 1 arrays...
+} AnalogTable[NUMBEROFCOLUMNS + 1][NUMBERANALOGCHANNELS + 1][NUMBEROFPAGES + 1]; 	//+1 needed because all code done assumed base 1 arrays...
 																					 // the structure is the values/elements contained at each point in the
 																					 // analog panel.  The array aval, is set up as [x][y][page]
 int DigTableValues[NUMBEROFCOLUMNS + 1][MAXDIGITAL][NUMBEROFPAGES + 1];
@@ -102,7 +102,7 @@ struct ScanParameters
 	int Row;
 	int Column;
 	int Page;
-	int ScanMode; // 0 for Analog, 1 for Time, 2 for DDS
+	int ScanMode; // 0 for Analog, 1 for Time
 	BOOL ScanDone;
 	BOOL Scan_Active;
 	BOOL Use_Scan_List;
