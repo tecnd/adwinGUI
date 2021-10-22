@@ -20,7 +20,8 @@ dim DATA_4[100] as long  ' a list of which channels are reset to zero on complet
 dim value as float
 dim counts,maxcount,updates as long
 dim ch as long
-dim val,val_lower,val_upper,val_lower2,val_upper2 as long
+dim val,val_lower,val_upper as long
+' dim val_lower2,val_upper2 as long
 dim tempval as long 
 dim digitallow as long
 dim delay,delayinuse as long
@@ -87,8 +88,8 @@ INIT:
   'Computer send an integer to Par_1.  This tells us how many
   'events to write. )
   'Channels 1-32 refer to Analog output lines
-  'Channel 101,102 refers to Digital output lines (16 bit word x2)
-  'Channel 103,104 refer to Digital output lines (16 bit word X2)
+  'Channel 101,102 refers to Digital output lines (32 bit word x2)
+  'Channel 103,104 refer to Digital output lines (16 bit word X2) Oct 22 2021 Looks unused?
   'channel 51-53 refers to digital output lines controlling the DDS
   'DDS control lines are digital output lines
   'Data line, read clock, io update , reset
@@ -174,8 +175,8 @@ EVENT:
   ' reset the variables controlling digital output.
   val_lower=0
   val_upper=0
-  val_lower2=0
-  val_upper2=0
+  ' val_lower2=0
+  ' val_upper2=0
   counts=counts+1  'Number of events so far
 
   ' Added by Seth Aubin on August 2, 2010.
