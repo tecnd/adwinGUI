@@ -109,7 +109,7 @@ $(function() {
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;BOOL ChangedVals;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;BOOL UseSimpleTiming;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">struct </span><a class="code" href="struct_analog_table_values.html">AnalogTableValues</a></div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="struct_analog_table_values.html">   45</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_analog_table_values.html">AnalogTableValues</a></div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">int</span> fcn;                                                                         <span class="comment">//fcn is an integer refering to a function to use.                                                                                  // 1-step, 2-linear, 3- exp, 4- &#39;S&#39; curve 5-sine 6-&quot;same as last cell&quot;</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">double</span> fval;                                                                     <span class="comment">//the final value</span></div>
@@ -123,7 +123,7 @@ $(function() {
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keywordtype">double</span> TimeArray[NUMBEROFCOLUMNS + 1][NUMBEROFPAGES + 1];</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">struct </span><a class="code" href="struct_analog_channel_properties.html">AnalogChannelProperties</a></div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="struct_analog_channel_properties.html">   59</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_analog_channel_properties.html">AnalogChannelProperties</a></div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;{</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">int</span> chnum;       <span class="comment">// channel number 1-8 DAC1 9-16 DAC2</span></div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">char</span> chname[50]; <span class="comment">// name to appear on the panel</span></div>
@@ -135,7 +135,7 @@ $(function() {
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">double</span> minvolts;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;} AChName[MAXANALOG];</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">struct </span><a class="code" href="struct_digital_channel_properties.html">DigitalChannelProperties</a></div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="struct_digital_channel_properties.html">   71</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_digital_channel_properties.html">DigitalChannelProperties</a></div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;{</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">int</span> chnum;       <span class="comment">// digital line to control</span></div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">char</span> chname[50]; <span class="comment">// name of the channel on the panel</span></div>
@@ -197,10 +197,10 @@ $(function() {
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keywordtype">int</span> BufferSize;</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;} ScanBuffer[1000];</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="astruct_analog_channel_properties_html"><div class="ttname"><a href="struct_analog_channel_properties.html">AnalogChannelProperties</a></div><div class="ttdef"><b>Definition:</b> backup cutpaste.c:21</div></div>
+<div class="ttc" id="astruct_analog_channel_properties_html"><div class="ttname"><a href="struct_analog_channel_properties.html">AnalogChannelProperties</a></div><div class="ttdef"><b>Definition:</b> vars.h:60</div></div>
 <div class="ttc" id="astruct_analog_scan_parameters_html"><div class="ttname"><a href="struct_analog_scan_parameters.html">AnalogScanParameters</a></div><div class="ttdef"><b>Definition:</b> vars.h:83</div></div>
-<div class="ttc" id="astruct_analog_table_values_html"><div class="ttname"><a href="struct_analog_table_values.html">AnalogTableValues</a></div><div class="ttdef"><b>Definition:</b> backup cutpaste.c:8</div></div>
-<div class="ttc" id="astruct_digital_channel_properties_html"><div class="ttname"><a href="struct_digital_channel_properties.html">DigitalChannelProperties</a></div><div class="ttdef"><b>Definition:</b> backup cutpaste.c:29</div></div>
+<div class="ttc" id="astruct_analog_table_values_html"><div class="ttname"><a href="struct_analog_table_values.html">AnalogTableValues</a></div><div class="ttdef"><b>Definition:</b> vars.h:46</div></div>
+<div class="ttc" id="astruct_digital_channel_properties_html"><div class="ttname"><a href="struct_digital_channel_properties.html">DigitalChannelProperties</a></div><div class="ttdef"><b>Definition:</b> vars.h:72</div></div>
 <div class="ttc" id="astruct_scan_buff_html"><div class="ttname"><a href="struct_scan_buff.html">ScanBuff</a></div><div class="ttdef"><b>Definition:</b> vars.h:125</div></div>
 <div class="ttc" id="astruct_scan_parameters_html"><div class="ttname"><a href="struct_scan_parameters.html">ScanParameters</a></div><div class="ttdef"><b>Definition:</b> vars.h:101</div></div>
 <div class="ttc" id="astruct_scan_set_html"><div class="ttname"><a href="struct_scan_set.html">ScanSet</a></div><div class="ttdef"><b>Definition:</b> vars.h:114</div></div>
