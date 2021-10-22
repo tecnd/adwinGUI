@@ -81,15 +81,12 @@ $(function() {
 <code>#include &quot;AnalogSettings2.h&quot;</code><br />
 <code>#include &quot;AnalogControl2.h&quot;</code><br />
 <code>#include &quot;DigitalSettings2.h&quot;</code><br />
-<code>#include &quot;DDSControl2.h&quot;</code><br />
-<code>#include &quot;DDSSettings2.h&quot;</code><br />
-<code>#include &quot;ddstranslator.h&quot;</code><br />
 <code>#include &quot;main.h&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae734020bfe974f35d274ded93e2e3ac7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#ae734020bfe974f35d274ded93e2e3ac7">BuildUpdateList</a> (double[500], struct <a class="el" href="struct_analog_table_values.html">AnalogTableValues</a>[NUMBERANALOGCHANNELS+1][500], int[NUMBERDIGITALCHANNELS+1][500], <a class="el" href="structddsoptions__struct.html">ddsoptions_struct</a>[500], <a class="el" href="structddsoptions__struct.html">ddsoptions_struct</a>[500], <a class="el" href="structddsoptions__struct.html">ddsoptions_struct</a>[500], int)</td></tr>
-<tr class="separator:ae734020bfe974f35d274ded93e2e3ac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5a2b82ae838e2372de2d7b271cf49f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#ac5a2b82ae838e2372de2d7b271cf49f9">BuildUpdateList</a> (double[500], struct <a class="el" href="struct_analog_table_values.html">AnalogTableValues</a>[NUMBERANALOGCHANNELS+1][500], int[NUMBERDIGITALCHANNELS+1][500], int)</td></tr>
+<tr class="separator:ac5a2b82ae838e2372de2d7b271cf49f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0afae188565a4cb3ad38dabe6b90ed11"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a0afae188565a4cb3ad38dabe6b90ed11">CMD_RUN_CALLBACK</a> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
 <tr class="separator:a0afae188565a4cb3ad38dabe6b90ed11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72eab897f9261404259eb19c5dad54da"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a72eab897f9261404259eb19c5dad54da">CMD_SCAN_CALLBACK</a> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
@@ -297,24 +294,12 @@ struct <a class="el" href="struct_analog_table_values.html">AnalogTableValues</a
 <tr class="memitem:acab3dc9f338e9cdc733e6e2753b57a33"><td class="memItemLeft" align="right" valign="top"><a id="acab3dc9f338e9cdc733e6e2753b57a33"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [NUMBERDIGITALCHANNELS+1]</td></tr>
 <tr class="separator:acab3dc9f338e9cdc733e6e2753b57a33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af501019e562b230d231afe9b229f339f"><td class="memItemLeft" align="right" valign="top"><a id="af501019e562b230d231afe9b229f339f"></a>
-<a class="el" href="structddsoptions__struct.html">ddsoptions_struct</a>&#160;</td><td class="memItemRight" valign="bottom"><b>ddsclip</b></td></tr>
-<tr class="separator:af501019e562b230d231afe9b229f339f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9175588728c3c7b3a931d4531cb4aaf"><td class="memItemLeft" align="right" valign="top"><a id="ae9175588728c3c7b3a931d4531cb4aaf"></a>
-<a class="el" href="structddsoptions__struct.html">ddsoptions_struct</a>&#160;</td><td class="memItemRight" valign="bottom"><b>dds2clip</b></td></tr>
-<tr class="separator:ae9175588728c3c7b3a931d4531cb4aaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36ef2fd27968dcaab340675da06ffb61"><td class="memItemLeft" align="right" valign="top"><a id="a36ef2fd27968dcaab340675da06ffb61"></a>
-<a class="el" href="structddsoptions__struct.html">ddsoptions_struct</a>&#160;</td><td class="memItemRight" valign="bottom"><b>dds3clip</b></td></tr>
-<tr class="separator:a36ef2fd27968dcaab340675da06ffb61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89331d7600d064f0ddad50e9a1ae6d99"><td class="memItemLeft" align="right" valign="top"><a id="a89331d7600d064f0ddad50e9a1ae6d99"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>Active_DDS_PANEL</b></td></tr>
-<tr class="separator:a89331d7600d064f0ddad50e9a1ae6d99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains functions and callbacks for primary GUI. Boots the ADwin, handles compilation of the arrays into ADwin-friendly format. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="ae734020bfe974f35d274ded93e2e3ac7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae734020bfe974f35d274ded93e2e3ac7">&#9670;&nbsp;</a></span>BuildUpdateList()</h2>
+<a id="ac5a2b82ae838e2372de2d7b271cf49f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5a2b82ae838e2372de2d7b271cf49f9">&#9670;&nbsp;</a></span>BuildUpdateList()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -340,24 +325,6 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>Active_DDS_PANEL</b></
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structddsoptions__struct.html">ddsoptions_struct</a>&#160;</td>
-          <td class="paramname"><em>DDSArray</em>[500], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structddsoptions__struct.html">ddsoptions_struct</a>&#160;</td>
-          <td class="paramname"><em>DDS2Array</em>[500], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structddsoptions__struct.html">ddsoptions_struct</a>&#160;</td>
-          <td class="paramname"><em>DDS3Array</em>[500], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>numtimes</em>&#160;</td>
         </tr>
@@ -372,8 +339,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>Active_DDS_PANEL</b></
   <table class="params">
     <tr><td class="paramname">TMatrix[]</td><td>Stores the interval time of each column </td></tr>
     <tr><td class="paramname">AMat[]</td><td>Stores info located in the analog table </td></tr>
-    <tr><td class="paramname">DMat[]</td><td>Stores info located in the digital table </td></tr>
-    <tr><td class="paramname">DDSArray[]</td><td>note is_stop=1 means DDS OFF</td></tr>
+    <tr><td class="paramname">DMat[]</td><td>Stores info located in the digital table</td></tr>
   </table>
   </dd>
 </dl>
