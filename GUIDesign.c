@@ -32,23 +32,16 @@ Boots the ADwin, handles compilation of the arrays into ADwin-friendly format.
 #include "AnalogSettings2.h"
 #include "AnalogControl2.h"
 #include "DigitalSettings2.h"
-#include "DDSControl2.h"
-#include "DDSSettings2.h"
-#include "ddstranslator.h"
 #include "main.h"
 
 // Forward declarations of functions
-void BuildUpdateList(double[500], struct AnalogTableValues[NUMBERANALOGCHANNELS + 1][500], int[NUMBERDIGITALCHANNELS + 1][500],
-					 ddsoptions_struct[500], ddsoptions_struct[500], ddsoptions_struct[500], int);
+void BuildUpdateList(double[500], struct AnalogTableValues[NUMBERANALOGCHANNELS + 1][500], int[NUMBERDIGITALCHANNELS + 1][500], int);
 
 //Clipboard to hold data from copy/paste cells
 double TimeClip;
 int ClipColumn = -1;
 struct AnalogTableValues AnalogClip[NUMBERANALOGCHANNELS + 1];
 int DigClip[NUMBERDIGITALCHANNELS + 1];
-ddsoptions_struct ddsclip, dds2clip, dds3clip;
-
-extern int Active_DDS_PANEL;
 
 /**
 Executed when the "RUN" button is pressed.
@@ -171,9 +164,6 @@ void RunOnce(void)
 	double MetaTimeArray[500] = {0.}; // initialize the 0th element even though we're not using it, otherwise will raise uninitialized exception
 	int MetaDigitalArray[NUMBERDIGITALCHANNELS + 1][500] = {0};
 	struct AnalogTableValues MetaAnalogArray[NUMBERANALOGCHANNELS + 1][500] = {{0, 0., 0.}};
-	ddsoptions_struct MetaDDSArray[500];
-	ddsoptions_struct MetaDDS2Array[500];
-	ddsoptions_struct MetaDDS3Array[500];
 
 	//Lets build the times list first...so we know how long it will be.
 	//check each page...find columns in use and dim out unused....(with 0 or negative time values)
@@ -215,13 +205,6 @@ void RunOnce(void)
 					{
 						MetaDigitalArray[channel][mindex] = DigTableValues[col][channel][page];
 					}
-					/* ddsoptions_struct contains floats and ints, so shallow copy is ok */
-					MetaDDSArray[mindex] = ddstable[col][page];
-					MetaDDS2Array[mindex] = dds2table[col][page];
-					MetaDDS3Array[mindex] = dds3table[col][page];
-					MetaDDSArray[mindex].delta_time = TimeArray[col][page] / 1000;
-					MetaDDS2Array[mindex].delta_time = TimeArray[col][page] / 1000;
-					MetaDDS3Array[mindex].delta_time = TimeArray[col][page] / 1000;
 				}
 				else if (TimeArray[col][page] == 0)
 				{
@@ -258,36 +241,15 @@ void RunOnce(void)
 		for (int i = 1; i <= mindex; i++)
 			printf("%i\t",MetaDigitalArray[j][i]);
 	}
-
-	printf("\n\nDDS1 LINE\nEndFreq:\t");
-	for (int i = 1; i <= mindex; i++)
-		printf("%0.0f\t",MetaDDSArray[i].end_frequency);
-
-	printf("\nStartFreq:\t");
-	for (int i = 1; i <= mindex; i++)
-		printf("%0.0f\t",MetaDDSArray[i].start_frequency);
-
-	printf("\nis_stop:\t");
-	for (int i = 1; i <= mindex; i++)
-		printf("%d\t",MetaDDSArray[i].is_stop);
-
-	printf("\nAmplitude:\t");
-	for (int i = 1; i <= mindex; i++)
-		printf("%0.0f\t",MetaDDSArray[i].amplitude);
-
-	printf("\nDelta Time:\t");								//At this Point all the delta time vals are zero (all conditions)
-	for (int i = 1; i <= mindex; i++)						//Not being used???
-		printf("%0.0f\t",MetaDDSArray[i].delta_time);*/
-
+*/
 	// Send the new arrays to BuildUpdateList()
-	BuildUpdateList(MetaTimeArray, MetaAnalogArray, MetaDigitalArray, MetaDDSArray, MetaDDS2Array, MetaDDS3Array, mindex);
+	BuildUpdateList(MetaTimeArray, MetaAnalogArray, MetaDigitalArray, mindex);
 }
 
 /**
 @param TMatrix[] Stores the interval time of each column
 @param AMat[] Stores info located in the analog table
 @param DMat[] Stores info located in the digital table
-@param DDSArray[] note is_stop=1 means DDS OFF
 
 all the above have 500 update period elements note that valid elements are base1
 
@@ -314,8 +276,7 @@ From the meta-lists, we generate 3 arrays.
 .
 @todo Remove old DDS code
 */
-void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERANALOGCHANNELS + 1][500], int DMat[NUMBERDIGITALCHANNELS + 1][500],
-					 ddsoptions_struct DDSArray[500], ddsoptions_struct DDS2Array[500], ddsoptions_struct DDS3Array[500], int numtimes)
+void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERANALOGCHANNELS + 1][500], int DMat[NUMBERDIGITALCHANNELS + 1][500], int numtimes)
 {
 	BOOL UseCompression, ArraysToDebug;
 	int *UpdateNum;
@@ -337,9 +298,6 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 	static int didprocess = 0;
 	int memused;
 	int timeused;
-	int tmp_dds;
-	dds_cmds_ptr dds_cmd_seq = NULL;
-	double DDSoffset = 0.0, DDS2offset = 0.0, DDS3offset = 0.0;
 	int digchannelsum;
 	int newcount;
 	// variables for timechannel optimization
@@ -369,20 +327,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 		/* Update the array of DDS commands
 		EventPeriod is in ms, create_command_array in s, so convert units */
 		GetMenuBarAttribute(menuHandle, MENU_PREFS_SIMPLETIMING, ATTR_CHECKED, &UseSimpleTiming);
-		GetCtrlVal(panelHandle, PANEL_NUM_DDS_OFFSET, &DDSoffset);
-		GetCtrlVal(panelHandle, PANEL_NUM_DDS2_OFFSET, &DDS2offset);
-		GetCtrlVal(panelHandle, PANEL_NUM_DDS3_OFFSET, &DDS3offset);
-		// read offsets to add to DDSArray
 
-		dds_cmd_seq = create_ad9852_cmd_sequence(DDSArray, numtimes, DDSFreq.PLLmult,
-												 DDSFreq.extclock, EventPeriod / 1000);
-		// again, uncomment as needed
-		/*  dds_cmd_seq_AD9858 = create_ad9858_cmd_sequence(DDS2Array, numtimes,DDS2_CLOCK,
-		EventPeriod/1000,0);	   // assume frequency offset of 0 MHz
-	    */
-		/*dds_cmd_seq = create_ad9852_cmd_sequence(DDS3Array, numtimes,DDSFreq.PLLmult,
-		DDSFreq.extclock,EventPeriod/1000);
-   	    */
 		//dynamically allocate the memory for the time array (instead of using a static array:UpdateNum)
 		//We are making an assumption about how many programmable points we may need to use.
 		//For now assume that number of channel updates <= 4* #of events, serious overestimate
@@ -520,27 +465,6 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 				t++;
 				int k = 0;
 				nupcurrent = 0;
-				//look for a new DDS command, start_offset=0
-				tmp_dds = get_dds_cmd(dds_cmd_seq, count - 1 - start_offset); //dds translator(zero base) runs 1 behind this counter
-				if (tmp_dds >= 0)
-				{
-					nupcurrent++;
-					nuptotal++;
-					ChNum[nuptotal] = 51; //DDS1 dummy channel
-					ChVal[nuptotal] = tmp_dds;
-
-				} //done the DDS1
-
-				/*		tmp_dds = get_dds_cmd(dds_cmd_seq_AD9858, count-1-start_offset);  //dds translator(zero base) runs 1 behind this counter
-				if (tmp_dds>=0)
-				{
-					nupcurrent++;
-					nuptotal++;
-					ChNum[nuptotal] = 52; //dummy channel
-					ChVal[nuptotal] = tmp_dds;
-
-				} //done the DDS2
-		*/
 
 				while (k < usefcn)
 				{
@@ -888,17 +812,6 @@ void UpdateScanValue(int Reset)
 			ScanVal.Step = PScan.Time.Scan_Step_Size;
 			ScanVal.Iterations = PScan.Time.Iterations_Per_Step;
 			break;
-		case 2:
-			ScanVal.End = PScan.DDS.End_Of_Scan;
-			ScanVal.Start = PScan.DDS.Start_Of_Scan;
-			ScanVal.Step = PScan.DDS.Scan_Step_Size;
-			ScanVal.Iterations = PScan.DDS.Iterations_Per_Step;
-			break;
-		case 3:
-			ScanVal.End = PScan.DDSFloor.Floor_End;
-			ScanVal.Start = PScan.DDSFloor.Floor_Start;
-			ScanVal.Step = PScan.DDSFloor.Floor_Step;
-			ScanVal.Iterations = PScan.DDSFloor.Iterations_Per_Step;
 		}
 
 		if (UseList) // if we are set to use the scan list instead of a linear scan, then read first value
@@ -987,14 +900,6 @@ void UpdateScanValue(int Reset)
 	case 1: // Time duration
 		TimeArray[cx][cz] = ScanVal.Current_Value;
 		break;
-	case 2: // DDS frequency
-		ddstable[cx][cz].amplitude = PScan.DDS.Current;
-		ddstable[cx][cz].start_frequency = PScan.DDS.Base_Freq;
-		ddstable[cx][cz].end_frequency = ScanVal.Current_Value;
-		break;
-	case 3: // DDS offset/floor
-		SetCtrlVal(panelHandle, PANEL_NUM_DDS_OFFSET, ScanVal.Current_Value);
-		break;
 	}
 
 	// Record current scan information into a string buffer, so we can write it to disk later.
@@ -1044,8 +949,6 @@ void UpdateScanValue(int Reset)
 	{ // reset initial values in the tables
 		AnalogTable[cx][cy][cz].fval = PScan.Analog.Start_Of_Scan;
 		TimeArray[cx][cz] = PScan.Time.Start_Of_Scan;
-		SetCtrlVal(panelHandle, PANEL_NUM_DDS_OFFSET, PScan.DDSFloor.Floor_Start);
-		ddstable[cx][cz].end_frequency = PScan.DDS.Start_Of_Scan;
 
 		//hide the information panel
 		SetCtrlAttribute(panelHandle_sub2, SUBPANEL2, ATTR_VISIBLE, 0);
@@ -1217,88 +1120,6 @@ void DrawNewTable(int isdimmed)
 				SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, ColorPicker(j));
 			}
 		} //Done digital drawing.
-
-		//***************update DDS row********************
-
-		int DDSChannel1 = NUMBERANALOGCHANNELS + 1;
-		int DDSChannel2 = NUMBERANALOGCHANNELS + 2;
-		int DDSChannel3 = NUMBERANALOGCHANNELS + 3;
-		/*DDS1*/ SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel1), 0.);
-		//if(ispicture==0)
-		{
-			SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel1), ddstable[i][page].start_frequency);
-		}
-		SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel1), ATTR_CELL_DIMMED, 0);
-
-		if (ddstable[i][page].amplitude == 0.0 || ddstable[i][page].is_stop)
-		{
-			//make grey
-			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel1), ATTR_TEXT_BGCOLOR, VAL_WHITE);
-		}
-		else
-		{
-			if (ddstable[i][page].start_frequency > ddstable[i][page].end_frequency)
-			{
-				//ramping down
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel1), ATTR_TEXT_BGCOLOR, VAL_BLUE);
-			}
-			else
-			{
-				//ramping up
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel1), ATTR_TEXT_BGCOLOR, VAL_GREEN);
-			}
-		}
-		/*DDS2*/ SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel2), 0.);
-		//if(ispicture==0)
-		{
-			SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel2), dds2table[i][page].start_frequency);
-		}
-		SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel2), ATTR_CELL_DIMMED, 0);
-
-		if (dds2table[i][page].amplitude == 0.0 || dds2table[i][page].is_stop)
-		{
-			//make grey
-			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel2), ATTR_TEXT_BGCOLOR, VAL_WHITE);
-		}
-		else
-		{
-			if (dds2table[i][page].start_frequency > dds2table[i][page].end_frequency)
-			{
-				//ramping down
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel2), ATTR_TEXT_BGCOLOR, VAL_BLUE);
-			}
-			else
-			{
-				//ramping up
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel2), ATTR_TEXT_BGCOLOR, VAL_GREEN);
-			}
-		}
-		/*DDS3*/ SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel3), 0.);
-		//if(ispicture==0)
-		{
-			SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel3), dds3table[i][page].start_frequency);
-		}
-		SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel3), ATTR_CELL_DIMMED, 0);
-
-		if (dds3table[i][page].amplitude == 0.0 || dds3table[i][page].is_stop)
-		{
-			//make grey
-			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel3), ATTR_TEXT_BGCOLOR, VAL_WHITE);
-		}
-		else
-		{
-			if (dds3table[i][page].start_frequency > dds3table[i][page].end_frequency)
-			{
-				//ramping down
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel3), ATTR_TEXT_BGCOLOR, VAL_BLUE);
-			}
-			else
-			{
-				//ramping up
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel3), ATTR_TEXT_BGCOLOR, VAL_GREEN);
-			}
-		}
-		//***************update DDS row********************
 
 		// update the times row
 		SetTableCellVal(panelHandle, PANEL_TIMETABLE, MakePoint(i, 1), TimeArray[i][page]);
