@@ -277,7 +277,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 	int NewTimeMat[500];
 	int nupcurrent, nuptotal = 0, checkresettozero = 0;
 	int usefcn, digchannel; //Bool
-	unsigned int digval, digval2, digval3, digval4, LastDVal = 0, LastDVal2 = 0;
+	unsigned int digval, digval2, LastDVal = 0, LastDVal2 = 0;
 	int UsingFcns[NUMBERANALOGCHANNELS + 1] = {0}, count = 0;
 	double LastAval[NUMBERANALOGCHANNELS + 1] = {0}, NewAval, TempChVal, TempChVal2;
 	long ResetToZeroAtEnd[NUMBERANALOGCHANNELS + 6]; //1-24 for analog, ...but for now, if [1]=1 then all zero, else no change
@@ -375,38 +375,19 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 			//*********now the digital value
 			digval = 0;
 			digval2 = 0;
-			digval3 = 0;
-			digval4 = 0;
-			for (int k = 1; k <= NUMBERDIGITALCHANNELS; k++)
+			for (int row = 1; row <= NUMBERDIGITALCHANNELS; row++)
 			{
-				digchannel = DChName[k].chnum;
+				digchannel = DChName[row].chnum;
 
 				if (digchannel <= 32)
 				{
-					digval = digval + DMat[k][i] * pow(2, DChName[k].chnum - 1);
+					digval |= (DMat[row][i] << (digchannel - 1)); // Set bits using logical OR
 				}
-				if ((digchannel >= 101) && (digchannel <= 132))
+				else if ((digchannel >= 101) && (digchannel <= 132))
 				{
-					digval2 = digval2 + DMat[k][i] * pow(2, (DChName[k].chnum - 100) - 1);
+					digval2 = digval2 + DMat[row][i] * pow(2, (DChName[row].chnum - 100) - 1);
 				}
-				/*
-				if(digchannel<=16)
-				{
-					digval=digval+DMat[k][i]*pow(2,DChName[k].chnum-1);
-				}
-				if((digchannel>=17)&&(digchannel<=32))
-				{
-					digval2=digval2+DMat[k][i]*pow(2,(DChName[k].chnum-16)-1);
-				}
-				if((digchannel>=101)&&(digchannel<=116))// starting on card 2.  Channels run from 101-132 (1-32)
-				{
-					digval3=digval3+DMat[k][i]*pow(2,(DChName[k].chnum-100)-1);
-				}
-				if((digchannel>=117)&&(digchannel<=132))
-				{
-					digval4=digval4+DMat[k][i]*pow(2,(DChName[k].chnum-116)-1);
-				}
-*/
+				printf("%d\t%d\n", row, digval);
 			} // finished computing current digital data
 
 			if (digval != LastDVal)
@@ -426,23 +407,6 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 			}
 			LastDVal2 = digval2;
 
-			/*			if(!(digval3==LastDVal3))
-			{
-				nupcurrent++;
-				nuptotal++;
-				ChNum[nuptotal]=103;
-				ChVal[nuptotal]=digval3;
-			}
-			LastDVal3=digval3;
-			if(!(digval4==LastDVal4))
-			{
-				nupcurrent++;
-				nuptotal++;
-				ChNum[nuptotal]=104;
-				ChVal[nuptotal]=digval4;
-			}
-			LastDVal4=digval4;
-*/
 			count++;
 			UpdateNum[count] = nupcurrent;
 
