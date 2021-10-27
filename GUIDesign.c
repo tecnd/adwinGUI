@@ -277,7 +277,6 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 	int NewTimeMat[500];
 	int nupcurrent, nuptotal = 0, checkresettozero = 0;
 	int usefcn, digchannel; //Bool
-	unsigned int digval, digval2, LastDVal = 0, LastDVal2 = 0;
 	int UsingFcns[NUMBERANALOGCHANNELS + 1] = {0}, count = 0;
 	double LastAval[NUMBERANALOGCHANNELS + 1] = {0}, NewAval, TempChVal, TempChVal2;
 	long ResetToZeroAtEnd[NUMBERANALOGCHANNELS + 6]; //1-24 for analog, ...but for now, if [1]=1 then all zero, else no change
@@ -373,8 +372,10 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 				}
 			} //done scanning the analog values.
 			//*********now the digital value
-			digval = 0;
-			digval2 = 0;
+			int digval = 0;
+			int LastDVal = 0;
+			int digval2 = 0;
+			int LastDVal2 = 0;
 			for (int row = 1; row <= NUMBERDIGITALCHANNELS; row++)
 			{
 				digchannel = DChName[row].chnum;
@@ -385,9 +386,8 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 				}
 				else if ((digchannel >= 101) && (digchannel <= 132))
 				{
-					digval2 = digval2 + DMat[row][i] * pow(2, (DChName[row].chnum - 100) - 1);
+					digval2 |= DMat[row][i] << (digchannel - 101);
 				}
-				printf("%d\t%d\n", row, digval);
 			} // finished computing current digital data
 
 			if (digval != LastDVal)
