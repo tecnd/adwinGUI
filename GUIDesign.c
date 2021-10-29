@@ -345,6 +345,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 		//nuptotal: current position in the channel/value column
 		int LastDVal = 0;
 		int LastDVal2 = 0;
+		BOOL firstCol = TRUE; // make sure to always update on first column to prevent lingering from past loops in repeat mode
 		for (int i = 1; i <= numtimes; i++)
 		{
 			// find out how many channels need updating this round...
@@ -390,7 +391,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 				}
 			} // finished computing current digital data
 
-			if (digval != LastDVal)
+			if (firstCol || digval != LastDVal)
 			{
 				nupcurrent++;
 				nuptotal++;
@@ -398,7 +399,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 				ChVal[nuptotal] = digval;
 			}
 			LastDVal = digval;
-			if (digval2 != LastDVal2)
+			if (firstCol || digval2 != LastDVal2)
 			{
 				nupcurrent++;
 				nuptotal++;
