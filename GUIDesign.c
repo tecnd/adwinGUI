@@ -503,7 +503,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 
 		if (didboot == FALSE) // is the ADwin booted?  if not, then boot
 		{
-			Boot("C:\\ADWIN\\ADWIN11.BTL", 0); //Updated July 14 2009 - Ben Sofka
+			Boot("ADbasic\\ADwin11.btl", 0); //Updated July 14 2009 - Ben Sofka
 			didboot = 1;
 		}
 		if (didprocess == FALSE) // is the ADwin process already loaded?
