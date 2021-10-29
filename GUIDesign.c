@@ -343,6 +343,8 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 		//count: Number of Adwin events until the current position
 		//nupcurrent: number of updates for the current Adwin event
 		//nuptotal: current position in the channel/value column
+		int LastDVal = 0;
+		int LastDVal2 = 0;
 		for (int i = 1; i <= numtimes; i++)
 		{
 			// find out how many channels need updating this round...
@@ -373,9 +375,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 			} //done scanning the analog values.
 			//*********now the digital value
 			int digval = 0;
-			int LastDVal = 0;
 			int digval2 = 0;
-			int LastDVal2 = 0;
 			for (int row = 1; row <= NUMBERDIGITALCHANNELS; row++)
 			{
 				digchannel = DChName[row].chnum;
