@@ -919,7 +919,7 @@ void LoadSettings(void)
 	char fsavename[500];
 	// prompt for a file, if selected then load the Panel and Arrays
 	int status = FileSelectPopupEx("C:\\UserDate\\Data", "*.pan", "", "Load Settings", VAL_LOAD_BUTTON, 0, 0, fsavename);
-	if (status != VAL_NO_FILE_SELECTED)
+	if (status == VAL_EXISTING_FILE_SELECTED)
 	{
 		RecallPanelState(PANEL, fsavename, 1);
 		LoadArrays(fsavename, strlen(fsavename));
@@ -936,7 +936,7 @@ Saves panel values to *.pan file
 */
 void SaveSettings(void)
 {
-	char fsavename[500] = "";
+	char fsavename[500];
 
 	int status = FileSelectPopupEx("C:\\UserDate\\Data", "*.pan", "", "Save Settings", VAL_SAVE_BUTTON, 0, 0, fsavename);
 	if (status != VAL_NO_FILE_SELECTED)
@@ -1626,20 +1626,21 @@ void CVICALLBACK PASTECOLUMN_CALLBACK(int menuBar, int menuItem, void *callbackD
 		ConfirmPopup("Copy Column", "No Column Selected");
 }
 
-//**********************************************************************************
+/** Loads all Panel attributes and values which are not saved automatically by the NI function SavePanelState.
+the values are stored in the .arr file by SaveArrays.
+
+Note that if the lengths of any of the data arrays are changed previous saves will not be able to be loaded.
+If necessary See AdwinGUI Panel Converter V11-V12 (created June 01, 2006)
+
+@param savedname[]
+@param csize
+*/
 void LoadArrays(char savedname[500], int csize)
 {
-	/* Laods all Panel attributes and values which are not saved automatically by the NI function SavePanelState.
-	   the values are stored in the .arr file by SaveArrays
-	   x,y, and zval give the 3D table dimensions but are not critical to the saving/loading operation
-
-	   Note that if the lengths of any of the data arrays are changed previous saves will not be able to be laoded.
-	   If necessary See AdwinGUI Panel Converter V11-V12 (created June 01, 2006)
-	*/
-
 	FILE *fdata;
-	int xval = 16, yval = 16, zval = 10, updatePer;
+	int updatePer;
 	char buff[500] = "";
+	char buttonName[80];
 	strncat(buff, savedname, csize - 4);
 	strcat(buff, ".arr");
 	if ((fdata = fopen(buff, "r")) == NULL)
@@ -1647,10 +1648,6 @@ void LoadArrays(char savedname[500], int csize)
 		MessagePopup("Load Error", "Failed to load data arrays");
 		//	exit(1);
 	}
-
-	fread(&xval, sizeof xval, 1, fdata);
-	fread(&yval, sizeof yval, 1, fdata);
-	fread(&zval, sizeof zval, 1, fdata);
 	//now for the times.
 	fread(&TimeArray, (sizeof TimeArray), 1, fdata);
 	//and the analog data
@@ -1658,6 +1655,13 @@ void LoadArrays(char savedname[500], int csize)
 	fread(&DigTableValues, (sizeof DigTableValues), 1, fdata);
 	fread(&AChName, (sizeof AChName), 1, fdata);
 	fread(&DChName, sizeof DChName, 1, fdata);
+
+	for (int page = 1; page <= NUMBEROFPAGES; page++)
+	{
+		fread(&buttonName, sizeof buttonName, 1, fdata);
+		SetCtrlAttribute(panelHandle, ButtonArray[page], ATTR_ON_TEXT, buttonName);
+		SetCtrlAttribute(panelHandle, ButtonArray[page], ATTR_OFF_TEXT, buttonName);
+	}
 
 	//Update Period Retrieved and Set
 	fread(&updatePer, sizeof updatePer, 1, fdata);
@@ -1696,21 +1700,22 @@ void LoadArrays(char savedname[500], int csize)
 	SetDigitalChannels();
 }
 
-//*****************************************************************************************
+/**
+Saves all Panel attributes and values which are not saved automatically by the NI function SavePanelState.
+The values are stored in the .arr file.
+
+Note that if the lengths of any of the data arrays are changed previous saves will not be able to be laoded.
+If necessary See AdwinGUI Panel Converter V11-V12 (created June 01, 2006)
+
+@param savedname[]
+@param csize
+*/
 void SaveArrays(char savedname[500], int csize)
 {
-	/* Saves all Panel attributes and values which are not saved automatically by the NI function SavePanelState
-	   The values are stored in the .arr file
-	   x,y, and zval give the 3D table dimensions but are not critical to the saving/loading operation
-
-	   Note that if the lengths of any of the data arrays are changed previous saves will not be able to be laoded.
-	   If necessary See AdwinGUI Panel Converter V11-V12 (created June 01, 2006)
-	*/
-
 	FILE *fdata;
-	int xval = NUMBEROFCOLUMNS, yval = NUMBERANALOGCHANNELS + NUMBERDIGITALCHANNELS, zval = NUMBEROFPAGES;
 	int usupd5, usupd10, usupd100, usupd1000, updatePer; //Update Period Check
 	char buff[500] = "", buff2[100];
+	char buttonName[80];
 	strncpy(buff, savedname, csize - 4);
 	strcat(buff, ".arr");
 	if ((fdata = fopen(buff, "w")) == NULL)
@@ -1723,10 +1728,6 @@ void SaveArrays(char savedname[500], int csize)
 
 		MessagePopup("Save Error", buff2);
 	}
-
-	fwrite(&xval, sizeof xval, 1, fdata);
-	fwrite(&yval, sizeof yval, 1, fdata);
-	fwrite(&zval, sizeof zval, 1, fdata);
 	//now for the times.
 	fwrite(&TimeArray, sizeof TimeArray, 1, fdata);
 	//and the analog data
@@ -1735,6 +1736,12 @@ void SaveArrays(char savedname[500], int csize)
 
 	fwrite(&AChName, sizeof AChName, 1, fdata);
 	fwrite(&DChName, sizeof DChName, 1, fdata);
+
+	for (int page = 1; page <= NUMBEROFPAGES; page++)
+	{
+		GetCtrlAttribute(panelHandle, ButtonArray[page], ATTR_ON_TEXT, buttonName);
+		fwrite(&buttonName, sizeof buttonName, 1, fdata);
+	}
 
 	GetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD5, ATTR_CHECKED, &usupd5);
 	GetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD10, ATTR_CHECKED, &usupd10);

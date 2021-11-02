@@ -378,8 +378,10 @@ void Initialization()
 		int newTB = NewCtrl(panelHandle, CTRL_SQUARE_TEXT_BUTTON, "", 30, 165 + (i - 1) * button_spacing);
 		SetCtrlAttribute(panelHandle, newTB, ATTR_HEIGHT, 25);
 		SetCtrlAttribute(panelHandle, newTB, ATTR_WIDTH, 45);
-		SetCtrlAttribute(panelHandle, newTB, ATTR_ON_TEXT, "Shown");
-		SetCtrlAttribute(panelHandle, newTB, ATTR_OFF_TEXT, "Hidden");
+		char buttonName[8];
+		sprintf(buttonName, "Page %d", i);
+		SetCtrlAttribute(panelHandle, newTB, ATTR_ON_TEXT, buttonName);
+		SetCtrlAttribute(panelHandle, newTB, ATTR_OFF_TEXT, buttonName);
 		SetCtrlAttribute(panelHandle, newTB, ATTR_ON_COLOR, 0x66CC99);
 		InstallCtrlCallback(panelHandle, newTB, TOGGLE_CALLBACK, NULL);
 		ButtonArray[i] = newTB;
