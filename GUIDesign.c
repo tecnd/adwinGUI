@@ -1234,6 +1234,25 @@ int CVICALLBACK TOGGLE_CALLBACK(int panel, int control, int event,
 		ChangedVals = TRUE;
 		DrawNewTable(isdimmed);
 		break;
+	case EVENT_RIGHT_CLICK:
+		int i = 1;
+		for (i = 1; i <= NUMBEROFPAGES; i++)
+		{
+			if (ButtonArray[i] == control)
+			{
+				break;
+			}
+		}
+		char buff[80];
+		char prompt[46];
+		sprintf(prompt, "Enter a new label for phase %d control button", i);
+		int status = PromptPopup("Enter control button label", prompt, buff, sizeof buff - 2);
+		if (status == 0)
+		{
+			SetCtrlAttribute(panelHandle, ButtonArray[i], ATTR_ON_TEXT, buff);
+			SetCtrlAttribute(panelHandle, ButtonArray[i], ATTR_OFF_TEXT, buff);
+		}
+		break;
 	}
 	return 0;
 }
@@ -1343,127 +1362,6 @@ void CVICALLBACK MENU_DEBUG_CALLBACK(int menuBar, int menuItem, void *callbackDa
 		status = 0;
 	}
 	SetCtrlAttribute(panelHandle, PANEL_DEBUG, ATTR_VISIBLE, status);
-}
-// Callbacks for changing control button labels. Found under Settings > Control Text > Stage n
-void CVICALLBACK TITLE1_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 1 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, ButtonArray[1], ATTR_ON_TEXT, buff);
-		SetCtrlAttribute(panelHandle, ButtonArray[1], ATTR_OFF_TEXT, buff);
-	}
-}
-
-void CVICALLBACK TITLE2_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 2 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, ButtonArray[2], ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, ButtonArray[2], ATTR_ON_TEXT, buff);
-	}
-}
-
-void CVICALLBACK TITLE3_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 3 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, ButtonArray[3], ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, ButtonArray[3], ATTR_ON_TEXT, buff);
-	}
-}
-
-void CVICALLBACK TITLE4_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 4 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, ButtonArray[4], ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, ButtonArray[4], ATTR_ON_TEXT, buff);
-	}
-}
-
-void CVICALLBACK TITLE5_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 1 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, ButtonArray[5], ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, ButtonArray[5], ATTR_ON_TEXT, buff);
-	}
-}
-
-void CVICALLBACK TITLE6_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 6 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, ButtonArray[6], ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, ButtonArray[6], ATTR_ON_TEXT, buff);
-	}
-}
-
-void CVICALLBACK TITLE7_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 7 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, ButtonArray[7], ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, ButtonArray[7], ATTR_ON_TEXT, buff);
-	}
-}
-
-void CVICALLBACK TITLE8_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 8 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, ButtonArray[8], ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, ButtonArray[8], ATTR_ON_TEXT, buff);
-	}
-}
-
-void CVICALLBACK TITLE9_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 9 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, ButtonArray[9], ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, ButtonArray[9], ATTR_ON_TEXT, buff);
-	}
-}
-
-void CVICALLBACK TITLEX_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 10 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, ButtonArray[10], ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, ButtonArray[10], ATTR_ON_TEXT, buff);
-	}
 }
 
 void CVICALLBACK SETGD5_CALLBACK(int menuBar, int menuItem, void *callbackData,
