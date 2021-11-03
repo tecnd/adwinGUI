@@ -926,12 +926,18 @@ void LoadSettings(void)
 	status = FileSelectPopupEx("C:\\UserDate\\Data", "*.pan", "", "Load Settings", VAL_LOAD_BUTTON, 0, 0, fsavename);
 	if (status == VAL_EXISTING_FILE_SELECTED)
 	{
-		RecallPanelState(PANEL, fsavename, 1);
+		if (RecallPanelState(PANEL, fsavename, 1) < 0)
+		{
+			MessagePopup("Load error", "Failed to load from file");
+			return;
+		}
 		LoadArrays(fsavename, strlen(fsavename));
+		SetPanelAttribute(panelHandle, ATTR_TITLE, fsavename);
 	}
 	else
 	{
 		MessagePopup("File Error", "No file was selected");
+		return;
 	}
 	DrawNewTable(0);
 }
@@ -949,6 +955,7 @@ void SaveSettings(void)
 		ClearListCtrl(panelHandle, PANEL_DEBUG); // added Feb 09, 2006
 		SavePanelState(PANEL, fsavename, 1);
 		SaveArrays(fsavename, strlen(fsavename));
+		SetPanelAttribute(panelHandle, ATTR_TITLE, fsavename);
 	}
 	else
 	{
