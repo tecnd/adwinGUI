@@ -1028,7 +1028,7 @@ void DrawNewTable(int isdimmed)
 
 			// get Analog table parameters for that cell... e.g. start/end values, function to get there
 
-			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, ColorPicker(j));
+			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_COLOR, VAL_BLACK);
 			// Change the cell color depending on the function type
 			if (cmode == 1)
 			{
@@ -1048,6 +1048,7 @@ void DrawNewTable(int isdimmed)
 			if (cmode == 3) // exponential ramp
 			{
 				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_BLUE);
+				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_COLOR, VAL_WHITE);
 			}
 			if (cmode == 4) // constant jerk function
 			{
