@@ -916,9 +916,14 @@ Loads panel values from file
 */
 void LoadSettings(void)
 {
+	int status = ConfirmPopup("Load", "Are you sure you want to load a new panel?\nUnsaved data will be lost!");
+	if (status == 0)
+	{
+		return; // Don't load
+	}
 	char fsavename[500];
 	// prompt for a file, if selected then load the Panel and Arrays
-	int status = FileSelectPopupEx("C:\\UserDate\\Data", "*.pan", "", "Load Settings", VAL_LOAD_BUTTON, 0, 0, fsavename);
+	status = FileSelectPopupEx("C:\\UserDate\\Data", "*.pan", "", "Load Settings", VAL_LOAD_BUTTON, 0, 0, fsavename);
 	if (status == VAL_EXISTING_FILE_SELECTED)
 	{
 		RecallPanelState(PANEL, fsavename, 1);
