@@ -383,7 +383,9 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 
 				if (digchannel <= 32)
 				{
-					digval |= (DMat[row][i] << (digchannel - 1)); // Set bits using logical OR
+					// Set bits using logical OR. Technically left-shifting a 32 bit signed int by 31 bits
+					// is undefined behavior, but it works as expected on modern machines
+					digval |= (DMat[row][i] << (digchannel - 1));
 				}
 				else if ((digchannel >= 101) && (digchannel <= 132))
 				{
@@ -408,6 +410,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 			}
 			LastDVal2 = digval2;
 
+			firstCol = FALSE;
 			count++;
 			UpdateNum[count] = nupcurrent;
 
@@ -1727,12 +1730,13 @@ void SaveArrays(char savedname[500], int csize)
 {
 	FILE *fdata;
 	int usupd5, usupd10, usupd100, usupd1000, updatePer; //Update Period Check
-	char buff[500] = "", buff2[100];
+	char buff[500];
 	char buttonName[80];
 	strncpy(buff, savedname, csize - 4);
 	strcat(buff, ".arr");
 	if ((fdata = fopen(buff, "w")) == NULL)
 	{
+		char buff2[100];
 		//	InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
 		strcpy(buff2, "Failed to save data arrays. \n Panel Filename received\n");
 		strcat(buff2, buff);
@@ -1762,13 +1766,21 @@ void SaveArrays(char savedname[500], int csize)
 	GetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD1000, ATTR_CHECKED, &usupd1000);
 
 	if (usupd5 == 1)
+	{
 		updatePer = 5;
+	}
 	else if (usupd10 == 1)
+	{
 		updatePer = 10;
+	}
 	else if (usupd100 == 1)
+	{
 		updatePer = 100;
-	else if (usupd1000 == 1)
+	}
+	else
+	{
 		updatePer = 1000;
+	}
 	fwrite(&updatePer, sizeof updatePer, 1, fdata);
 
 	fclose(fdata);
@@ -2025,8 +2037,6 @@ void CVICALLBACK SIMPLETIMING_CALLBACK(int menuBar, int menuItem, void *callback
 }
 //**************************************************************************************************************
 
-//**************************************************************************************************************
-
 void CVICALLBACK SCANSETTING_CALLBACK(int menuBar, int menuItem, void *callbackData,
 									  int panel)
 {
@@ -2170,7 +2180,7 @@ void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID, int MenuItemI
 	//Replaces Highlighted Cell contents with the values copied to the clipboard using Analog_Cell_Copy
 	//This function Handles copies and pastes of analog channel data.
 
-	int page, col, row;
+	int page;
 	Rect selection;
 	Point pval = {0, 0};
 
@@ -2180,10 +2190,10 @@ void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID, int MenuItemI
 	//Paste made into multiple cells of analog channels
 	if (selection.top <= NUMBERANALOGCHANNELS && selection.top > 0)
 	{
-		row = selection.top;
+		int row = selection.top;
 		while ((row <= selection.top + (selection.height - 1)) && (row <= NUMBERANALOGCHANNELS))
 		{
-			for (col = selection.left; col <= selection.left + (selection.width - 1); col++)
+			for (int col = selection.left; col <= selection.left + (selection.width - 1); col++)
 			{
 				AnalogTable[col][row][page].fcn = AnalogClip[0].fcn;
 				AnalogTable[col][row][page].fval = AnalogClip[0].fval;
@@ -2221,4 +2231,15 @@ void CVICALLBACK EXIT(int menuBar, int menuItem, void *callbackData, int panel)
 void CVICALLBACK Scan_Table_Load(int panelHandle, int controlID, int MenuItemID, void *callbackData)
 {
 	DisplayPanel(panelHandle8);
+}
+
+int CVICALLBACK OSCILLOSCOPE_CALLBACK(int panel, int control, int event, void *callbackData, int eventdata1, int eventdata2)
+{
+	switch (event)
+	{
+		case EVENT_COMMIT:
+			DisplayPanel(oscilloscopeHandle);
+			break;
+	}
+	return(0);
 }
