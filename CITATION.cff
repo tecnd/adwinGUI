@@ -1,0 +1,18 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: adwinGUI
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Kerry
+    family-names: Wang
+    email: zwang34@email.wm.edu
+    affiliation: Student
+  - given-names: Seth
+    family-names: Aubin
+    email: saaubi@wm.edu
+    affiliation: Research Advisor
