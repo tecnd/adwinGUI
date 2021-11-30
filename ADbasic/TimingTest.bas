@@ -17,7 +17,6 @@ dim pattern as long
 
 INIT:
   pattern = 0
-  PROCESSDELAY = Calc_Processdelay(1) ' Set to 1 Hz
   CPU_EVENT_CONFIG(0,1,1)
   DigProg1(1,65535)
 
