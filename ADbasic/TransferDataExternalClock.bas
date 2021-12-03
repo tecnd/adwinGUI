@@ -1,70 +1,28 @@
 '<ADbasic Header, Headerversion 001.001>
 ' Process_Number                 = 1
-' Initial_Processdelay           = 1000
-' Eventsource                    = Timer
+' Initial_Processdelay           = 3000
+' Eventsource                    = External
 ' Control_long_Delays_for_Stop   = No
 ' Priority                       = High
 ' Version                        = 1
 ' ADbasic_Version                = 6.3.1
-' Optimize                       = No
+' Optimize                       = Yes
+' Optimize_Level                 = 2
 ' Stacksize                      = 1000
 ' Info_Last_Save                 = NIGHTSHADE  NIGHTSHADE\labadmin
-' Foldings                       = 11,15
 '<Header End>
 #include ADwinPRO_ALL.inc
-dim i,j,k,lightcount,litup,eventcount,delaymultinuse as long
+dim i,j,k,delaymultinuse as long
 dim DATA_1[5000000] as long
 dim DATA_2[5000000] as long
 dim DATA_3[5000000] as float
 dim DATA_4[100] as long  ' a list of which channels are reset to zero on completion
 dim counts,maxcount,updates as long
 dim ch as long
-dim leddelay as float
 
 Function V(value) as float
   V=(value+10)/20*65535
 ENDFUNCTION
-
-SUB Light_LED(lit) as  
-  SELECTCASE lit
-    CASE 1
-      P2_SET_LED(2,0)
-      P2_SET_LED(1,1)    
-    CASE 2    
-      P2_SET_LED(1,0)
-      P2_SET_LED(2,1)
-    CASE 3
-      P2_SET_LED(2,0)
-      P2_SET_LED(3,1)
-    CASE 4
-      P2_SET_LED(3,0)
-      P2_SET_LED(4,1)
-    CASE 5
-      P2_SET_LED(4,0)
-      P2_SET_LED(1,1)
-    CASE 6
-      P2_SET_LED(1,0)
-      P2_SET_LED(2,1)
-    CASE 8
-      P2_SET_LED(2,0)
-      P2_SET_LED(1,1)    
-    CASE 9
-      P2_SET_LED(1,0)
-      P2_SET_LED(4,1)
-    CASE 10
-      P2_SET_LED(4,0)
-      P2_SET_LED(3,1)
-    CASE 11
-      P2_SET_LED(3,0)
-      P2_SET_LED(2,1)
-    CASE 12
-      P2_SET_LED(2,0)
-      P2_SET_LED(1,1)
-    CASE 13
-      P2_SET_LED(1,0)
-      'SETLED(2,da,1)
-  ENDSELECT
-ENDSUB
 
 SUB AnalogWrite(achannel, avalue) 
   if((achannel>=1)and(achannel<=8)) then
@@ -98,8 +56,9 @@ INIT:
   'Channels 1-32 refer to Analog output lines
   'Channel 101,102 refers to Digital output lines (32 bit word x2)
   
-  PROCESSDELAY=PAR_2 ' 300000=>1ms for T11 Processor: Updated July 14 2009 - Ben Sofka
-
+  ' PROCESSDELAY=PAR_2 ' 300000=>1ms for T11 Processor: Updated July 14 2009 - Ben Sofka
+  CPU_EVENT_CONFIG(0,1,1)
+  
   DigProg1(1,65535)
   DigProg2(1,65535)
   DigProg1(2,65535)
@@ -116,9 +75,6 @@ INIT:
   counts=1
   maxcount=PAR_1
   updates=1
-  lightcount=0
-  eventcount=0
-  leddelay=8000000/PROCESSDELAY
   delaymultinuse=0
   
   ' Debug display
@@ -138,18 +94,6 @@ EVENT:
     ' depending on how many channels are being programmed.
     P2_Sync_All(1111b)  ' Sync Pro II modules
     SyncAll()           ' Sync Pro I modules
-  
-    ' Blink LEDs on analog cards when in progress
-    ' is this necessary? -KW
-    eventcount=eventcount+delaymultinuse
-    if(eventcount>leddelay) then
-      eventcount=0      
-      if(litup=14) then 
-        litup=0
-      endif
-      litup=litup+1
-      Light_LED(litup)    
-    endif
     
     ' If we see a negative number, interpret it as a multi-event delay
     if(DATA_1[counts]<0) then
