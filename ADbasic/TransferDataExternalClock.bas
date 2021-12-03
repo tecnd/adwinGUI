@@ -9,6 +9,7 @@
 ' Optimize                       = No
 ' Stacksize                      = 1000
 ' Info_Last_Save                 = NIGHTSHADE  NIGHTSHADE\labadmin
+' Foldings                       = 11,15
 '<Header End>
 #include ADwinPRO_ALL.inc
 dim i,j,k,lightcount,litup,eventcount,delaymultinuse as long
@@ -18,8 +19,6 @@ dim DATA_3[5000000] as float
 dim DATA_4[100] as long  ' a list of which channels are reset to zero on completion
 dim counts,maxcount,updates as long
 dim ch as long
-dim val_lower,val_upper as long
-dim delay,delayinuse as long
 dim leddelay as float
 
 Function V(value) as float
@@ -99,8 +98,7 @@ INIT:
   'Channels 1-32 refer to Analog output lines
   'Channel 101,102 refers to Digital output lines (32 bit word x2)
   
-  delay=PAR_2 ' 300000=>1ms for T11 Processor: Updated July 14 2009 - Ben Sofka
-  PROCESSDELAY=delay
+  PROCESSDELAY=PAR_2 ' 300000=>1ms for T11 Processor: Updated July 14 2009 - Ben Sofka
 
   DigProg1(1,65535)
   DigProg2(1,65535)
@@ -121,6 +119,7 @@ INIT:
   lightcount=0
   eventcount=0
   leddelay=8000000/PROCESSDELAY
+  delaymultinuse=0
   
   ' Debug display
   PAR_11=DATA_1[1]
@@ -131,64 +130,63 @@ INIT:
   FPar_13=DATA_2[3]
 
 EVENT:
-  ' Force synchronized output now.  We are sending out the data programmed in the last cycle.
-  ' This way all the outputs are updated at the beginning of an event, which is well timed.
-  ' Doing Syncall() at the end of an event causes the channel outputs to move around in time,
-  ' depending on how many channels are being programmed.
-  P2_Sync_All(1111b)
-  SyncAll()
-
-  ' blink LEDs on analog cards when in progress
-  eventcount=eventcount+delaymultinuse
-  if(eventcount>leddelay) then
-    eventcount=0      
-    if(litup=14) then 
-      litup=0
+  ' Check for delay
+  if (delaymultinuse = 0) then
+    ' Force synchronized output now.  We are sending out the data programmed in the last cycle.
+    ' This way all the outputs are updated at the beginning of an event, which is well timed.
+    ' Doing SyncAll() at the end of an event causes the channel outputs to move around in time,
+    ' depending on how many channels are being programmed.
+    P2_Sync_All(1111b)  ' Sync Pro II modules
+    SyncAll()           ' Sync Pro I modules
+  
+    ' Blink LEDs on analog cards when in progress
+    ' is this necessary? -KW
+    eventcount=eventcount+delaymultinuse
+    if(eventcount>leddelay) then
+      eventcount=0      
+      if(litup=14) then 
+        litup=0
+      endif
+      litup=litup+1
+      Light_LED(litup)    
     endif
-    litup=litup+1
-    Light_LED(litup)    
+    
+    ' If we see a negative number, interpret it as a multi-event delay
+    if(DATA_1[counts]<0) then
+      delaymultinuse=-1*DATA_1[counts]
+    endif
+  
+    Inc counts  ' Get number of updates in next event
+  
+    IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each element of DATA_1 for an update
+      For i=1 to DATA_1[counts] 'B: Loop over number of updates at this time
+        Inc updates
+        ch=DATA_2[updates]
+        '*****************Analog outs***********************      
+        if((ch>=1) and (ch<=32)) then
+          AnalogWrite(ch,DATA_3[updates])
+        endif
+        '***********************Digital outs**********
+        if(ch=101) then
+          DIG_WRITELATCH32(1, DATA_3[updates]) ' Seth Aubin, Aug. 2, 2010: "2" -->"1"
+        endif
+        
+        if(ch=102) then
+          DIG_WRITELATCH32(2, DATA_3[updates]) ' Seth Aubin, Aug. 2, 2010: "3" -->"2"
+        endif      
+      NEXT i            'B for loop  
+    ENDIF        'A:
+    If(counts>=maxcount+1) then end ' Go to Finish: after final event
+  else
+    ' Waiting out multi-event delay, decrease number of events to wait by 1
+    Dec delaymultinuse
   endif
-
-  delayinuse=delay              ' reset the PROCESSDELAY
-  if(DATA_1[counts]<0) then     ' if we see a negative number, interpret it as a multiplicative factor on the delay
-    delayinuse=delay*(-1*DATA_1[counts])
-    delaymultinuse=-1*DATA_1[counts]
-  endif
-  PROCESSDELAY=delayinuse
-
-  ' reset the variables controlling digital output.
-  val_lower=0
-  val_upper=0
-  counts=counts+1  'Number of events so far
-
-  IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each elementof DATA_1 for an update
-    For i=1 to DATA_1[counts] 'B: Loop over number of updates at this time
-      updates=updates+1
-      ch=DATA_2[updates]
-
-      '*****************Analog outs***********************      
-      if((ch>=1) and (ch<=32)) then
-        AnalogWrite(ch,DATA_3[updates])
-      endif
-      
-      '***********************Digital outs**********
-      if(ch=101) then
-        val_lower=DATA_3[updates]
-        DIG_WRITELATCH32(1,val_lower) ' Seth Aubin, Aug. 2, 2010: "2" -->"1"
-      endif
-      
-      if(ch=102) then
-        val_upper=DATA_3[updates]
-        DIG_WRITELATCH32(2,val_upper) ' Seth Aubin, Aug. 2, 2010: "3" -->"2"
-      endif
-            
-    NEXT i            'B for loop  
-  ENDIF        'A:
-  If(counts>=maxcount+1) then end
-
+  
 FINISH:
   'Clear all channels
-  PAR_3=counts
+  
+  'Debug display
+  PAR_3=counts ' Should be one more than maxcount
   PAR_4=maxcount
 
   For i= 1 to 8
