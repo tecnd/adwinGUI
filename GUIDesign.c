@@ -511,7 +511,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 		}
 		if (didprocess == FALSE) // is the ADwin process already loaded?
 		{
-			Load_Process("ADbasic\\TransferData.TB1");
+			Load_Process("ADbasic\\TransferDataExternalClock.TB1");
 			didprocess = 1;
 		}
 
@@ -1733,6 +1733,7 @@ void SaveArrays(char savedname[500], int csize)
 	char buff[500];
 	char buttonName[80];
 	strncpy(buff, savedname, csize - 4);
+	buff[csize-4] = 0;
 	strcat(buff, ".arr");
 	if ((fdata = fopen(buff, "w")) == NULL)
 	{
