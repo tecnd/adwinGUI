@@ -97,7 +97,7 @@ EVENT:
     
     ' If we see a negative number, interpret it as a multi-event delay
     if(DATA_1[counts]<0) then
-      delaymultinuse=-1*DATA_1[counts]
+      delaymultinuse=-1 * (DATA_1[counts] + 1)
     endif
   
     Inc counts  ' Get number of updates in next event
