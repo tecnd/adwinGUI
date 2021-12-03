@@ -11,20 +11,15 @@
 ' Info_Last_Save                 = NIGHTSHADE  NIGHTSHADE\labadmin
 '<Header End>
 #include ADwinPRO_ALL.inc
-'Updated to new ADbasic code - Ben Sofka
 dim i,j,k,lightcount,litup,eventcount,delaymultinuse as long
 dim DATA_1[5000000] as long
 dim DATA_2[5000000] as long
 dim DATA_3[5000000] as float
 dim DATA_4[100] as long  ' a list of which channels are reset to zero on completion
-dim value as float
 dim counts,maxcount,updates as long
 dim ch as long
-dim val,val_lower,val_upper as long
-dim tempval as long 
-dim digitallow as long
+dim val_lower,val_upper as long
 dim delay,delayinuse as long
-dim numbertoskip as long
 dim leddelay as float
 
 Function V(value) as float
@@ -113,20 +108,21 @@ INIT:
   DigProg2(2,65535)
   
   'Configure cards for synchronous output
-  SYNCENABLE(1,dio,1)
-  SYNCENABLE(2,dio,1)
-  SYNCENABLE(1,da,1)
-  SYNCENABLE(2,da,1)
-  SYNCENABLE(3,da,1)
-  SYNCENABLE(4,da,1)
+  SyncEnable(1,dio,1)
+  SyncEnable(2,dio,1)
+  P2_Sync_Enable(1, 0FFFFh)
+  P2_Sync_Enable(2, 0FFFFh)
+  P2_Sync_Enable(3, 0FFFFh)
+  P2_Sync_Enable(4, 0FFFFh)
 
-  numbertoskip=0
   counts=1
   maxcount=PAR_1
   updates=1
   lightcount=0
   eventcount=0
   leddelay=8000000/PROCESSDELAY
+  
+  ' Debug display
   PAR_11=DATA_1[1]
   PAR_12=DATA_1[2]
   PAR_13=DATA_1[3]
@@ -139,9 +135,10 @@ EVENT:
   ' This way all the outputs are updated at the beginning of an event, which is well timed.
   ' Doing Syncall() at the end of an event causes the channel outputs to move around in time,
   ' depending on how many channels are being programmed.
-  P2_SYNC_ALL(1111b)
+  P2_Sync_All(1111b)
+  SyncAll()
 
-  ' something to do with displaying waiting times using the LEDs? Not sure 12/3/2021
+  ' blink LEDs on analog cards when in progress
   eventcount=eventcount+delaymultinuse
   if(eventcount>leddelay) then
     eventcount=0      
@@ -152,8 +149,8 @@ EVENT:
     Light_LED(litup)    
   endif
 
-  delayinuse=delay   ' reset the PROCESSDELAY
-  if(DATA_1[counts]<0) then    ' if we see a negative number, interpret it as a multiplicative factor on the delay
+  delayinuse=delay              ' reset the PROCESSDELAY
+  if(DATA_1[counts]<0) then     ' if we see a negative number, interpret it as a multiplicative factor on the delay
     delayinuse=delay*(-1*DATA_1[counts])
     delaymultinuse=-1*DATA_1[counts]
   endif
@@ -173,7 +170,7 @@ EVENT:
       if((ch>=1) and (ch<=32)) then
         AnalogWrite(ch,DATA_3[updates])
       endif
-    
+      
       '***********************Digital outs**********
       if(ch=101) then
         val_lower=DATA_3[updates]
@@ -194,7 +191,6 @@ FINISH:
   PAR_3=counts
   PAR_4=maxcount
 
-  'If (Data_4[27]=0) then
   For i= 1 to 8
     if(DATA_4[i]=1) then
       P2_WRITE_DAC(1,i,V(0))   

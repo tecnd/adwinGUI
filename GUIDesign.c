@@ -504,6 +504,10 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 
 #endif
 
+		// debug code
+		didboot = FALSE;
+		didprocess = FALSE;
+		// end debug
 		if (didboot == FALSE) // is the ADwin booted?  if not, then boot
 		{
 			Boot("ADbasic\\ADwin11.btl", 0); //Updated July 14 2009 - Ben Sofka
