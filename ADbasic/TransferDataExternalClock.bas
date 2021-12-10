@@ -56,7 +56,10 @@ INIT:
   'Channels 1-32 refer to Analog output lines
   'Channel 101,102 refers to Digital output lines (32 bit word x2)
   
-  ' PROCESSDELAY=PAR_2 ' 300000=>1ms for T11 Processor: Updated July 14 2009 - Ben Sofka
+  ' Initial delay lets INIT: finish before first EVENT:, fixes jittering issue
+  ' 100@100kHz = 0.001 seconds
+  delaymultinuse=100
+  
   CPU_EVENT_CONFIG(0,1,1)
   
   DigProg1(1,65535)
@@ -75,15 +78,40 @@ INIT:
   counts=1
   maxcount=PAR_1
   updates=1
-  delaymultinuse=0
   
   ' Debug display
   PAR_11=DATA_1[1]
   PAR_12=DATA_1[2]
   PAR_13=DATA_1[3]
-  FPar_11=DATA_2[1]
-  FPar_12=DATA_2[2]
-  FPar_13=DATA_2[3]
+  PAR_14=DATA_1[4]
+  PAR_15=DATA_1[5]
+  PAR_16=DATA_1[6]
+  PAR_17=DATA_1[7]
+  PAR_18=DATA_1[8]
+  PAR_19=DATA_1[9]
+  PAR_20=DATA_1[10]
+  
+  PAR_21=DATA_2[1]
+  PAR_22=DATA_2[2]
+  PAR_23=DATA_2[3]
+  PAR_24=DATA_2[4]
+  PAR_25=DATA_2[5]
+  PAR_26=DATA_2[6]
+  PAR_27=DATA_2[7]
+  PAR_28=DATA_2[8]
+  PAR_29=DATA_2[9]
+  PAR_30=DATA_2[10]
+  
+  FPAR_21=DATA_3[1]
+  FPAR_22=DATA_3[2]
+  FPAR_23=DATA_3[3]
+  FPAR_24=DATA_3[4]
+  FPAR_25=DATA_3[5]
+  FPAR_26=DATA_3[6]
+  FPAR_27=DATA_3[7]
+  FPAR_28=DATA_3[8]
+  FPAR_29=DATA_3[9]
+  FPAR_30=DATA_3[10]
 
 EVENT:
   ' Check for delay
@@ -101,8 +129,9 @@ EVENT:
     endif
   
     Inc counts  ' Get number of updates in next event
-  
-    IF((99>DATA_1[counts]) and (DATA_1[counts]>=1)) then  'A:Check each element of DATA_1 for an update
+    If(counts > maxcount) then end ' Go to Finish: after final event
+    
+    IF((99>DATA_1[counts]) and (DATA_1[counts]>0)) then  'A:Check each element of DATA_1 for an update
       For i=1 to DATA_1[counts] 'B: Loop over number of updates at this time
         Inc updates
         ch=DATA_2[updates]
@@ -120,7 +149,6 @@ EVENT:
         endif      
       NEXT i            'B for loop  
     ENDIF        'A:
-    If(counts>=maxcount+1) then end ' Go to Finish: after final event
   else
     ' Waiting out multi-event delay, decrease number of events to wait by 1
     Dec delaymultinuse

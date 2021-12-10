@@ -504,13 +504,9 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 
 #endif
 
-		// debug code
-		didboot = FALSE;
-		didprocess = FALSE;
-		// end debug
 		if (didboot == FALSE) // is the ADwin booted?  if not, then boot
 		{
-			Boot("ADbasic\\ADwin11.btl", 0); //Updated July 14 2009 - Ben Sofka
+			Boot("ADbasic\\ADwin11.btl", 0);
 			didboot = 1;
 		}
 		if (didprocess == FALSE) // is the ADwin process already loaded?
@@ -1429,9 +1425,8 @@ void CVICALLBACK SETGD1000_CALLBACK(int menuBar, int menuItem, void *callbackDat
 void CVICALLBACK BOOTADWIN_CALLBACK(int menuBar, int menuItem, void *callbackData,
 									int panel)
 {
-
-	Boot("C:\\ADWIN\\ADWIN11.BTL", 0);
-	processnum = Load_Process("TransferData_May25_2012.TB1"); //Updated May 25, 2012 - Seth Aubin
+	Boot("ADbasic\\ADwin11.btl", 0);
+	Load_Process("ADbasic\\TransferDataExternalClock.TB1");
 }
 
 //**********************************************************************************************
