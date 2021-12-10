@@ -129,8 +129,6 @@ int main(int argc, char *argv[])
 		return -1;
 	if ((panelHandle8 = LoadPanel(0, "ScanTableLoader.uir", PANEL)) < 0)
 		return -1;
-	if ((oscilloscopeHandle = LoadPanel(0, "Oscilloscope.uir", PANEL)) < 0)
-		return -1;
 
 	SetCtrlAttribute(panelHandle, PANEL_DEBUG, ATTR_VISIBLE, 0);
 	// Initialize arrays (to avoid undefined elements causing -99 to be written)

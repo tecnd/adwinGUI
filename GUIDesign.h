@@ -27,7 +27,6 @@
 #define  PANEL_TBL_ANAMES                 12      /* control type: table, callback function: (none) */
 #define  PANEL_TIMER                      13      /* control type: timer, callback function: TIMER_CALLBACK */
 #define  PANEL_SCAN_TABLE                 14      /* control type: table, callback function: (none) */
-#define  PANEL_COMMANDBUTTON              15      /* control type: command, callback function: OSCILLOSCOPE_CALLBACK */
 
 #define  SUBPANEL1                        2
 #define  SUBPANEL1_TEXTBOX                2       /* control type: textBox, callback function: (none) */
@@ -105,7 +104,6 @@ void CVICALLBACK MENU_CALLBACK(int menubar, int menuItem, void *callbackData, in
 void CVICALLBACK MENU_DEBUG_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK MENU_HOLD_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK NOTECHECK_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
-int  CVICALLBACK OSCILLOSCOPE_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 void CVICALLBACK PASTECOLUMN_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK RESETZERO_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SCANSETTING_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);

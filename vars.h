@@ -34,7 +34,6 @@ Global Variables
 *************************************************************************/
 
 int panelHandle, panelHandle2, panelHandle3, panelHandle4, panelHandle7, panelHandle8;
-int oscilloscopeHandle;
 int panelHandle_sub1, panelHandle_sub2;
 int menuHandle;
 int currentx, currenty, currentpage;

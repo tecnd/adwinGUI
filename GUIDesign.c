@@ -2237,14 +2237,3 @@ void CVICALLBACK Scan_Table_Load(int panelHandle, int controlID, int MenuItemID,
 {
 	DisplayPanel(panelHandle8);
 }
-
-int CVICALLBACK OSCILLOSCOPE_CALLBACK(int panel, int control, int event, void *callbackData, int eventdata1, int eventdata2)
-{
-	switch (event)
-	{
-		case EVENT_COMMIT:
-			DisplayPanel(oscilloscopeHandle);
-			break;
-	}
-	return(0);
-}
