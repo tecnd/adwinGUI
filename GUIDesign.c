@@ -1836,15 +1836,11 @@ void ExportPanel(char fexportname[200], int fnamesize)
 
 	FILE *fexport;
 	char buff[500], bigbuff[2000];
-	char fcnmode[6] = " LEJ"; // step, linear, exponential, const-jerk:  Step is assumed if blank
-	double MetaTimeArray[500];
-	int MetaDigitalArray[NUMBERDIGITALCHANNELS + 1][500];
-	struct AnalogTableValues MetaAnalogArray[NUMBERANALOGCHANNELS + 1][500];
+	char fcnmode[] = "SLEJWH"; // step, linear, exponential, const-jerk, sine wave, hold
+	double MetaTimeArray[500] = {0};
+	int MetaDigitalArray[NUMBERDIGITALCHANNELS + 1][500] = {0};
+	struct AnalogTableValues MetaAnalogArray[NUMBERANALOGCHANNELS + 1][500] = {0};
 	int mindex, tsize;
-	fcnmode[0] = ' ';
-	fcnmode[1] = 'L';
-	fcnmode[2] = 'E';
-	fcnmode[3] = 'J';
 	isdimmed = 1;
 
 	if ((fexport = fopen(fexportname, "w")) == NULL)
@@ -1860,12 +1856,16 @@ void ExportPanel(char fexportname[200], int fnamesize)
 	{
 		if (ischecked[page] == 1) //if the page is selected
 		{
-			int nozerofound = 1;
 			//go through for each time column
-			for (int col = 1; col < NUMBEROFCOLUMNS; col++)
+			for (int col = 1; col <= NUMBEROFCOLUMNS; col++)
 			{
-				if ((nozerofound == 1) && (TimeArray[col][page] > 0))
-				//ignore all columns after the first time=0
+				// ignore all columns after the first time=0
+				if (TimeArray[col][page] == 0)
+				{
+					break;
+				}
+				// ignore columns with negative time
+				else if (TimeArray[col][page] > 0)
 				{
 					mindex++; //increase the number of columns counter
 					MetaTimeArray[mindex] = TimeArray[col][page];
@@ -1876,12 +1876,12 @@ void ExportPanel(char fexportname[200], int fnamesize)
 						MetaAnalogArray[channel][mindex].fcn = AnalogTable[col][channel][page].fcn;
 						MetaAnalogArray[channel][mindex].fval = AnalogTable[col][channel][page].fval;
 						MetaAnalogArray[channel][mindex].tscale = AnalogTable[col][channel][page].tscale;
+					}
+					// go through each digital channel
+					for (int channel = 1; channel <= NUMBERDIGITALCHANNELS; channel++)
+					{
 						MetaDigitalArray[channel][mindex] = DigTableValues[col][channel][page];
 					}
-				}
-				else if (TimeArray[col][page] == 0)
-				{
-					nozerofound = 0;
 				}
 			}
 		}
@@ -1889,42 +1889,49 @@ void ExportPanel(char fexportname[200], int fnamesize)
 	tsize = mindex; //tsize is the number of columns
 	// now write to file
 	// write header
-	sprintf(bigbuff, "Time(ms)");
+	sprintf(bigbuff, "T");
 	for (int i = 1; i <= tsize; i++)
 	{
 		strcat(bigbuff, ",");
-		sprintf(buff, "%f", MetaTimeArray[i]);
+		sprintf(buff, "%.2f", MetaTimeArray[i]);
 		strcat(bigbuff, buff);
 	}
 	strcat(bigbuff, "\n");
 	fprintf(fexport, bigbuff);
-	//done header, now write analog lines
+	// done header, now write analog lines
 	for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
 	{
-		sprintf(bigbuff, AChName[j].chname);
+		sprintf(bigbuff, "A,");
+		strncat(bigbuff, AChName[j].chname, 50);
+		strncat(bigbuff, ",", 1);
+		sprintf(buff, "%d", AChName[j].chnum);
+		strncat(bigbuff, buff, 3);
 		for (int i = 1; i <= tsize; i++)
 		{
-			strcat(bigbuff, ",");
+			strncat(bigbuff, ",", 1);
 			strncat(bigbuff, fcnmode + MetaAnalogArray[j][i].fcn - 1, 1);
 			sprintf(buff, "%3.2f", MetaAnalogArray[j][i].fval);
 			strcat(bigbuff, buff);
 		}
-		strcat(bigbuff, "\n");
+		strncat(bigbuff, "\n", 1);
 		fprintf(fexport, bigbuff);
 	}
 
-	//done DDS, now do digital
+	// now do digital
 	for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++)
 	{
-		sprintf(bigbuff, DChName[j].chname);
+		sprintf(bigbuff, "D,");
+		strncat(bigbuff, DChName[j].chname, 50);
+		strncat(bigbuff, ",", 1);
+		sprintf(buff, "%d", DChName[j].chnum);
+		strncat(bigbuff, buff, 3);
 		for (int i = 1; i <= tsize; i++)
 		{
 			strcat(bigbuff, ",");
 			sprintf(buff, "%d", MetaDigitalArray[j][i]);
-
 			strcat(bigbuff, buff);
 		}
-		strcat(bigbuff, "\n");
+		strncat(bigbuff, "\n", 1);
 		fprintf(fexport, bigbuff);
 	}
 	fclose(fexport);
