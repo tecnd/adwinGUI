@@ -1658,7 +1658,7 @@ void LoadArrays(char savedname[500], int csize)
 	char buttonName[80];
 	strncat(buff, savedname, csize - 4);
 	strcat(buff, ".arr");
-	if ((fdata = fopen(buff, "r")) == NULL)
+	if ((fdata = fopen(buff, "rb")) == NULL)
 	{
 		MessagePopup("Load Error", "Failed to load data arrays");
 		//	exit(1);
@@ -1734,7 +1734,7 @@ void SaveArrays(char savedname[500], int csize)
 	strncpy(buff, savedname, csize - 4);
 	buff[csize-4] = 0;
 	strcat(buff, ".arr");
-	if ((fdata = fopen(buff, "w")) == NULL)
+	if ((fdata = fopen(buff, "wb")) == NULL)
 	{
 		char buff2[100];
 		//	InsertListItem(panelHandle,PANEL_DEBUG,-1,buff,1);
