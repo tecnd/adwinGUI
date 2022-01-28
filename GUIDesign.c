@@ -321,7 +321,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 		//We are making an assumption about how many programmable points we may need to use.
 		//For now assume that number of channel updates <= 4* #of events, serious overestimate
 
-		UpdateNum = calloc((int)((double)timesum * 1.2), sizeof(int));
+		UpdateNum = calloc(timesum + 1, sizeof(int));
 		if (!UpdateNum)
 		{
 			exit(1);
