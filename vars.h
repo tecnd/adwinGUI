@@ -5,7 +5,7 @@
 Macro Definitions
 *************************************************************************/
 
-#define DefaultEventPeriod 0.100 // in milliseconds
+#define DefaultEventPeriod 0.010 // in milliseconds
 #define AdwinTick 0.000025		 //Adwin clock cycle, in ms.
 #define NUMBERANALOGCHANNELS 40	 // Number of analog Channels available for control
 #define NUMBERDIGITALCHANNELS 64 // number of digital channels DISPLAYED!!!      \
