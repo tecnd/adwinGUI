@@ -87,6 +87,8 @@ $(function() {
 Functions</h2></td></tr>
 <tr class="memitem:ac5a2b82ae838e2372de2d7b271cf49f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#ac5a2b82ae838e2372de2d7b271cf49f9">BuildUpdateList</a> (double[500], struct <a class="el" href="struct_analog_table_values.html">AnalogTableValues</a>[NUMBERANALOGCHANNELS+1][500], int[NUMBERDIGITALCHANNELS+1][500], int)</td></tr>
 <tr class="separator:ac5a2b82ae838e2372de2d7b271cf49f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef9cd007d78ddc646604b50c003d1e29"><td class="memItemLeft" align="right" valign="top">BOOL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#aef9cd007d78ddc646604b50c003d1e29">IsPageChecked</a> (int page)</td></tr>
+<tr class="separator:aef9cd007d78ddc646604b50c003d1e29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0afae188565a4cb3ad38dabe6b90ed11"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a0afae188565a4cb3ad38dabe6b90ed11">CMD_RUN_CALLBACK</a> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
 <tr class="separator:a0afae188565a4cb3ad38dabe6b90ed11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72eab897f9261404259eb19c5dad54da"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a72eab897f9261404259eb19c5dad54da">CMD_SCAN_CALLBACK</a> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
@@ -126,9 +128,6 @@ int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>ANALOGTABL
 <tr class="memitem:a92c7ed0bb8a11f8b8e3421f719c2b17b"><td class="memItemLeft" align="right" valign="top"><a id="a92c7ed0bb8a11f8b8e3421f719c2b17b"></a>
 int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>TOGGLE_CALLBACK</b> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
 <tr class="separator:a92c7ed0bb8a11f8b8e3421f719c2b17b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4206baa69469842fcfa94ee3f1d72d6f"><td class="memItemLeft" align="right" valign="top"><a id="a4206baa69469842fcfa94ee3f1d72d6f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>CheckActivePages</b> (void)</td></tr>
-<tr class="separator:a4206baa69469842fcfa94ee3f1d72d6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1c115f82a7ceaf39fc10c109b4d6c40"><td class="memItemLeft" align="right" valign="top"><a id="ac1c115f82a7ceaf39fc10c109b4d6c40"></a>
 int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>DIGTABLE_CALLBACK</b> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
 <tr class="separator:ac1c115f82a7ceaf39fc10c109b4d6c40"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -749,6 +748,34 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [NUMBERDIG
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="aef9cd007d78ddc646604b50c003d1e29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef9cd007d78ddc646604b50c003d1e29">&#9670;&nbsp;</a></span>IsPageChecked()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BOOL IsPageChecked </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>page</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns if the page is checked </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page</td><td>The page number </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section author"><dt>Author</dt><dd>Kerry Wang </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if not checked </dd>
+<dd>
+1 if checked </dd></dl>
 
 </div>
 </div>
