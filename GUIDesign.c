@@ -985,7 +985,7 @@ Redraws analog and digital tables.
 */
 void DrawNewTable(int isdimmed)
 {
-	int page, cmode;
+	int cmode;
 	int analogtable_visible = 0;
 	int digtable_visible = 0;
 	double vnow = 0;
@@ -995,10 +995,9 @@ void DrawNewTable(int isdimmed)
 	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, 0);
 	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, 0);
 	SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_VISIBLE, 0);
-	page = GetPage(); // Check which page is active.
 
 	CheckActivePages();
-	if (ischecked[page] == FALSE)
+	if (ischecked[currentpage] == FALSE)
 	{ // dim the tables
 		SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_DIMMED, 1);
 		SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_DIMMED, 1);
@@ -1017,8 +1016,8 @@ void DrawNewTable(int isdimmed)
 		SetTableCellAttribute(panelHandle, PANEL_TIMETABLE, MakePoint(i, 1), ATTR_CELL_DIMMED, 0);
 		for (int j = 1; j <= NUMBERANALOGCHANNELS; j++) // scan over analog channels
 		{
-			cmode = AnalogTable[i][j][page].fcn;
-			vnow = AnalogTable[i][j][page].fval;
+			cmode = AnalogTable[i][j][currentpage].fcn;
+			vnow = AnalogTable[i][j][currentpage].fval;
 
 			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j),
 								  ATTR_CELL_TYPE, VAL_CELL_NUMERIC);
@@ -1026,7 +1025,7 @@ void DrawNewTable(int isdimmed)
 			if (cmode != 6)
 				// write the ending value into the cell
 				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_CTRL_VAL, vnow);
-			else if (i == 1 && page == 1)
+			else if (i == 1 && currentpage == 1)
 			{
 				ConfirmPopup("User Error", "Do not use \"Same as Previous\" Setting for Column 1 Page 1.\nThis results in unstable behaviour.\nResetting Cell Function to default: step");
 				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_CTRL_VAL, 0.0);
@@ -1081,7 +1080,7 @@ void DrawNewTable(int isdimmed)
 		for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++) // scan over analog channels
 		{
 			// if a digital value is high, colour the cell red
-			if (DigTableValues[i][j][page] == 1)
+			if (DigTableValues[i][j][currentpage] == 1)
 			{
 				SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_RED);
 			}
@@ -1093,7 +1092,7 @@ void DrawNewTable(int isdimmed)
 		} //Done digital drawing.
 
 		// update the times row
-		SetTableCellVal(panelHandle, PANEL_TIMETABLE, MakePoint(i, 1), TimeArray[i][page]);
+		SetTableCellVal(panelHandle, PANEL_TIMETABLE, MakePoint(i, 1), TimeArray[i][currentpage]);
 	}
 	// So far, all columns are undimmed
 	//now check if we need to dim out any columns(of timetable,AnalogTable and DigTable
@@ -1103,12 +1102,12 @@ void DrawNewTable(int isdimmed)
 		for (int col = 1; col <= NUMBEROFCOLUMNS; col++)
 		{
 			BOOL dimset = FALSE;
-			if ((nozerofound == FALSE) || (TimeArray[col][page] == 0)) // if we have seen a zero before, or we see one now, then
+			if ((nozerofound == FALSE) || (TimeArray[col][currentpage] == 0)) // if we have seen a zero before, or we see one now, then
 			{
 				nozerofound = FALSE; // Flag that tells us to dim out all remaining columns
 				dimset = TRUE;		 // Flag to dim out this column
 			}
-			else if ((nozerofound == TRUE) && (TimeArray[col][page] < 0)) // if we haven't seen a zero, but this column has a negative time then...
+			else if ((nozerofound == TRUE) && (TimeArray[col][currentpage] < 0)) // if we haven't seen a zero, but this column has a negative time then...
 			{
 				dimset = TRUE;
 			}
@@ -1204,7 +1203,6 @@ int CVICALLBACK ANALOGTABLE_CALLBACK(int panel, int control, int event,
 		//now set the indicators in the control panel title..ie units
 		currentx = cpoint.x;
 		currenty = cpoint.y;
-		currentpage = GetPage();
 		SetControlPanel();
 		panel_to_display = panelHandle4; // Program Analog Channel
 
@@ -1221,13 +1219,6 @@ int CVICALLBACK ANALOGTABLE_CALLBACK(int panel, int control, int event,
 		break;
 	}
 	return 0;
-}
-
-//********************************************************************************************
-int GetPage(void)
-{
-	return currentpage;
-	//Scan and find out what page we are on....
 }
 
 //*************************************************************************************
@@ -1287,25 +1278,24 @@ void CheckActivePages(void)
 int CVICALLBACK DIGTABLE_CALLBACK(int panel, int control, int event,
 								  void *callbackData, int eventData1, int eventData2)
 {
-	int page, digval;
+	int digval;
 	Point pval = {0, 0};
 
 	ChangedVals = TRUE;
-	page = GetPage();
 	switch (event)
 	{
 	case EVENT_LEFT_DOUBLE_CLICK:
 		GetActiveTableCell(PANEL, PANEL_DIGTABLE, &pval);
-		digval = DigTableValues[pval.x][pval.y][page];
+		digval = DigTableValues[pval.x][pval.y][currentpage];
 		if (digval == 0)
 		{
 			SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, pval, ATTR_TEXT_BGCOLOR, VAL_RED);
-			DigTableValues[pval.x][pval.y][page] = 1;
+			DigTableValues[pval.x][pval.y][currentpage] = 1;
 		}
 		else
 		{
 			SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, pval, ATTR_TEXT_BGCOLOR, ColorPicker(pval.y));
-			DigTableValues[pval.x][pval.y][page] = 0;
+			DigTableValues[pval.x][pval.y][currentpage] = 0;
 		}
 		break;
 	}
@@ -1317,7 +1307,6 @@ int CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event,
 								   void *callbackData, int eventData1, int eventData2)
 {
 	double dval, tscaleold;
-	int page;
 	ChangedVals = TRUE;
 	switch (event)
 	{
@@ -1326,14 +1315,13 @@ int CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event,
 					   // May 31,2006 -- TimeArray is updated just fine (Dave Burns)
 					   //controls (i.e. increment arrows).  Similar problems with other events...reading all times(for the page)
 					   // at a change event seems to work.
-		page = GetPage();
 
 		for (int i = 1; i <= NUMBEROFCOLUMNS; i++)
 		{
-			double oldtime = TimeArray[i][page];
+			double oldtime = TimeArray[i][currentpage];
 			GetTableCellVal(PANEL, PANEL_TIMETABLE, MakePoint(i, 1), &dval);
 
-			TimeArray[i][page] = dval; //double TimeArray[NUMBEROFCOLUMNS][NUMBEROFPAGES];
+			TimeArray[i][currentpage] = dval; //double TimeArray[NUMBEROFCOLUMNS][NUMBEROFPAGES];
 			//now rescale the time scale for waveform fcn. Go over all 16 analog channels
 			double ratio = dval / oldtime;
 			if (oldtime == 0)
@@ -1343,8 +1331,8 @@ int CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event,
 
 			for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
 			{
-				tscaleold = AnalogTable[i][j][page].tscale; // use this  and next line to auto-scale the time
-				AnalogTable[i][j][page].tscale = tscaleold * ratio;
+				tscaleold = AnalogTable[i][j][currentpage].tscale; // use this  and next line to auto-scale the time
+				AnalogTable[i][j][currentpage].tscale = tscaleold * ratio;
 				//		AnalogTable[i][j][page].tscale=dval;	  //use this line to force timescale to period
 			}
 		}
@@ -1461,9 +1449,8 @@ void CVICALLBACK INSERTCOLUMN_CALLBACK(int menuBar, int menuItem, void *callback
 									   int panel)
 {
 	char buff[20] = "", buff2[100] = "";
-	int page, status;
+	int status;
 	Point cpoint = {0, 0};
-	page = GetPage();
 
 	GetActiveTableCell(panelHandle, PANEL_TIMETABLE, &cpoint);
 	sprintf(buff, "%d", cpoint.x);
@@ -1471,7 +1458,7 @@ void CVICALLBACK INSERTCOLUMN_CALLBACK(int menuBar, int menuItem, void *callback
 	strcat(buff2, buff);
 	status = ConfirmPopup("insert Array", buff2); //User Confirmation of Column Insert
 	if (status == 1)
-		ShiftColumn3(cpoint.x, page, -1); //-1 for shifting columns right
+		ShiftColumn3(cpoint.x, currentpage, -1); //-1 for shifting columns right
 }
 
 //**********************************************************************************************
@@ -1480,9 +1467,8 @@ void CVICALLBACK DELETECOLUMN_CALLBACK(int menuBar, int menuItem, void *callback
 									   int panel)
 {
 	char buff[20] = "", buff2[100] = "";
-	int page, status;
+	int status;
 	Point cpoint = {0, 0};
-	page = GetPage();
 	//PromptPopup ("Array Manipulation:Delete", "Delete which column?", buff, 3);
 	GetActiveTableCell(panelHandle, PANEL_TIMETABLE, &cpoint);
 	sprintf(buff, "%d", cpoint.x);
@@ -1492,7 +1478,7 @@ void CVICALLBACK DELETECOLUMN_CALLBACK(int menuBar, int menuItem, void *callback
 	status = ConfirmPopup("Delete Array", buff2);
 
 	if (status == 1)
-		ShiftColumn3(cpoint.x, page, 1); //1 for shifting columns left
+		ShiftColumn3(cpoint.x, currentpage, 1); //1 for shifting columns left
 }
 //**********************************************************************************************
 void ShiftColumn3(int col, int page, int dir)
@@ -1575,7 +1561,6 @@ void CVICALLBACK COPYCOLUMN_CALLBACK(int menuBar, int menuItem, void *callbackDa
 	char buff[20] = "", buff2[100] = "";
 	Point cpoint = {0, 0};
 
-	int page = GetPage();
 	GetActiveTableCell(panelHandle, PANEL_TIMETABLE, &cpoint);
 
 	//User Confirmation of Selected Column
@@ -1587,17 +1572,17 @@ void CVICALLBACK COPYCOLUMN_CALLBACK(int menuBar, int menuItem, void *callbackDa
 	if (status == 1)
 	{
 		ClipColumn = cpoint.x;
-		TimeClip = TimeArray[cpoint.x][page];
+		TimeClip = TimeArray[cpoint.x][currentpage];
 		for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
 		{
-			AnalogClip[j].fcn = AnalogTable[cpoint.x][j][page].fcn;
-			AnalogClip[j].fval = AnalogTable[cpoint.x][j][page].fval;
-			AnalogClip[j].tscale = AnalogTable[cpoint.x][j][page].tscale;
+			AnalogClip[j].fcn = AnalogTable[cpoint.x][j][currentpage].fcn;
+			AnalogClip[j].fval = AnalogTable[cpoint.x][j][currentpage].fval;
+			AnalogClip[j].tscale = AnalogTable[cpoint.x][j][currentpage].tscale;
 		}
 
 		for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++)
 		{
-			DigClip[j] = DigTableValues[cpoint.x][j][page];
+			DigClip[j] = DigTableValues[cpoint.x][j][currentpage];
 		}
 		DrawNewTable(0); //draws undimmed table if already dimmed
 	}
@@ -1610,10 +1595,8 @@ void CVICALLBACK PASTECOLUMN_CALLBACK(int menuBar, int menuItem, void *callbackD
 // Replaces all the values in the selected column with the global "clip" values
 
 {
-	int page;
 	Point cpoint = {0, 0};
 	ChangedVals = 1;
-	page = GetPage();
 
 	//Ensures a column has been copied to the clipboard
 	if (ClipColumn > 0)
@@ -1626,13 +1609,13 @@ void CVICALLBACK PASTECOLUMN_CALLBACK(int menuBar, int menuItem, void *callbackD
 
 		if (status == 1)
 		{
-			TimeArray[cpoint.x][page] = TimeClip;
+			TimeArray[cpoint.x][currentpage] = TimeClip;
 			for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
 			{
-				AnalogTable[cpoint.x][j][page].fcn = AnalogClip[j].fcn;
-				AnalogTable[cpoint.x][j][page].fval = AnalogClip[j].fval;
-				AnalogTable[cpoint.x][j][page].tscale = AnalogClip[j].tscale;
-				DigTableValues[cpoint.x][j][page] = DigClip[j];
+				AnalogTable[cpoint.x][j][currentpage].fcn = AnalogClip[j].fcn;
+				AnalogTable[cpoint.x][j][currentpage].fval = AnalogClip[j].fval;
+				AnalogTable[cpoint.x][j][currentpage].tscale = AnalogClip[j].tscale;
+				DigTableValues[cpoint.x][j][currentpage] = DigClip[j];
 			}
 			DrawNewTable(0);
 		}
@@ -2112,27 +2095,25 @@ void ExportScanBuffer(void)
 	}
 }
 
+/**
+Copies the value of the active DigitalTabel value into the clipboard
+*/
 void CVICALLBACK Dig_Cell_Copy(int panelHandle, int controlID, int MenuItemID, void *callbackData)
 {
-	//Copies the value of the active DigitalTabel value into the clipboard
-
-	int page;
 	Point pval = {0, 0};
 
-	page = GetPage();
 	GetActiveTableCell(PANEL, PANEL_DIGTABLE, &pval);
-	DigClip[0] = DigTableValues[pval.x][pval.y][page];
+	DigClip[0] = DigTableValues[pval.x][pval.y][currentpage];
 }
 
+/**
+Pastes the value store in DigClip[0] by Dig_Cell_Copy into the selected Digital Table Cells
+*/
 void CVICALLBACK Dig_Cell_Paste(int panelHandle, int controlID, int MenuItemID, void *callbackData)
 {
-	//Pastes the value store in DigClip[0] by Dig_Cell_Copy into the selected Digital Table Cells
-
-	int page;
 	Rect selection;
 	Point pval = {0, 0};
 
-	page = GetPage();
 	GetTableSelection(panelHandle, PANEL_DIGTABLE, &selection); //note: returns a 0 to all values if only 1 cell selected
 
 	//Pasting into multiple cells
@@ -2143,7 +2124,7 @@ void CVICALLBACK Dig_Cell_Paste(int panelHandle, int controlID, int MenuItemID, 
 			for (pval.x = selection.left; pval.x <= selection.left + (selection.width - 1); pval.x++)
 			{
 
-				DigTableValues[pval.x][pval.y][page] = DigClip[0];
+				DigTableValues[pval.x][pval.y][currentpage] = DigClip[0];
 				if (DigClip[0] == 1)
 					SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, pval, ATTR_TEXT_BGCOLOR, VAL_RED);
 				else if (DigClip[0] == 0)
@@ -2155,7 +2136,7 @@ void CVICALLBACK Dig_Cell_Paste(int panelHandle, int controlID, int MenuItemID, 
 	else if (selection.top == 0)
 	{
 		GetActiveTableCell(PANEL, PANEL_DIGTABLE, &pval);
-		DigTableValues[pval.x][pval.y][page] = DigClip[0];
+		DigTableValues[pval.x][pval.y][currentpage] = DigClip[0];
 		if (DigClip[0] == 1)
 			SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, pval, ATTR_TEXT_BGCOLOR, VAL_RED);
 		else if (DigClip[0] == 0)
@@ -2163,35 +2144,34 @@ void CVICALLBACK Dig_Cell_Paste(int panelHandle, int controlID, int MenuItemID, 
 	}
 }
 
+/**
+This function copies the contents of the active AnalogTable Cell to the Clipboard Globals
+
+Handles Analog Channels, it is called by right clicking on the Analog Table and Selecing "Copy"
+*/
 void CVICALLBACK Analog_Cell_Copy(int panelHandle, int controlID, int MenuItemID, void *callbackData)
 {
-	//This function copies the contents of the active AnalogTable Cell to the Clipboard Globals
-	//Handles Analog Channels, it is called by right clicking on the Analog Table and Selecing "Copy"
-
-	int page;
 	Point pval = {0, 0};
 
-	page = GetPage();
 	GetActiveTableCell(PANEL, PANEL_ANALOGTABLE, &pval);
 
 	if (pval.y <= NUMBERANALOGCHANNELS)
 	{
-		AnalogClip[0].fcn = AnalogTable[pval.x][pval.y][page].fcn;
-		AnalogClip[0].fval = AnalogTable[pval.x][pval.y][page].fval;
-		AnalogClip[0].tscale = AnalogTable[pval.x][pval.y][page].tscale;
+		AnalogClip[0].fcn = AnalogTable[pval.x][pval.y][currentpage].fcn;
+		AnalogClip[0].fval = AnalogTable[pval.x][pval.y][currentpage].fval;
+		AnalogClip[0].tscale = AnalogTable[pval.x][pval.y][currentpage].tscale;
 	}
 }
 
+/**
+Replaces Highlighted Cell contents with the values copied to the clipboard using Analog_Cell_Copy
+This function Handles copies and pastes of analog channel data.
+*/
 void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID, int MenuItemID, void *callbackData)
 {
-	//Replaces Highlighted Cell contents with the values copied to the clipboard using Analog_Cell_Copy
-	//This function Handles copies and pastes of analog channel data.
-
-	int page;
 	Rect selection;
 	Point pval = {0, 0};
 
-	page = GetPage();
 	GetTableSelection(panelHandle, PANEL_ANALOGTABLE, &selection); //returns a 0 to all values if only 1 cell selected
 
 	//Paste made into multiple cells of analog channels
@@ -2202,9 +2182,9 @@ void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID, int MenuItemI
 		{
 			for (int col = selection.left; col <= selection.left + (selection.width - 1); col++)
 			{
-				AnalogTable[col][row][page].fcn = AnalogClip[0].fcn;
-				AnalogTable[col][row][page].fval = AnalogClip[0].fval;
-				AnalogTable[col][row][page].tscale = AnalogClip[0].tscale;
+				AnalogTable[col][row][currentpage].fcn = AnalogClip[0].fcn;
+				AnalogTable[col][row][currentpage].fval = AnalogClip[0].fval;
+				AnalogTable[col][row][currentpage].tscale = AnalogClip[0].tscale;
 			}
 			row++;
 		}
@@ -2217,9 +2197,9 @@ void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID, int MenuItemI
 		GetActiveTableCell(panelHandle, PANEL_ANALOGTABLE, &pval);
 		if (pval.y <= NUMBERANALOGCHANNELS)
 		{
-			AnalogTable[pval.x][pval.y][page].fcn = AnalogClip[0].fcn;
-			AnalogTable[pval.x][pval.y][page].fval = AnalogClip[0].fval;
-			AnalogTable[pval.x][pval.y][page].tscale = AnalogClip[0].tscale;
+			AnalogTable[pval.x][pval.y][currentpage].fcn = AnalogClip[0].fcn;
+			AnalogTable[pval.x][pval.y][currentpage].fval = AnalogClip[0].fval;
+			AnalogTable[pval.x][pval.y][currentpage].tscale = AnalogClip[0].tscale;
 		}
 	}
 	ChangedVals = 1;

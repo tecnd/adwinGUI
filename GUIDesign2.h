@@ -7,7 +7,6 @@ void LoadSettings(void);
 void SaveSettings(void);
 void ShiftColumn3(int col, int page,int dir);
 void RunOnce(void);
-int  GetPage(void);
 void DrawNewTable(int dimmed);
 void CheckActivePages(void);
 void SaveArrays(char*,int);
