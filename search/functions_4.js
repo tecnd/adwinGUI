@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['loadarrays_51',['LoadArrays',['../_g_u_i_design_8c.html#a504efb458d8f9e4b6ce33efbea5bc426',1,'GUIDesign.c']]],
-  ['loadsettings_52',['LoadSettings',['../_g_u_i_design_8c.html#aeb2eb8ec1d703539637b101a4c278862',1,'GUIDesign.c']]]
+  ['initialization_58',['Initialization',['../main_8c.html#adb66f09c018c6ec5f3ade6acd02a5003',1,'main.c']]]
 ];

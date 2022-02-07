@@ -1,8 +1,5 @@
 var searchData=
 [
-  ['calcfcnvalue_44',['CalcFcnValue',['../_g_u_i_design_8c.html#a8ebe8e978a5e857b0c0ca79331ccbb27',1,'GUIDesign.c']]],
-  ['cmd_5frun_5fcallback_45',['CMD_RUN_CALLBACK',['../_g_u_i_design_8c.html#a0afae188565a4cb3ad38dabe6b90ed11',1,'GUIDesign.c']]],
-  ['cmd_5fscan_5fcallback_46',['CMD_SCAN_CALLBACK',['../_g_u_i_design_8c.html#a72eab897f9261404259eb19c5dad54da',1,'GUIDesign.c']]],
-  ['cmdstop_5fcallback_47',['CMDSTOP_CALLBACK',['../_g_u_i_design_8c.html#a1fc77427b09aa7c9e9f01c98e33c1de6',1,'GUIDesign.c']]],
-  ['colorpicker_48',['ColorPicker',['../_g_u_i_design_8c.html#a9d29ccfd4f86eb398523b68673316ffb',1,'GUIDesign.c']]]
+  ['buildtables_48',['BuildTables',['../main_8c.html#acea671ca71c438b172c221f0e8681281',1,'main.c']]],
+  ['buildupdatelist_49',['BuildUpdateList',['../_g_u_i_design_8c.html#ac5a2b82ae838e2372de2d7b271cf49f9',1,'GUIDesign.c']]]
 ];

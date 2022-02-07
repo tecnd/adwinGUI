@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['savearrays_58',['SaveArrays',['../_g_u_i_design_8c.html#ad282731276765d4b48d61493e38db9f8',1,'GUIDesign.c']]],
-  ['savesettings_59',['SaveSettings',['../_g_u_i_design_8c.html#a922612de9acba3e9d66febe590a9388e',1,'GUIDesign.c']]],
-  ['setvisiblelabel_60',['setVisibleLabel',['../main_8c.html#afe7cfc007b90d18db52697b0e3f2e009',1,'main.c']]]
+  ['reshapeanalogtable_63',['ReshapeAnalogTable',['../main_8c.html#aba4ef1a255d1a0165e5e314b41bb91c4',1,'main.c']]],
+  ['reshapedigitaltable_64',['ReshapeDigitalTable',['../main_8c.html#a7faf9ab6ea7b197bc96e590bd81ac487',1,'main.c']]],
+  ['runonce_65',['RunOnce',['../_g_u_i_design_8c.html#afc5759b6231a76640763063a6d85d054',1,'GUIDesign.c']]]
 ];
