@@ -114,8 +114,6 @@ int main(int argc, char *argv[])
 		return -1; /* out of memory */
 	if ((panelHandle = LoadPanel(0, "GUIDesign.uir", PANEL)) < 0)
 		return -1;
-	if ((panelHandle_sub1 = LoadPanel(0, "GUIDesign.uir", SUBPANEL1)) < 0)
-		return -1;
 	if ((panelHandle_sub2 = LoadPanel(0, "GUIDesign.uir", SUBPANEL2)) < 0)
 		return -1;
 
@@ -130,7 +128,6 @@ int main(int argc, char *argv[])
 	if ((panelHandle8 = LoadPanel(0, "ScanTableLoader.uir", PANEL)) < 0)
 		return -1;
 
-	SetCtrlAttribute(panelHandle, PANEL_DEBUG, ATTR_VISIBLE, 0);
 	// Initialize arrays (to avoid undefined elements causing -99 to be written)
 	for (int j = 0; j <= NUMBERANALOGCHANNELS; j++)
 	{
@@ -160,7 +157,6 @@ int main(int argc, char *argv[])
 
 	// done initializing
 
-	ClearListCtrl(panelHandle, PANEL_DEBUG);
 	menuHandle = GetPanelMenuBar(panelHandle);
 
 	currentpage = 1;

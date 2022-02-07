@@ -19,19 +19,15 @@
 #define  PANEL_DIGTABLE                   4       /* control type: table, callback function: DIGTABLE_CALLBACK */
 #define  PANEL_CMD_SCAN                   5       /* control type: command, callback function: CMD_SCAN_CALLBACK */
 #define  PANEL_CMD_RUN                    6       /* control type: command, callback function: CMD_RUN_CALLBACK */
-#define  PANEL_DEBUG                      7       /* control type: listBox, callback function: (none) */
-#define  PANEL_TOGGLEREPEAT               8       /* control type: textButton, callback function: (none) */
-#define  PANEL_CMDSTOP                    9       /* control type: command, callback function: CMDSTOP_CALLBACK */
-#define  PANEL_TBL_ANALOGUNITS            10      /* control type: table, callback function: (none) */
-#define  PANEL_TBL_DIGNAMES               11      /* control type: table, callback function: (none) */
-#define  PANEL_TBL_ANAMES                 12      /* control type: table, callback function: (none) */
-#define  PANEL_TIMER                      13      /* control type: timer, callback function: TIMER_CALLBACK */
-#define  PANEL_SCAN_TABLE                 14      /* control type: table, callback function: (none) */
+#define  PANEL_TOGGLEREPEAT               7       /* control type: textButton, callback function: (none) */
+#define  PANEL_CMDSTOP                    8       /* control type: command, callback function: CMDSTOP_CALLBACK */
+#define  PANEL_TBL_ANALOGUNITS            9       /* control type: table, callback function: (none) */
+#define  PANEL_TBL_DIGNAMES               10      /* control type: table, callback function: (none) */
+#define  PANEL_TBL_ANAMES                 11      /* control type: table, callback function: (none) */
+#define  PANEL_TIMER                      12      /* control type: timer, callback function: TIMER_CALLBACK */
+#define  PANEL_SCAN_TABLE                 13      /* control type: table, callback function: (none) */
 
-#define  SUBPANEL1                        2
-#define  SUBPANEL1_TEXTBOX                2       /* control type: textBox, callback function: (none) */
-
-#define  SUBPANEL2                        3
+#define  SUBPANEL2                        2
 #define  SUBPANEL2_NUM_SCANITER           2       /* control type: numeric, callback function: (none) */
 #define  SUBPANEL2_NUM_SCANSTEP           3       /* control type: numeric, callback function: (none) */
 #define  SUBPANEL2_NUM_SCANVAL            4       /* control type: numeric, callback function: (none) */
@@ -54,25 +50,23 @@
 #define  MENU_SETTINGS                    8
 #define  MENU_SETTINGS_ANALOG             9       /* callback function: ANALOGSET_CALLBACK */
 #define  MENU_SETTINGS_DIGITAL            10      /* callback function: DIGITALSET_CALLBACK */
-#define  MENU_SETTINGS_DEBUG              11      /* callback function: MENU_DEBUG_CALLBACK */
-#define  MENU_SETTINGS_BOOTADWIN          12      /* callback function: BOOTADWIN_CALLBACK */
-#define  MENU_SETTINGS_CLEARPANEL         13      /* callback function: CLEARPANEL_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO          14      /* callback function: RESETZERO_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO_SUBMENU  15
-#define  MENU_SETTINGS_RESETZERO_SETLOW   16      /* callback function: MENU_ALLLOW_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO_HOLD     17      /* callback function: MENU_HOLD_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO_BYCHNL   18      /* callback function: MENU_BYCHANNEL_CALLBACK */
-#define  MENU_SETTINGS_SCANSETTING        19      /* callback function: SCANSETTING_CALLBACK */
-#define  MENU_SETTINGS_NOTECHECK          20      /* callback function: NOTECHECK_CALLBACK */
-#define  MENU_EDITMATRIX                  21
-#define  MENU_EDITMATRIX_INSERTCOLUMN     22      /* callback function: INSERTCOLUMN_CALLBACK */
-#define  MENU_EDITMATRIX_DELETECOLUMN     23      /* callback function: DELETECOLUMN_CALLBACK */
-#define  MENU_EDITMATRIX_COPYCOLUMN       24      /* callback function: COPYCOLUMN_CALLBACK */
-#define  MENU_EDITMATRIX_PASTECOLUMN      25      /* callback function: PASTECOLUMN_CALLBACK */
-#define  MENU_PREFS                       26
-#define  MENU_PREFS_COMPRESSION           27      /* callback function: COMPRESSION_CALLBACK */
-#define  MENU_PREFS_SIMPLETIMING          28      /* callback function: SIMPLETIMING_CALLBACK */
-#define  MENU_PREFS_SHOWARRAY             29      /* callback function: SHOWARRAY_CALLBACK */
+#define  MENU_SETTINGS_BOOTADWIN          11      /* callback function: BOOTADWIN_CALLBACK */
+#define  MENU_SETTINGS_CLEARPANEL         12      /* callback function: CLEARPANEL_CALLBACK */
+#define  MENU_SETTINGS_RESETZERO          13      /* callback function: RESETZERO_CALLBACK */
+#define  MENU_SETTINGS_RESETZERO_SUBMENU  14
+#define  MENU_SETTINGS_RESETZERO_SETLOW   15      /* callback function: MENU_ALLLOW_CALLBACK */
+#define  MENU_SETTINGS_RESETZERO_HOLD     16      /* callback function: MENU_HOLD_CALLBACK */
+#define  MENU_SETTINGS_RESETZERO_BYCHNL   17      /* callback function: MENU_BYCHANNEL_CALLBACK */
+#define  MENU_SETTINGS_SCANSETTING        18      /* callback function: SCANSETTING_CALLBACK */
+#define  MENU_EDITMATRIX                  19
+#define  MENU_EDITMATRIX_INSERTCOLUMN     20      /* callback function: INSERTCOLUMN_CALLBACK */
+#define  MENU_EDITMATRIX_DELETECOLUMN     21      /* callback function: DELETECOLUMN_CALLBACK */
+#define  MENU_EDITMATRIX_COPYCOLUMN       22      /* callback function: COPYCOLUMN_CALLBACK */
+#define  MENU_EDITMATRIX_PASTECOLUMN      23      /* callback function: PASTECOLUMN_CALLBACK */
+#define  MENU_PREFS                       24
+#define  MENU_PREFS_COMPRESSION           25      /* callback function: COMPRESSION_CALLBACK */
+#define  MENU_PREFS_SIMPLETIMING          26      /* callback function: SIMPLETIMING_CALLBACK */
+#define  MENU_PREFS_SHOWARRAY             27      /* callback function: SHOWARRAY_CALLBACK */
 
 
      /* Callback Prototypes: */
@@ -96,9 +90,7 @@ void CVICALLBACK INSERTCOLUMN_CALLBACK(int menubar, int menuItem, void *callback
 void CVICALLBACK MENU_ALLLOW_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK MENU_BYCHANNEL_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK MENU_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
-void CVICALLBACK MENU_DEBUG_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK MENU_HOLD_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
-void CVICALLBACK NOTECHECK_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK PASTECOLUMN_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK RESETZERO_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SCANSETTING_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);

@@ -301,7 +301,6 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 	int repeat = 0, timesum = 0;
 	static int didboot = 0;
 	static int didprocess = 0;
-	int memused;
 	int timeused;
 	int newcount;
 	// variables for timechannel optimization
@@ -321,9 +320,6 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 	}
 
 	cycletime = (double)timesum / (double)timemult / 1000; // Total duration of the cycle, in seconds
-
-	sprintf(buff, "timesum %d", timesum); // Print more debug info
-	InsertListItem(panelHandle, PANEL_DEBUG, -1, buff, 1);
 
 	if (ChangedVals == TRUE) //reupdate the ADWIN array if the user values have changed
 	{
@@ -506,18 +502,6 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 
 		tstop = clock();
 
-#ifdef PRINT_TO_DEBUG
-		sprintf(buff, "count %d", count);
-		InsertListItem(panelHandle, PANEL_DEBUG, -1, buff, 1);
-		sprintf(buff, "compressed count %d", newcount);
-		InsertListItem(panelHandle, PANEL_DEBUG, -1, buff, 1);
-		sprintf(buff, "updates %d", nuptotal);
-		InsertListItem(panelHandle, PANEL_DEBUG, -1, buff, 1);
-		sprintf(buff, "time to generate arrays:   %d", tstop - tstart);
-		InsertListItem(panelHandle, PANEL_DEBUG, -1, buff, 1);
-
-#endif
-
 		if (didboot == FALSE) // is the ADwin booted?  if not, then boot
 		{
 			Boot("ADbasic\\ADwin11.btl", 0);
@@ -571,14 +555,6 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 	sprintf(buff, "Time to transfer and start ADwin:   %d", timeused);
 
 	Start_Process(1); // start the process on ADwin
-
-	// even more debug info
-	InsertListItem(panelHandle, PANEL_DEBUG, -1, buff, 1);
-	memused = (count + 2 * nuptotal) * 4; //in bytes
-	sprintf(buff, "MB of data sent:   %f", (double)memused / 1000000);
-	InsertListItem(panelHandle, PANEL_DEBUG, -1, buff, 1);
-	sprintf(buff, "Transfer Rate:   %f   MB/s", (double)memused / (double)timeused / 1000);
-	InsertListItem(panelHandle, PANEL_DEBUG, -1, buff, 1);
 
 	SetCtrlAttribute(panelHandle, PANEL_CMD_RUN, ATTR_CMD_BUTTON_COLOR, 0x00B0B0B0);
 	//re-enable the timer if necessary
@@ -969,7 +945,6 @@ void SaveSettings(void)
 	int status = FileSelectPopupEx("C:\\UserDate\\Data", "*.pan", "", "Save Settings", VAL_SAVE_BUTTON, 0, 0, fsavename);
 	if (status != VAL_NO_FILE_SELECTED)
 	{
-		ClearListCtrl(panelHandle, PANEL_DEBUG); // added Feb 09, 2006
 		SavePanelState(PANEL, fsavename, 1);
 		SaveArrays(fsavename, strlen(fsavename));
 		SetPanelAttribute(panelHandle, ATTR_TITLE, fsavename);
@@ -1352,24 +1327,6 @@ int CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event,
 		break;
 	}
 	return 0;
-}
-
-//*********************************************************************************
-
-void CVICALLBACK MENU_DEBUG_CALLBACK(int menuBar, int menuItem, void *callbackData,
-									 int panel)
-{
-	int status;
-	GetCtrlAttribute(panelHandle, PANEL_DEBUG, ATTR_VISIBLE, &status);
-	if (status == 0)
-	{
-		status = 1;
-	}
-	else
-	{
-		status = 0;
-	}
-	SetCtrlAttribute(panelHandle, PANEL_DEBUG, ATTR_VISIBLE, status);
 }
 
 //*********************************************************************************************************
@@ -1942,26 +1899,6 @@ void CVICALLBACK SCANSETTING_CALLBACK(int menuBar, int menuItem, void *callbackD
 									  int panel)
 {
 	InitializeScanPanel();
-}
-
-//**************************************************************************************************************
-
-void CVICALLBACK NOTECHECK_CALLBACK(int menuBar, int menuItem, void *callbackData,
-									int panel)
-{
-	BOOL status;
-	GetMenuBarAttribute(menuHandle, MENU_SETTINGS_NOTECHECK, ATTR_CHECKED, &status);
-	SetMenuBarAttribute(menuHandle, MENU_SETTINGS_NOTECHECK, ATTR_CHECKED, !status);
-	//SetCtrlAttribute (panelHandle_sib1, PANEL_LABNOTE_TXT, ATTR_VISIBLE, !status);
-	//SetCtrlAttribute (panelHandle, MENU_NOTECHECK, ATTR_VISIBLE, !status);
-	if (status == 1)
-	{
-		DisplayPanel(panelHandle_sub1);
-	}
-	else
-	{
-		HidePanel(panelHandle_sub1);
-	}
 }
 
 //**************************************************************************************************************
