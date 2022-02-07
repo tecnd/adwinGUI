@@ -38,7 +38,7 @@ int panelHandle_sub1, panelHandle_sub2;
 int menuHandle;
 int currentx, currenty, currentpage;
 int pic_off, pic_static, pic_change, pic_don;
-int ischecked[NUMBEROFPAGES + 1], isdimmed;
+int isdimmed;
 BOOL ChangedVals;
 BOOL UseSimpleTiming;
 

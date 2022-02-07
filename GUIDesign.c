@@ -37,6 +37,20 @@ struct AnalogTableValues AnalogClip[NUMBERANALOGCHANNELS + 1];
 int DigClip[NUMBERDIGITALCHANNELS + 1];
 
 /**
+Returns if the page is checked
+@param page The page number
+@author Kerry Wang
+@return 0 if not checked
+@return 1 if checked
+*/
+BOOL IsPageChecked(int page)
+{
+	BOOL bool;
+	GetCtrlVal(panelHandle, CheckboxArray[page], &bool);
+	return bool;
+}
+
+/**
 Executed when the "RUN" button is pressed.
 Disables scanning capability, saves the GUI  in C:/LastGui.pan    Just in case of a crash
 Activates the TIMER if necessary.
@@ -164,7 +178,7 @@ void RunOnce(void)
 	//go through for each page
 	for (int page = 1; page <= NUMBEROFPAGES; page++)
 	{
-		if (ischecked[page] == 1) //if the page is selected (checkbox is checked)
+		if (IsPageChecked(page)) //if the page is selected (checkbox is checked)
 		{
 			BOOL nozerofound = TRUE;
 			//go through for each time column
@@ -996,8 +1010,7 @@ void DrawNewTable(int isdimmed)
 	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, 0);
 	SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_VISIBLE, 0);
 
-	CheckActivePages();
-	if (ischecked[currentpage] == FALSE)
+	if (IsPageChecked(currentpage) == FALSE)
 	{ // dim the tables
 		SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_DIMMED, 1);
 		SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_DIMMED, 1);
@@ -1264,15 +1277,6 @@ int CVICALLBACK TOGGLE_CALLBACK(int panel, int control, int event,
 	return 0;
 }
 
-void CheckActivePages(void)
-{
-	for (int i = 1; i <= NUMBEROFPAGES; i++)
-	{
-		BOOL bool;
-		GetCtrlVal(panelHandle, CheckboxArray[i], &bool);
-		ischecked[i] = bool;
-	}
-}
 //***************************************************************************************************
 
 int CVICALLBACK DIGTABLE_CALLBACK(int panel, int control, int event,
@@ -1837,7 +1841,7 @@ void ExportPanel(char fexportname[200], int fnamesize)
 	mindex = 0;
 	for (int page = 1; page <= NUMBEROFPAGES; page++) //go through for each page
 	{
-		if (ischecked[page] == 1) //if the page is selected
+		if (IsPageChecked(page)) //if the page is selected
 		{
 			//go through for each time column
 			for (int col = 1; col <= NUMBEROFCOLUMNS; col++)
