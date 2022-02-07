@@ -4,11 +4,10 @@
 /************************************************************************
 Macro Definitions
 *************************************************************************/
-
-#define DefaultEventPeriod 0.010 // in milliseconds
-#define AdwinTick 0.000025		 //Adwin clock cycle, in ms.
-#define NUMBERANALOGCHANNELS 40	 // Number of analog Channels available for control
-#define NUMBERDIGITALCHANNELS 64 // number of digital channels DISPLAYED!!!      \
+#define EVENTPERIOD 0.010			// Period of event in trigger signal, in ms.
+#define AdwinTick 0.000025			// Adwin clock cycle, in ms.
+#define NUMBERANALOGCHANNELS 40		// Number of analog Channels available for control
+#define NUMBERDIGITALCHANNELS 64	// number of digital channels DISPLAYED!!!      \
 
 #define NUMBEROFCOLUMNS 20
 #define TRUE 1
@@ -75,7 +74,6 @@ struct DigitalChannelProperties
 	int resettolow;
 } DChName[MAXDIGITAL];
 
-double EventPeriod; //The Update Period Defined by the pull down menu (in ms)
 short processnum;
 
 /* Parameter Scan variables*/

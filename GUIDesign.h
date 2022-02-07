@@ -69,15 +69,10 @@
 #define  MENU_EDITMATRIX_DELETECOLUMN     23      /* callback function: DELETECOLUMN_CALLBACK */
 #define  MENU_EDITMATRIX_COPYCOLUMN       24      /* callback function: COPYCOLUMN_CALLBACK */
 #define  MENU_EDITMATRIX_PASTECOLUMN      25      /* callback function: PASTECOLUMN_CALLBACK */
-#define  MENU_UPDATEPERIOD                26
-#define  MENU_UPDATEPERIOD_SETGD5         27      /* callback function: SETGD5_CALLBACK */
-#define  MENU_UPDATEPERIOD_SETGD10        28      /* callback function: SETGD10_CALLBACK */
-#define  MENU_UPDATEPERIOD_SETGD100       29      /* callback function: SETGD100_CALLBACK */
-#define  MENU_UPDATEPERIOD_SETGD1000      30      /* callback function: SETGD1000_CALLBACK */
-#define  MENU_PREFS                       31
-#define  MENU_PREFS_COMPRESSION           32      /* callback function: COMPRESSION_CALLBACK */
-#define  MENU_PREFS_SIMPLETIMING          33      /* callback function: SIMPLETIMING_CALLBACK */
-#define  MENU_PREFS_SHOWARRAY             34      /* callback function: SHOWARRAY_CALLBACK */
+#define  MENU_PREFS                       26
+#define  MENU_PREFS_COMPRESSION           27      /* callback function: COMPRESSION_CALLBACK */
+#define  MENU_PREFS_SIMPLETIMING          28      /* callback function: SIMPLETIMING_CALLBACK */
+#define  MENU_PREFS_SHOWARRAY             29      /* callback function: SHOWARRAY_CALLBACK */
 
 
      /* Callback Prototypes: */
@@ -107,10 +102,6 @@ void CVICALLBACK NOTECHECK_CALLBACK(int menubar, int menuItem, void *callbackDat
 void CVICALLBACK PASTECOLUMN_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK RESETZERO_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SCANSETTING_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
-void CVICALLBACK SETGD1000_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
-void CVICALLBACK SETGD100_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
-void CVICALLBACK SETGD10_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
-void CVICALLBACK SETGD5_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SHOWARRAY_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SIMPLETIMING_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK TIMER_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);

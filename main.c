@@ -160,14 +160,9 @@ int main(int argc, char *argv[])
 
 	// done initializing
 
-	EventPeriod = DefaultEventPeriod;
 	ClearListCtrl(panelHandle, PANEL_DEBUG);
 	menuHandle = GetPanelMenuBar(panelHandle);
 
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD5, ATTR_CHECKED, 0);
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD10, ATTR_CHECKED, 1);
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD100, ATTR_CHECKED, 0);
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD1000, ATTR_CHECKED, 0);
 	currentpage = 1;
 
 	Initialization();

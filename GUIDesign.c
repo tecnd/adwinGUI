@@ -310,8 +310,8 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 	//Change run button appearance while operating
 	SetCtrlAttribute(panelHandle, PANEL_CMD_RUN, ATTR_CMD_BUTTON_COLOR, VAL_GREEN);
 	tstart = clock();																												   // Timing information for debugging purposes
-	timemult = (int)(1 / EventPeriod);																								   //number of adwin upates per ms
-	GlobalDelay = (int)(EventPeriod / 0.00000333333333333333333333333333333333333333333333333333333333333333333333333333333333333333); // AdwintTick=0.0000033ms=AW clock cycle (Gives #of clock cycles/update) Updated July 2 2009 - Ben Sofka
+	timemult = (int)(1 / EVENTPERIOD);																								   //number of adwin upates per ms
+	GlobalDelay = (int)(EVENTPERIOD / 0.00000333333333333333333333333333333333333333333333333333333333333333333333333333333333333333); // AdwintTick=0.0000033ms=AW clock cycle (Gives #of clock cycles/update) Updated July 2 2009 - Ben Sofka
 
 	//make a new time list...converting the TimeTable from milliseconds to number of events (numtimes=total #of columns)
 	for (int i = 1; i <= numtimes; i++)
@@ -328,7 +328,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 	if (ChangedVals == TRUE) //reupdate the ADWIN array if the user values have changed
 	{
 		/* Update the array of DDS commands
-		EventPeriod is in ms, create_command_array in s, so convert units */
+		EVENTPERIOD is in ms, create_command_array in s, so convert units */
 		GetMenuBarAttribute(menuHandle, MENU_PREFS_SIMPLETIMING, ATTR_CHECKED, &UseSimpleTiming);
 
 		//dynamically allocate the memory for the time array (instead of using a static array:UpdateNum)
@@ -606,13 +606,13 @@ double CalcFcnValue(int fcn, double Vinit, double Vfinal, double timescale, doub
 	frequency = timescale;
 	if (UseSimpleTiming == TRUE)
 	{
-		timescale = celltime - EventPeriod;
+		timescale = celltime - EVENTPERIOD;
 	}
 	if (timescale <= 0)
 	{
 		timescale = 1;
 	}
-	tms = telapsed * EventPeriod;
+	tms = telapsed * EVENTPERIOD;
 	// add commands here to select 'simple timing'
 
 	switch (fcn)
@@ -1372,46 +1372,6 @@ void CVICALLBACK MENU_DEBUG_CALLBACK(int menuBar, int menuItem, void *callbackDa
 	SetCtrlAttribute(panelHandle, PANEL_DEBUG, ATTR_VISIBLE, status);
 }
 
-void CVICALLBACK SETGD5_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD5, ATTR_CHECKED, 1);
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD10, ATTR_CHECKED, 0);
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD100, ATTR_CHECKED, 0);
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD1000, ATTR_CHECKED, 0);
-	EventPeriod = 0.005;
-}
-
-void CVICALLBACK SETGD10_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								  int panel)
-{
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD5, ATTR_CHECKED, 0);
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD10, ATTR_CHECKED, 1);
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD100, ATTR_CHECKED, 0);
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD1000, ATTR_CHECKED, 0);
-	EventPeriod = 0.010;
-}
-
-void CVICALLBACK SETGD100_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								   int panel)
-{
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD5, ATTR_CHECKED, 0);
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD10, ATTR_CHECKED, 0);
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD100, ATTR_CHECKED, 1);
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD1000, ATTR_CHECKED, 0);
-	EventPeriod = 0.100;
-}
-
-void CVICALLBACK SETGD1000_CALLBACK(int menuBar, int menuItem, void *callbackData,
-									int panel)
-{
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD5, ATTR_CHECKED, 0);
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD10, ATTR_CHECKED, 0);
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD100, ATTR_CHECKED, 0);
-	SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD1000, ATTR_CHECKED, 1);
-	EventPeriod = 1.00;
-}
-
 //*********************************************************************************************************
 
 void CVICALLBACK BOOTADWIN_CALLBACK(int menuBar, int menuItem, void *callbackData,
@@ -1640,7 +1600,6 @@ If necessary See AdwinGUI Panel Converter V11-V12 (created June 01, 2006)
 void LoadArrays(char savedname[500], int csize)
 {
 	FILE *fdata;
-	int updatePer;
 	char buff[500] = "";
 	char buttonName[80];
 	strncat(buff, savedname, csize - 4);
@@ -1665,37 +1624,6 @@ void LoadArrays(char savedname[500], int csize)
 		SetCtrlAttribute(panelHandle, ButtonArray[page], ATTR_OFF_TEXT, buttonName);
 	}
 
-	//Update Period Retrieved and Set
-	fread(&updatePer, sizeof updatePer, 1, fdata);
-	if (updatePer == 5)
-	{
-		SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD5, ATTR_CHECKED, 1);
-		EventPeriod = 0.005;
-	}
-	else
-		SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD5, ATTR_CHECKED, 0);
-	if (updatePer == 10)
-	{
-		SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD10, ATTR_CHECKED, 1);
-		EventPeriod = 0.01;
-	}
-	else
-		SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD10, ATTR_CHECKED, 0);
-	if (updatePer == 100)
-	{
-		SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD100, ATTR_CHECKED, 1);
-		EventPeriod = 0.1;
-	}
-	else
-		SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD100, ATTR_CHECKED, 0);
-	if (updatePer == 1000)
-	{
-		SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD1000, ATTR_CHECKED, 1);
-		EventPeriod = 1;
-	}
-	else
-		SetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD1000, ATTR_CHECKED, 0);
-
 	fclose(fdata);
 
 	SetAnalogChannels();
@@ -1715,7 +1643,6 @@ If necessary See AdwinGUI Panel Converter V11-V12 (created June 01, 2006)
 void SaveArrays(char savedname[500], int csize)
 {
 	FILE *fdata;
-	int usupd5, usupd10, usupd100, usupd1000, updatePer; //Update Period Check
 	char buff[500];
 	char buttonName[80];
 	strncpy(buff, savedname, csize - 4);
@@ -1746,29 +1673,6 @@ void SaveArrays(char savedname[500], int csize)
 		GetCtrlAttribute(panelHandle, ButtonArray[page], ATTR_ON_TEXT, buttonName);
 		fwrite(&buttonName, sizeof buttonName, 1, fdata);
 	}
-
-	GetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD5, ATTR_CHECKED, &usupd5);
-	GetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD10, ATTR_CHECKED, &usupd10);
-	GetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD100, ATTR_CHECKED, &usupd100);
-	GetMenuBarAttribute(menuHandle, MENU_UPDATEPERIOD_SETGD1000, ATTR_CHECKED, &usupd1000);
-
-	if (usupd5 == 1)
-	{
-		updatePer = 5;
-	}
-	else if (usupd10 == 1)
-	{
-		updatePer = 10;
-	}
-	else if (usupd100 == 1)
-	{
-		updatePer = 100;
-	}
-	else
-	{
-		updatePer = 1000;
-	}
-	fwrite(&updatePer, sizeof updatePer, 1, fdata);
 
 	fclose(fdata);
 }
@@ -1897,7 +1801,10 @@ void ExportPanel(char fexportname[200], int fnamesize)
 		{
 			strncat(bigbuff, ",", 1);
 			strncat(bigbuff, fcnmode + MetaAnalogArray[j][i].fcn - 1, 1);
-			sprintf(buff, "%3.2f", MetaAnalogArray[j][i].fval);
+			sprintf(buff, "%#.2f", MetaAnalogArray[j][i].fval);
+			strcat(bigbuff, buff);
+			strncat(bigbuff, "/", 1);
+			sprintf(buff, "%#.2f", MetaAnalogArray[j][i].tscale);
 			strcat(bigbuff, buff);
 		}
 		strncat(bigbuff, "\n", 1);
