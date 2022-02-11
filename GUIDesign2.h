@@ -16,7 +16,6 @@ double CalcFcnValue(int fcn,double Vinit,double Vfinal, double timescale,double 
 void SetDisplayType(int display_setting); //toggle graphic and numeric
 double CheckIfWithinLimits(double OutputVoltage, int linenumber);
 void SaveLastGuiSettings(void);
-void OptimizeTimeLoop(int *,int,int*);
 void UpdateScanValue(int);
 void ScanSetUp(void);
 void ExportScanBuffer(void);

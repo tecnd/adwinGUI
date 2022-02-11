@@ -29,6 +29,7 @@ Boots the ADwin, handles compilation of the arrays into ADwin-friendly format.
 
 // Forward declarations of functions
 void BuildUpdateList(double[500], struct AnalogTableValues[NUMBERANALOGCHANNELS + 1][500], int[NUMBERDIGITALCHANNELS + 1][500], int);
+int OptimizeTimeLoop(int *, int);
 
 //Clipboard to hold data from copy/paste cells
 double TimeClip;
@@ -302,7 +303,6 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 	static int didboot = 0;
 	static int didprocess = 0;
 	int timeused;
-	int newcount;
 	// variables for timechannel optimization
 	time_t tstart, tstop;
 
@@ -463,11 +463,11 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 		// read some menu options
 		GetMenuBarAttribute(menuHandle, MENU_PREFS_COMPRESSION, ATTR_CHECKED, &UseCompression);
 		GetMenuBarAttribute(menuHandle, MENU_PREFS_SHOWARRAY, ATTR_CHECKED, &ArraysToDebug);
-		newcount = 0;
+		int newcount = 0;
 
 		if (UseCompression)
 		{
-			OptimizeTimeLoop(UpdateNum, count, &newcount);
+			newcount = OptimizeTimeLoop(UpdateNum, count);
 		}
 
 		if (ArraysToDebug) // only used if we suspect the ADwin code of being really faulty.
@@ -644,19 +644,18 @@ double CalcFcnValue(int fcn, double Vinit, double Vfinal, double timescale, doub
 /**
 This routine compresses the updatenum list by replacing long strings of 0 with a single line.
 i.e. if we see 2000 zero's in a row, just write -2000 instead.
-@todo fill in params
+@param UpdateNum Array of update numbers to be optimized (1-indexed)
+@param count Length of UpdateNum
+@return Length of UpdateNum after optimization, including index 0
 */
-void OptimizeTimeLoop(int *UpdateNum, int count, int *newcount)
+int OptimizeTimeLoop(int *UpdateNum, int count)
 {
-	int i = 1; 			// i is the counter through the original UpdateNum list
-	int t = 1;			// t is the counter through the NewUpdateNum list
-	int LowZeroThreshold, HighZeroThreshold;
-	int numberofzeros;
-	LowZeroThreshold = 0;		// minimum number of consecutive zero's to encounter before optimizing
-	HighZeroThreshold = 100000; // maximum number of consecutive zero's to optimize
-								//  We do not want to exceed the counter on the ADwin
-								//  ADwin uses a 40MHz clock, 1 ms implies counter set to 40,000
-	while (i < count + 1)
+	int i = 1; 						// i is the counter through the original UpdateNum list
+	int t = 1;						// t is the counter through the NewUpdateNum list
+	int LowZeroThreshold = 0; 		// minimum number of consecutive zero's to encounter before optimizing
+	int HighZeroThreshold = 100000; // maximum number of consecutive zero's to optimize
+
+	while (i <= count) // Loop through UpdateNum[]
 	{
 		if (UpdateNum[i] != 0)
 		{
@@ -673,7 +672,7 @@ void OptimizeTimeLoop(int *UpdateNum, int count, int *newcount)
 			} //if this fails, then AA[i+j]!=0
 			if ((i + j) < (count + 1))
 			{
-				numberofzeros = j;
+				int numberofzeros = j;
 				if (numberofzeros <= LowZeroThreshold)
 				{
 					for (int k = 1; k <= numberofzeros; k++)
@@ -705,7 +704,7 @@ void OptimizeTimeLoop(int *UpdateNum, int count, int *newcount)
 			}
 		}
 	}
-	*newcount = t;
+	return t;
 }
 //*****************************************************************************************
 //June 7, 2005 :  Completed Scan capability, added on-screen display of scan progress.
