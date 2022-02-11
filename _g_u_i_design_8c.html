@@ -87,6 +87,8 @@ $(function() {
 Functions</h2></td></tr>
 <tr class="memitem:ac5a2b82ae838e2372de2d7b271cf49f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#ac5a2b82ae838e2372de2d7b271cf49f9">BuildUpdateList</a> (double[500], struct <a class="el" href="struct_analog_table_values.html">AnalogTableValues</a>[NUMBERANALOGCHANNELS+1][500], int[NUMBERDIGITALCHANNELS+1][500], int)</td></tr>
 <tr class="separator:ac5a2b82ae838e2372de2d7b271cf49f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11ba2412afbbd690958e4df8d7b83d20"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a11ba2412afbbd690958e4df8d7b83d20">OptimizeTimeLoop</a> (int *, int)</td></tr>
+<tr class="separator:a11ba2412afbbd690958e4df8d7b83d20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef9cd007d78ddc646604b50c003d1e29"><td class="memItemLeft" align="right" valign="top">BOOL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#aef9cd007d78ddc646604b50c003d1e29">IsPageChecked</a> (int page)</td></tr>
 <tr class="separator:aef9cd007d78ddc646604b50c003d1e29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0afae188565a4cb3ad38dabe6b90ed11"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a0afae188565a4cb3ad38dabe6b90ed11">CMD_RUN_CALLBACK</a> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
@@ -101,8 +103,6 @@ Functions</h2></td></tr>
 <tr class="separator:afc5759b6231a76640763063a6d85d054"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ebe8e978a5e857b0c0ca79331ccbb27"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a8ebe8e978a5e857b0c0ca79331ccbb27">CalcFcnValue</a> (int fcn, double Vinit, double Vfinal, double timescale, double telapsed, double celltime)</td></tr>
 <tr class="separator:a8ebe8e978a5e857b0c0ca79331ccbb27"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a811ebff7c31b621f00a0725d265a572a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a811ebff7c31b621f00a0725d265a572a">OptimizeTimeLoop</a> (int *UpdateNum, int count, int *newcount)</td></tr>
-<tr class="separator:a811ebff7c31b621f00a0725d265a572a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63869a8f922bd62894720eb99125fa70"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a63869a8f922bd62894720eb99125fa70">UpdateScanValue</a> (int Reset)</td></tr>
 <tr class="separator:a63869a8f922bd62894720eb99125fa70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb2eb8ec1d703539637b101a4c278862"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#aeb2eb8ec1d703539637b101a4c278862">LoadSettings</a> (void)</td></tr>
@@ -817,14 +817,14 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [NUMBERDIG
 
 </div>
 </div>
-<a id="a811ebff7c31b621f00a0725d265a572a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a811ebff7c31b621f00a0725d265a572a">&#9670;&nbsp;</a></span>OptimizeTimeLoop()</h2>
+<a id="a11ba2412afbbd690958e4df8d7b83d20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11ba2412afbbd690958e4df8d7b83d20">&#9670;&nbsp;</a></span>OptimizeTimeLoop()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void OptimizeTimeLoop </td>
+          <td class="memname">int OptimizeTimeLoop </td>
           <td>(</td>
           <td class="paramtype">int *&#160;</td>
           <td class="paramname"><em>UpdateNum</em>, </td>
@@ -833,13 +833,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [NUMBERDIG
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>count</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int *&#160;</td>
-          <td class="paramname"><em>newcount</em>&#160;</td>
+          <td class="paramname"><em>count</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -848,7 +842,14 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [NUMBERDIG
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This routine compresses the updatenum list by replacing long strings of 0 with a single line. i.e. if we see 2000 zero's in a row, just write -2000 instead. </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>fill in params </dd></dl>
+<p>This routine compresses the updatenum list by replacing long strings of 0 with a single line. i.e. if we see 2000 zero's in a row, just write -2000 instead. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UpdateNum</td><td>Array of update numbers to be optimized (1-indexed) </td></tr>
+    <tr><td class="paramname">count</td><td>Length of UpdateNum </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Length of UpdateNum after optimization, including index 0 </dd></dl>
 
 </div>
 </div>
@@ -995,7 +996,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [NUMBERDIG
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>Write documentation </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>Write documentation </dd></dl>
 
 </div>
 </div>
