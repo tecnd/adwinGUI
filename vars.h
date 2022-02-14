@@ -4,8 +4,7 @@
 /************************************************************************
 Macro Definitions
 *************************************************************************/
-#define EVENTPERIOD 0.010			// Period of event in trigger signal, in ms.
-#define AdwinTick 0.000025			// Adwin clock cycle, in ms.
+#define EVENTPERIOD 0.010f			// Period of event in trigger signal, in ms.
 #define NUMBERANALOGCHANNELS 40		// Number of analog Channels available for control
 #define NUMBERDIGITALCHANNELS 64	// number of digital channels DISPLAYED!!!      \
 

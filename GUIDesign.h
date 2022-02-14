@@ -66,7 +66,6 @@
 #define  MENU_PREFS                       24
 #define  MENU_PREFS_COMPRESSION           25      /* callback function: COMPRESSION_CALLBACK */
 #define  MENU_PREFS_SIMPLETIMING          26      /* callback function: SIMPLETIMING_CALLBACK */
-#define  MENU_PREFS_SHOWARRAY             27      /* callback function: SHOWARRAY_CALLBACK */
 
 
      /* Callback Prototypes: */
@@ -94,7 +93,6 @@ void CVICALLBACK MENU_HOLD_CALLBACK(int menubar, int menuItem, void *callbackDat
 void CVICALLBACK PASTECOLUMN_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK RESETZERO_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SCANSETTING_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
-void CVICALLBACK SHOWARRAY_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SIMPLETIMING_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK TIMER_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);

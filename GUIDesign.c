@@ -285,19 +285,19 @@ From the meta-lists, we generate 3 arrays.
 */
 void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERANALOGCHANNELS + 1][500], int DMat[NUMBERDIGITALCHANNELS + 1][500], int numtimes)
 {
-	BOOL UseCompression, ArraysToDebug;
+	BOOL UseCompression;
 	int *UpdateNum;
 	int *ChNum;
 	float *ChVal;
-	int NewTimeMat[500];
+	int NewTimeMat[500] = {0};
 	int nupcurrent, nuptotal = 0, checkresettozero = 0;
 	int usefcn, digchannel; //Bool
 	int UsingFcns[NUMBERANALOGCHANNELS + 1] = {0}, count = 0;
 	double LastAval[NUMBERANALOGCHANNELS + 1] = {0}, NewAval, TempChVal, TempChVal2;
 	long ResetToZeroAtEnd[NUMBERANALOGCHANNELS + 6]; //1-24 for analog, ...but for now, if [1]=1 then all zero, else no change
-	int timemult, t, c;
+	int t, c;
 	double cycletime = 0;
-	int GlobalDelay = 300000; //Updated July 14 2009 - Ben Sofka (303030 corresponds to 1ms on T11 processor)
+	int GlobalDelay = 3000000; // 3000000@3.33...ns = 0.01 ms ticks
 	char buff[100];
 	int repeat = 0, timesum = 0;
 	static int didboot = 0;
@@ -308,14 +308,13 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 
 	//Change run button appearance while operating
 	SetCtrlAttribute(panelHandle, PANEL_CMD_RUN, ATTR_CMD_BUTTON_COLOR, VAL_GREEN);
-	tstart = clock();																												   // Timing information for debugging purposes
-	timemult = (int)(1 / EVENTPERIOD);																								   //number of adwin upates per ms
-	GlobalDelay = (int)(EVENTPERIOD / 0.00000333333333333333333333333333333333333333333333333333333333333333333333333333333333333333); // AdwintTick=0.0000033ms=AW clock cycle (Gives #of clock cycles/update) Updated July 2 2009 - Ben Sofka
+	tstart = clock();					// Timing information for debugging purposes
+	int timemult = (int)(1 / EVENTPERIOD);	//number of adwin upates per ms
 
 	//make a new time list...converting the TimeTable from milliseconds to number of events (numtimes=total #of columns)
 	for (int i = 1; i <= numtimes; i++)
 	{
-		NewTimeMat[i] = (int)(TMatrix[i] * timemult); //number of Adwin events in column i
+		NewTimeMat[i] = RoundRealToNearestInteger(TMatrix[i] * timemult); //number of Adwin events in column i
 		timesum = timesum + NewTimeMat[i];			  //total number of Adwin events
 	}
 
@@ -462,42 +461,11 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 
 		// read some menu options
 		GetMenuBarAttribute(menuHandle, MENU_PREFS_COMPRESSION, ATTR_CHECKED, &UseCompression);
-		GetMenuBarAttribute(menuHandle, MENU_PREFS_SHOWARRAY, ATTR_CHECKED, &ArraysToDebug);
 		int newcount = 0;
 
 		if (UseCompression)
 		{
 			newcount = OptimizeTimeLoop(UpdateNum, count);
-		}
-
-		if (ArraysToDebug) // only used if we suspect the ADwin code of being really faulty.
-		{				   // ArraysToDebug is a declare in vars.h
-			//imax=newcount;
-			//if(newcount==0) {imax=count;}
-			//if(imax>1000){imax=1000;}
-			//for(i=1;i<imax+1;i++)
-
-			// this loop just writes out the first 1000 updates to the stdio window in the format
-			// i  UpdateNum    ChNum   Chval
-			int k = 1;
-			for (int i = 1; i < 1000; i++)
-			{
-				printf("%-5d%d\t", i, UpdateNum[i]);
-				if (UpdateNum[i] > 0)
-				{
-					printf("%d\t%f\n", ChNum[k], ChVal[k]);
-					k++;
-					for (int j = 1; j < UpdateNum[i]; j++)
-					{
-						printf("\t\t%d\t%f\n", ChNum[k], ChVal[k]);
-						k++;
-					}
-				}
-				else
-				{
-					printf("\n");
-				}
-			}
 		}
 
 		tstop = clock();
@@ -1857,22 +1825,6 @@ void CVICALLBACK COMPRESSION_CALLBACK(int menuBar, int menuItem, void *callbackD
 	else
 	{
 		SetMenuBarAttribute(menuHandle, MENU_PREFS_COMPRESSION, ATTR_CHECKED, TRUE);
-	}
-}
-
-//**************************************************************************************************************
-void CVICALLBACK SHOWARRAY_CALLBACK(int menuBar, int menuItem, void *callbackData,
-									int panel)
-{
-	BOOL ShowArray;
-	GetMenuBarAttribute(menuHandle, MENU_PREFS_SHOWARRAY, ATTR_CHECKED, &ShowArray);
-	if (ShowArray)
-	{
-		SetMenuBarAttribute(menuHandle, MENU_PREFS_SHOWARRAY, ATTR_CHECKED, FALSE);
-	}
-	else
-	{
-		SetMenuBarAttribute(menuHandle, MENU_PREFS_SHOWARRAY, ATTR_CHECKED, TRUE);
 	}
 }
 
