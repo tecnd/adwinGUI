@@ -309,7 +309,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 	//Change run button appearance while operating
 	SetCtrlAttribute(panelHandle, PANEL_CMD_RUN, ATTR_CMD_BUTTON_COLOR, VAL_GREEN);
 	tstart = clock();					// Timing information for debugging purposes
-	int timemult = (int)(1 / EVENTPERIOD);	//number of adwin upates per ms
+	int timemult = 1 / EVENTPERIOD;		//number of adwin upates per ms
 
 	//make a new time list...converting the TimeTable from milliseconds to number of events (numtimes=total #of columns)
 	for (int i = 1; i <= numtimes; i++)
@@ -318,7 +318,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 		timesum = timesum + NewTimeMat[i];			  //total number of Adwin events
 	}
 
-	cycletime = (double)timesum / (double)timemult / 1000; // Total duration of the cycle, in seconds
+	cycletime = timesum * EVENTPERIOD / 1000; // Total duration of the cycle, in seconds
 
 	if (ChangedVals == TRUE) //reupdate the ADWIN array if the user values have changed
 	{
