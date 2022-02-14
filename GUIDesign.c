@@ -181,11 +181,10 @@ void RunOnce(void)
 	{
 		if (IsPageChecked(page)) //if the page is selected (checkbox is checked)
 		{
-			BOOL nozerofound = TRUE;
 			//go through for each time column
 			for (int col = 1; col <= NUMBEROFCOLUMNS; col++)
 			{
-				if ((nozerofound) && (TimeArray[col][page] > 0))
+				if (TimeArray[col][page] > 0)
 				//ignore all columns after the first
 				// time 0 (for that page)
 				{
@@ -216,7 +215,7 @@ void RunOnce(void)
 				}
 				else if (TimeArray[col][page] == 0)
 				{
-					nozerofound = FALSE;
+					break;
 				}
 			}
 		}
@@ -286,65 +285,61 @@ From the meta-lists, we generate 3 arrays.
 void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERANALOGCHANNELS + 1][500], int DMat[NUMBERDIGITALCHANNELS + 1][500], int numtimes)
 {
 	BOOL UseCompression;
-	int *UpdateNum;
-	int *ChNum;
-	float *ChVal;
 	int NewTimeMat[500] = {0};
-	int nupcurrent, nuptotal = 0, checkresettozero = 0;
-	int usefcn, digchannel; //Bool
-	int UsingFcns[NUMBERANALOGCHANNELS + 1] = {0}, count = 0;
-	double LastAval[NUMBERANALOGCHANNELS + 1] = {0}, NewAval, TempChVal, TempChVal2;
-	long ResetToZeroAtEnd[NUMBERANALOGCHANNELS + 6]; //1-24 for analog, ...but for now, if [1]=1 then all zero, else no change
-	int t, c;
+	int checkresettozero = 0;
+	int UsingFcns[NUMBERANALOGCHANNELS + 1] = {0};
 	double cycletime = 0;
-	int GlobalDelay = 3000000; // 3000000@3.33...ns = 0.01 ms ticks
-	char buff[100];
 	int repeat = 0, timesum = 0;
-	static int didboot = 0;
-	static int didprocess = 0;
-	int timeused;
-	// variables for timechannel optimization
-	time_t tstart, tstop;
+	// debug variables
+	// char buff[100];
+	// int timeused;
+	// time_t tstart, tstop;
 
 	//Change run button appearance while operating
 	SetCtrlAttribute(panelHandle, PANEL_CMD_RUN, ATTR_CMD_BUTTON_COLOR, VAL_GREEN);
-	tstart = clock();					// Timing information for debugging purposes
+	// tstart = clock();					// Timing information for debugging purposes
 	int timemult = 1 / EVENTPERIOD;		//number of adwin upates per ms
 
 	//make a new time list...converting the TimeTable from milliseconds to number of events (numtimes=total #of columns)
 	for (int i = 1; i <= numtimes; i++)
 	{
-		NewTimeMat[i] = RoundRealToNearestInteger(TMatrix[i] * timemult); //number of Adwin events in column i
-		timesum = timesum + NewTimeMat[i];			  //total number of Adwin events
+		NewTimeMat[i] = RoundRealToNearestInteger(TMatrix[i] * timemult); 	//number of Adwin events in column i
+		timesum = timesum + NewTimeMat[i];			  						//total number of Adwin events
 	}
 
 	cycletime = timesum * EVENTPERIOD / 1000; // Total duration of the cycle, in seconds
 
 	if (ChangedVals == TRUE) //reupdate the ADWIN array if the user values have changed
 	{
-		/* Update the array of DDS commands
-		EVENTPERIOD is in ms, create_command_array in s, so convert units */
 		GetMenuBarAttribute(menuHandle, MENU_PREFS_SIMPLETIMING, ATTR_CHECKED, &UseSimpleTiming);
 
 		//dynamically allocate the memory for the time array (instead of using a static array:UpdateNum)
 		//We are making an assumption about how many programmable points we may need to use.
 		//For now assume that number of channel updates <= 4* #of events, serious overestimate
 
-		UpdateNum = calloc(timesum + 1, sizeof(int));
+		int *UpdateNum = calloc(timesum + 1, sizeof *UpdateNum);
 		if (!UpdateNum)
 		{
 			exit(1);
 		}
-		ChNum = calloc((int)((double)timesum * 4), sizeof(int));
+		int *ChNum = calloc(timesum * 4, sizeof *ChNum);
 		if (!ChNum)
 		{
 			exit(1);
 		}
-		ChVal = calloc((int)((double)timesum * 4), sizeof(double));
+		float *ChVal = calloc(timesum * 4, sizeof *ChVal);
 		if (!ChVal)
 		{
 			exit(1);
 		}
+
+		int nuptotal = 0;
+		int count = 0;
+		double NewAval, TempChVal, TempChVal2;
+		double LastAval[NUMBERANALOGCHANNELS + 1] = {0};
+		long ResetToZeroAtEnd[NUMBERANALOGCHANNELS + 6]; //1-24 for analog, ...but for now, if [1]=1 then all zero, else no change
+		static int didboot = 0;
+		static int didprocess = 0;
 
 		//Go through for each column that needs to be updated
 
@@ -359,8 +354,8 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 		{
 			// find out how many channels need updating this round...
 			// if it's a non-step fcn, then keep a list of UsingFcns, and change it now
-			nupcurrent = 0;
-			usefcn = 0;
+			int nupcurrent = 0;
+			int usefcn = 0;
 
 			// scan over the analog channel..find updated values by comparing to old values.
 			for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
@@ -388,7 +383,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 			int digval2 = 0;
 			for (int row = 1; row <= NUMBERDIGITALCHANNELS; row++)
 			{
-				digchannel = DChName[row].chnum;
+				int digchannel = DChName[row].chnum;
 
 				if (digchannel <= 32)
 				{
@@ -426,7 +421,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 			//end of first scan
 			//now do the remainder of the loop...but just the complicated fcns, i.e. ramps, sine wave
 
-			t = 0;
+			int t = 0;
 			while (t < NewTimeMat[i] - 1)
 			{
 				t++;
@@ -436,7 +431,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 				while (k < usefcn)
 				{
 					k++;
-					c = UsingFcns[k];
+					int c = UsingFcns[k];
 					NewAval = CalcFcnValue(AMat[c][i].fcn, AMat[c][i - 1].fval, AMat[c][i].fval, AMat[c][i].tscale, t, TMatrix[i]);
 					TempChVal = AChName[c].tbias + NewAval * AChName[c].tfcn;
 					TempChVal2 = CheckIfWithinLimits(TempChVal, c);
@@ -468,7 +463,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 			newcount = OptimizeTimeLoop(UpdateNum, count);
 		}
 
-		tstop = clock();
+		// tstop = clock();
 
 		if (didboot == FALSE) // is the ADwin booted?  if not, then boot
 		{
@@ -497,6 +492,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 
 		// Send the Array to the AdWin Sequencer
 		// ------------------------------------------------------------------------------------------------------------------
+		int GlobalDelay = 3000000; // 3000000@3.33...ns = 0.01 ms ticks
 		SetPar(2, GlobalDelay);
 		SetData_Long(2, ChNum, 1, nuptotal + 1);
 		SetData_Float(3, ChVal, 1, nuptotal + 1);
@@ -518,9 +514,9 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 		free(ChVal);
 	}
 	// more debug info
-	tstop = clock();
-	timeused = tstop - tstart;
-	sprintf(buff, "Time to transfer and start ADwin:   %d", timeused);
+	// tstop = clock();
+	// timeused = tstop - tstart;
+	// sprintf(buff, "Time to transfer and start ADwin:   %d", timeused);
 
 	Start_Process(1); // start the process on ADwin
 
