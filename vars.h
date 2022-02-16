@@ -38,7 +38,6 @@ int currentx, currenty, currentpage;
 int pic_off, pic_static, pic_change, pic_don;
 int isdimmed;
 BOOL ChangedVals;
-BOOL UseSimpleTiming;
 
 struct AnalogTableValues
 {

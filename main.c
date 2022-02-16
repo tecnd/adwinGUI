@@ -90,7 +90,6 @@ Dec7	Add a compression routine for the NumberUpdates variable, to speed up commu
 Dec16	Made the last panel mobile, such that it can be inserted into other pages.
 */
 
-#define ALLOC_GLOBALS
 #include <ansi_c.h>
 #include <userint.h>
 #include <cvirte.h>
@@ -102,7 +101,6 @@ Dec16	Made the last panel mobile, such that it can be inserted into other pages.
 #include "main.h"
 #include "Adwin.h"
 #include <time.h>
-#define VAR_DECLS 1
 #include "vars.h"
 
 /**
@@ -156,7 +154,6 @@ int main(int argc, char *argv[])
 	}
 
 	// done initializing
-
 	menuHandle = GetPanelMenuBar(panelHandle);
 
 	currentpage = 1;
@@ -251,7 +248,7 @@ Resizes and moves tables into place.
 @todo move table-related calls from Initialization() to here
 @author David McKay, Kerry Wang
 */
-void BuildTables()
+void BuildTables(void)
 {
 	// Build Time Table
 	SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_TABLE_MODE, VAL_GRID);
@@ -330,7 +327,7 @@ void BuildTables()
 /**
 Initializes the GUI.
 */
-void Initialization()
+void Initialization(void)
 {
 	//Changes:
 	//Mar09, 2006:  Force DDS 1 frequency settings at loadtime.

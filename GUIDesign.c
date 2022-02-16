@@ -16,6 +16,7 @@ Boots the ADwin, handles compilation of the arrays into ADwin-friendly format.
 #include <userint.h>
 #include <utility.h>
 #include <ansi_c.h>
+#include <toolbox.h>
 #include "Adwin.h"
 #include "Scan.h"
 #include "scan2.h"
@@ -30,6 +31,16 @@ Boots the ADwin, handles compilation of the arrays into ADwin-friendly format.
 // Forward declarations of functions
 void BuildUpdateList(double[500], struct AnalogTableValues[NUMBERANALOGCHANNELS + 1][500], int[NUMBERDIGITALCHANNELS + 1][500], int);
 int OptimizeTimeLoop(int *, int);
+void ShiftColumn3(int, int, int);
+void RunOnce(void);
+void SaveArrays(char *,int);
+void LoadArrays(char *,int);
+void ExportPanel(char *,int);
+double CalcFcnValue(int, double, double, double, double, double);
+double CheckIfWithinLimits(double, int);
+void SaveLastGuiSettings(void);
+void UpdateScanValue(int);
+void ExportScanBuffer(void);
 
 //Clipboard to hold data from copy/paste cells
 double TimeClip;
@@ -67,7 +78,6 @@ int CVICALLBACK CMD_RUN_CALLBACK(int panel, int control, int event,
 		PScan.Scan_Active = FALSE;
 		SaveLastGuiSettings();
 		ChangedVals = TRUE; // Forces the BuildUpdateList() routine to generate new data for the ADwin
-		scancount = 0;
 		GetCtrlVal(panelHandle, PANEL_TOGGLEREPEAT, &repeat); // reads the state of the "repeat" switch
 		if (repeat == TRUE)
 		{
@@ -169,9 +179,9 @@ Ignores dimmed out columns and pages
 void RunOnce(void)
 {
 	//could/should change these following defs and use malloc instead, but they should never exceed.. 170 or so.
-	double MetaTimeArray[500] = {0.}; // initialize the 0th element even though we're not using it, otherwise will raise uninitialized exception
+	double MetaTimeArray[500] = {0}; // initialize the 0th element even though we're not using it, otherwise will raise uninitialized exception
 	int MetaDigitalArray[NUMBERDIGITALCHANNELS + 1][500] = {0};
-	struct AnalogTableValues MetaAnalogArray[NUMBERANALOGCHANNELS + 1][500] = {{0, 0., 0.}};
+	struct AnalogTableValues MetaAnalogArray[NUMBERANALOGCHANNELS + 1][500] = {0};
 
 	//Lets build the times list first...so we know how long it will be.
 	//check each page...find columns in use and dim out unused....(with 0 or negative time values)
@@ -298,7 +308,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 	//Change run button appearance while operating
 	SetCtrlAttribute(panelHandle, PANEL_CMD_RUN, ATTR_CMD_BUTTON_COLOR, VAL_GREEN);
 	// tstart = clock();					// Timing information for debugging purposes
-	int timemult = 1 / EVENTPERIOD;		//number of adwin upates per ms
+	int timemult = RoundRealToNearestInteger(1 / EVENTPERIOD);		//number of adwin upates per ms
 
 	//make a new time list...converting the TimeTable from milliseconds to number of events (numtimes=total #of columns)
 	for (int i = 1; i <= numtimes; i++)
@@ -311,8 +321,6 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 
 	if (ChangedVals == TRUE) //reupdate the ADWIN array if the user values have changed
 	{
-		GetMenuBarAttribute(menuHandle, MENU_PREFS_SIMPLETIMING, ATTR_CHECKED, &UseSimpleTiming);
-
 		//dynamically allocate the memory for the time array (instead of using a static array:UpdateNum)
 		//We are making an assumption about how many programmable points we may need to use.
 		//For now assume that number of channel updates <= 4* #of events, serious overestimate
@@ -542,8 +550,10 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 */
 double CalcFcnValue(int fcn, double Vinit, double Vfinal, double timescale, double telapsed, double celltime)
 {
-	double value = -99, amplitude, slope, aconst, bconst, tms, frequency, newtime;
-	frequency = timescale;
+	BOOL UseSimpleTiming;
+	GetMenuBarAttribute(menuHandle, MENU_PREFS_SIMPLETIMING, ATTR_CHECKED, &UseSimpleTiming);
+	double value = -99;
+	double amplitude;
 	if (UseSimpleTiming == TRUE)
 	{
 		timescale = celltime - EVENTPERIOD;
@@ -552,7 +562,7 @@ double CalcFcnValue(int fcn, double Vinit, double Vfinal, double timescale, doub
 	{
 		timescale = 1;
 	}
-	tms = telapsed * EVENTPERIOD;
+	double tms = telapsed * EVENTPERIOD;
 	// add commands here to select 'simple timing'
 
 	switch (fcn)
@@ -562,7 +572,7 @@ double CalcFcnValue(int fcn, double Vinit, double Vfinal, double timescale, doub
 		break;
 	case 2: //linear ramp
 		amplitude = Vfinal - Vinit;
-		slope = amplitude / timescale;
+		double slope = amplitude / timescale;
 		if (tms > timescale)
 		{
 			value = Vfinal;
@@ -574,7 +584,7 @@ double CalcFcnValue(int fcn, double Vinit, double Vfinal, double timescale, doub
 		break;
 	case 3: //exponential
 		amplitude = Vfinal - Vinit;
-		newtime = timescale;
+		double newtime = timescale;
 		if (UseSimpleTiming == TRUE)
 		{
 			newtime = timescale / fabs(log(fabs(amplitude)) - log(0.001));
@@ -583,8 +593,8 @@ double CalcFcnValue(int fcn, double Vinit, double Vfinal, double timescale, doub
 		break;
 	case 4:
 		amplitude = Vfinal - Vinit;
-		aconst = 3 * amplitude / pow(timescale, 2);
-		bconst = -2 * amplitude / pow(timescale, 3);
+		double aconst = 3 * amplitude / pow(timescale, 2);
+		double bconst = -2 * amplitude / pow(timescale, 3);
 		if (tms > timescale)
 		{
 			value = Vfinal;
@@ -598,8 +608,8 @@ double CalcFcnValue(int fcn, double Vinit, double Vfinal, double timescale, doub
 		// ignore the 'Simple Timing' option...use the user entered value.
 
 		amplitude = Vfinal;
-		//	frequency=timescale; //consider it to be Hertz (tms is time in milliseconds)
-		value = amplitude * sin(2 * 3.14159 * frequency * tms / 1000);
+		// consider it to be Hertz (tms is time in milliseconds)
+		value = amplitude * sin(2 * Pi() * timescale * tms / 1000);
 	}
 	// Check if the value exceeds the allowed voltage limits.
 	return value;
@@ -777,7 +787,7 @@ void UpdateScanValue(int Reset)
 	else // UseList=FALSE.... therefor assume linear scanning
 	{
 		// calculate number of steps in the ramp
-		int numsteps = ceil(abs(((double)ScanVal.Start - (double)ScanVal.End) / (double)ScanVal.Step));
+		int numsteps = ceil(fabs((ScanVal.Start - ScanVal.End) / ScanVal.Step));
 		PScan.ScanDone = FALSE;
 		timesdid++;
 		ScanVal.Current_Iteration++;
@@ -882,7 +892,7 @@ void LoadSettings(void)
 	status = FileSelectPopupEx("C:\\UserDate\\Data", "*.pan", "", "Load Settings", VAL_LOAD_BUTTON, 0, 0, fsavename);
 	if (status == VAL_EXISTING_FILE_SELECTED)
 	{
-		if (RecallPanelState(PANEL, fsavename, 1) < 0)
+		if (RecallPanelState(panelHandle, fsavename, 1) < 0)
 		{
 			MessagePopup("Load error", "Failed to load from file");
 			return;
@@ -908,7 +918,7 @@ void SaveSettings(void)
 	int status = FileSelectPopupEx("C:\\UserDate\\Data", "*.pan", "", "Save Settings", VAL_SAVE_BUTTON, 0, 0, fsavename);
 	if (status != VAL_NO_FILE_SELECTED)
 	{
-		SavePanelState(PANEL, fsavename, 1);
+		SavePanelState(panelHandle, fsavename, 1);
 		SaveArrays(fsavename, strlen(fsavename));
 		SetPanelAttribute(panelHandle, ATTR_TITLE, fsavename);
 	}
@@ -1227,7 +1237,7 @@ int CVICALLBACK DIGTABLE_CALLBACK(int panel, int control, int event,
 	switch (event)
 	{
 	case EVENT_LEFT_DOUBLE_CLICK:
-		GetActiveTableCell(PANEL, PANEL_DIGTABLE, &pval);
+		GetActiveTableCell(panelHandle, PANEL_DIGTABLE, &pval);
 		digval = DigTableValues[pval.x][pval.y][currentpage];
 		if (digval == 0)
 		{
@@ -1261,7 +1271,7 @@ int CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event,
 		for (int i = 1; i <= NUMBEROFCOLUMNS; i++)
 		{
 			double oldtime = TimeArray[i][currentpage];
-			GetTableCellVal(PANEL, PANEL_TIMETABLE, MakePoint(i, 1), &dval);
+			GetTableCellVal(panelHandle, PANEL_TIMETABLE, MakePoint(i, 1), &dval);
 
 			TimeArray[i][currentpage] = dval; //double TimeArray[NUMBEROFCOLUMNS][NUMBEROFPAGES];
 			//now rescale the time scale for waveform fcn. Go over all 16 analog channels
@@ -1374,14 +1384,29 @@ void ShiftColumn3(int col, int page, int dir)
 
 //Replaced Malfunctioning ShiftColumn and ShiftColumn2(see previous AdwinGUI releases)
 {
-
-	int i, status, start, zerocol;
 	printf("col %d", col);
-
+	int i;
+	int status = 0;
+	int start = 0;
+	int zerocol = 0;
+	//if we inserted a column, then set all values to zero
+	// prompt and ask if we want to duplicate the selected column
 	if (dir == -1) //shifts cols right (insertion)
+	{
 		start = NUMBEROFCOLUMNS;
+		zerocol = col;
+		status = ConfirmPopup("Duplicate", "Do you want to duplicate the selected column?");
+	}
 	else if (dir == 1) //shifts cols left  (deletion)
+	{
 		start = col;
+		zerocol = NUMBEROFCOLUMNS;
+		status = ConfirmPopup("Duplicate", "Do you want the last column to be duplicated?");
+	}
+	else
+	{
+		Assert(0);
+	}
 
 	//shift columns left or right depending on dir
 	for (i = 0; i < NUMBEROFCOLUMNS - col; i++)
@@ -1400,22 +1425,8 @@ void ShiftColumn3(int col, int page, int dir)
 		}
 	}
 
-	//if we inserted a column, then set all values to zero
-	// prompt and ask if we want to duplicate the selected column
-
-	if (dir == 1)
-	{
-		zerocol = NUMBEROFCOLUMNS;
-		status = ConfirmPopup("Duplicate", "Do you want the last column to be duplicated?");
-	}
-	else if (dir == -1)
-	{
-		zerocol = col;
-		status = ConfirmPopup("Duplicate", "Do you want to duplicate the selected column?");
-	}
-
 	//Sets all values to zero
-	if (status != 1)
+	if (status == 0)
 	{
 		if (dir == 1)
 			TimeArray[zerocol][page] = 0;
@@ -1624,7 +1635,7 @@ void SaveLastGuiSettings(void)
 	// Save settings:  First look for file .ini  This will be a simple 1 line file stating the name of the last file
 	//saved.  Load this up and use as the starting name in the file dialog.
 	char fname[100] = "c:\\LastGui.pan";
-	SavePanelState(PANEL, fname, 1);
+	SavePanelState(panelHandle, fname, 1);
 	SaveArrays(fname, strlen(fname));
 }
 //********************************************************************************************************************
@@ -1897,7 +1908,7 @@ void CVICALLBACK Dig_Cell_Copy(int panelHandle, int controlID, int MenuItemID, v
 {
 	Point pval = {0, 0};
 
-	GetActiveTableCell(PANEL, PANEL_DIGTABLE, &pval);
+	GetActiveTableCell(panelHandle, PANEL_DIGTABLE, &pval);
 	DigClip[0] = DigTableValues[pval.x][pval.y][currentpage];
 }
 
@@ -1930,7 +1941,7 @@ void CVICALLBACK Dig_Cell_Paste(int panelHandle, int controlID, int MenuItemID, 
 	//Pasting into single cell
 	else if (selection.top == 0)
 	{
-		GetActiveTableCell(PANEL, PANEL_DIGTABLE, &pval);
+		GetActiveTableCell(panelHandle, PANEL_DIGTABLE, &pval);
 		DigTableValues[pval.x][pval.y][currentpage] = DigClip[0];
 		if (DigClip[0] == 1)
 			SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, pval, ATTR_TEXT_BGCOLOR, VAL_RED);
@@ -1948,7 +1959,7 @@ void CVICALLBACK Analog_Cell_Copy(int panelHandle, int controlID, int MenuItemID
 {
 	Point pval = {0, 0};
 
-	GetActiveTableCell(PANEL, PANEL_ANALOGTABLE, &pval);
+	GetActiveTableCell(panelHandle, PANEL_ANALOGTABLE, &pval);
 
 	if (pval.y <= NUMBERANALOGCHANNELS)
 	{

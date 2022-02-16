@@ -1,5 +1,6 @@
 #include <userint.h>
 #include <ansi_c.h>
+#include <toolbox.h>
 #include "vars.h"
 #include "GUIDesign2.h"
 #include "AnalogControl.h"
@@ -132,12 +133,12 @@ AnalogControl.uir file, and add function handling in CalcFcnVal() in GUIDesign.c
 */
 {
 	int ctrlmode = 0;
-	double timescales = 0, Vdiff = 0, ctrlvfinal;
+	double timescales = 0, ctrlvfinal;
 
 	GetCtrlVal(panelHandle4, CTRL_PANEL_RING_CTRLMODE, &ctrlmode);
 	GetCtrlVal(panelHandle4, CTRL_PANEL_NUMFINALVAL, &ctrlvfinal);
 	timescales = TimeArray[currentx][currentpage];
-	Vdiff = ctrlvfinal - AnalogTable[currentx - 1][currenty][currentpage].fval;
+	double Vdiff = ctrlvfinal - AnalogTable[currentx - 1][currenty][currentpage].fval;
 	SetCtrlAttribute(panelHandle4, CTRL_PANEL_NUMFINALVAL, ATTR_LABEL_TEXT, "Final Value");
 	SetCtrlAttribute(panelHandle4, CTRL_PANEL_NUMTIMESCALE, ATTR_LABEL_TEXT, "Time Scale");
 	switch (event)
@@ -162,7 +163,7 @@ AnalogControl.uir file, and add function handling in CalcFcnVal() in GUIDesign.c
 		break;
 	case 3: //exponential
 		SetCtrlVal(panelHandle4, CTRL_PANEL_NUMTIMESCALE, timescales);
-		if (!(Vdiff == 0))
+		if (FloatCompare(&Vdiff, &(float){0.}) != 0)
 		{
 			double newtime = timescales / fabs(log(fabs(Vdiff)) - log(0.001));
 			//	newtime=fabs(timescales/(log(0.001/Vdiff)));
