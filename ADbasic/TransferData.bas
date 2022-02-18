@@ -131,12 +131,40 @@ INIT:
   lightcount=0
   eventcount=0
   leddelay=8000000/PROCESSDELAY
+  
+  ' Debug display
   PAR_11=DATA_1[1]
   PAR_12=DATA_1[2]
   PAR_13=DATA_1[3]
-  FPar_11=DATA_2[1]
-  FPar_12=DATA_2[2]
-  FPar_13=DATA_2[3]
+  PAR_14=DATA_1[4]
+  PAR_15=DATA_1[5]
+  PAR_16=DATA_1[6]
+  PAR_17=DATA_1[7]
+  PAR_18=DATA_1[8]
+  PAR_19=DATA_1[9]
+  PAR_20=DATA_1[10]
+  
+  PAR_21=DATA_2[1]
+  PAR_22=DATA_2[2]
+  PAR_23=DATA_2[3]
+  PAR_24=DATA_2[4]
+  PAR_25=DATA_2[5]
+  PAR_26=DATA_2[6]
+  PAR_27=DATA_2[7]
+  PAR_28=DATA_2[8]
+  PAR_29=DATA_2[9]
+  PAR_30=DATA_2[10]
+  
+  FPAR_21=DATA_3[1]
+  FPAR_22=DATA_3[2]
+  FPAR_23=DATA_3[3]
+  FPAR_24=DATA_3[4]
+  FPAR_25=DATA_3[5]
+  FPAR_26=DATA_3[6]
+  FPAR_27=DATA_3[7]
+  FPAR_28=DATA_3[8]
+  FPAR_29=DATA_3[9]
+  FPAR_30=DATA_3[10]
  
   'Seth Aubin (May 25, 2012): removed these lines --> we do not have a DDS
   '

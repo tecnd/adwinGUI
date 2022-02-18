@@ -500,7 +500,7 @@ void BuildUpdateList(double TMatrix[500], struct AnalogTableValues AMat[NUMBERAN
 
 		// Send the Array to the AdWin Sequencer
 		// ------------------------------------------------------------------------------------------------------------------
-		int GlobalDelay = 3000000; // 3000000@3.33...ns = 0.01 ms ticks
+		int GlobalDelay = 3000; // 3000 * 3.33...ns = 0.01 ms ticks
 		SetPar(2, GlobalDelay);
 		SetData_Long(2, ChNum, 1, nuptotal + 1);
 		SetData_Float(3, ChVal, 1, nuptotal + 1);
