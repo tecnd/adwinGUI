@@ -6,7 +6,5 @@ int LabelArray[NUMBEROFPAGES + 1];
 int ButtonArray[NUMBEROFPAGES + 1];
 int CheckboxArray[NUMBEROFPAGES + 1];
 
-void Initialization(void);
 void setVisibleLabel(int);
-
 #endif

@@ -103,6 +103,9 @@ Dec16	Made the last panel mobile, such that it can be inserted into other pages.
 #include <time.h>
 #include "vars.h"
 
+// Forward declaration
+void Initialization(void);
+
 /**
 Entry point. Handles initializing data arrays and GUI elements.
 */
