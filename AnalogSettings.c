@@ -108,17 +108,17 @@ int CVICALLBACK CMD_DONEANALOG_CALLBACK (int panel, int control, int event,
 		}
 	return 0;
 }
-//************************************************************************
-// Update the main panel to display new values in the channel listing
+
+/**
+Update the main panel to display new values in the channel listing
+*/
 void SetAnalogChannels(void)
 {
-	int i=0;
-	for(i=1;i<=NUMBERANALOGCHANNELS;i++)
+	for(int i = 1; i <= NUMBERANALOGCHANNELS; i++)
 	{
-
-		SetTableCellVal (panelHandle, PANEL_TBL_ANAMES, MakePoint(1,i), AChName[i].chname);
-		SetTableCellVal (panelHandle, PANEL_TBL_ANAMES, MakePoint(2,i),AChName[i].chnum);
-		SetTableCellVal (panelHandle, PANEL_TBL_ANALOGUNITS, MakePoint(1,i), AChName[i].units);
+		SetTableCellAttribute(panelHandle, PANEL_TBL_ANAMES, MakePoint(1,i), ATTR_CTRL_VAL, AChName[i].chname);
+		SetTableCellAttribute(panelHandle, PANEL_TBL_ANAMES, MakePoint(2,i), ATTR_CTRL_VAL, AChName[i].chnum);
+		SetTableCellAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, MakePoint(1,i), ATTR_CTRL_VAL, AChName[i].units);
 	}
 }
 

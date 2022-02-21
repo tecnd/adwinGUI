@@ -230,35 +230,7 @@ void RunOnce(void)
 			}
 		}
 	}
-	isdimmed = TRUE;
-	DrawNewTable(isdimmed);
-
-	//Prints MetaIndexes for testing only
-/*
-	printf("UPDATE TIMES\t");
-	for (int i = 1; i <= mindex; i++)
-		printf("%0.1f\t",MetaTimeArray[i]);
-
-	printf("\nANALOG CHANNEL LINE\n");
-	for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
-	{
-		printf("\nCHANNEL LINE #%d\t",j);
-		for (int i = 1; i <= mindex; i++)
-			printf("%0.0f\t",MetaAnalogArray[j][i].fval);
-
-		printf("\n\t\tFNC#\t");
-		for (int i = 1; i <= mindex; i++)
-			printf("%d\t",MetaAnalogArray[j][i].fcn);
-	}
-
-	printf("\n\nDIG CHANNEL LINEs\n");
-	for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++)
-	{
-		printf("\nCHANNEL LINE #%d\t",j);
-		for (int i = 1; i <= mindex; i++)
-			printf("%i\t",MetaDigitalArray[j][i]);
-	}
-*/
+	DrawNewTable(1);
 	// Send the new arrays to BuildUpdateList()
 	BuildUpdateList(MetaTimeArray, MetaAnalogArray, MetaDigitalArray, mindex);
 }
@@ -947,17 +919,6 @@ Redraws analog and digital tables.
 */
 void DrawNewTable(int isdimmed)
 {
-	int cmode;
-	int analogtable_visible = 0;
-	int digtable_visible = 0;
-	double vnow = 0;
-
-	GetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, &analogtable_visible);
-	GetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, &digtable_visible);
-	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, 0);
-	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, 0);
-	SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_VISIBLE, 0);
-
 	if (IsPageChecked(currentpage) == FALSE)
 	{ // dim the tables
 		SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_DIMMED, 1);
@@ -973,15 +934,11 @@ void DrawNewTable(int isdimmed)
 
 	for (int i = 1; i <= NUMBEROFCOLUMNS; i++) // scan over the columns
 	{
-
 		SetTableCellAttribute(panelHandle, PANEL_TIMETABLE, MakePoint(i, 1), ATTR_CELL_DIMMED, 0);
 		for (int j = 1; j <= NUMBERANALOGCHANNELS; j++) // scan over analog channels
 		{
-			cmode = AnalogTable[i][j][currentpage].fcn;
-			vnow = AnalogTable[i][j][currentpage].fval;
-
-			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j),
-								  ATTR_CELL_TYPE, VAL_CELL_NUMERIC);
+			int cmode = AnalogTable[i][j][currentpage].fcn;
+			double vnow = AnalogTable[i][j][currentpage].fval;
 
 			if (cmode != 6)
 				// write the ending value into the cell
@@ -999,13 +956,10 @@ void DrawNewTable(int isdimmed)
 				//888 indicates cell will take value of previous cell
 				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_CTRL_VAL, 888.0);
 
-			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_CELL_DIMMED, 0);
-
 			// get Analog table parameters for that cell... e.g. start/end values, function to get there
-
 			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_COLOR, VAL_BLACK);
 			// Change the cell color depending on the function type
-			if (cmode == 1)
+			if (cmode == 1) // step
 			{
 				if (vnow == 0)
 				{
@@ -1038,7 +992,7 @@ void DrawNewTable(int isdimmed)
 				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_YELLOW);
 			}
 		}
-		for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++) // scan over analog channels
+		for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++) // scan over digital channels
 		{
 			// if a digital value is high, colour the cell red
 			if (DigTableValues[i][j][currentpage] == 1)
@@ -1047,51 +1001,40 @@ void DrawNewTable(int isdimmed)
 			}
 			else
 			{
-				SetTableCellVal(panelHandle, PANEL_DIGTABLE, MakePoint(i, j), 0);
 				SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, ColorPicker(j));
 			}
 		} //Done digital drawing.
 
 		// update the times row
-		SetTableCellVal(panelHandle, PANEL_TIMETABLE, MakePoint(i, 1), TimeArray[i][currentpage]);
+		SetTableCellAttribute(panelHandle, PANEL_TIMETABLE, MakePoint(i, 1), ATTR_CTRL_VAL, TimeArray[i][currentpage]);
 	}
 	// So far, all columns are undimmed
 	//now check if we need to dim out any columns(of timetable,AnalogTable and DigTable
 	if (isdimmed)
 	{
-		BOOL nozerofound = TRUE; // haven't encountered a zero yet... so keep going
+		SetTableCellRangeAttribute(panelHandle, PANEL_ANALOGTABLE, VAL_TABLE_ENTIRE_RANGE, ATTR_CELL_DIMMED, TRUE); // First, dim all cells
+		SetTableCellRangeAttribute(panelHandle, PANEL_DIGTABLE, VAL_TABLE_ENTIRE_RANGE, ATTR_CELL_DIMMED, TRUE);
+		SetTableCellRangeAttribute(panelHandle, PANEL_TIMETABLE, VAL_TABLE_ENTIRE_RANGE, ATTR_CELL_DIMMED, TRUE);
 		for (int col = 1; col <= NUMBEROFCOLUMNS; col++)
 		{
-			BOOL dimset = FALSE;
-			if ((nozerofound == FALSE) || (TimeArray[col][currentpage] == 0)) // if we have seen a zero before, or we see one now, then
+			if (TimeArray[col][currentpage] == 0) // If we find a zero, stop and leave the rest dimmed
 			{
-				nozerofound = FALSE; // Flag that tells us to dim out all remaining columns
-				dimset = TRUE;		 // Flag to dim out this column
+				break;
 			}
-			else if ((nozerofound == TRUE) && (TimeArray[col][currentpage] < 0)) // if we haven't seen a zero, but this column has a negative time then...
+			else if (TimeArray[col][currentpage] > 0) // If time is positive, undim the column
 			{
-				dimset = TRUE;
+				SetTableCellAttribute(panelHandle, PANEL_TIMETABLE, MakePoint(col, 1), ATTR_CELL_DIMMED, FALSE);
+				SetTableCellRangeAttribute(panelHandle, PANEL_ANALOGTABLE, VAL_TABLE_COLUMN_RANGE(col), ATTR_CELL_DIMMED, FALSE);
+				SetTableCellRangeAttribute(panelHandle, PANEL_DIGTABLE, VAL_TABLE_COLUMN_RANGE(col), ATTR_CELL_DIMMED, FALSE);
 			}
-			SetTableCellAttribute(panelHandle, PANEL_TIMETABLE, MakePoint(col, 1), ATTR_CELL_DIMMED, dimset);
-			int picmode;
-			if (dimset)
-			{
-				picmode = VAL_CELL_PICTURE;
-			}
-			else
-			{
-				picmode = VAL_CELL_NUMERIC;
-			}
-			SetTableCellRangeAttribute(panelHandle, PANEL_ANALOGTABLE, VAL_TABLE_COLUMN_RANGE(col), ATTR_CELL_DIMMED, dimset);
-			SetTableCellRangeAttribute(panelHandle, PANEL_ANALOGTABLE, VAL_TABLE_COLUMN_RANGE(col), ATTR_CELL_TYPE, picmode);
-			SetTableCellRangeAttribute(panelHandle, PANEL_DIGTABLE, VAL_TABLE_COLUMN_RANGE(col), ATTR_CELL_DIMMED, dimset);
 		}
 	}
-	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, analogtable_visible);
-	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, digtable_visible);
-	SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_VISIBLE, 1);
-
-	SetTableCellRangeAttribute(panelHandle, PANEL_TIMETABLE, VAL_TABLE_ROW_RANGE(1), ATTR_TEXT_BGCOLOR, VAL_WHITE);
+	else
+	{
+		SetTableCellRangeAttribute(panelHandle, PANEL_ANALOGTABLE, VAL_TABLE_ENTIRE_RANGE, ATTR_CELL_DIMMED, FALSE); // Undim everything
+		SetTableCellRangeAttribute(panelHandle, PANEL_DIGTABLE, VAL_TABLE_ENTIRE_RANGE, ATTR_CELL_DIMMED, FALSE);
+		SetTableCellRangeAttribute(panelHandle, PANEL_TIMETABLE, VAL_TABLE_ENTIRE_RANGE, ATTR_CELL_DIMMED, FALSE);
+	}
 
 	if ((currentpage == PScan.Page) && (PScan.Scan_Active == TRUE)) //display the cell active for a parameter scan
 	{
@@ -1200,7 +1143,7 @@ int CVICALLBACK TOGGLE_CALLBACK(int panel, int control, int event,
 			}
 		}
 		ChangedVals = TRUE;
-		DrawNewTable(isdimmed);
+		DrawNewTable(0);
 		break;
 	case EVENT_RIGHT_CLICK:
 		int i = 1;
@@ -1220,6 +1163,20 @@ int CVICALLBACK TOGGLE_CALLBACK(int panel, int control, int event,
 			SetCtrlAttribute(panelHandle, ButtonArray[i], ATTR_ON_TEXT, buff);
 			SetCtrlAttribute(panelHandle, ButtonArray[i], ATTR_OFF_TEXT, buff);
 		}
+		break;
+	}
+	return 0;
+}
+
+//*************************************************************************************
+
+int CVICALLBACK CHECKBOX_CALLBACK(int panel, int control, int event,
+								void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+	{
+	case EVENT_COMMIT:
+		DrawNewTable(0);
 		break;
 	}
 	return 0;
@@ -1295,8 +1252,7 @@ int CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event,
 
 		break;
 	case EVENT_LEFT_DOUBLE_CLICK:
-		isdimmed = 0;
-		DrawNewTable(isdimmed);
+		DrawNewTable(0);
 		break;
 	}
 	return 0;
@@ -1663,7 +1619,6 @@ void ExportPanel(char fexportname[200], int fnamesize)
 	int MetaDigitalArray[NUMBERDIGITALCHANNELS + 1][500] = {0};
 	struct AnalogTableValues MetaAnalogArray[NUMBERANALOGCHANNELS + 1][500] = {0};
 	int mindex, tsize;
-	isdimmed = 1;
 
 	if ((fexport = fopen(fexportname, "w")) == NULL)
 	{

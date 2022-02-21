@@ -97,30 +97,14 @@ Turn control boxes into inactive (indicator) mode and hide the panel
 	return 0;
 }
 
-//********************************************************************************************
-void SetDigitalChannels(void)
-/*
+/**
 Set the digital channel list (on main panel) with the information contained in the DChName array
 */
+void SetDigitalChannels(void)
 {
-	int i = 0;
-	for (i = 1; i <= NUMBERDIGITALCHANNELS; i++)
+	for (int i = 1; i <= NUMBERDIGITALCHANNELS; i++)
 	{
-		SetTableCellVal(panelHandle, PANEL_TBL_DIGNAMES, MakePoint(1, i), DChName[i].chname);
-		SetTableCellVal(panelHandle, PANEL_TBL_DIGNAMES, MakePoint(2, i), DChName[i].chnum);
+		SetTableCellAttribute(panelHandle, PANEL_TBL_DIGNAMES, MakePoint(1, i), ATTR_CTRL_VAL, DChName[i].chname);
+		SetTableCellAttribute(panelHandle, PANEL_TBL_DIGNAMES, MakePoint(2, i), ATTR_CTRL_VAL, DChName[i].chnum);
 	}
-}
-
-//********************************************************************************************
-
-int CVICALLBACK CHKDIGRESET_CALLBACK(int panel, int control, int event,
-									 void *callbackData, int eventData1, int eventData2)
-{
-	switch (event)
-	{
-	case EVENT_COMMIT:
-
-		break;
-	}
-	return 0;
 }

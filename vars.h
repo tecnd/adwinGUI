@@ -36,7 +36,6 @@ int panelHandle_sub2;
 int menuHandle;
 int currentx, currenty, currentpage;
 int pic_off, pic_static, pic_change, pic_don;
-int isdimmed;
 BOOL ChangedVals;
 
 struct AnalogTableValues

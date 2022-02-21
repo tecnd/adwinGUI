@@ -282,7 +282,7 @@ void BuildTables(void)
 
 	for (int i = 1; i <= NUMBERANALOGCHANNELS; i++)
 	{
-		SetTableCellVal(panelHandle, PANEL_TBL_ANAMES, MakePoint(2, i), i);
+		SetTableCellAttribute(panelHandle, PANEL_TBL_ANAMES, MakePoint(2, i), ATTR_CTRL_VAL, i);
 	}
 
 	// Build Digital Table
@@ -301,7 +301,7 @@ void BuildTables(void)
 
 	for (int i = 1; i <= NUMBERDIGITALCHANNELS; i++)
 	{
-		SetTableCellVal(panelHandle, PANEL_TBL_DIGNAMES, MakePoint(2, i), i);
+		SetTableCellAttribute(panelHandle, PANEL_TBL_DIGNAMES, MakePoint(2, i), ATTR_CTRL_VAL, i);
 	}
 
 	// Move and resize tables
@@ -379,6 +379,7 @@ void Initialization(void)
 
 		// Generate checkboxes
 		int newCB = NewCtrl(panelHandle, CTRL_CHECK_BOX, "On/Off", 60, 165 + (i - 1) * button_spacing);
+		InstallCtrlCallback(panelHandle, newCB, CHECKBOX_CALLBACK, NULL);
 		CheckboxArray[i] = newCB;
 	}
 
@@ -403,7 +404,7 @@ void Initialization(void)
 	PScan.Analog.Scan_Step_Size = 1.0;
 	PScan.Analog.Iterations_Per_Step = 1;
 	PScan.Scan_Active = FALSE;
-	DrawNewTable(isdimmed);
+	DrawNewTable(0);
 	return;
 }
 

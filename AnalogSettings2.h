@@ -2,6 +2,5 @@
 #define ANALOGSETTINGS2_H
 
 void SetAnalogChannels(void);
-void ReadAnalogChannels(void);
 
 #endif

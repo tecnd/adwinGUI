@@ -55,7 +55,7 @@ NOT DONE:  IF TIMESCALE IS TOO LONG THEN OVERWRITE THE FOLLOWING CELL
 		AnalogTable[currentx][currenty][currentpage].tscale = dtemp;
 
 		HidePanel(panelHandle4);
-		DrawNewTable(isdimmed);
+		DrawNewTable(0);
 		break;
 	}
 	return 0;
