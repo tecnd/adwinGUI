@@ -1198,14 +1198,13 @@ int CVICALLBACK DIGTABLE_CALLBACK(int panel, int control, int event,
 		digval = DigTableValues[pval.x][pval.y][currentpage];
 		if (digval == 0)
 		{
-			SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, pval, ATTR_TEXT_BGCOLOR, VAL_RED);
 			DigTableValues[pval.x][pval.y][currentpage] = 1;
 		}
 		else
 		{
-			SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, pval, ATTR_TEXT_BGCOLOR, ColorPicker(pval.y));
 			DigTableValues[pval.x][pval.y][currentpage] = 0;
 		}
+		DrawNewTable(0);
 		break;
 	}
 	return 0;
@@ -1884,12 +1883,7 @@ void CVICALLBACK Dig_Cell_Paste(int panelHandle, int controlID, int MenuItemID, 
 		{
 			for (pval.x = selection.left; pval.x <= selection.left + (selection.width - 1); pval.x++)
 			{
-
 				DigTableValues[pval.x][pval.y][currentpage] = DigClip[0];
-				if (DigClip[0] == 1)
-					SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, pval, ATTR_TEXT_BGCOLOR, VAL_RED);
-				else if (DigClip[0] == 0)
-					SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, pval, ATTR_TEXT_BGCOLOR, VAL_GRAY);
 			}
 		}
 	}
@@ -1898,11 +1892,8 @@ void CVICALLBACK Dig_Cell_Paste(int panelHandle, int controlID, int MenuItemID, 
 	{
 		GetActiveTableCell(panelHandle, PANEL_DIGTABLE, &pval);
 		DigTableValues[pval.x][pval.y][currentpage] = DigClip[0];
-		if (DigClip[0] == 1)
-			SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, pval, ATTR_TEXT_BGCOLOR, VAL_RED);
-		else if (DigClip[0] == 0)
-			SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, pval, ATTR_TEXT_BGCOLOR, VAL_GRAY);
 	}
+	DrawNewTable(0);
 }
 
 /**
