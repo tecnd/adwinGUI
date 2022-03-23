@@ -26,6 +26,7 @@
 #define  PANEL_TBL_ANAMES                 11      /* control type: table, callback function: (none) */
 #define  PANEL_TIMER                      12      /* control type: timer, callback function: TIMER_CALLBACK */
 #define  PANEL_SCAN_TABLE                 13      /* control type: table, callback function: (none) */
+#define  PANEL_CMD_COMMENTS               14      /* control type: command, callback function: CMD_COMMENTS_CALLBACK */
 
 #define  SUBPANEL2                        2
 #define  SUBPANEL2_NUM_SCANITER           2       /* control type: numeric, callback function: (none) */
@@ -74,6 +75,7 @@ void CVICALLBACK ANALOGSET_CALLBACK(int menubar, int menuItem, void *callbackDat
 int  CVICALLBACK ANALOGTABLE_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 void CVICALLBACK BOOTADWIN_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK CLEARPANEL_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
+int  CVICALLBACK CMD_COMMENTS_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK CMD_RUN_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK CMD_SCAN_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK CMDSTOP_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);

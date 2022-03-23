@@ -869,6 +869,7 @@ void LoadSettings(void)
 			MessagePopup("Load error", "Failed to load from file");
 			return;
 		}
+		RecallPanelState(commentsHandle, fsavename, 2);
 		LoadArrays(fsavename, strlen(fsavename));
 		SetPanelAttribute(panelHandle, ATTR_TITLE, fsavename);
 	}
@@ -891,6 +892,7 @@ void SaveSettings(void)
 	if (status != VAL_NO_FILE_SELECTED)
 	{
 		SavePanelState(panelHandle, fsavename, 1);
+		SavePanelState(commentsHandle, fsavename, 2);
 		SaveArrays(fsavename, strlen(fsavename));
 		SetPanelAttribute(panelHandle, ATTR_TITLE, fsavename);
 	}
@@ -1811,6 +1813,24 @@ void CVICALLBACK SCANSETTING_CALLBACK(int menuBar, int menuItem, void *callbackD
 									  int panel)
 {
 	InitializeScanPanel();
+}
+
+
+/**
+Callback function to open the comments window.
+@author Kerry Wang
+**/
+int CVICALLBACK CMD_COMMENTS_CALLBACK(int panel, int control, int event,
+								 void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+	{
+	case EVENT_COMMIT:
+		DisplayPanel(commentsHandle);
+		break;
+	}
+
+	return 0;
 }
 
 //**************************************************************************************************************

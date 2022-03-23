@@ -117,7 +117,8 @@ int main(int argc, char *argv[])
 		return -1;
 	if ((panelHandle_sub2 = LoadPanel(0, "GUIDesign.uir", SUBPANEL2)) < 0)
 		return -1;
-
+	if ((commentsHandle = LoadPanel(0, "Comments.uir", PANEL)) < 0)
+		return -1;
 	if ((panelHandle2 = LoadPanel(0, "AnalogSettings.uir", PANEL)) < 0)
 		return -1;
 	if ((panelHandle3 = LoadPanel(0, "DigitalSettings.uir", PANEL)) < 0)
