@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['buildtables_5',['BuildTables',['../main_8c.html#aebfb7b9493a691dd53697b23e3189822',1,'main.c']]],
-  ['buildupdatelist_6',['BuildUpdateList',['../_g_u_i_design_8c.html#ac5a2b82ae838e2372de2d7b271cf49f9',1,'GUIDesign.c']]]
+  ['buildtables_0',['BuildTables',['../main_8c.html#aebfb7b9493a691dd53697b23e3189822',1,'main.c']]],
+  ['buildupdatelist_1',['BuildUpdateList',['../_g_u_i_design_8c.html#ac5a2b82ae838e2372de2d7b271cf49f9',1,'GUIDesign.c']]]
 ];
