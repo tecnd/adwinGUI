@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['digitalchannelproperties_40',['DigitalChannelProperties',['../struct_digital_channel_properties.html',1,'']]]
+  ['digitalchannelproperties_42',['DigitalChannelProperties',['../struct_digital_channel_properties.html',1,'']]]
 ];

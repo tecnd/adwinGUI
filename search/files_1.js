@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['main_2ec_46',['main.c',['../main_8c.html',1,'']]]
+  ['guidesign_2ec_48',['GUIDesign.c',['../_g_u_i_design_8c.html',1,'']]]
 ];
