@@ -221,9 +221,10 @@ void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>SCANSETTI
 <tr class="separator:ac29ca9d87ceb9bb7246d5e23ca296154"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78d01a2c32620d4089eb07119ee5bde5"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a78d01a2c32620d4089eb07119ee5bde5">Analog_Cell_Paste</a> (int panelHandle, int controlID, int MenuItemID, void *callbackData)</td></tr>
 <tr class="separator:a78d01a2c32620d4089eb07119ee5bde5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e8ec2988ebbb3e81c54e729c9d20af6"><td class="memItemLeft" align="right" valign="top"><a id="a6e8ec2988ebbb3e81c54e729c9d20af6"></a>
-void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>EXIT</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memitem:a6e8ec2988ebbb3e81c54e729c9d20af6"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a6e8ec2988ebbb3e81c54e729c9d20af6">EXIT</a> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
 <tr class="separator:a6e8ec2988ebbb3e81c54e729c9d20af6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a009937194be1b00e85b9cc3f5da3e04d"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a009937194be1b00e85b9cc3f5da3e04d">PANEL_CALLBACK</a> (int panel, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="separator:a009937194be1b00e85b9cc3f5da3e04d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60cc39bf4d29d39e1efeede6ec075b29"><td class="memItemLeft" align="right" valign="top"><a id="a60cc39bf4d29d39e1efeede6ec075b29"></a>
 void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>Scan_Table_Load</b> (int panelHandle, int controlID, int MenuItemID, void *callbackData)</td></tr>
 <tr class="separator:a60cc39bf4d29d39e1efeede6ec075b29"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -798,6 +799,47 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [NUMBERDIG
 
 </div>
 </div>
+<a id="a6e8ec2988ebbb3e81c54e729c9d20af6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e8ec2988ebbb3e81c54e729c9d20af6">&#9670;&nbsp;</a></span>EXIT()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CVICALLBACK EXIT </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuBar</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuItem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>callbackData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>panel</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section author"><dt>Author</dt><dd>Kerry Wang Callback triggered by selecting Exit from the menubar. Directly calls <a class="el" href="_g_u_i_design_8c.html#a009937194be1b00e85b9cc3f5da3e04d">PANEL_CALLBACK()</a> with event EVENT_CLOSE. </dd></dl>
+
+</div>
+</div>
 <a id="aef9cd007d78ddc646604b50c003d1e29"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aef9cd007d78ddc646604b50c003d1e29">&#9670;&nbsp;</a></span>IsPageChecked()</h2>
 
@@ -915,6 +957,53 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [NUMBERDIG
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Length of UpdateNum after optimization, including index 0 </dd></dl>
+
+</div>
+</div>
+<a id="a009937194be1b00e85b9cc3f5da3e04d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a009937194be1b00e85b9cc3f5da3e04d">&#9670;&nbsp;</a></span>PANEL_CALLBACK()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int CVICALLBACK PANEL_CALLBACK </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>panel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>event</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>callbackData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>eventData1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>eventData2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section author"><dt>Author</dt><dd>Kerry Wang Callback for the panel. Handles closing the program. </dd></dl>
 
 </div>
 </div>

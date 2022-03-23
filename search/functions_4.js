@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['initialization_63',['Initialization',['../main_8c.html#ab50da12ede71fef64d0fedd98eab83b1',1,'main.c']]],
-  ['ispagechecked_64',['IsPageChecked',['../_g_u_i_design_8c.html#aef9cd007d78ddc646604b50c003d1e29',1,'GUIDesign.c']]]
+  ['exit_65',['EXIT',['../_g_u_i_design_8c.html#a6e8ec2988ebbb3e81c54e729c9d20af6',1,'GUIDesign.c']]]
 ];

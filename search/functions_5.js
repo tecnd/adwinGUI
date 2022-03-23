@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['loadarrays_65',['LoadArrays',['../_g_u_i_design_8c.html#a504efb458d8f9e4b6ce33efbea5bc426',1,'GUIDesign.c']]],
-  ['loadsettings_66',['LoadSettings',['../_g_u_i_design_8c.html#aeb2eb8ec1d703539637b101a4c278862',1,'GUIDesign.c']]]
+  ['initialization_66',['Initialization',['../main_8c.html#ab50da12ede71fef64d0fedd98eab83b1',1,'main.c']]],
+  ['ispagechecked_67',['IsPageChecked',['../_g_u_i_design_8c.html#aef9cd007d78ddc646604b50c003d1e29',1,'GUIDesign.c']]]
 ];
