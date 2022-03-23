@@ -1977,13 +1977,31 @@ void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID, int MenuItemI
 	ChangedVals = 1;
 	DrawNewTable(0);
 }
-
+/**
+@author Kerry Wang
+Callback triggered by selecting Exit from the menubar. Directly calls PANEL_CALLBACK() with event EVENT_CLOSE.
+*/
 void CVICALLBACK EXIT(int menuBar, int menuItem, void *callbackData, int panel)
 {
-	int status;
-	status = ConfirmPopup("Exit", "Are you sure you want to quit?\nUnsaved data will be lost.");
-	if (status == 1)
-		QuitUserInterface(1); // kills the GUI and ends program
+	PANEL_CALLBACK(panelHandle, EVENT_CLOSE, NULL, 0, 0);
+}
+
+/**
+@author Kerry Wang
+Callback for the panel. Handles closing the program.
+*/
+int CVICALLBACK PANEL_CALLBACK(int panel, int event, void *callbackData, int eventData1, int eventData2)
+{
+	int status = 0;
+	switch(event)
+	{
+		case EVENT_CLOSE:
+			status = ConfirmPopup("Exit", "Are you sure you want to quit?\nUnsaved data will be lost.");
+			if (status == 1)
+				QuitUserInterface(1); // kills the GUI and ends program
+			break;
+	}
+	return status;
 }
 
 //Open Scan Table Loader Panel
