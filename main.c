@@ -173,11 +173,11 @@ int main(int argc, char *argv[])
 
 /**
 Resizes and moves analog table, analog channel names table, and unit name table.
-@author Stefan, Kerry Wang
 @param top Pixels from the top edge
 @param left Pixels from the left edge
 @param height Total pixel height of analog table
 @param width Total pixel width of analog table
+@author Stefan, Kerry Wang
 */
 void ReshapeAnalogTable(int top, int left, int height, int width)
 {
@@ -213,11 +213,11 @@ void ReshapeAnalogTable(int top, int left, int height, int width)
 
 /**
 Resizes and moves digital table, digital channel names table, and scan table.
-@author Stefan, Kerry Wang
 @param top Pixels from the top edge
 @param left Pixels from the left edge
 @param height Total pixel height of digital table
 @param width Total pixel width of digital table
+@author Stefan, Kerry Wang
 */
 void ReshapeDigitalTable(int top, int left, int height, int width)
 {
@@ -411,8 +411,8 @@ void Initialization(void)
 
 /**
 Sets which label is visible.
-@author Kerry Wang
 @param labelNum 1-based index of label to display
+@author Kerry Wang
 */
 void setVisibleLabel(int labelNum)
 {

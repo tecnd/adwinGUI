@@ -51,9 +51,9 @@ int DigClip[NUMBERDIGITALCHANNELS + 1];
 /**
 Returns if the page is checked
 @param page The page number
-@author Kerry Wang
 @return 0 if not checked
 @return 1 if checked
+@author Kerry Wang
 */
 BOOL IsPageChecked(int page)
 {
@@ -904,9 +904,9 @@ void SaveSettings(void)
 
 /**
 Helper function to alternate color every three rows
-@author Kerry Wang
 @param index 1-based index to get color for
 @return Hex code for gray or light gray, depending on index
+@author Kerry Wang
 */
 int ColorPicker(int index)
 {
@@ -1978,8 +1978,8 @@ void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID, int MenuItemI
 	DrawNewTable(0);
 }
 /**
-@author Kerry Wang
 Callback triggered by selecting Exit from the menubar. Directly calls PANEL_CALLBACK() with event EVENT_CLOSE.
+@author Kerry Wang
 */
 void CVICALLBACK EXIT(int menuBar, int menuItem, void *callbackData, int panel)
 {
@@ -1987,8 +1987,8 @@ void CVICALLBACK EXIT(int menuBar, int menuItem, void *callbackData, int panel)
 }
 
 /**
-@author Kerry Wang
 Callback for the panel. Handles closing the program.
+@author Kerry Wang
 */
 int CVICALLBACK PANEL_CALLBACK(int panel, int event, void *callbackData, int eventData1, int eventData2)
 {

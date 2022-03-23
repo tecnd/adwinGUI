@@ -1,7 +1,7 @@
 /**
 @file Comments.c
-@author Kerry Wang
 Contains code for the comments window.
+@author Kerry Wang
 */
 #include "Comments.h"
 #include "vars.h"
