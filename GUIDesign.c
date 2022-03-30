@@ -1137,19 +1137,35 @@ void LoadSettings(void)
 
 void SaveSettings(void)
 {
-	char fsavename[500] = "";
-
-	int status = FileSelectPopupEx("C:\\UserDate\\Data", "*.pan", "", "Save Settings", VAL_SAVE_BUTTON, 0, 0, fsavename);
-	if (status != VAL_NO_FILE_SELECTED)
+	// Create file pointers
+	FILE *pTemplate = fopen("NewTemplate.pan", "rb");
+	FILE *pOut = fopen("Translated.pan", "wb");
+	if (pTemplate == NULL)
 	{
-		ClearListCtrl(panelHandle, PANEL_DEBUG); // added Feb 09, 2006
-		SavePanelState(PANEL, fsavename, 1);
-		SaveArrays(fsavename, strlen(fsavename));
+		MessagePopup("File Error", "Template not found");
 	}
-	else
+	if (pOut == NULL)
 	{
-		MessagePopup("File Error", "No file was selected");
+		MessagePopup("File Error", "Unable to write to output file");
 	}
+	// Copy the template
+	char buff;
+	while (fread(&buff, sizeof buff, 1, pTemplate))
+	{
+		fwrite(&buff, sizeof buff, 1, pOut);
+	}
+	// Edit template
+	char str[8];
+	char bigbuff[100];
+	for (int i = 0; i < 17; i++)
+	{
+		GetTableCellVal(panelHandle, PANEL_LABEL_1, MakePoint(i + 1, 1), bigbuff);
+		strncpy(str, bigbuff, 8); // Truncate name to 8 chars
+		fseek(pOut, 0xA0 + 0x40 * i, SEEK_SET);
+		fwrite(str, sizeof str, 1, pOut);
+	}
+	fclose(pOut);
+	MessagePopup("Success", "Success");
 }
 // Helper function to alternate color every three rows
 int ColorPicker(int index)

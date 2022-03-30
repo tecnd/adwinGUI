@@ -11,3 +11,6 @@ cvibuild.GUIDesign/
 # Cppcheck
 *.cppcheck
 GUIDesign-cppcheck-build-dir/
+
+Translated.pan
+Translated.arr
