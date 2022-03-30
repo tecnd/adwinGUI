@@ -1135,6 +1135,18 @@ void LoadSettings(void)
 	DrawNewTable(0);
 }
 
+void InjectDescriptions(int panel, int prop, int start, int offset, FILE *stream)
+{
+	char str[8];
+	char bigbuff[100];
+	for (int i = 0; i < 17; i++)
+	{
+		GetTableCellVal(panel, prop, MakePoint(i + 1, 1), bigbuff);
+		strncpy(str, bigbuff, 8); // Truncate name to 8 chars
+		fseek(stream, start + offset * i, SEEK_SET);
+		fwrite(str, sizeof str, 1, stream);
+	}
+}
 void SaveSettings(void)
 {
 	// Create file pointers
@@ -1155,16 +1167,11 @@ void SaveSettings(void)
 		fwrite(&buff, sizeof buff, 1, pOut);
 	}
 	// Edit template
-	char str[8];
-	char bigbuff[100];
-	for (int i = 0; i < 17; i++)
-	{
-		GetTableCellVal(panelHandle, PANEL_LABEL_1, MakePoint(i + 1, 1), bigbuff);
-		strncpy(str, bigbuff, 8); // Truncate name to 8 chars
-		fseek(pOut, 0xA0 + 0x40 * i, SEEK_SET);
-		fwrite(str, sizeof str, 1, pOut);
-	}
-	fclose(pOut);
+	// First page descriptions start at 0xA0, separated by 0x40
+	InjectDescriptions(panelHandle, PANEL_LABEL_1, 0xA0, 0x40, pOut);
+	// Second page descriptions start at 0x738
+	InjectDescriptions(panelHandle, PANEL_LABEL_2, 0x738, 0x40, pOut);
+
 	MessagePopup("Success", "Success");
 }
 // Helper function to alternate color every three rows
