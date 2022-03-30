@@ -1147,6 +1147,24 @@ void InjectDescriptions(int panel, int prop, int start, int offset, FILE *stream
 		fwrite(str, sizeof str, 1, stream);
 	}
 }
+
+void InjectCheckbox(int panel, int prop, int start, int offset, FILE *stream)
+{
+	int check;
+	GetCtrlVal(panelHandle, PANEL_CHECKBOX, &check);
+	fseek(stream, start + offset, SEEK_SET);
+	static char T = 0x01;
+	static char F = 0x00;
+	if (check)
+	{
+		fwrite(&T, sizeof T, 1, stream);
+	}
+	else
+	{
+		fwrite(&F, sizeof F, 1, stream);
+	}
+}
+
 void SaveSettings(void)
 {
 	// Create file pointers
@@ -1168,9 +1186,46 @@ void SaveSettings(void)
 	}
 	// Edit template
 	// First page descriptions start at 0xA0, separated by 0x40
+	// Checkbox offset by 0x627
 	InjectDescriptions(panelHandle, PANEL_LABEL_1, 0xA0, 0x40, pOut);
+	InjectCheckbox(panelHandle, PANEL_CHECKBOX, 0xA0, 0x627, pOut);
+
 	// Second page descriptions start at 0x738
 	InjectDescriptions(panelHandle, PANEL_LABEL_2, 0x738, 0x40, pOut);
+	InjectCheckbox(panelHandle, PANEL_CHECKBOX_2, 0x738, 0x627, pOut);
+
+	// Third page descriptions start at 0xDD0
+	InjectDescriptions(panelHandle, PANEL_LABEL_3, 0xDD0, 0x40, pOut);
+	InjectCheckbox(panelHandle, PANEL_CHECKBOX_3, 0xDD0, 0x627, pOut);
+
+	// Fourth page descriptions start at 0x1468
+	InjectDescriptions(panelHandle, PANEL_LABEL_4, 0x1468, 0x40, pOut);
+	InjectCheckbox(panelHandle, PANEL_CHECKBOX_4, 0x1468, 0x627, pOut);
+
+	// Fifth page descriptions start at 0x1B00
+	InjectDescriptions(panelHandle, PANEL_LABEL_5, 0x1B00, 0x40, pOut);
+	InjectCheckbox(panelHandle, PANEL_CHECKBOX_5, 0x1B00, 0x627, pOut);
+
+	// Sixth page descriptions start at 0x2198
+	InjectDescriptions(panelHandle, PANEL_LABEL_6, 0x2198, 0x40, pOut);
+	InjectCheckbox(panelHandle, PANEL_CHECKBOX_6, 0x2198, 0x627, pOut);
+
+	// Seventh page descriptions start at 0x2830
+	InjectDescriptions(panelHandle, PANEL_LABEL_7, 0x2830, 0x40, pOut);
+	InjectCheckbox(panelHandle, PANEL_CHECKBOX_8, 0x2830, 0x627, pOut);
+
+	// Eighth page descriptions start at 0x2EC8
+	InjectDescriptions(panelHandle, PANEL_LABEL_8, 0x2EC8, 0x40, pOut);
+	InjectCheckbox(panelHandle, PANEL_CHECKBOX_8, 0x2EC8, 0x627, pOut);
+
+	// Ninth page descriptions start at 0x3560
+	InjectDescriptions(panelHandle, PANEL_LABEL_9, 0x3560, 0x40, pOut);
+	InjectCheckbox(panelHandle, PANEL_CHECKBOX_9, 0x3560, 0x627, pOut);
+
+	// Tenth page descriptions start at 0x3BF8
+	InjectDescriptions(panelHandle, PANEL_LABEL_10, 0x3BF8, 0x40, pOut);
+	InjectCheckbox(panelHandle, PANEL_CHECKBOX_10, 0x3BF8, 0x627, pOut);
+
 
 	MessagePopup("Success", "Success");
 }
