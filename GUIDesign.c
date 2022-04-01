@@ -18,6 +18,7 @@
 #include <userint.h>
 #include <utility.h>
 #include <ansi_c.h>
+#include <toolbox.h>
 #include "Adwin.h"
 #include "Scan.h"
 #include "scan2.h"
@@ -1226,6 +1227,17 @@ void SaveSettings(void)
 	InjectDescriptions(panelHandle, PANEL_LABEL_10, 0x3BF8, 0x40, pOut);
 	InjectCheckbox(panelHandle, PANEL_CHECKBOX_10, 0x3BF8, 0x627, pOut);
 
+	// Inject scan table values. Start at 0x2CBD4, offset 0x30
+	fseek(pOut, 0x2CBD4, SEEK_SET);
+	double dummy = 8.20788039913183927878247561128E-304;
+	fwrite(&dummy, sizeof dummy, 1, pOut);
+	fseek(pOut, 0x30, SEEK_CUR);
+	unsigned int *endC = (unsigned int*)&dummy;
+	unsigned int dumer = ToBigEndian32(*endC);
+	fwrite(&dumer, sizeof dumer, 1, pOut);
+
+	fclose(pTemplate);
+	fclose(pOut);
 
 	MessagePopup("Success", "Success");
 }
