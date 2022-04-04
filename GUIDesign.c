@@ -862,23 +862,20 @@ void LoadSettings(void)
 	char fsavename[500];
 	// prompt for a file, if selected then load the Panel and Arrays
 	status = FileSelectPopupEx("C:\\UserDate\\Data", "*.pan", "", "Load Settings", VAL_LOAD_BUTTON, 0, 0, fsavename);
-	if (status == VAL_EXISTING_FILE_SELECTED)
+	if (status != VAL_EXISTING_FILE_SELECTED)
 	{
-		if (RecallPanelState(panelHandle, fsavename, 1) < 0)
-		{
-			MessagePopup("Load error", "Failed to load from file");
-			return;
-		}
-		RecallPanelState(commentsHandle, fsavename, 2);
-		LoadArrays(fsavename, strlen(fsavename));
-		SetPanelAttribute(panelHandle, ATTR_TITLE, fsavename);
-	}
-	else
-	{
-		MessagePopup("File Error", "No file was selected");
 		return;
 	}
-	DrawNewTable(0);
+	if (RecallPanelState(panelHandle, fsavename, 1) < 0)
+	{
+		MessagePopup("Load error", "Failed to load from file");
+		return;
+	}
+	RecallPanelState(commentsHandle, fsavename, 2);
+	LoadArrays(fsavename, strlen(fsavename));
+	SetPanelAttribute(panelHandle, ATTR_TITLE, fsavename);
+	// Reset button state and redraw table by simulating click on first page button
+	TOGGLE_CALLBACK(panelHandle, ButtonArray[1], EVENT_COMMIT, NULL, 0, 0);
 }
 
 /**
