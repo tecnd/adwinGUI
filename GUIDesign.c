@@ -1140,12 +1140,13 @@ void InjectDescriptions(int panel, int prop, int start, int offset, FILE *stream
 {
 	char str[8];
 	char bigbuff[100];
+	fseek(stream, start, SEEK_SET);
 	for (int i = 0; i < 17; i++)
 	{
 		GetTableCellVal(panel, prop, MakePoint(i + 1, 1), bigbuff);
 		strncpy(str, bigbuff, 8); // Truncate name to 8 chars
-		fseek(stream, start + offset * i, SEEK_SET);
 		fwrite(str, sizeof str, 1, stream);
+		fseek(stream, offset - sizeof str, SEEK_CUR);
 	}
 }
 
@@ -1227,14 +1228,17 @@ void SaveSettings(void)
 	InjectDescriptions(panelHandle, PANEL_LABEL_10, 0x3BF8, 0x40, pOut);
 	InjectCheckbox(panelHandle, PANEL_CHECKBOX_10, 0x3BF8, 0x627, pOut);
 
-	// Inject scan table values. Start at 0x2CBD4, offset 0x30
+	// Inject scan table values. Start at 0x2CBD4, offset 0x38
 	fseek(pOut, 0x2CBD4, SEEK_SET);
-	double dummy = 8.20788039913183927878247561128E-304;
-	fwrite(&dummy, sizeof dummy, 1, pOut);
-	fseek(pOut, 0x30, SEEK_CUR);
-	unsigned int *endC = (unsigned int*)&dummy;
-	unsigned int dumer = ToBigEndian32(*endC);
-	fwrite(&dumer, sizeof dumer, 1, pOut);
+	for (int i = 1; i <= 32; i++)
+	{
+		// Use unsigned int64 instead of double so we can directly use ToBigEndian64()
+		unsigned __int64 cellVal;
+		GetTableCellVal(panelHandle, PANEL_SCAN_TABLE, MakePoint(1, i), (double *)&cellVal);
+		unsigned __int64 cellValCorrected = ToBigEndian64(cellVal);
+		fwrite(&cellValCorrected, sizeof cellValCorrected, 1, pOut);
+		fseek(pOut, 0x38 - sizeof cellValCorrected, SEEK_CUR);
+	}
 
 	fclose(pTemplate);
 	fclose(pOut);
