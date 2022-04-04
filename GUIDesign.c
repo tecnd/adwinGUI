@@ -1124,16 +1124,12 @@ void LoadSettings(void)
 	char fsavename[500];
 	// prompt for a file, if selected then load the Panel and Arrays
 	int status = FileSelectPopupEx("C:\\UserDate\\Data", "*.pan", "", "Load Settings", VAL_LOAD_BUTTON, 0, 0, fsavename);
-	if (status != VAL_NO_FILE_SELECTED)
+	if (status == VAL_EXISTING_FILE_SELECTED)
 	{
-		RecallPanelState(PANEL, fsavename, 1);
+		RecallPanelState(panelHandle, fsavename, 1);
 		LoadArrays(fsavename, strlen(fsavename));
+		DrawNewTable(0);
 	}
-	else
-	{
-		MessagePopup("File Error", "No file was selected");
-	}
-	DrawNewTable(0);
 }
 
 void InjectDescriptions(int panel, int prop, int start, int offset, FILE *stream)
