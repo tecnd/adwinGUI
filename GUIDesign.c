@@ -961,37 +961,43 @@ void DrawNewTable(int isdimmed)
 			// get Analog table parameters for that cell... e.g. start/end values, function to get there
 			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_COLOR, VAL_BLACK);
 			// Change the cell color depending on the function type
-			if (cmode == 1) // step
+			switch (cmode)
 			{
-				if (vnow == 0)
-				{
+				case 1: // step
+					if (vnow == 0)
+					{
+						SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, ColorPicker(j));
+					}
+					else
+					{
+						SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_RED);
+					}
+					break;
+
+				case 2: // linear ramp
+					SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_GREEN);
+					break;
+
+				case 3: // exponential ramp
+					SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_BLUE);
+					SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_COLOR, VAL_WHITE);
+					break;
+
+				case 4: // constant jerk function
+					SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_MAGENTA);
+					break;
+
+				case 5: // Sine wave output
+					SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_CYAN);
+					break;
+
+				case 6: //Same as Previous Output
+					SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_YELLOW);
+					break;
+
+				default:
 					SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, ColorPicker(j));
-				}
-				else
-				{
-					SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_RED);
-				}
-			}
-			if (cmode == 2) // linear ramp
-			{
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_GREEN);
-			}
-			if (cmode == 3) // exponential ramp
-			{
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_BLUE);
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_COLOR, VAL_WHITE);
-			}
-			if (cmode == 4) // constant jerk function
-			{
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_MAGENTA);
-			}
-			if (cmode == 5) // Sine wave output
-			{
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_CYAN);
-			}
-			if (cmode == 6) //Same as Previous Output
-			{
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_YELLOW);
+					break;
 			}
 		}
 		for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++) // scan over digital channels
