@@ -1,7 +1,7 @@
 [Project Header]
 Version = 2000
 Encoding = "UTF-8"
-Pathname = "//snapdragon/common/Undergrads/Kerry/gui/GUIDesign.prj"
+Pathname = "/c/Users/labadmin/Desktop/adwinGUI/GUIDesign.prj"
 CVI Dir = "/c/program files (x86)/national instruments/cvi2020"
 CVI Shared Dir = "/C/Program Files (x86)/National Instruments/Shared/CVI"
 CVI Pub Local Dir = "/C/ProgramData/National Instruments/CVI2020"
@@ -10,7 +10,7 @@ IVI Standard Root Dir = "/c/Program Files/IVI Foundation/IVI"
 VXIplug&play Framework Dir = "/C/Program Files (x86)/IVI Foundation/VISA/winnt"
 IVI Standard Root 64-bit Dir = "/C/Program Files/IVI Foundation/IVI"
 VXIplug&play Framework 64-bit Dir = "/C/Program Files/IVI Foundation/VISA/win64"
-Number of Files = 39
+Number of Files = 11
 Target Type = "Executable"
 Flags = 16
 Copied From Locked InstrDrv Directory = False
@@ -33,8 +33,8 @@ File Type = "CSource"
 Res Id = 1
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "Adwin.c"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/Adwin.c"
+Path Rel Path = "AnalogSettings.c"
+Path = "/c/Users/labadmin/Desktop/adwinGUI/AnalogSettings.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
@@ -46,8 +46,8 @@ File Type = "CSource"
 Res Id = 2
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "AnalogControl.c"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/AnalogControl.c"
+Path Rel Path = "DigitalSettings.c"
+Path = "/c/Users/labadmin/Desktop/adwinGUI/DigitalSettings.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
@@ -59,8 +59,8 @@ File Type = "CSource"
 Res Id = 3
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "AnalogSettings.c"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/AnalogSettings.c"
+Path Rel Path = "GUIDesign.c"
+Path = "/c/Users/labadmin/Desktop/adwinGUI/GUIDesign.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
@@ -72,8 +72,8 @@ File Type = "CSource"
 Res Id = 4
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "DDSControl.c"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/DDSControl.c"
+Path Rel Path = "main.c"
+Path = "/c/Users/labadmin/Desktop/adwinGUI/main.c"
 Exclude = False
 Compile Into Object File = False
 Project Flags = 0
@@ -81,427 +81,84 @@ Folder = "Source Files"
 Folder Id = 0
 
 [File 0005]
-File Type = "CSource"
+File Type = "Include"
 Res Id = 5
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "DDSSettings.c"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/DDSSettings.c"
+Path Rel Path = "AnalogSettings2.h"
+Path = "/c/Users/labadmin/Desktop/adwinGUI/AnalogSettings2.h"
 Exclude = False
-Compile Into Object File = False
 Project Flags = 0
-Folder = "Source Files"
-Folder Id = 0
+Folder = "Include Files"
+Folder Id = 1
 
 [File 0006]
-File Type = "CSource"
+File Type = "Include"
 Res Id = 6
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "ddstranslator.c"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/ddstranslator.c"
+Path Rel Path = "DigitalSettings2.h"
+Path = "/c/Users/labadmin/Desktop/adwinGUI/DigitalSettings2.h"
 Exclude = False
-Compile Into Object File = False
 Project Flags = 0
-Folder = "Source Files"
-Folder Id = 0
+Folder = "Include Files"
+Folder Id = 1
 
 [File 0007]
-File Type = "CSource"
+File Type = "Include"
 Res Id = 7
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "DigitalSettings.c"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/DigitalSettings.c"
+Path Rel Path = "GUIDesign.h"
+Path = "/c/Users/labadmin/Desktop/adwinGUI/GUIDesign.h"
 Exclude = False
-Compile Into Object File = False
 Project Flags = 0
-Folder = "Source Files"
-Folder Id = 0
+Folder = "Include Files"
+Folder Id = 1
 
 [File 0008]
-File Type = "CSource"
+File Type = "Include"
 Res Id = 8
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "GUIDesign.c"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/GUIDesign.c"
+Path Rel Path = "GUIDesign2.h"
+Path = "/c/Users/labadmin/Desktop/adwinGUI/GUIDesign2.h"
 Exclude = False
-Compile Into Object File = False
 Project Flags = 0
-Folder = "Source Files"
-Folder Id = 0
+Folder = "Include Files"
+Folder Id = 1
 
 [File 0009]
-File Type = "CSource"
+File Type = "Include"
 Res Id = 9
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "main.c"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/main.c"
+Path Rel Path = "main.h"
+Path = "/c/Users/labadmin/Desktop/adwinGUI/main.h"
 Exclude = False
-Compile Into Object File = False
 Project Flags = 0
-Folder = "Source Files"
-Folder Id = 0
+Folder = "Include Files"
+Folder Id = 1
 
 [File 0010]
-File Type = "CSource"
+File Type = "Include"
 Res Id = 10
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "scan.c"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/scan.c"
+Path Rel Path = "vars.h"
+Path = "/c/Users/labadmin/Desktop/adwinGUI/vars.h"
 Exclude = False
-Compile Into Object File = False
 Project Flags = 0
-Folder = "Source Files"
-Folder Id = 0
+Folder = "Include Files"
+Folder Id = 1
 
 [File 0011]
-File Type = "CSource"
+File Type = "User Interface Resource"
 Res Id = 11
 Path Is Rel = True
 Path Rel To = "Project"
-Path Rel Path = "ScanTableLoader.c"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/ScanTableLoader.c"
-Exclude = False
-Compile Into Object File = False
-Project Flags = 0
-Folder = "Source Files"
-Folder Id = 0
-
-[File 0012]
-File Type = "Include"
-Res Id = 12
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "Adwin.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/Adwin.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0013]
-File Type = "Include"
-Res Id = 13
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "AnalogControl.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/AnalogControl.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0014]
-File Type = "Include"
-Res Id = 14
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "AnalogControl2.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/AnalogControl2.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0015]
-File Type = "Include"
-Res Id = 15
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "AnalogSettings.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/AnalogSettings.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0016]
-File Type = "Include"
-Res Id = 16
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "AnalogSettings2.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/AnalogSettings2.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0017]
-File Type = "Include"
-Res Id = 17
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "DDSControl.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/DDSControl.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0018]
-File Type = "Include"
-Res Id = 18
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "DDSControl2.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/DDSControl2.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0019]
-File Type = "Include"
-Res Id = 19
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "DDSSettings.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/DDSSettings.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0020]
-File Type = "Include"
-Res Id = 20
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "DDSSettings2.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/DDSSettings2.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0021]
-File Type = "Include"
-Res Id = 21
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "ddstranslator.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/ddstranslator.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0022]
-File Type = "Include"
-Res Id = 22
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "DigitalSettings.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/DigitalSettings.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0023]
-File Type = "Include"
-Res Id = 23
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "DigitalSettings2.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/DigitalSettings2.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0024]
-File Type = "Include"
-Res Id = 24
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "GUIDesign.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/GUIDesign.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0025]
-File Type = "Include"
-Res Id = 25
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "GUIDesign2.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/GUIDesign2.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0026]
-File Type = "Include"
-Res Id = 26
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "main.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/main.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0027]
-File Type = "Include"
-Res Id = 27
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "Scan.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/Scan.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0028]
-File Type = "Include"
-Res Id = 28
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "scan2.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/scan2.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0029]
-File Type = "Include"
-Res Id = 29
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "ScanTableLoader.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/ScanTableLoader.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0030]
-File Type = "Include"
-Res Id = 30
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "ScanTableLoader2.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/ScanTableLoader2.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0031]
-File Type = "Include"
-Res Id = 31
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "vars.h"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/vars.h"
-Exclude = False
-Project Flags = 0
-Folder = "Include Files"
-Folder Id = 1
-
-[File 0032]
-File Type = "User Interface Resource"
-Res Id = 32
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "AnalogControl.uir"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/AnalogControl.uir"
-Exclude = False
-Project Flags = 0
-Folder = "User Interface Files"
-Folder Id = 2
-
-[File 0033]
-File Type = "User Interface Resource"
-Res Id = 33
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "AnalogSettings.uir"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/AnalogSettings.uir"
-Exclude = False
-Project Flags = 0
-Folder = "User Interface Files"
-Folder Id = 2
-
-[File 0034]
-File Type = "User Interface Resource"
-Res Id = 34
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "DDSControl.uir"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/DDSControl.uir"
-Exclude = False
-Project Flags = 0
-Folder = "User Interface Files"
-Folder Id = 2
-
-[File 0035]
-File Type = "User Interface Resource"
-Res Id = 35
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "DDSSettings.uir"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/DDSSettings.uir"
-Exclude = False
-Project Flags = 0
-Folder = "User Interface Files"
-Folder Id = 2
-
-[File 0036]
-File Type = "User Interface Resource"
-Res Id = 36
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "DigitalSettings.uir"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/DigitalSettings.uir"
-Exclude = False
-Project Flags = 0
-Folder = "User Interface Files"
-Folder Id = 2
-
-[File 0037]
-File Type = "User Interface Resource"
-Res Id = 37
-Path Is Rel = True
-Path Rel To = "Project"
 Path Rel Path = "GUIDesign.uir"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/GUIDesign.uir"
-Exclude = False
-Project Flags = 0
-Folder = "User Interface Files"
-Folder Id = 2
-
-[File 0038]
-File Type = "User Interface Resource"
-Res Id = 38
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "Scan.uir"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/Scan.uir"
-Exclude = False
-Project Flags = 0
-Folder = "User Interface Files"
-Folder Id = 2
-
-[File 0039]
-File Type = "User Interface Resource"
-Res Id = 39
-Path Is Rel = True
-Path Rel To = "Project"
-Path Rel Path = "ScanTableLoader.uir"
-Path = "//snapdragon/common/Undergrads/Kerry/gui/ScanTableLoader.uir"
+Path = "/c/Users/labadmin/Desktop/adwinGUI/GUIDesign.uir"
 Exclude = False
 Project Flags = 0
 Folder = "User Interface Files"
@@ -889,28 +546,32 @@ Image Base Address x64 = 4194304
 Compiler Defines = "/DWIN32_LEAN_AND_MEAN"
 
 [Include Paths]
-Include Path 1 Is Rel = False
+Include Path 1 Is Rel = True
+Include Path 1 Rel To = "Project"
+Include Path 1 Rel Path = "../../../../ADwin/Developer/C/LabWindowsCVI"
 Include Path 1 = "/c/ADwin/Developer/C/LabWindowsCVI"
-Include Path 2 Is Rel = False
+Include Path 2 Is Rel = True
+Include Path 2 Rel To = "Project"
+Include Path 2 Rel Path = "../../../../ADwin/Developer/C"
 Include Path 2 = "/c/ADwin/Developer/C"
 
 [Create Executable]
 Executable File_Debug Is Rel = True
 Executable File_Debug Rel To = "Project"
 Executable File_Debug Rel Path = "GUIDesign_dbg.exe"
-Executable File_Debug = "//snapdragon/common/Undergrads/Kerry/gui/GUIDesign_dbg.exe"
+Executable File_Debug = "/c/Users/labadmin/Desktop/adwinGUI/GUIDesign_dbg.exe"
 Executable File_Release Is Rel = True
 Executable File_Release Rel To = "Project"
 Executable File_Release Rel Path = "GUIDesign.exe"
-Executable File_Release = "//snapdragon/common/Undergrads/Kerry/gui/GUIDesign.exe"
+Executable File_Release = "/c/Users/labadmin/Desktop/adwinGUI/GUIDesign.exe"
 Executable File_Debug64 Is Rel = True
 Executable File_Debug64 Rel To = "Project"
 Executable File_Debug64 Rel Path = "GUIDesign.exe"
-Executable File_Debug64 = "//snapdragon/common/Undergrads/Kerry/gui/GUIDesign.exe"
+Executable File_Debug64 = "/c/Users/labadmin/Desktop/adwinGUI/GUIDesign.exe"
 Executable File_Release64 Is Rel = True
 Executable File_Release64 Rel To = "Project"
 Executable File_Release64 Rel Path = "GUIDesign.exe"
-Executable File_Release64 = "//snapdragon/common/Undergrads/Kerry/gui/GUIDesign.exe"
+Executable File_Release64 = "/c/Users/labadmin/Desktop/adwinGUI/GUIDesign.exe"
 Icon File Is Rel = False
 Icon File = ""
 Application Title = ""

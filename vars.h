@@ -65,8 +65,7 @@ typedef struct dds3options_struct
 Global Variables
 *************************************************************************/
 
-int panelHandle, panelHandle2, panelHandle3, panelHandle4, panelHandle5, panelHandle6, panelHandle7, panelHandle8;
-int panelHandle_sub1, panelHandle_sub2;
+int panelHandle;
 int menuHandle;
 int currentx, currenty, currentpage;
 int pic_off, pic_static, pic_change, pic_don;
