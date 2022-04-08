@@ -85,7 +85,6 @@ Dec7	Add a compression routine for the NumberUpdates variable, to speed up commu
 Dec16	Made the last panel mobile, such that it can be inserted into other pages.
 */
 
-#define ALLOC_GLOBALS
 #include <ansi_c.h>
 #include <userint.h>
 #include <cvirte.h>
@@ -95,7 +94,6 @@ Dec16	Made the last panel mobile, such that it can be inserted into other pages.
 #include "GUIDesign2.h"
 #include "main.h"
 #include <time.h>
-#define VAR_DECLS 1
 #include "vars.h"
 
 int main(int argc, char *argv[])
@@ -161,7 +159,6 @@ int main(int argc, char *argv[])
 
 	// done initializing
 
-	EventPeriod = DefaultEventPeriod;
 	ClearListCtrl(panelHandle, PANEL_DEBUG);
 	menuHandle = GetPanelMenuBar(panelHandle);
 
@@ -178,8 +175,6 @@ int main(int argc, char *argv[])
 	SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE6, 0);
 	SetCtrlVal(panelHandle, PANEL_TB_SHOWPHASE7, 0);
 
-	// autochange the size of the analog table on main panel
-	//	DrawNewTable(0);
 
 	Initialization();
 
@@ -356,10 +351,6 @@ void Initialization()
 	PScan.Scan_Active = FALSE;
 	//set to display both analog and digital channels
 	SetChannelDisplayed(1);
-	//
-	//set to graphical display
-	//	SetDisplayType(VAL_CELL_NUMERIC);
-	//	DrawNewTable(0);
 
 	return;
 }

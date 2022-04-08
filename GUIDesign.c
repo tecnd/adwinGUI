@@ -24,6 +24,13 @@
 #include "AnalogSettings2.h"
 #include "DigitalSettings2.h"
 
+
+int  GetPage(void);
+void DrawNewTable(void);
+void CheckActivePages(void);
+void SaveArrays(char*,int);
+void LoadArrays(char*,int);
+
 //*****************************************************************************************
 void LoadSettings(void)
 {
@@ -34,7 +41,7 @@ void LoadSettings(void)
 	{
 		RecallPanelState(panelHandle, fsavename, 1);
 		LoadArrays(fsavename, strlen(fsavename));
-		DrawNewTable(0);
+		DrawNewTable();
 		TOGGLE1_CALLBACK(panelHandle, 0, EVENT_COMMIT, NULL, 0, 0);
 	}
 }
@@ -166,39 +173,12 @@ int ColorPicker(int index)
 	else return 0x00B0B0B0;
 }
 //*********************************************************************
-void DrawNewTable(int isdimmed)
-//if isdimmed=0/FALSE  Draw everything, editing mode
-//if isdimmed=1/TRUE   Dim out appropriate columns....
-// Make isdimmed a global I guess...
-// Jan 24,2006:   Now dim/invisible appropriate 'arrows' that indicate loop points.
-// May 12, 2005:  Updated to change color of cell that is active by a parameter scan.  This cell (ANalog, Time or DDS) now
-//                turns dark yellow. might pick a better color.
-
+void DrawNewTable(void)
 {
-	int picmode, page, cmode;
-	int analogtable_visible = 0;
-	int digtable_visible = 0;
-	double vnow = 0;
-
-	int ispicture = 1, celltype = 0; //celtype has 3 values.  0=Numeric, 1=String, 2=Picture
-	// list of colours used for different rows, alternate after every 3 rows
-
-	GetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, &analogtable_visible);
-	GetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, &digtable_visible);
+	// Hide table so draw goes faster
 	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, 0);
 	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, 0);
-	SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_VISIBLE, 0);
-	page = GetPage(); // Check which page is active.
-
-	GetCtrlVal(panelHandle, PANEL_TGL_NUMERICTABLE, &celltype);
-	if (celltype == 2)
-	{
-		ispicture = TRUE;
-	}
-	else
-	{
-		ispicture = FALSE;
-	}
+	int page = GetPage(); // Check which page is active.
 
 	CheckActivePages();
 	if (ischecked[page] == FALSE)
@@ -213,7 +193,6 @@ void DrawNewTable(int isdimmed)
 		SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_DIMMED, 0);
 		SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_DIMMED, 0);
 	}
-	picmode = 0;
 
 	for (int i = 1; i <= NUMBEROFCOLUMNS; i++) // scan over the columns
 	{
@@ -221,11 +200,8 @@ void DrawNewTable(int isdimmed)
 		SetTableCellAttribute(panelHandle, PANEL_TIMETABLE, MakePoint(i, 1), ATTR_CELL_DIMMED, 0);
 		for (int j = 1; j <= NUMBERANALOGCHANNELS; j++) // scan over analog channels
 		{
-			cmode = AnalogTable[i][j][page].fcn;
-			vnow = AnalogTable[i][j][page].fval;
-
-			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j),
-								  ATTR_CELL_TYPE, VAL_CELL_NUMERIC);
+			int cmode = AnalogTable[i][j][page].fcn;
+			double vnow = AnalogTable[i][j][page].fval;
 
 			if (cmode != 6)
 				// write the ending value into the cell
@@ -240,45 +216,50 @@ void DrawNewTable(int isdimmed)
 				AnalogTable[1][j][1].tscale = 0.0;
 			}
 			else
+			{
 				//888 indicates cell will take value of previous cell
 				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_CTRL_VAL, 888.0);
+			}
 
-			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_CELL_DIMMED, 0);
-
-			// get Analog table parameters for that cell... e.g. start/end values, function to get there
-
-			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, ColorPicker(j));
+			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_COLOR, VAL_BLACK);
 			// Change the cell color depending on the function type
-			if (cmode == 1)
+			switch (cmode)
 			{
-				if (vnow == 0)
-				{
+				case 1: // step
+					if (vnow == 0)
+					{
+						SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, ColorPicker(j));
+					}
+					else
+					{
+						SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_RED);
+					}
+					break;
+
+				case 2: // linear ramp
+					SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_GREEN);
+					break;
+
+				case 3: // exponential ramp
+					SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_BLUE);
+					SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_COLOR, VAL_WHITE);
+					break;
+
+				case 4: // constant jerk function
+					SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_MAGENTA);
+					break;
+
+				case 5: // Sine wave output
+					SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_CYAN);
+					break;
+
+				case 6: //Same as Previous Output
+					SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_YELLOW);
+					break;
+
+				default:
 					SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, ColorPicker(j));
-				}
-				else
-				{
-					SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_RED);
-				}
-			}
-			if (cmode == 2) // linear ramp
-			{
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_GREEN);
-			}
-			if (cmode == 3) // exponential ramp
-			{
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_BLUE);
-			}
-			if (cmode == 4) // constant jerk function
-			{
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_MAGENTA);
-			}
-			if (cmode == 5) // Sine wave output
-			{
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_CYAN);
-			}
-			if (cmode == 6) //Same as Previous Output
-			{
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, VAL_YELLOW);
+					break;
 			}
 		}
 		for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++) // scan over analog channels
@@ -290,142 +271,14 @@ void DrawNewTable(int isdimmed)
 			}
 			else
 			{
-				SetTableCellVal(panelHandle, PANEL_DIGTABLE, MakePoint(i, j), 0);
 				SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, MakePoint(i, j), ATTR_TEXT_BGCOLOR, ColorPicker(j));
 			}
 		} //Done digital drawing.
 
-		//***************update DDS row********************
 
-		int DDSChannel1 = NUMBERANALOGCHANNELS + 1;
-		int DDSChannel2 = NUMBERANALOGCHANNELS + 2;
-		int DDSChannel3 = NUMBERANALOGCHANNELS + 3;
-		/*DDS1*/ SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel1), 0.);
-		//if(ispicture==0)
-		{
-			SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel1), ddstable[i][page].start_frequency);
-		}
-		SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel1), ATTR_CELL_DIMMED, 0);
-
-		if (ddstable[i][page].amplitude == 0.0 || ddstable[i][page].is_stop)
-		{
-			//make grey
-			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel1), ATTR_TEXT_BGCOLOR, VAL_WHITE);
-		}
-		else
-		{
-			if (ddstable[i][page].start_frequency > ddstable[i][page].end_frequency)
-			{
-				//ramping down
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel1), ATTR_TEXT_BGCOLOR, VAL_BLUE);
-			}
-			else
-			{
-				//ramping up
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel1), ATTR_TEXT_BGCOLOR, VAL_GREEN);
-			}
-		}
-		/*DDS2*/ SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel2), 0.);
-		//if(ispicture==0)
-		{
-			SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel2), dds2table[i][page].start_frequency);
-		}
-		SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel2), ATTR_CELL_DIMMED, 0);
-
-		if (dds2table[i][page].amplitude == 0.0 || dds2table[i][page].is_stop)
-		{
-			//make grey
-			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel2), ATTR_TEXT_BGCOLOR, VAL_WHITE);
-		}
-		else
-		{
-			if (dds2table[i][page].start_frequency > dds2table[i][page].end_frequency)
-			{
-				//ramping down
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel2), ATTR_TEXT_BGCOLOR, VAL_BLUE);
-			}
-			else
-			{
-				//ramping up
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel2), ATTR_TEXT_BGCOLOR, VAL_GREEN);
-			}
-		}
-		/*DDS3*/ SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel3), 0.);
-		//if(ispicture==0)
-		{
-			SetTableCellVal(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel3), dds3table[i][page].start_frequency);
-		}
-		SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel3), ATTR_CELL_DIMMED, 0);
-
-		if (dds3table[i][page].amplitude == 0.0 || dds3table[i][page].is_stop)
-		{
-			//make grey
-			SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel3), ATTR_TEXT_BGCOLOR, VAL_WHITE);
-		}
-		else
-		{
-			if (dds3table[i][page].start_frequency > dds3table[i][page].end_frequency)
-			{
-				//ramping down
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel3), ATTR_TEXT_BGCOLOR, VAL_BLUE);
-			}
-			else
-			{
-				//ramping up
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, DDSChannel3), ATTR_TEXT_BGCOLOR, VAL_GREEN);
-			}
-		}
-		//***************update DDS row********************
 
 		// update the times row
-		SetTableCellVal(panelHandle, PANEL_TIMETABLE, MakePoint(i, 1), TimeArray[i][page]);
-	}
-	// So far, all columns are undimmed
-	//now check if we need to dim out any columns(of timetable,AnalogTable and DigTable
-	if (isdimmed == TRUE)
-	{
-		int nozerofound = TRUE; // haven't encountered a zero yet... so keep going
-		for (int i = 1; i <= NUMBEROFCOLUMNS; i++)
-		{
-			BOOL dimset = FALSE;
-			if ((nozerofound == FALSE) || (TimeArray[i][page] == 0)) // if we have seen a zero before, or we see one now, then
-			{
-				nozerofound = FALSE; // Flag that tells us to dim out all remaining columns
-				dimset = TRUE;		 // Flag to dim out this column
-			}
-			else if ((nozerofound == TRUE) && (TimeArray[i][page] < 0)) // if we haven't seen a zero, but this column has a negative time then...
-			{
-				dimset = TRUE;
-			}
-			SetTableCellAttribute(panelHandle, PANEL_TIMETABLE, MakePoint(i, 1), ATTR_CELL_DIMMED, dimset);
-			if (ispicture == 0)
-			{
-				picmode = 0;
-			}
-			if (ispicture == 1)
-			{
-				picmode = 2;
-			}
-			if (dimset == TRUE)
-			{
-				picmode = 2;
-			}
-
-			for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
-			{
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_CELL_DIMMED, dimset);
-				SetTableCellAttribute(panelHandle, PANEL_DIGTABLE, MakePoint(i, j), ATTR_CELL_DIMMED, dimset);
-				SetTableCellAttribute(panelHandle, PANEL_ANALOGTABLE, MakePoint(i, j), ATTR_CELL_TYPE, picmode);
-			}
-		}
-	}
-	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, analogtable_visible);
-	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, digtable_visible);
-	SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_VISIBLE, 1);
-
-	for (int m = 1; m <= NUMBEROFCOLUMNS; m++)
-	{
-		SetTableCellAttribute(panelHandle, PANEL_TIMETABLE, MakePoint(m, 1), ATTR_TEXT_BGCOLOR, VAL_WHITE);
+		SetTableCellAttribute(panelHandle, PANEL_TIMETABLE, MakePoint(i, 1), ATTR_CTRL_VAL, TimeArray[i][page]);
 	}
 
 	if ((currentpage == PScan.Page) && (PScan.Scan_Active == TRUE)) //display the cell active for a parameter scan
@@ -443,17 +296,9 @@ void DrawNewTable(int isdimmed)
 			break;
 		}
 	}
-
-	if (currentpage == 10)
-	{
-		SetCtrlAttribute(panelHandle, PANEL_NUM_INSERTIONPAGE, ATTR_DIMMED, 0);
-		SetCtrlAttribute(panelHandle, PANEL_NUM_INSERTIONCOL, ATTR_DIMMED, 0);
-	}
-	else
-	{
-		SetCtrlAttribute(panelHandle, PANEL_NUM_INSERTIONPAGE, ATTR_DIMMED, 1);
-		SetCtrlAttribute(panelHandle, PANEL_NUM_INSERTIONCOL, ATTR_DIMMED, 1);
-	}
+	// Done drawing, show table
+	SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_VISIBLE, 1);
+	SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_VISIBLE, 1);
 }
 
 //***********************************************************************************
@@ -509,8 +354,7 @@ int CVICALLBACK TOGGLE1_CALLBACK(int panel, int control, int event,
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
 		currentpage = 1;
-		ChangedVals = TRUE;
-		DrawNewTable(isdimmed);
+		DrawNewTable();
 
 		break;
 	}
@@ -543,9 +387,8 @@ int CVICALLBACK TOGGLE2_CALLBACK(int panel, int control, int event,
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0);
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
-		ChangedVals = TRUE;
 		currentpage = 2;
-		DrawNewTable(isdimmed);
+		DrawNewTable();
 		break;
 	}
 	return 0;
@@ -577,9 +420,8 @@ int CVICALLBACK TOGGLE3_CALLBACK(int panel, int control, int event,
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0);
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
-		ChangedVals = TRUE;
 		currentpage = 3;
-		DrawNewTable(isdimmed);
+		DrawNewTable();
 		break;
 	}
 	return 0;
@@ -611,9 +453,8 @@ int CVICALLBACK TOGGLE4_CALLBACK(int panel, int control, int event,
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0);
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
-		ChangedVals = TRUE;
 		currentpage = 4;
-		DrawNewTable(isdimmed);
+		DrawNewTable();
 		break;
 	}
 	return 0;
@@ -645,9 +486,8 @@ int CVICALLBACK TOGGLE5_CALLBACK(int panel, int control, int event,
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0);
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
-		ChangedVals = TRUE;
 		currentpage = 5;
-		DrawNewTable(isdimmed);
+		DrawNewTable();
 		break;
 	}
 	return 0;
@@ -679,9 +519,8 @@ int CVICALLBACK TOGGLE6_CALLBACK(int panel, int control, int event,
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0);
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
-		ChangedVals = TRUE;
 		currentpage = 6;
-		DrawNewTable(isdimmed);
+		DrawNewTable();
 		break;
 	}
 	return 0;
@@ -713,9 +552,8 @@ int CVICALLBACK TOGGLE7_CALLBACK(int panel, int control, int event,
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0);
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
-		ChangedVals = TRUE;
 		currentpage = 7;
-		DrawNewTable(isdimmed);
+		DrawNewTable();
 		break;
 	}
 	return 0;
@@ -747,9 +585,8 @@ int CVICALLBACK TOGGLE8_CALLBACK(int panel, int control, int event,
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 1);
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
-		ChangedVals = TRUE;
 		currentpage = 8;
-		DrawNewTable(isdimmed);
+		DrawNewTable();
 		break;
 	}
 	return 0;
@@ -781,9 +618,8 @@ int CVICALLBACK TOGGLE9_CALLBACK(int panel, int control, int event,
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_8, ATTR_VISIBLE, 0);
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 1);
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 0);
-		ChangedVals = TRUE;
 		currentpage = 9;
-		DrawNewTable(isdimmed);
+		DrawNewTable();
 		break;
 	}
 	return 0;
@@ -817,9 +653,8 @@ int CVICALLBACK TOGGLE10_CALLBACK(int panel, int control, int event,
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_9, ATTR_VISIBLE, 0);
 		SetCtrlAttribute(panelHandle, PANEL_LABEL_10, ATTR_VISIBLE, 1);
 
-		ChangedVals = TRUE;
 		currentpage = 10;
-		DrawNewTable(isdimmed);
+		DrawNewTable();
 		break;
 	}
 	return 0;
@@ -848,128 +683,6 @@ void CheckActivePages(void)
 	ischecked[9] = bool;
 	GetCtrlVal(panelHandle, PANEL_CHECKBOX_10, &bool);
 	ischecked[10] = bool;
-}
-
-// Callbacks for changing control button labels. Found under Settings > Control Text > Stage n
-void CVICALLBACK TITLE1_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 1 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE1, ATTR_ON_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE1, ATTR_OFF_TEXT, buff);
-	}
-}
-
-void CVICALLBACK TITLE2_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 2 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE2, ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE2, ATTR_ON_TEXT, buff);
-	}
-}
-
-void CVICALLBACK TITLE3_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 3 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE3, ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE3, ATTR_ON_TEXT, buff);
-	}
-}
-
-void CVICALLBACK TITLE4_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 4 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE4, ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE4, ATTR_ON_TEXT, buff);
-	}
-}
-
-void CVICALLBACK TITLE5_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 1 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE5, ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE5, ATTR_ON_TEXT, buff);
-	}
-}
-
-void CVICALLBACK TITLE6_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 6 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE6, ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE6, ATTR_ON_TEXT, buff);
-	}
-}
-
-void CVICALLBACK TITLE7_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 7 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE7, ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE7, ATTR_ON_TEXT, buff);
-	}
-}
-
-void CVICALLBACK TITLE8_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 8 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE8, ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE8, ATTR_ON_TEXT, buff);
-	}
-}
-
-void CVICALLBACK TITLE9_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 9 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE9, ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE9, ATTR_ON_TEXT, buff);
-	}
-}
-
-void CVICALLBACK TITLEX_CALLBACK(int menuBar, int menuItem, void *callbackData,
-								 int panel)
-{
-
-	char buff[80];
-	int status = PromptPopup("Enter control button label", "Enter a new label for Phase 10 control button", buff, sizeof buff - 2);
-	if (status == 0)
-	{
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE10, ATTR_OFF_TEXT, buff);
-		SetCtrlAttribute(panelHandle, PANEL_TB_SHOWPHASE10, ATTR_ON_TEXT, buff);
-	}
 }
 
 //**********************************************************************************
@@ -1289,7 +1002,7 @@ void SetChannelDisplayed(int display_setting)
 	}
 
 	SetCtrlVal(panelHandle, PANEL_DISPLAYDIAL, display_setting);
-	DrawNewTable(0);
+	DrawNewTable();
 	return;
 }
 

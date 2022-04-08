@@ -5,8 +5,6 @@
 Macro Definitions
 *************************************************************************/
 
-#define DefaultEventPeriod 0.100 // in milliseconds
-#define AdwinTick 0.000025		 //Adwin clock cycle, in ms.
 #define NUMBERANALOGCHANNELS 32	 // Number of analog Channels available for control
 #define NUMBERDIGITALCHANNELS 36 // number of digital channels DISPLAYED!!!      \
 								 // some are not user controlled, e.g. DDS lines \
@@ -22,9 +20,6 @@ Macro Definitions
 #define NUMBEROFPAGES 11 //currently hardwired up to 10               \
 						 // to be quick & dirty about it, just change \
 						 //numberofpages to 1 more than actual
-
-#define DDS2_CLOCK 983.04 // clock speed of DDS 2 in MHz
-#define DDS3CLOCK 300.0	  // clock speed of DDS 2 in MHz
 
 #define MAXANALOG 50  // Need 40 lines, leave room for 48
 #define MAXDIGITAL 70 // need 64 lines, leave some leeway
@@ -44,23 +39,6 @@ typedef struct ddsoptions_struct
 	BOOL is_stop;
 } ddsoptions_struct;
 
-typedef struct dds2options_struct
-{
-	float start_frequency; /* in MHz*/
-	float end_frequency;
-	float amplitude;
-	float delta_time;
-	BOOL is_stop;
-} dds2options_struct;
-
-typedef struct dds3options_struct
-{
-	float start_frequency; /* in MHz*/
-	float end_frequency;
-	float amplitude;
-	float delta_time;
-	BOOL is_stop;
-} dds3options_struct;
 /************************************************************************
 Global Variables
 *************************************************************************/
@@ -68,23 +46,7 @@ Global Variables
 int panelHandle;
 int menuHandle;
 int currentx, currenty, currentpage;
-int pic_off, pic_static, pic_change, pic_don;
 int ischecked[NUMBEROFPAGES], isdimmed;
-BOOL ChangedVals;
-BOOL UseSimpleTiming;
-
-struct Switches
-{
-	BOOL loop_active;
-} Switches;
-
-struct LoopPoints
-{
-	int startpage;
-	int endpage;
-	int startcol;
-	int endcol;
-} LoopPoints;
 
 struct AnalogTableValues
 {
@@ -120,9 +82,6 @@ struct DigitalChannelProperties
 	int resettolow;
 } DChName[MAXDIGITAL];
 
-double EventPeriod; //The Update Period Defined by the pull down menu (in ms)
-short processnum;
-
 struct DDSClock
 {
 	double extclock;
@@ -132,11 +91,10 @@ struct DDSClock
 
 ddsoptions_struct ddstable[NUMBEROFCOLUMNS + 1][NUMBEROFPAGES];	 //17 columns (actually only 14, but in case we expand), 10 pages
 ddsoptions_struct dds2table[NUMBEROFCOLUMNS + 1][NUMBEROFPAGES]; //17 columns (actually only 14, but in case we expand), 10 pages
-dds3options_struct dds3table[NUMBEROFCOLUMNS + 1][NUMBEROFPAGES];
-int Active_DDS_Panel; // 1 for Rb evap dds, 2 for K40 evap dds, 3 for HFS dds
+ddsoptions_struct dds3table[NUMBEROFCOLUMNS + 1][NUMBEROFPAGES];
 
 /* Parameter Scan variables*/
-typedef struct AnalogScanParameters
+struct AnalogScanParameters
 {
 	double Start_Of_Scan;
 	double End_Of_Scan;
@@ -144,17 +102,17 @@ typedef struct AnalogScanParameters
 	int Iterations_Per_Step;
 	int Analog_Channel;
 	int Analog_Mode;
-} AnalogScan;
+};
 
-typedef struct TimeScanParameters
+struct TimeScanParameters
 {
 	double Start_Of_Scan;
 	double End_Of_Scan;
 	double Scan_Step_Size;
 	int Iterations_Per_Step;
-} TimeScan;
+};
 
-typedef struct DDSScanParameters
+struct DDSScanParameters
 {
 	double Base_Freq;
 	double Start_Of_Scan;
@@ -163,15 +121,15 @@ typedef struct DDSScanParameters
 	double Current;
 	int Iterations_Per_Step;
 
-} DDSScan;
+};
 
-typedef struct DDSFloorScanParameters
+struct DDSFloorScanParameters
 {
 	double Floor_Start;
 	double Floor_End;
 	double Floor_Step;
 	int Iterations_Per_Step;
-} DDSFloorScan;
+};
 
 struct ScanParameters
 {
@@ -188,23 +146,5 @@ struct ScanParameters
 	struct DDSFloorScanParameters DDSFloor;
 } PScan;
 
-struct ScanSet
-{
-	double Start;
-	double End;
-	double Step;
-	int Iterations;
-	int Current_Step;
-	double Current_Value;
-	int Current_Iteration;
-} ScanVal;
 
-struct ScanBuff
-{
-	int Iteration;
-	int Step;
-	double Value;
-	char Time[100];
-	int BufferSize;
-} ScanBuffer[1000];
 #endif
