@@ -13,7 +13,7 @@
 
      /* Panels and Controls: */
 
-#define  PANEL                            1
+#define  PANEL                            1       /* callback function: PANEL_CALLBACK */
 #define  PANEL_CHECKBOX_10                2       /* control type: radioButton, callback function: (none) */
 #define  PANEL_CHECKBOX_9                 3       /* control type: radioButton, callback function: (none) */
 #define  PANEL_CHECKBOX_8                 4       /* control type: radioButton, callback function: (none) */
@@ -104,6 +104,7 @@
 
 void CVICALLBACK EXIT(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK MENU_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
+int  CVICALLBACK PANEL_CALLBACK(int panel, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK TOGGLE10_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK TOGGLE1_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK TOGGLE2_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
