@@ -783,6 +783,17 @@ void SaveArrays(char savedname[500], int csize)
 	}
 
 	struct AnalogTableValues NewAnalogTable[21][41][15] = {0};
+	// initialize fcn to 1
+	for (int i = 0; i < 21; i++)
+	{
+		for (int j = 0; j < 41; j ++)
+		{
+			for (int k = 0; k < 15; k++)
+			{
+				NewAnalogTable[i][j][k].fcn = 1;
+			}
+		}
+	}
 	for (int col = 0; col < NUMBEROFCOLUMNS + 1; col++)
 	{
 		for (int channel = 0; channel < NUMBERANALOGCHANNELS + 1; channel++)

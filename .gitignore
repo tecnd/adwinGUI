@@ -3,6 +3,7 @@
 
 # LabWindows build files
 cvibuild.GUIDesign/
+cvidistkit.adwinGUI Save Converter
 *.exe
 
 # LabWindows workspace
