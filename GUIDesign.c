@@ -1619,9 +1619,9 @@ Export the panel to a file and open it in the Python reader
 void CVICALLBACK EXPORT_PYTHON_CALLBACK(int menuBar, int menuItem, void *callbackData,
 									   int panel)
 {
-	char fexportname[] = "pyreader/test.export";
+	char fexportname[] = "pyreader.export";
 	ExportPanel(fexportname, strlen(fexportname));
-	// LaunchExecutableEx
+	LaunchExecutableEx("pythonw3.exe pyreader/pyreader.py", LE_SHOWNORMAL, NULL);
 }
 //******************************************************************************************************
 void ExportPanel(char fexportname[200], int fnamesize)

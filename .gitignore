@@ -17,3 +17,5 @@ Documentation/html/
 
 # ADbasic autosaves
 *.BAK
+
+pyreader.export
