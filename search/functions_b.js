@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['savearrays_0',['SaveArrays',['../_g_u_i_design_8c.html#ad282731276765d4b48d61493e38db9f8',1,'GUIDesign.c']]],
-  ['savesettings_1',['SaveSettings',['../_g_u_i_design_8c.html#a922612de9acba3e9d66febe590a9388e',1,'GUIDesign.c']]],
-  ['setvisiblelabel_2',['setVisibleLabel',['../main_8c.html#afe7cfc007b90d18db52697b0e3f2e009',1,'main.c']]]
+  ['reshapeanalogtable_0',['ReshapeAnalogTable',['../main_8c.html#aba4ef1a255d1a0165e5e314b41bb91c4',1,'main.c']]],
+  ['reshapedigitaltable_1',['ReshapeDigitalTable',['../main_8c.html#a7faf9ab6ea7b197bc96e590bd81ac487',1,'main.c']]],
+  ['ring_5fctrlmode_5fcallback_2',['RING_CTRLMODE_CALLBACK',['../_analog_control_8c.html#a861f34a543f601ddf73c3379741b36be',1,'AnalogControl.c']]],
+  ['runonce_3',['RunOnce',['../_g_u_i_design_8c.html#afc5759b6231a76640763063a6d85d054',1,'GUIDesign.c']]]
 ];

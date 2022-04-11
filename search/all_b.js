@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['reshapeanalogtable_0',['ReshapeAnalogTable',['../main_8c.html#aba4ef1a255d1a0165e5e314b41bb91c4',1,'main.c']]],
-  ['reshapedigitaltable_1',['ReshapeDigitalTable',['../main_8c.html#a7faf9ab6ea7b197bc96e590bd81ac487',1,'main.c']]],
-  ['runonce_2',['RunOnce',['../_g_u_i_design_8c.html#afc5759b6231a76640763063a6d85d054',1,'GUIDesign.c']]]
+  ['panel_5fcallback_0',['PANEL_CALLBACK',['../_g_u_i_design_8c.html#a009937194be1b00e85b9cc3f5da3e04d',1,'GUIDesign.c']]],
+  ['pastecolumn_5fcallback_1',['PASTECOLUMN_CALLBACK',['../_g_u_i_design_8c.html#af550572dcd7586b487978e6c231c35f5',1,'GUIDesign.c']]]
 ];
