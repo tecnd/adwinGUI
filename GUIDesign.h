@@ -47,26 +47,27 @@
 #define  MENU_FILE_SAVESET                4       /* callback function: MENU_CALLBACK */
 #define  MENU_FILE_MENU_EXPORT_CHANNEL    5       /* callback function: CONFIG_EXPORT_CALLBACK */
 #define  MENU_FILE_MENU_EXPORT_PANEL      6       /* callback function: EXPORT_PANEL_CALLBACK */
-#define  MENU_FILE_QuitCallback           7       /* callback function: EXIT */
-#define  MENU_SETTINGS                    8
-#define  MENU_SETTINGS_ANALOG             9       /* callback function: ANALOGSET_CALLBACK */
-#define  MENU_SETTINGS_DIGITAL            10      /* callback function: DIGITALSET_CALLBACK */
-#define  MENU_SETTINGS_BOOTADWIN          11      /* callback function: BOOTADWIN_CALLBACK */
-#define  MENU_SETTINGS_CLEARPANEL         12      /* callback function: CLEARPANEL_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO          13      /* callback function: RESETZERO_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO_SUBMENU  14
-#define  MENU_SETTINGS_RESETZERO_SETLOW   15      /* callback function: MENU_ALLLOW_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO_HOLD     16      /* callback function: MENU_HOLD_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO_BYCHNL   17      /* callback function: MENU_BYCHANNEL_CALLBACK */
-#define  MENU_SETTINGS_SCANSETTING        18      /* callback function: SCANSETTING_CALLBACK */
-#define  MENU_EDITMATRIX                  19
-#define  MENU_EDITMATRIX_INSERTCOLUMN     20      /* callback function: INSERTCOLUMN_CALLBACK */
-#define  MENU_EDITMATRIX_DELETECOLUMN     21      /* callback function: DELETECOLUMN_CALLBACK */
-#define  MENU_EDITMATRIX_COPYCOLUMN       22      /* callback function: COPYCOLUMN_CALLBACK */
-#define  MENU_EDITMATRIX_PASTECOLUMN      23      /* callback function: PASTECOLUMN_CALLBACK */
-#define  MENU_PREFS                       24
-#define  MENU_PREFS_COMPRESSION           25      /* callback function: COMPRESSION_CALLBACK */
-#define  MENU_PREFS_SIMPLETIMING          26      /* callback function: SIMPLETIMING_CALLBACK */
+#define  MENU_FILE_EXPORT_PYTHON          7       /* callback function: EXPORT_PYTHON_CALLBACK */
+#define  MENU_FILE_QuitCallback           8       /* callback function: EXIT */
+#define  MENU_SETTINGS                    9
+#define  MENU_SETTINGS_ANALOG             10      /* callback function: ANALOGSET_CALLBACK */
+#define  MENU_SETTINGS_DIGITAL            11      /* callback function: DIGITALSET_CALLBACK */
+#define  MENU_SETTINGS_BOOTADWIN          12      /* callback function: BOOTADWIN_CALLBACK */
+#define  MENU_SETTINGS_CLEARPANEL         13      /* callback function: CLEARPANEL_CALLBACK */
+#define  MENU_SETTINGS_RESETZERO          14      /* callback function: RESETZERO_CALLBACK */
+#define  MENU_SETTINGS_RESETZERO_SUBMENU  15
+#define  MENU_SETTINGS_RESETZERO_SETLOW   16      /* callback function: MENU_ALLLOW_CALLBACK */
+#define  MENU_SETTINGS_RESETZERO_HOLD     17      /* callback function: MENU_HOLD_CALLBACK */
+#define  MENU_SETTINGS_RESETZERO_BYCHNL   18      /* callback function: MENU_BYCHANNEL_CALLBACK */
+#define  MENU_SETTINGS_SCANSETTING        19      /* callback function: SCANSETTING_CALLBACK */
+#define  MENU_EDITMATRIX                  20
+#define  MENU_EDITMATRIX_INSERTCOLUMN     21      /* callback function: INSERTCOLUMN_CALLBACK */
+#define  MENU_EDITMATRIX_DELETECOLUMN     22      /* callback function: DELETECOLUMN_CALLBACK */
+#define  MENU_EDITMATRIX_COPYCOLUMN       23      /* callback function: COPYCOLUMN_CALLBACK */
+#define  MENU_EDITMATRIX_PASTECOLUMN      24      /* callback function: PASTECOLUMN_CALLBACK */
+#define  MENU_PREFS                       25
+#define  MENU_PREFS_COMPRESSION           26      /* callback function: COMPRESSION_CALLBACK */
+#define  MENU_PREFS_SIMPLETIMING          27      /* callback function: SIMPLETIMING_CALLBACK */
 
 
      /* Callback Prototypes: */
@@ -87,6 +88,7 @@ void CVICALLBACK DIGITALSET_CALLBACK(int menubar, int menuItem, void *callbackDa
 int  CVICALLBACK DIGTABLE_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 void CVICALLBACK EXIT(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK EXPORT_PANEL_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
+void CVICALLBACK EXPORT_PYTHON_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK INSERTCOLUMN_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK MENU_ALLLOW_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK MENU_BYCHANNEL_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);

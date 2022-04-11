@@ -1612,6 +1612,17 @@ void CVICALLBACK EXPORT_PANEL_CALLBACK(int menuBar, int menuItem, void *callback
 	}
 	ExportPanel(fexportname, strlen(fexportname));
 }
+/**
+Export the panel to a file and open it in the Python reader
+@author Kerry Wang
+*/
+void CVICALLBACK EXPORT_PYTHON_CALLBACK(int menuBar, int menuItem, void *callbackData,
+									   int panel)
+{
+	char fexportname[] = "pyreader.export";
+	ExportPanel(fexportname, strlen(fexportname));
+	LaunchExecutableEx("pythonw3.exe pyreader/pyreader.py", LE_SHOWNORMAL, NULL);
+}
 //******************************************************************************************************
 void ExportPanel(char fexportname[200], int fnamesize)
 {
@@ -1680,25 +1691,26 @@ void ExportPanel(char fexportname[200], int fnamesize)
 	strcat(bigbuff, "\n");
 	fprintf(fexport, bigbuff);
 	// done header, now write analog lines
+	char *string;
 	for (int j = 1; j <= NUMBERANALOGCHANNELS; j++)
 	{
-		sprintf(bigbuff, "A,");
-		strncat(bigbuff, AChName[j].chname, 50);
-		strncat(bigbuff, ",", 1);
+		string = StrDup("A,");
+		AppendString(&string, AChName[j].chname, 50);
+		AppendString(&string, ",", 1);
 		sprintf(buff, "%d", AChName[j].chnum);
-		strncat(bigbuff, buff, 3);
+		AppendString(&string, buff, 3);
 		for (int i = 1; i <= tsize; i++)
 		{
-			strncat(bigbuff, ",", 1);
-			strncat(bigbuff, fcnmode + MetaAnalogArray[j][i].fcn - 1, 1);
+			AppendString(&string, ",", 1);
+			AppendString(&string, fcnmode + MetaAnalogArray[j][i].fcn - 1, 1);
 			sprintf(buff, "%#.2f", MetaAnalogArray[j][i].fval);
-			strcat(bigbuff, buff);
-			strncat(bigbuff, "/", 1);
+			AppendString(&string, buff, -1);
+			AppendString(&string, "/", 1);
 			sprintf(buff, "%#.2f", MetaAnalogArray[j][i].tscale);
-			strcat(bigbuff, buff);
+			AppendString(&string, buff, -1);
 		}
-		strncat(bigbuff, "\n", 1);
-		fprintf(fexport, bigbuff);
+		AppendString(&string, "\n", 1);
+		fprintf(fexport, string);
 	}
 
 	// now do digital
