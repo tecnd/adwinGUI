@@ -187,6 +187,8 @@ void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>RESETZERO
 <tr class="memitem:acb04570030c0ca69623d2eecc1551ed3"><td class="memItemLeft" align="right" valign="top"><a id="acb04570030c0ca69623d2eecc1551ed3" name="acb04570030c0ca69623d2eecc1551ed3"></a>
 void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>EXPORT_PANEL_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
 <tr class="separator:acb04570030c0ca69623d2eecc1551ed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c6d265b1ef4f2fe4ef57a986794032a"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a5c6d265b1ef4f2fe4ef57a986794032a">EXPORT_PYTHON_CALLBACK</a> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="separator:a5c6d265b1ef4f2fe4ef57a986794032a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a95f2b30bbbe755f269e540c0608571e4"><td class="memItemLeft" align="right" valign="top"><a id="a95f2b30bbbe755f269e540c0608571e4" name="a95f2b30bbbe755f269e540c0608571e4"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>ExportPanel</b> (char fexportname[200], int fnamesize)</td></tr>
 <tr class="separator:a95f2b30bbbe755f269e540c0608571e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -835,6 +837,47 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [NUMBERDIG
       </table>
 </div><div class="memdoc">
 <p >Callback triggered by selecting Exit from the menubar. Directly calls <a class="el" href="_g_u_i_design_8c.html#a009937194be1b00e85b9cc3f5da3e04d">PANEL_CALLBACK()</a> with event EVENT_CLOSE. </p><dl class="section author"><dt>Author</dt><dd>Kerry Wang </dd></dl>
+
+</div>
+</div>
+<a id="a5c6d265b1ef4f2fe4ef57a986794032a" name="a5c6d265b1ef4f2fe4ef57a986794032a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c6d265b1ef4f2fe4ef57a986794032a">&#9670;&nbsp;</a></span>EXPORT_PYTHON_CALLBACK()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CVICALLBACK EXPORT_PYTHON_CALLBACK </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuBar</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuItem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>callbackData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>panel</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Export the panel to a file and open it in the Python reader </p><dl class="section author"><dt>Author</dt><dd>Kerry Wang </dd></dl>
 
 </div>
 </div>
