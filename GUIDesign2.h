@@ -4,7 +4,7 @@
 
 void DrawNewTable(int);
 
-//Right click menus
+// Right click menus
 void CVICALLBACK Dig_Cell_Copy(int, int, int, void *);
 void CVICALLBACK Dig_Cell_Paste(int, int, int, void *);
 void CVICALLBACK Analog_Cell_Copy(int, int, int, void *);
