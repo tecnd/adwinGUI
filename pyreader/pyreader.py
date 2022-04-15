@@ -1,9 +1,12 @@
+import sys
 import dearpygui.dearpygui as dpg
+
+loc = sys.argv[1]
 
 times = list()
 analog = list()
 digital = list()
-with open('pyreader.export', 'r') as data:
+with open(loc, 'r') as data:
     for line in data:
         parse = line.strip().split(',')
         if parse[0] == 'T':

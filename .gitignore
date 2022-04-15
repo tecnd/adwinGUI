@@ -3,6 +3,7 @@
 
 # LabWindows build files
 cvibuild.GUIDesign/
+cvidistkit.*/
 *.exe
 
 # LabWindows workspace
