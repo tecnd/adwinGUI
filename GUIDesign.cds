@@ -7,29 +7,29 @@
 		<workingdir>workspacedir</workingdir>
 		<actions></actions></postbuild>
 	<msi GUID="{62D111FF-BD09-4BBE-AC18-0435D0161ACF}">
-		<general appName="adwinGUI Save Converter" outputLocation="c:\Users\labadmin\Desktop\adwinGUI\cvidistkit.adwinGUI Save Converter" relOutputLocation="cvidistkit.adwinGUI Save Converter" outputLocationWithVars="c:\Users\labadmin\Desktop\adwinGUI\cvidistkit.%name" relOutputLocationWithVars="cvidistkit.%name" upgradeBehavior="1" autoIncrement="true" version="1.0.0">
+		<general appName="adwinGUI Save Converter" outputLocation="c:\Users\labadmin\Desktop\adwinGUI\cvidistkit.adwinGUI Save Converter" relOutputLocation="cvidistkit.adwinGUI Save Converter" outputLocationWithVars="c:\Users\labadmin\Desktop\adwinGUI\cvidistkit.%name" relOutputLocationWithVars="cvidistkit.%name" upgradeBehavior="1" autoIncrement="true" version="1.0.1">
 			<arp company="W&amp;M Ultracold Atom Lab" companyURL="" supportURL="" contact="" phone="" comments=""/>
 			<summary title="" subject="" keyWords="" comments="" author=""/></general>
 		<userinterface language="English" showPaths="true" showRuntimeOnly="true" readMe="" license="">
 			<dlgstrings welcomeTitle="adwinGUI Save Converter" welcomeText=""/></userinterface>
-		<dirs appDirID="100">
-			<installDir name="adwinGUI Save Converter" dirID="100" parentID="2" isMSIDir="false" visible="true" unlock="false"/>
-			<installDir name="adwinGUI Save Converter" dirID="101" parentID="7" isMSIDir="false" visible="true" unlock="false"/>
+		<dirs appDirID="101">
+			<installDir name="[Start&gt;&gt;Programs]" dirID="7" parentID="-1" isMSIDir="true" visible="true" unlock="false"/>
 			<installDir name="[Program Files]" dirID="2" parentID="-1" isMSIDir="true" visible="true" unlock="false"/>
-			<installDir name="[Start&gt;&gt;Programs]" dirID="7" parentID="-1" isMSIDir="true" visible="true" unlock="false"/></dirs>
+			<installDir name="adwinGUI Save Converter" dirID="100" parentID="7" isMSIDir="false" visible="true" unlock="false"/>
+			<installDir name="adwinGUI Save Converter" dirID="101" parentID="2" isMSIDir="false" visible="true" unlock="false"/></dirs>
 		<files>
-			<simpleFile fileID="0" sourcePath="C:\Users\labadmin\Desktop\adwinGUI\NewTemplate.pan" targetDir="100" readonly="false" hidden="false" system="false" regActiveX="false" runAfterInstallStyle="IMMEDIATELY_RESUME_INSTALL" cmdLineArgs="" runAfterInstall="false" uninstCmdLnArgs="" runUninst="false"/>
-			<simpleFile fileID="1" sourcePath="c:\Users\labadmin\Desktop\adwinGUI\cvibuild.GUIDesign\Release\convert.exe" targetDir="100" readonly="false" hidden="false" system="false" regActiveX="false" runAfterInstallStyle="IMMEDIATELY_RESUME_INSTALL" cmdLineArgs="" runAfterInstall="false" uninstCmdLnArgs="" runUninst="false"/>
-			<simpleFile fileID="2" sourcePath="c:\Users\labadmin\Desktop\adwinGUI\GUIDesign.uir" relSourcePath="GUIDesign.uir" relSourceBase="0" targetDir="100" readonly="false" hidden="false" system="false" regActiveX="false" runAfterInstallStyle="IMMEDIATELY_RESUME_INSTALL" cmdLineArgs="" runAfterInstall="false" uninstCmdLnArgs="" runUninst="false"/></files>
+			<simpleFile fileID="0" sourcePath="c:\Users\labadmin\Desktop\adwinGUI\cvibuild.GUIDesign\Release\convert.exe" targetDir="101" readonly="false" hidden="false" system="false" regActiveX="false" runAfterInstallStyle="IMMEDIATELY_RESUME_INSTALL" cmdLineArgs="" runAfterInstall="false" uninstCmdLnArgs="" runUninst="false"/>
+			<simpleFile fileID="1" sourcePath="C:\Users\labadmin\Desktop\adwinGUI\NewTemplate.pan" targetDir="101" readonly="false" hidden="false" system="false" regActiveX="false" runAfterInstallStyle="IMMEDIATELY_RESUME_INSTALL" cmdLineArgs="" runAfterInstall="false" uninstCmdLnArgs="" runUninst="false"/>
+			<simpleFile fileID="2" sourcePath="c:\Users\labadmin\Desktop\adwinGUI\GUIDesign.uir" relSourcePath="GUIDesign.uir" relSourceBase="0" targetDir="101" readonly="false" hidden="false" system="false" regActiveX="false" runAfterInstallStyle="IMMEDIATELY_RESUME_INSTALL" cmdLineArgs="" runAfterInstall="false" uninstCmdLnArgs="" runUninst="false"/></files>
 		<fileGroups>
-			<projectOutput targetType="0" dirID="100" projectID="0">
-				<fileID>1</fileID></projectOutput>
-			<projectDependencies dirID="100" projectID="0"/></fileGroups>
+			<projectOutput targetType="0" dirID="101" projectID="0">
+				<fileID>0</fileID></projectOutput>
+			<projectDependencies dirID="101" projectID="0"/></fileGroups>
 		<shortcuts>
-			<shortcut name="adwinGUI Save Converter" targetFileID="1" destDirID="101" cmdLineArgs="" description="" runStyle="NORMAL"/></shortcuts>
+			<shortcut name="adwinGUI Save Converter" targetFileID="0" destDirID="100" cmdLineArgs="" description="" runStyle="NORMAL"/></shortcuts>
 		<mergemodules/>
 		<products/>
-		<runtimeEngine installToAppDir="false" activeXsup="false" analysis="true" cvirte="true" dotnetsup="true" instrsup="false" lowlevelsup="false" lvrt="false" netvarsup="true" rtutilsup="false">
+		<runtimeEngine installToAppDir="false" activeXsup="false" analysis="true" cvirte="true" dotnetsup="true" instrsup="true" lowlevelsup="true" lvrt="true" netvarsup="true" rtutilsup="true">
 			<hasSoftDeps/>
 			<doNotAutoSelect>
 			<component>activeXsup</component>
@@ -89,14 +89,14 @@
 					<productID>{F2EEE63A-0DCA-41BF-A243-4E4C0DFA38A4}</productID></dependencies></product></baselineProducts>
 		<Projects NumProjects="1">
 			<Project000 ProjectID="0" ProjectAbsolutePath="c:\Users\labadmin\Desktop\adwinGUI\GUIDesign.prj" ProjectRelativePath="GUIDesign.prj"/></Projects>
-		<buildData progressBarRate="0.659542300628413">
+		<buildData progressBarRate="0.711277817560882">
 			<progressTimes>
 				<Begin>0.000000000000000</Begin>
-				<ProductsAdded>0.236136500000055</ProductsAdded>
-				<DPConfigured>1.048632750000081</DPConfigured>
-				<DPMergeModulesAdded>2.158680000000013</DPMergeModulesAdded>
-				<DPClosed>7.846131249999992</DPClosed>
-				<DistributionsCopied>10.833714000000079</DistributionsCopied>
-				<End>151.620297749999963</End></progressTimes></buildData>
+				<ProductsAdded>0.149386750000025</ProductsAdded>
+				<DPConfigured>0.880636374999909</DPConfigured>
+				<DPMergeModulesAdded>1.510653999999936</DPMergeModulesAdded>
+				<DPClosed>5.729383624999915</DPClosed>
+				<DistributionsCopied>7.273435499999652</DistributionsCopied>
+				<End>140.592040874999498</End></progressTimes></buildData>
 	</msi>
 </distribution>
