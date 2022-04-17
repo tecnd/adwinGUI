@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      - uses: langroodi/doxygenize@v1.6
+      - uses: actions/checkout@v3
+      - uses: langroodi/doxygenize@v1
         with:
           doxygenconf: './Doxyfile'
           htmloutput: './Documentation/html'
