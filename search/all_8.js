@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['main_0',['main',['../main_8c.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main.c']]],
-  ['main_2ec_1',['main.c',['../main_8c.html',1,'']]]
+  ['loadarrays_0',['LoadArrays',['../_g_u_i_design_8c.html#a504efb458d8f9e4b6ce33efbea5bc426',1,'GUIDesign.c']]],
+  ['loadsettings_1',['LoadSettings',['../_g_u_i_design_8c.html#aeb2eb8ec1d703539637b101a4c278862',1,'GUIDesign.c']]]
 ];

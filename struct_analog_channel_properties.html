@@ -67,34 +67,105 @@ $(function() {
   <div class="headertitle"><div class="title">AnalogChannelProperties Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Struct that stores configuration and metadata for an analog channel.  
+ <a href="struct_analog_channel_properties.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="vars_8h_source.html">vars.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:aac8b7e9621b13ca5cc408418fdf57cc2"><td class="memItemLeft" align="right" valign="top"><a id="aac8b7e9621b13ca5cc408418fdf57cc2" name="aac8b7e9621b13ca5cc408418fdf57cc2"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>chnum</b></td></tr>
+<tr class="memdesc:aac8b7e9621b13ca5cc408418fdf57cc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The channel number on the ADwin. <br /></td></tr>
 <tr class="separator:aac8b7e9621b13ca5cc408418fdf57cc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1afc2e2d72b4a7f466daad67fb7ee845"><td class="memItemLeft" align="right" valign="top"><a id="a1afc2e2d72b4a7f466daad67fb7ee845" name="a1afc2e2d72b4a7f466daad67fb7ee845"></a>
 char&#160;</td><td class="memItemRight" valign="bottom"><b>chname</b> [50]</td></tr>
+<tr class="memdesc:a1afc2e2d72b4a7f466daad67fb7ee845"><td class="mdescLeft">&#160;</td><td class="mdescRight">The name of the channel. <br /></td></tr>
 <tr class="separator:a1afc2e2d72b4a7f466daad67fb7ee845"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d7af51ff24665042b0aaaf2f4874c0c"><td class="memItemLeft" align="right" valign="top"><a id="a4d7af51ff24665042b0aaaf2f4874c0c" name="a4d7af51ff24665042b0aaaf2f4874c0c"></a>
 char&#160;</td><td class="memItemRight" valign="bottom"><b>units</b> [50]</td></tr>
+<tr class="memdesc:a4d7af51ff24665042b0aaaf2f4874c0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The name of the channel's units. <br /></td></tr>
 <tr class="separator:a4d7af51ff24665042b0aaaf2f4874c0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac9ece47fa0d803ad31d96a5bfcceee9"><td class="memItemLeft" align="right" valign="top"><a id="aac9ece47fa0d803ad31d96a5bfcceee9" name="aac9ece47fa0d803ad31d96a5bfcceee9"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>tfcn</b></td></tr>
+<tr class="memitem:aac9ece47fa0d803ad31d96a5bfcceee9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_analog_channel_properties.html#aac9ece47fa0d803ad31d96a5bfcceee9">tfcn</a></td></tr>
+<tr class="memdesc:aac9ece47fa0d803ad31d96a5bfcceee9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transfer function. i.e. 10V out = t G/cm etc...  <a href="struct_analog_channel_properties.html#aac9ece47fa0d803ad31d96a5bfcceee9">More...</a><br /></td></tr>
 <tr class="separator:aac9ece47fa0d803ad31d96a5bfcceee9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13d70140255d47021a097ffdbcd0d620"><td class="memItemLeft" align="right" valign="top"><a id="a13d70140255d47021a097ffdbcd0d620" name="a13d70140255d47021a097ffdbcd0d620"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>tbias</b></td></tr>
+<tr class="memitem:a13d70140255d47021a097ffdbcd0d620"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_analog_channel_properties.html#a13d70140255d47021a097ffdbcd0d620">tbias</a></td></tr>
 <tr class="separator:a13d70140255d47021a097ffdbcd0d620"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e4780ba640af286e2912adae815ec29"><td class="memItemLeft" align="right" valign="top"><a id="a7e4780ba640af286e2912adae815ec29" name="a7e4780ba640af286e2912adae815ec29"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>resettozero</b></td></tr>
+<tr class="memdesc:a7e4780ba640af286e2912adae815ec29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether or not to reset the channel to 0 at the end. <br /></td></tr>
 <tr class="separator:a7e4780ba640af286e2912adae815ec29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7d7b8a48c22b1fb3cf5bc9c1897fd4c"><td class="memItemLeft" align="right" valign="top"><a id="ac7d7b8a48c22b1fb3cf5bc9c1897fd4c" name="ac7d7b8a48c22b1fb3cf5bc9c1897fd4c"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>maxvolts</b></td></tr>
+<tr class="memitem:ac7d7b8a48c22b1fb3cf5bc9c1897fd4c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_analog_channel_properties.html#ac7d7b8a48c22b1fb3cf5bc9c1897fd4c">maxvolts</a></td></tr>
 <tr class="separator:ac7d7b8a48c22b1fb3cf5bc9c1897fd4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68e2bbe7f09df56b7f3145abfd8a9cda"><td class="memItemLeft" align="right" valign="top"><a id="a68e2bbe7f09df56b7f3145abfd8a9cda" name="a68e2bbe7f09df56b7f3145abfd8a9cda"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>minvolts</b></td></tr>
+<tr class="memitem:a68e2bbe7f09df56b7f3145abfd8a9cda"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_analog_channel_properties.html#a68e2bbe7f09df56b7f3145abfd8a9cda">minvolts</a></td></tr>
 <tr class="separator:a68e2bbe7f09df56b7f3145abfd8a9cda"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Struct that stores configuration and metadata for an analog channel. </p>
+</div><h2 class="groupheader">Field Documentation</h2>
+<a id="ac7d7b8a48c22b1fb3cf5bc9c1897fd4c" name="ac7d7b8a48c22b1fb3cf5bc9c1897fd4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7d7b8a48c22b1fb3cf5bc9c1897fd4c">&#9670;&nbsp;</a></span>maxvolts</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double maxvolts</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd>Fill in description </dd></dl>
+
+</div>
+</div>
+<a id="a68e2bbe7f09df56b7f3145abfd8a9cda" name="a68e2bbe7f09df56b7f3145abfd8a9cda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68e2bbe7f09df56b7f3145abfd8a9cda">&#9670;&nbsp;</a></span>minvolts</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double minvolts</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>Fill in description </dd></dl>
+
+</div>
+</div>
+<a id="a13d70140255d47021a097ffdbcd0d620" name="a13d70140255d47021a097ffdbcd0d620"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13d70140255d47021a097ffdbcd0d620">&#9670;&nbsp;</a></span>tbias</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double tbias</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>Fill in description </dd></dl>
+
+</div>
+</div>
+<a id="aac9ece47fa0d803ad31d96a5bfcceee9" name="aac9ece47fa0d803ad31d96a5bfcceee9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac9ece47fa0d803ad31d96a5bfcceee9">&#9670;&nbsp;</a></span>tfcn</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double tfcn</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Transfer function. i.e. 10V out = t G/cm etc... </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Update description </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="vars_8h_source.html">vars.h</a></li>
 </ul>

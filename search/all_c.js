@@ -1,7 +1,11 @@
 var searchData=
 [
-  ['reshapeanalogtable_0',['ReshapeAnalogTable',['../main_8c.html#aba4ef1a255d1a0165e5e314b41bb91c4',1,'main.c']]],
-  ['reshapedigitaltable_1',['ReshapeDigitalTable',['../main_8c.html#a7faf9ab6ea7b197bc96e590bd81ac487',1,'main.c']]],
-  ['ring_5fctrlmode_5fcallback_2',['RING_CTRLMODE_CALLBACK',['../_analog_control_8c.html#a861f34a543f601ddf73c3379741b36be',1,'AnalogControl.c']]],
-  ['runonce_3',['RunOnce',['../_g_u_i_design_8c.html#afc5759b6231a76640763063a6d85d054',1,'GUIDesign.c']]]
+  ['panel_5fcallback_0',['PANEL_CALLBACK',['../_g_u_i_design_8c.html#a009937194be1b00e85b9cc3f5da3e04d',1,'GUIDesign.c']]],
+  ['panelhandle_1',['panelHandle',['../vars_8h.html#a8055542f0409de69de9969edbb0a23c5',1,'vars.h']]],
+  ['panelhandle2_2',['panelHandle2',['../vars_8h.html#abb8359927877726f16260258cfa5ccba',1,'vars.h']]],
+  ['panelhandle3_3',['panelHandle3',['../vars_8h.html#acc66b2deac0b12d676e496719dba6a91',1,'vars.h']]],
+  ['panelhandle4_4',['panelHandle4',['../vars_8h.html#a9a683e9ff5020b31d768e32e4d27f388',1,'vars.h']]],
+  ['panelhandle7_5',['panelHandle7',['../vars_8h.html#a353cc52ca441b12de4c88b608c07bec9',1,'vars.h']]],
+  ['panelhandle8_6',['panelHandle8',['../vars_8h.html#a17c57136db1c0a4f40b27fc5fdfb65f2',1,'vars.h']]],
+  ['pastecolumn_5fcallback_7',['PASTECOLUMN_CALLBACK',['../_g_u_i_design_8c.html#af550572dcd7586b487978e6c231c35f5',1,'GUIDesign.c']]]
 ];

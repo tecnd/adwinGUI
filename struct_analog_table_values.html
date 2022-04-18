@@ -67,19 +67,53 @@ $(function() {
   <div class="headertitle"><div class="title">AnalogTableValues Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Struct that stores instructions for an analog cell.  
+ <a href="struct_analog_table_values.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="vars_8h_source.html">vars.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:af6778b9f85a13e3b6cde1521d475da52"><td class="memItemLeft" align="right" valign="top"><a id="af6778b9f85a13e3b6cde1521d475da52" name="af6778b9f85a13e3b6cde1521d475da52"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>fcn</b></td></tr>
+<tr class="memitem:af6778b9f85a13e3b6cde1521d475da52"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_analog_table_values.html#af6778b9f85a13e3b6cde1521d475da52">fcn</a></td></tr>
+<tr class="memdesc:af6778b9f85a13e3b6cde1521d475da52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Which function to use.  <a href="struct_analog_table_values.html#af6778b9f85a13e3b6cde1521d475da52">More...</a><br /></td></tr>
 <tr class="separator:af6778b9f85a13e3b6cde1521d475da52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af314defce1ac19638fde2b8796721fe3"><td class="memItemLeft" align="right" valign="top"><a id="af314defce1ac19638fde2b8796721fe3" name="af314defce1ac19638fde2b8796721fe3"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>fval</b></td></tr>
+<tr class="memdesc:af314defce1ac19638fde2b8796721fe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The final value of the cell. <br /></td></tr>
 <tr class="separator:af314defce1ac19638fde2b8796721fe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f320ba7443ca5b76c1be7c95a9d7cac"><td class="memItemLeft" align="right" valign="top"><a id="a6f320ba7443ca5b76c1be7c95a9d7cac" name="a6f320ba7443ca5b76c1be7c95a9d7cac"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>tscale</b></td></tr>
+<tr class="memdesc:a6f320ba7443ca5b76c1be7c95a9d7cac"><td class="mdescLeft">&#160;</td><td class="mdescRight">The timescale to reach the final value. <br /></td></tr>
 <tr class="separator:a6f320ba7443ca5b76c1be7c95a9d7cac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Struct that stores instructions for an analog cell. </p>
+</div><h2 class="groupheader">Field Documentation</h2>
+<a id="af6778b9f85a13e3b6cde1521d475da52" name="af6778b9f85a13e3b6cde1521d475da52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6778b9f85a13e3b6cde1521d475da52">&#9670;&nbsp;</a></span>fcn</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int fcn</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Which function to use. </p>
+<p >An integer refering to a function to use with the following mapping:</p><ul>
+<li>1: Step</li>
+<li>2: Linear ramp</li>
+<li>3: Exponential ramp</li>
+<li>4: 'S' curve</li>
+<li>5: Sine wave</li>
+<li>6: Extend previous </li>
+</ul>
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="vars_8h_source.html">vars.h</a></li>
 </ul>
