@@ -1,77 +1,213 @@
+/**
+@file vars.h
+@brief Contains global macros, variables, typedefs, and struct definitions.
+
+Some arrays have +1 added to their size because LabWindows is 1-indexed.
+In those cases, the 0-th index is undefined and should not be used.
+*/
+
 #ifndef VAR_DEFS  // Make sure this file is included only once
 #define VAR_DEFS
 
 /************************************************************************
 Macro Definitions
 *************************************************************************/
-#define EVENTPERIOD 0.010  // Period of event in trigger signal, in ms.
-#define NUMBERANALOGCHANNELS \
-  40  // Number of analog Channels available for control
-#define NUMBERDIGITALCHANNELS 64  // number of digital channels DISPLAYED!!!
-
+/**
+@brief Period of an event-in trigger signal, in milliseconds
+*/
+#define EVENTPERIOD 0.010
+/**
+@brief Number of analog channels available
+*/
+#define NUMBERANALOGCHANNELS 40
+/**
+@brief Number of digital channels available
+*/
+#define NUMBERDIGITALCHANNELS 64
+/**
+@brief Number of table columns to generate per page
+*/
 #define NUMBEROFCOLUMNS 20
 #define TRUE 1
 #define FALSE 0
+/**
+@brief Number of table pages to generate
+*/
 #define NUMBEROFPAGES 14
 
 // Table layout defines
+/**
+@brief Height of a table cell, in pixels
+*/
 #define CELL_HEIGHT 17
+/**
+@brief Width of a table cell, in pixels
+*/
 #define CELL_WIDTH 40
+/**
+@brief Margin between the main tables and the units and scan lists, in pixels
+*/
 #define TABLE_MARGIN_RIGHT 20
-
-#define MAXANALOG 50   // Need 40 lines, leave room for 48
-#define MAXDIGITAL 70  // need 64 lines, leave some leeway
+/**
+@brief (Legacy) Number of analog channels
+@deprecated This originally reserved additional space when writing save files
+so new channels could be added without breaking save compatibility, however now
+it is no longer needed. Refactoring this out would probably require breaking
+existing save compatibility, though.
+*/
+#define MAXANALOG 50
+/**
+@brief (Legacy) Number of digital channels
+@deprecated This originally reserved additional space when writing save files
+so new channels could be added without breaking save compatibility, however now
+it is no longer needed. Refactoring this out would probably require breaking
+existing save compatibility, though.
+*/
+#define MAXDIGITAL 70
 /************************************************************************
 Structure/Typedef Declarations
 *************************************************************************/
-// expand the array sizes to allow for further growth.  Need 32 analog, leave
-// room for 48 digital lines   leave room for 64 (2 digital io cards)
 typedef int BOOL;
 
 /************************************************************************
 Global Variables
 *************************************************************************/
-
-int panelHandle, panelHandle2, panelHandle3, panelHandle4, panelHandle7,
-    panelHandle8;
+/**
+@brief Panel handle for the main panel
+@todo Rename to be more descriptive and prevent variable shadowing
+*/
+int panelHandle;
+/**
+@brief Panel handle for the analog settings window
+@todo Rename to be more descriptive
+*/
+int panelHandle2;
+/**
+@brief Panel handle for the digital settings window
+@todo Rename to be more descriptive
+*/
+int panelHandle3;
+/**
+@brief Panel handle for the analog cell editing window
+@todo Rename to be more descriptive
+*/
+int panelHandle4;
+/**
+@brief Panel handle for the scan window
+@todo Rename to be more descriptive
+*/
+int panelHandle7;
+/**
+@brief Panel handle for the scan table loader window
+@todo Rename to be more descriptive
+*/
+int panelHandle8;
+/**
+@brief Panel handle for the comments box.
+*/
 int commentsHandle;
 int panelHandle_sub2;
 int menuHandle;
-int currentx, currenty, currentpage;
-int pic_off, pic_static, pic_change, pic_don;
+/**
+@brief x-position of the last-clicked analog table cell
+*/
+int currentx;
+/**
+@brief y-position of the last-clicked analog table cell
+*/
+int currenty;
+/**
+@brief Page number of the currently active page
+*/
+int currentpage;
+/**
+@brief Whether or not values have changed since last run. Used to determine if
+data needs to be resent to the ADwin.
+*/
 BOOL ChangedVals;
 
+/**
+@brief Struct that stores instructions for an analog cell.
+*/
 struct AnalogTableValues {
-  // fcn is an integer refering to a function to use.
-  // // 1-step, 2-linear, 3- exp, 4- 'S' curve 5-sine 6-"same as last
-  // cell"
-  int fcn;
-  double fval;    // the final value
-  double tscale;  // the timescale to approach final value
-} AnalogTable[NUMBEROFCOLUMNS + 1][NUMBERANALOGCHANNELS + 1][NUMBEROFPAGES + 1];
-// +1 needed because all code done assumed base 1 arrays...
-// the structure is the values/elements contained at each
-// point in the analog panel.  The array aval, is set up as
-// [x][y][page]
+  /**
+  @brief Which function to use
 
+  An integer refering to a function to use with the following mapping:
+  - 1: Step
+  - 2: Linear ramp
+  - 3: Exponential ramp
+  - 4: 'S' curve
+  - 5: Sine wave
+  - 6: Extend previous
+  */
+  int fcn;
+  /**
+  @brief The final value of the cell
+  */
+  double fval;
+  /**
+  @brief The timescale to reach the final value
+  */
+  double tscale;
+}
+/**
+@brief 3D array containing all analog cell values.
+*/
+AnalogTable[NUMBEROFCOLUMNS + 1][NUMBERANALOGCHANNELS + 1][NUMBEROFPAGES + 1];
+
+/**
+@brief 3D array containing all digital cell values.
+*/
 int DigTableValues[NUMBEROFCOLUMNS + 1][MAXDIGITAL][NUMBEROFPAGES + 1];
 
-// The channel mapping (for analog). i.e. if we program
-// line 1 as channel 12, the ChMap[12]=1
-int ChMap[MAXANALOG];
-
+/**
+@brief 2D array containing all time values.
+*/
 double TimeArray[NUMBEROFCOLUMNS + 1][NUMBEROFPAGES + 1];
 
+/**
+@brief Struct that stores configuration and metadata for an analog channel.
+*/
 struct AnalogChannelProperties {
-  int chnum;        // channel number 1-8 DAC1  9-16 DAC2
-  char chname[50];  // name to appear on the panel
+  /**
+  @brief The channel number on the ADwin
+  */
+  int chnum;
+  /**
+  @brief The name of the channel
+  */
+  char chname[50];
+  /**
+  @brief The name of the channel's units
+  */
   char units[50];
-  double tfcn;  // Transfer function.  i.e. 10V out = t G/cm etc...
+  /**
+  @brief Transfer function.  i.e. 10V out = t G/cm etc...
+  @todo Update description
+  */
+  double tfcn;
+  /**
+  @todo Fill in description
+  */
   double tbias;
+  /**
+  @brief Whether or not to reset the channel to 0 at the end
+  */
   int resettozero;
+  /**
+  @todo Fill in description
+  */
   double maxvolts;
+  /**
+  @todo Fill in description
+  */
   double minvolts;
-} AChName[MAXANALOG];
+}
+/**
+@brief Array holding the channel properties for each analog channel
+*/
+AChName[MAXANALOG];
 
 struct DigitalChannelProperties {
   int chnum;        // digital line to control
@@ -82,21 +218,21 @@ struct DigitalChannelProperties {
 short processnum;
 
 /* Parameter Scan variables*/
-typedef struct AnalogScanParameters {
+struct AnalogScanParameters {
   double Start_Of_Scan;
   double End_Of_Scan;
   double Scan_Step_Size;
   int Iterations_Per_Step;
   int Analog_Channel;
   int Analog_Mode;
-} AnalogScan;
+};
 
-typedef struct TimeScanParameters {
+struct TimeScanParameters {
   double Start_Of_Scan;
   double End_Of_Scan;
   double Scan_Step_Size;
   int Iterations_Per_Step;
-} TimeScan;
+};
 
 struct ScanParameters {
   int Row;

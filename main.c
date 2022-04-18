@@ -1,7 +1,13 @@
 /**
 @file main.c
-Contains code to build the GUI layout.
+@brief Contains code to build the GUI layout.
 @todo Move update history and notes from comments to documentation
+*/
+/**
+@mainpage adwinGUI Documentation
+
+adwinGUI is built in LabWindows, with supplementary parts written in ADbasic and
+python.
 */
 // IDEAS:
 /*
@@ -119,66 +125,59 @@ void Initialization(void);
 /**
 Entry point. Handles initializing data arrays and GUI elements.
 */
-int main(int argc, char* argv[])
-{
-    if (InitCVIRTE(0, argv, 0) == 0)
-        return -1; /* out of memory */
-    if ((panelHandle = LoadPanel(0, "GUIDesign.uir", PANEL)) < 0)
-        return -1;
-    if ((panelHandle_sub2 = LoadPanel(0, "GUIDesign.uir", SUBPANEL2)) < 0)
-        return -1;
-    if ((commentsHandle = LoadPanel(0, "Comments.uir", PANEL)) < 0)
-        return -1;
-    if ((panelHandle2 = LoadPanel(0, "AnalogSettings.uir", PANEL)) < 0)
-        return -1;
-    if ((panelHandle3 = LoadPanel(0, "DigitalSettings.uir", PANEL)) < 0)
-        return -1;
-    if ((panelHandle4 = LoadPanel(0, "AnalogControl.uir", PANEL)) < 0)
-        return -1;
-    if ((panelHandle7 = LoadPanel(0, "Scan.uir", PANEL)) < 0)
-        return -1;
-    if ((panelHandle8 = LoadPanel(0, "ScanTableLoader.uir", PANEL)) < 0)
-        return -1;
+int main(int argc, char* argv[]) {
+  if (InitCVIRTE(0, argv, 0) == 0) return -1; /* out of memory */
+  if ((panelHandle = LoadPanel(0, "GUIDesign.uir", PANEL)) < 0) return -1;
+  if ((panelHandle_sub2 = LoadPanel(0, "GUIDesign.uir", SUBPANEL2)) < 0)
+    return -1;
+  if ((commentsHandle = LoadPanel(0, "Comments.uir", PANEL)) < 0) return -1;
+  if ((panelHandle2 = LoadPanel(0, "AnalogSettings.uir", PANEL)) < 0) return -1;
+  if ((panelHandle3 = LoadPanel(0, "DigitalSettings.uir", PANEL)) < 0)
+    return -1;
+  if ((panelHandle4 = LoadPanel(0, "AnalogControl.uir", PANEL)) < 0) return -1;
+  if ((panelHandle7 = LoadPanel(0, "Scan.uir", PANEL)) < 0) return -1;
+  if ((panelHandle8 = LoadPanel(0, "ScanTableLoader.uir", PANEL)) < 0)
+    return -1;
 
-    // Initialize arrays (to avoid undefined elements causing -99 to be written)
-    // ramp over # of analog chanels
-    for (int j = 0; j <= NUMBERANALOGCHANNELS; j++) {
-        AChName[j].tfcn = 1;
-        AChName[j].tbias = 0;
-        AChName[j].resettozero = 1;
-        // ramp over # of cells per page
-        for (int i = 0; i <= NUMBEROFCOLUMNS; i++) {
-            // ramp over pages
-            for (int page = 0; page <= NUMBEROFPAGES; page++) {
-                AnalogTable[i][j][page].fcn = 1;
-                AnalogTable[i][j][page].fval = 0.0;
-                AnalogTable[i][j][page].tscale = 1;
-            }
-        }
+  // Initialize arrays (to avoid undefined elements causing -99 to be written)
+  // ramp over # of analog chanels
+  for (int j = 0; j <= NUMBERANALOGCHANNELS; j++) {
+    AChName[j].tfcn = 1;
+    AChName[j].tbias = 0;
+    AChName[j].resettozero = 1;
+    // ramp over # of cells per page
+    for (int i = 0; i <= NUMBEROFCOLUMNS; i++) {
+      // ramp over pages
+      for (int page = 0; page <= NUMBEROFPAGES; page++) {
+        AnalogTable[i][j][page].fcn = 1;
+        AnalogTable[i][j][page].fval = 0.0;
+        AnalogTable[i][j][page].tscale = 1;
+      }
     }
+  }
 
-    for (int j = 0; j <= NUMBERDIGITALCHANNELS; j++) {
-        // ramp over # of cells per page
-        for (int i = 0; i <= NUMBEROFCOLUMNS; i++) {
-            // ramp over pages
-            for (int page = 0; page <= NUMBEROFPAGES; page++) {
-                DigTableValues[i][j][page] = 0;
-            }
-        }
+  for (int j = 0; j <= NUMBERDIGITALCHANNELS; j++) {
+    // ramp over # of cells per page
+    for (int i = 0; i <= NUMBEROFCOLUMNS; i++) {
+      // ramp over pages
+      for (int page = 0; page <= NUMBEROFPAGES; page++) {
+        DigTableValues[i][j][page] = 0;
+      }
     }
+  }
 
-    // done initializing
-    menuHandle = GetPanelMenuBar(panelHandle);
+  // done initializing
+  menuHandle = GetPanelMenuBar(panelHandle);
 
-    currentpage = 1;
+  currentpage = 1;
 
-    Initialization();
+  Initialization();
 
-    DisplayPanel(panelHandle);
-    RunUserInterface(); // start the GUI
-    DiscardPanel(panelHandle); // returns here after the GUI shutsdown
+  DisplayPanel(panelHandle);
+  RunUserInterface();         // start the GUI
+  DiscardPanel(panelHandle);  // returns here after the GUI shutsdown
 
-    return 0;
+  return 0;
 }
 
 /**
@@ -189,48 +188,47 @@ Resizes and moves analog table, analog channel names table, and unit name table.
 @param width Total pixel width of analog table
 @author Stefan, Kerry Wang
 */
-void ReshapeAnalogTable(int top, int left, int height, int width)
-{
-    int cellHeight = height / (NUMBERANALOGCHANNELS);
-    int cellWidth = width / NUMBEROFCOLUMNS;
-    int unitTableHeight = cellHeight * NUMBERANALOGCHANNELS;
+void ReshapeAnalogTable(int top, int left, int height, int width) {
+  int cellHeight = height / (NUMBERANALOGCHANNELS);
+  int cellWidth = width / NUMBEROFCOLUMNS;
+  int unitTableHeight = cellHeight * NUMBERANALOGCHANNELS;
 
-    // resize the analog table and all its related list boxes
-    SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_TOP, top);
-    SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_LEFT, left);
-    SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_HEIGHT, height);
+  // resize the analog table and all its related list boxes
+  SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_TOP, top);
+  SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_LEFT, left);
+  SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_HEIGHT, height);
 
-    SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_TOP, top);
-    SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_LEFT, left - 165);
-    SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_HEIGHT, height);
+  SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_TOP, top);
+  SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_LEFT, left - 165);
+  SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_HEIGHT, height);
 
-    SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_TOP, top);
-    SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_LEFT,
-        left + CELL_WIDTH * NUMBEROFCOLUMNS + TABLE_MARGIN_RIGHT);
-    SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_HEIGHT,
-        unitTableHeight);
+  SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_TOP, top);
+  SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_LEFT,
+                   left + CELL_WIDTH * NUMBEROFCOLUMNS + TABLE_MARGIN_RIGHT);
+  SetCtrlAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, ATTR_HEIGHT,
+                   unitTableHeight);
 
-    SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_SIZE_MODE,
-        VAL_USE_EXPLICIT_SIZE);
-    SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_ROW_HEIGHT,
-        cellHeight);
-    SetTableColumnAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_SIZE_MODE,
-        VAL_USE_EXPLICIT_SIZE);
-    SetTableColumnAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_COLUMN_WIDTH,
-        cellWidth);
-    SetTableRowAttribute(panelHandle, PANEL_TBL_ANAMES, -1, ATTR_SIZE_MODE,
-        VAL_USE_EXPLICIT_SIZE);
-    SetTableRowAttribute(panelHandle, PANEL_TBL_ANAMES, -1, ATTR_ROW_HEIGHT,
-        cellHeight);
-    SetTableRowAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, -1, ATTR_SIZE_MODE,
-        VAL_USE_EXPLICIT_SIZE);
-    SetTableRowAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, -1, ATTR_ROW_HEIGHT,
-        cellHeight);
+  SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_SIZE_MODE,
+                       VAL_USE_EXPLICIT_SIZE);
+  SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_ROW_HEIGHT,
+                       cellHeight);
+  SetTableColumnAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_SIZE_MODE,
+                          VAL_USE_EXPLICIT_SIZE);
+  SetTableColumnAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_COLUMN_WIDTH,
+                          cellWidth);
+  SetTableRowAttribute(panelHandle, PANEL_TBL_ANAMES, -1, ATTR_SIZE_MODE,
+                       VAL_USE_EXPLICIT_SIZE);
+  SetTableRowAttribute(panelHandle, PANEL_TBL_ANAMES, -1, ATTR_ROW_HEIGHT,
+                       cellHeight);
+  SetTableRowAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, -1, ATTR_SIZE_MODE,
+                       VAL_USE_EXPLICIT_SIZE);
+  SetTableRowAttribute(panelHandle, PANEL_TBL_ANALOGUNITS, -1, ATTR_ROW_HEIGHT,
+                       cellHeight);
 
-    SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_NUM_VISIBLE_COLUMNS,
-        NUMBEROFCOLUMNS);
-    SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_NUM_VISIBLE_ROWS,
-        NUMBERANALOGCHANNELS);
+  SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_NUM_VISIBLE_COLUMNS,
+                   NUMBEROFCOLUMNS);
+  SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_NUM_VISIBLE_ROWS,
+                   NUMBERANALOGCHANNELS);
 }
 
 /**
@@ -241,41 +239,40 @@ Resizes and moves digital table, digital channel names table, and scan table.
 @param width Total pixel width of digital table
 @author Stefan, Kerry Wang
 */
-void ReshapeDigitalTable(int top, int left, int height, int width)
-{
-    int cellHeight = height / NUMBERDIGITALCHANNELS;
-    int cellWidth = width / NUMBEROFCOLUMNS;
+void ReshapeDigitalTable(int top, int left, int height, int width) {
+  int cellHeight = height / NUMBERDIGITALCHANNELS;
+  int cellWidth = width / NUMBEROFCOLUMNS;
 
-    SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_HEIGHT, height);
-    SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_LEFT, left);
-    SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_TOP, top);
-    SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_TOP, top);
-    SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_LEFT, left - 165);
-    SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_HEIGHT, height);
+  SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_HEIGHT, height);
+  SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_LEFT, left);
+  SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_TOP, top);
+  SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_TOP, top);
+  SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_LEFT, left - 165);
+  SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_HEIGHT, height);
 
-    SetTableRowAttribute(panelHandle, PANEL_DIGTABLE, -1, ATTR_SIZE_MODE,
-        VAL_USE_EXPLICIT_SIZE);
-    SetTableRowAttribute(panelHandle, PANEL_DIGTABLE, -1, ATTR_ROW_HEIGHT,
-        cellHeight);
-    SetTableColumnAttribute(panelHandle, PANEL_DIGTABLE, -1, ATTR_SIZE_MODE,
-        VAL_USE_EXPLICIT_SIZE);
-    SetTableColumnAttribute(panelHandle, PANEL_DIGTABLE, -1, ATTR_COLUMN_WIDTH,
-        cellWidth);
+  SetTableRowAttribute(panelHandle, PANEL_DIGTABLE, -1, ATTR_SIZE_MODE,
+                       VAL_USE_EXPLICIT_SIZE);
+  SetTableRowAttribute(panelHandle, PANEL_DIGTABLE, -1, ATTR_ROW_HEIGHT,
+                       cellHeight);
+  SetTableColumnAttribute(panelHandle, PANEL_DIGTABLE, -1, ATTR_SIZE_MODE,
+                          VAL_USE_EXPLICIT_SIZE);
+  SetTableColumnAttribute(panelHandle, PANEL_DIGTABLE, -1, ATTR_COLUMN_WIDTH,
+                          cellWidth);
 
-    SetTableRowAttribute(panelHandle, PANEL_TBL_DIGNAMES, -1, ATTR_SIZE_MODE,
-        VAL_USE_EXPLICIT_SIZE);
-    SetTableRowAttribute(panelHandle, PANEL_TBL_DIGNAMES, -1, ATTR_ROW_HEIGHT,
-        cellHeight);
+  SetTableRowAttribute(panelHandle, PANEL_TBL_DIGNAMES, -1, ATTR_SIZE_MODE,
+                       VAL_USE_EXPLICIT_SIZE);
+  SetTableRowAttribute(panelHandle, PANEL_TBL_DIGNAMES, -1, ATTR_ROW_HEIGHT,
+                       cellHeight);
 
-    // Move the scan table
-    SetCtrlAttribute(panelHandle, PANEL_SCAN_TABLE, ATTR_TOP, top);
-    SetCtrlAttribute(panelHandle, PANEL_SCAN_TABLE, ATTR_LEFT,
-        left + CELL_WIDTH * NUMBEROFCOLUMNS + TABLE_MARGIN_RIGHT);
+  // Move the scan table
+  SetCtrlAttribute(panelHandle, PANEL_SCAN_TABLE, ATTR_TOP, top);
+  SetCtrlAttribute(panelHandle, PANEL_SCAN_TABLE, ATTR_LEFT,
+                   left + CELL_WIDTH * NUMBEROFCOLUMNS + TABLE_MARGIN_RIGHT);
 
-    SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_NUM_VISIBLE_COLUMNS,
-        NUMBEROFCOLUMNS);
-    SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_NUM_VISIBLE_ROWS,
-        NUMBERDIGITALCHANNELS);
+  SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_NUM_VISIBLE_COLUMNS,
+                   NUMBEROFCOLUMNS);
+  SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_NUM_VISIBLE_ROWS,
+                   NUMBERDIGITALCHANNELS);
 }
 
 /**
@@ -283,198 +280,197 @@ Resizes and moves tables into place.
 @todo move table-related calls from Initialization() to here
 @author David McKay, Kerry Wang
 */
-void BuildTables(void)
-{
-    // Build Time Table
-    SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_TABLE_MODE, VAL_GRID);
-    SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_ENABLE_COLUMN_SIZING, 0);
-    SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_ENABLE_ROW_SIZING, 0);
-    SetTableRowAttribute(panelHandle, PANEL_TIMETABLE, -1, ATTR_PRECISION, 3);
+void BuildTables(void) {
+  // Build Time Table
+  SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_TABLE_MODE, VAL_GRID);
+  SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_ENABLE_COLUMN_SIZING, 0);
+  SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_ENABLE_ROW_SIZING, 0);
+  SetTableRowAttribute(panelHandle, PANEL_TIMETABLE, -1, ATTR_PRECISION, 3);
 
-    InsertTableColumns(panelHandle, PANEL_TIMETABLE, -1, NUMBEROFCOLUMNS - 1,
-        VAL_CELL_NUMERIC);
-    SetTableColumnAttribute(panelHandle, PANEL_TIMETABLE, -1, ATTR_COLUMN_WIDTH,
-        CELL_WIDTH);
-    SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_NUM_VISIBLE_COLUMNS,
-        NUMBEROFCOLUMNS);
+  InsertTableColumns(panelHandle, PANEL_TIMETABLE, -1, NUMBEROFCOLUMNS - 1,
+                     VAL_CELL_NUMERIC);
+  SetTableColumnAttribute(panelHandle, PANEL_TIMETABLE, -1, ATTR_COLUMN_WIDTH,
+                          CELL_WIDTH);
+  SetCtrlAttribute(panelHandle, PANEL_TIMETABLE, ATTR_NUM_VISIBLE_COLUMNS,
+                   NUMBEROFCOLUMNS);
 
-    // Build Analog Table
-    SetTableColumnAttribute(panelHandle, PANEL_TBL_ANAMES, 1, ATTR_CELL_TYPE,
-        VAL_CELL_STRING);
-    SetTableColumnAttribute(panelHandle, PANEL_TBL_ANAMES, 2, ATTR_CELL_TYPE,
-        VAL_CELL_NUMERIC);
-    SetTableColumnAttribute(panelHandle, PANEL_TBL_ANAMES, 2, ATTR_DATA_TYPE,
-        VAL_UNSIGNED_INTEGER);
-    SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_TABLE_MODE, VAL_COLUMN);
+  // Build Analog Table
+  SetTableColumnAttribute(panelHandle, PANEL_TBL_ANAMES, 1, ATTR_CELL_TYPE,
+                          VAL_CELL_STRING);
+  SetTableColumnAttribute(panelHandle, PANEL_TBL_ANAMES, 2, ATTR_CELL_TYPE,
+                          VAL_CELL_NUMERIC);
+  SetTableColumnAttribute(panelHandle, PANEL_TBL_ANAMES, 2, ATTR_DATA_TYPE,
+                          VAL_UNSIGNED_INTEGER);
+  SetCtrlAttribute(panelHandle, PANEL_TBL_ANAMES, ATTR_TABLE_MODE, VAL_COLUMN);
 
-    SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_TABLE_MODE, VAL_GRID);
-    SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_ENABLE_COLUMN_SIZING,
-        0);
-    SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_ENABLE_ROW_SIZING, 0);
-    SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_PRECISION, 3);
+  SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_TABLE_MODE, VAL_GRID);
+  SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_ENABLE_COLUMN_SIZING,
+                   0);
+  SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_ENABLE_ROW_SIZING, 0);
+  SetTableRowAttribute(panelHandle, PANEL_ANALOGTABLE, -1, ATTR_PRECISION, 3);
 
-    InsertTableColumns(panelHandle, PANEL_ANALOGTABLE, -1, NUMBEROFCOLUMNS - 1,
-        VAL_CELL_NUMERIC);
-    InsertTableRows(panelHandle, PANEL_ANALOGTABLE, -1, NUMBERANALOGCHANNELS - 1,
-        VAL_CELL_NUMERIC);
-    InsertTableRows(panelHandle, PANEL_TBL_ANAMES, -1, NUMBERANALOGCHANNELS - 1,
-        VAL_USE_MASTER_CELL_TYPE);
-    InsertTableRows(panelHandle, PANEL_TBL_ANALOGUNITS, -1,
-        NUMBERANALOGCHANNELS - 1, VAL_USE_MASTER_CELL_TYPE);
-    SetAnalogChannels();
+  InsertTableColumns(panelHandle, PANEL_ANALOGTABLE, -1, NUMBEROFCOLUMNS - 1,
+                     VAL_CELL_NUMERIC);
+  InsertTableRows(panelHandle, PANEL_ANALOGTABLE, -1, NUMBERANALOGCHANNELS - 1,
+                  VAL_CELL_NUMERIC);
+  InsertTableRows(panelHandle, PANEL_TBL_ANAMES, -1, NUMBERANALOGCHANNELS - 1,
+                  VAL_USE_MASTER_CELL_TYPE);
+  InsertTableRows(panelHandle, PANEL_TBL_ANALOGUNITS, -1,
+                  NUMBERANALOGCHANNELS - 1, VAL_USE_MASTER_CELL_TYPE);
+  SetAnalogChannels();
 
-    for (int i = 1; i <= NUMBERANALOGCHANNELS; i++) {
-        SetTableCellAttribute(panelHandle, PANEL_TBL_ANAMES, MakePoint(2, i),
-            ATTR_CTRL_VAL, i);
-    }
+  for (int i = 1; i <= NUMBERANALOGCHANNELS; i++) {
+    SetTableCellAttribute(panelHandle, PANEL_TBL_ANAMES, MakePoint(2, i),
+                          ATTR_CTRL_VAL, i);
+  }
 
-    // Build Digital Table
-    SetTableColumnAttribute(panelHandle, PANEL_TBL_DIGNAMES, 1, ATTR_CELL_TYPE,
-        VAL_CELL_STRING);
-    SetTableColumnAttribute(panelHandle, PANEL_TBL_DIGNAMES, 2, ATTR_CELL_TYPE,
-        VAL_CELL_NUMERIC);
-    SetTableColumnAttribute(panelHandle, PANEL_TBL_DIGNAMES, 2, ATTR_DATA_TYPE,
-        VAL_UNSIGNED_INTEGER);
-    SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_TABLE_MODE,
-        VAL_COLUMN);
+  // Build Digital Table
+  SetTableColumnAttribute(panelHandle, PANEL_TBL_DIGNAMES, 1, ATTR_CELL_TYPE,
+                          VAL_CELL_STRING);
+  SetTableColumnAttribute(panelHandle, PANEL_TBL_DIGNAMES, 2, ATTR_CELL_TYPE,
+                          VAL_CELL_NUMERIC);
+  SetTableColumnAttribute(panelHandle, PANEL_TBL_DIGNAMES, 2, ATTR_DATA_TYPE,
+                          VAL_UNSIGNED_INTEGER);
+  SetCtrlAttribute(panelHandle, PANEL_TBL_DIGNAMES, ATTR_TABLE_MODE,
+                   VAL_COLUMN);
 
-    SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_TABLE_MODE, VAL_GRID);
-    SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_ENABLE_COLUMN_SIZING, 0);
-    SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_ENABLE_ROW_SIZING, 0);
-    SetCtrlAttribute(panelHandle, PANEL_DIGTABLE,
-        ATTR_HILITE_ONLY_WHEN_PANEL_ACTIVE, 1);
-    InsertTableColumns(panelHandle, PANEL_DIGTABLE, -1, NUMBEROFCOLUMNS - 1,
-        VAL_USE_MASTER_CELL_TYPE);
-    InsertTableRows(panelHandle, PANEL_DIGTABLE, -1, NUMBERDIGITALCHANNELS - 1,
-        VAL_USE_MASTER_CELL_TYPE);
-    InsertTableRows(panelHandle, PANEL_TBL_DIGNAMES, -1,
-        NUMBERDIGITALCHANNELS - 1, VAL_USE_MASTER_CELL_TYPE);
+  SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_TABLE_MODE, VAL_GRID);
+  SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_ENABLE_COLUMN_SIZING, 0);
+  SetCtrlAttribute(panelHandle, PANEL_DIGTABLE, ATTR_ENABLE_ROW_SIZING, 0);
+  SetCtrlAttribute(panelHandle, PANEL_DIGTABLE,
+                   ATTR_HILITE_ONLY_WHEN_PANEL_ACTIVE, 1);
+  InsertTableColumns(panelHandle, PANEL_DIGTABLE, -1, NUMBEROFCOLUMNS - 1,
+                     VAL_USE_MASTER_CELL_TYPE);
+  InsertTableRows(panelHandle, PANEL_DIGTABLE, -1, NUMBERDIGITALCHANNELS - 1,
+                  VAL_USE_MASTER_CELL_TYPE);
+  InsertTableRows(panelHandle, PANEL_TBL_DIGNAMES, -1,
+                  NUMBERDIGITALCHANNELS - 1, VAL_USE_MASTER_CELL_TYPE);
 
-    for (int i = 1; i <= NUMBERDIGITALCHANNELS; i++) {
-        SetTableCellAttribute(panelHandle, PANEL_TBL_DIGNAMES, MakePoint(2, i),
-            ATTR_CTRL_VAL, i);
-    }
+  for (int i = 1; i <= NUMBERDIGITALCHANNELS; i++) {
+    SetTableCellAttribute(panelHandle, PANEL_TBL_DIGNAMES, MakePoint(2, i),
+                          ATTR_CTRL_VAL, i);
+  }
 
-    // Move and resize tables
-    int analogHeight = CELL_HEIGHT * (NUMBERANALOGCHANNELS) + 6; // +6 to stop table from scrolling
-    int analogTop = 155;
-    int leftpos = 165;
-    int digitalTop = analogTop + analogHeight + 50;
+  // Move and resize tables
+  int analogHeight = CELL_HEIGHT * (NUMBERANALOGCHANNELS) +
+                     6;  // +6 to stop table from scrolling
+  int analogTop = 155;
+  int leftpos = 165;
+  int digitalTop = analogTop + analogHeight + 50;
 
-    ReshapeAnalogTable(analogTop, leftpos,
-        CELL_HEIGHT * (NUMBERANALOGCHANNELS) + 6,
-        CELL_WIDTH * NUMBEROFCOLUMNS);
-    ReshapeDigitalTable(digitalTop, leftpos,
-        CELL_HEIGHT * NUMBERDIGITALCHANNELS + 6,
-        CELL_WIDTH * NUMBEROFCOLUMNS);
+  ReshapeAnalogTable(analogTop, leftpos,
+                     CELL_HEIGHT * (NUMBERANALOGCHANNELS) + 6,
+                     CELL_WIDTH * NUMBEROFCOLUMNS);
+  ReshapeDigitalTable(digitalTop, leftpos,
+                      CELL_HEIGHT * NUMBERDIGITALCHANNELS + 6,
+                      CELL_WIDTH * NUMBEROFCOLUMNS);
 
-    // Right-click menus
-    NewCtrlMenuItem(panelHandle, PANEL_ANALOGTABLE, "Copy", -1, Analog_Cell_Copy,
-        0);
-    NewCtrlMenuItem(panelHandle, PANEL_ANALOGTABLE, "Paste", -1,
-        Analog_Cell_Paste, 0);
-    HideBuiltInCtrlMenuItem(panelHandle, PANEL_ANALOGTABLE,
-        -4); // Hides Sort Command
+  // Right-click menus
+  NewCtrlMenuItem(panelHandle, PANEL_ANALOGTABLE, "Copy", -1, Analog_Cell_Copy,
+                  0);
+  NewCtrlMenuItem(panelHandle, PANEL_ANALOGTABLE, "Paste", -1,
+                  Analog_Cell_Paste, 0);
+  HideBuiltInCtrlMenuItem(panelHandle, PANEL_ANALOGTABLE,
+                          -4);  // Hides Sort Command
 
-    NewCtrlMenuItem(panelHandle, PANEL_DIGTABLE, "Copy", -1, Dig_Cell_Copy,
-        0); // Adds Popup Menu Item "Copy"
-    NewCtrlMenuItem(panelHandle, PANEL_DIGTABLE, "Paste", -1, Dig_Cell_Paste, 0);
-    HideBuiltInCtrlMenuItem(panelHandle, PANEL_DIGTABLE,
-        -4); // Hides Sort Command
+  NewCtrlMenuItem(panelHandle, PANEL_DIGTABLE, "Copy", -1, Dig_Cell_Copy,
+                  0);  // Adds Popup Menu Item "Copy"
+  NewCtrlMenuItem(panelHandle, PANEL_DIGTABLE, "Paste", -1, Dig_Cell_Paste, 0);
+  HideBuiltInCtrlMenuItem(panelHandle, PANEL_DIGTABLE,
+                          -4);  // Hides Sort Command
 
-    NewCtrlMenuItem(panelHandle, PANEL_SCAN_TABLE, "Load Values", -1,
-        Scan_Table_Load, 0);
-    HideBuiltInCtrlMenuItem(panelHandle, PANEL_SCAN_TABLE, -4);
-    return;
+  NewCtrlMenuItem(panelHandle, PANEL_SCAN_TABLE, "Load Values", -1,
+                  Scan_Table_Load, 0);
+  HideBuiltInCtrlMenuItem(panelHandle, PANEL_SCAN_TABLE, -4);
+  return;
 }
 
 /**
 Initializes the GUI.
 */
-void Initialization(void)
-{
-    PScan.Scan_Active = FALSE;
-    PScan.Use_Scan_List = FALSE;
+void Initialization(void) {
+  PScan.Scan_Active = FALSE;
+  PScan.Use_Scan_List = FALSE;
 
-    BuildTables();
+  BuildTables();
 
-    // Change Analog Settings window
-    SetCtrlAttribute(panelHandle2, ANLGPANEL_NUM_ACH_LINE, ATTR_MAX_VALUE,
-        NUMBERANALOGCHANNELS);
-    SetCtrlAttribute(panelHandle2, ANLGPANEL_NUM_ACHANNEL, ATTR_MAX_VALUE,
-        NUMBERANALOGCHANNELS);
+  // Change Analog Settings window
+  SetCtrlAttribute(panelHandle2, ANLGPANEL_NUM_ACH_LINE, ATTR_MAX_VALUE,
+                   NUMBERANALOGCHANNELS);
+  SetCtrlAttribute(panelHandle2, ANLGPANEL_NUM_ACHANNEL, ATTR_MAX_VALUE,
+                   NUMBERANALOGCHANNELS);
 
-    int button_spacing = 60;
-    for (int i = 1; i <= NUMBEROFPAGES; i++) {
-        // Generate labels
-        int newTable = NewCtrl(panelHandle, CTRL_TABLE, "Desc.", 88, 165);
-        SetCtrlAttribute(panelHandle, newTable, ATTR_HEIGHT, 25);
-        SetCtrlAttribute(panelHandle, newTable, ATTR_WIDTH, 686);
-        SetCtrlAttribute(panelHandle, newTable, ATTR_LABEL_TOP, 93);
-        SetCtrlAttribute(panelHandle, newTable, ATTR_LABEL_LEFT, 130);
-        SetCtrlAttribute(panelHandle, newTable, ATTR_TABLE_MODE, VAL_GRID);
-        SetCtrlAttribute(panelHandle, newTable, ATTR_CELL_TYPE, VAL_CELL_STRING);
-        SetCtrlAttribute(panelHandle, newTable, ATTR_COLUMN_LABELS_VISIBLE, 0);
-        SetCtrlAttribute(panelHandle, newTable, ATTR_ROW_LABELS_VISIBLE, 0);
-        SetCtrlAttribute(panelHandle, newTable, ATTR_SCROLL_BARS,
-            VAL_NO_SCROLL_BARS);
-        SetCtrlAttribute(panelHandle, newTable, ATTR_HORIZONTAL_GRID_COLOR,
-            VAL_BLACK);
-        SetCtrlAttribute(panelHandle, newTable, ATTR_VERTICAL_GRID_COLOR,
-            VAL_BLACK);
-        InsertTableRows(panelHandle, newTable, -1, 1, VAL_USE_MASTER_CELL_TYPE);
-        InsertTableColumns(panelHandle, newTable, -1, NUMBEROFCOLUMNS,
-            VAL_USE_MASTER_CELL_TYPE);
-        SetTableColumnAttribute(panelHandle, newTable, -1, ATTR_COLUMN_WIDTH, 40);
-        SetCtrlAttribute(panelHandle, newTable, ATTR_NUM_VISIBLE_COLUMNS,
-            NUMBEROFCOLUMNS);
-        LabelArray[i] = newTable;
+  int button_spacing = 60;
+  for (int i = 1; i <= NUMBEROFPAGES; i++) {
+    // Generate labels
+    int newTable = NewCtrl(panelHandle, CTRL_TABLE, "Desc.", 88, 165);
+    SetCtrlAttribute(panelHandle, newTable, ATTR_HEIGHT, 25);
+    SetCtrlAttribute(panelHandle, newTable, ATTR_WIDTH, 686);
+    SetCtrlAttribute(panelHandle, newTable, ATTR_LABEL_TOP, 93);
+    SetCtrlAttribute(panelHandle, newTable, ATTR_LABEL_LEFT, 130);
+    SetCtrlAttribute(panelHandle, newTable, ATTR_TABLE_MODE, VAL_GRID);
+    SetCtrlAttribute(panelHandle, newTable, ATTR_CELL_TYPE, VAL_CELL_STRING);
+    SetCtrlAttribute(panelHandle, newTable, ATTR_COLUMN_LABELS_VISIBLE, 0);
+    SetCtrlAttribute(panelHandle, newTable, ATTR_ROW_LABELS_VISIBLE, 0);
+    SetCtrlAttribute(panelHandle, newTable, ATTR_SCROLL_BARS,
+                     VAL_NO_SCROLL_BARS);
+    SetCtrlAttribute(panelHandle, newTable, ATTR_HORIZONTAL_GRID_COLOR,
+                     VAL_BLACK);
+    SetCtrlAttribute(panelHandle, newTable, ATTR_VERTICAL_GRID_COLOR,
+                     VAL_BLACK);
+    InsertTableRows(panelHandle, newTable, -1, 1, VAL_USE_MASTER_CELL_TYPE);
+    InsertTableColumns(panelHandle, newTable, -1, NUMBEROFCOLUMNS,
+                       VAL_USE_MASTER_CELL_TYPE);
+    SetTableColumnAttribute(panelHandle, newTable, -1, ATTR_COLUMN_WIDTH, 40);
+    SetCtrlAttribute(panelHandle, newTable, ATTR_NUM_VISIBLE_COLUMNS,
+                     NUMBEROFCOLUMNS);
+    LabelArray[i] = newTable;
 
-        // Generate buttons
-        int newTB = NewCtrl(panelHandle, CTRL_SQUARE_TEXT_BUTTON, "", 30,
-            165 + (i - 1) * button_spacing);
-        SetCtrlAttribute(panelHandle, newTB, ATTR_HEIGHT, 25);
-        SetCtrlAttribute(panelHandle, newTB, ATTR_WIDTH, 45);
-        char buttonName[8];
-        sprintf(buttonName, "Page %d", i);
-        SetCtrlAttribute(panelHandle, newTB, ATTR_ON_TEXT, buttonName);
-        SetCtrlAttribute(panelHandle, newTB, ATTR_OFF_TEXT, buttonName);
-        SetCtrlAttribute(panelHandle, newTB, ATTR_ON_COLOR, 0x66CC99);
-        InstallCtrlCallback(panelHandle, newTB, TOGGLE_CALLBACK, NULL);
-        ButtonArray[i] = newTB;
+    // Generate buttons
+    int newTB = NewCtrl(panelHandle, CTRL_SQUARE_TEXT_BUTTON, "", 30,
+                        165 + (i - 1) * button_spacing);
+    SetCtrlAttribute(panelHandle, newTB, ATTR_HEIGHT, 25);
+    SetCtrlAttribute(panelHandle, newTB, ATTR_WIDTH, 45);
+    char buttonName[8];
+    sprintf(buttonName, "Page %d", i);
+    SetCtrlAttribute(panelHandle, newTB, ATTR_ON_TEXT, buttonName);
+    SetCtrlAttribute(panelHandle, newTB, ATTR_OFF_TEXT, buttonName);
+    SetCtrlAttribute(panelHandle, newTB, ATTR_ON_COLOR, 0x66CC99);
+    InstallCtrlCallback(panelHandle, newTB, TOGGLE_CALLBACK, NULL);
+    ButtonArray[i] = newTB;
 
-        // Generate checkboxes
-        int newCB = NewCtrl(panelHandle, CTRL_CHECK_BOX, "On/Off", 60,
-            165 + (i - 1) * button_spacing);
-        InstallCtrlCallback(panelHandle, newCB, CHECKBOX_CALLBACK, NULL);
-        CheckboxArray[i] = newCB;
-    }
+    // Generate checkboxes
+    int newCB = NewCtrl(panelHandle, CTRL_CHECK_BOX, "On/Off", 60,
+                        165 + (i - 1) * button_spacing);
+    InstallCtrlCallback(panelHandle, newCB, CHECKBOX_CALLBACK, NULL);
+    CheckboxArray[i] = newCB;
+  }
 
-    // Set default button names
-    SetCtrlAttribute(panelHandle, ButtonArray[1], ATTR_ON_TEXT, "MOT");
-    SetCtrlAttribute(panelHandle, ButtonArray[1], ATTR_OFF_TEXT, "MOT");
-    SetCtrlAttribute(panelHandle, ButtonArray[2], ATTR_ON_TEXT, "B-Trap");
-    SetCtrlAttribute(panelHandle, ButtonArray[2], ATTR_OFF_TEXT, "B-Trap");
-    SetCtrlAttribute(panelHandle, ButtonArray[3], ATTR_ON_TEXT, "Xfer");
-    SetCtrlAttribute(panelHandle, ButtonArray[3], ATTR_OFF_TEXT, "Xfer");
-    SetCtrlAttribute(panelHandle, ButtonArray[4], ATTR_ON_TEXT, "Evap");
-    SetCtrlAttribute(panelHandle, ButtonArray[4], ATTR_OFF_TEXT, "Evap");
-    SetCtrlAttribute(panelHandle, ButtonArray[NUMBEROFPAGES], ATTR_ON_TEXT,
-        "Imaging");
-    SetCtrlAttribute(panelHandle, ButtonArray[NUMBEROFPAGES], ATTR_OFF_TEXT,
-        "Imaging");
+  // Set default button names
+  SetCtrlAttribute(panelHandle, ButtonArray[1], ATTR_ON_TEXT, "MOT");
+  SetCtrlAttribute(panelHandle, ButtonArray[1], ATTR_OFF_TEXT, "MOT");
+  SetCtrlAttribute(panelHandle, ButtonArray[2], ATTR_ON_TEXT, "B-Trap");
+  SetCtrlAttribute(panelHandle, ButtonArray[2], ATTR_OFF_TEXT, "B-Trap");
+  SetCtrlAttribute(panelHandle, ButtonArray[3], ATTR_ON_TEXT, "Xfer");
+  SetCtrlAttribute(panelHandle, ButtonArray[3], ATTR_OFF_TEXT, "Xfer");
+  SetCtrlAttribute(panelHandle, ButtonArray[4], ATTR_ON_TEXT, "Evap");
+  SetCtrlAttribute(panelHandle, ButtonArray[4], ATTR_OFF_TEXT, "Evap");
+  SetCtrlAttribute(panelHandle, ButtonArray[NUMBEROFPAGES], ATTR_ON_TEXT,
+                   "Imaging");
+  SetCtrlAttribute(panelHandle, ButtonArray[NUMBEROFPAGES], ATTR_OFF_TEXT,
+                   "Imaging");
 
-    SetCtrlVal(panelHandle, ButtonArray[1], 1);
-    SetCtrlVal(panelHandle, CheckboxArray[1], 1);
-    setVisibleLabel(1);
+  SetCtrlVal(panelHandle, ButtonArray[1], 1);
+  SetCtrlVal(panelHandle, CheckboxArray[1], 1);
+  setVisibleLabel(1);
 
-    SetCtrlAttribute(panelHandle_sub2, SUBPANEL2, ATTR_VISIBLE, 0);
+  SetCtrlAttribute(panelHandle_sub2, SUBPANEL2, ATTR_VISIBLE, 0);
 
-    PScan.Analog.Scan_Step_Size = 1.0;
-    PScan.Analog.Iterations_Per_Step = 1;
-    PScan.Scan_Active = FALSE;
-    DrawNewTable(0);
-    return;
+  PScan.Analog.Scan_Step_Size = 1.0;
+  PScan.Analog.Iterations_Per_Step = 1;
+  PScan.Scan_Active = FALSE;
+  DrawNewTable(0);
+  return;
 }
 
 /**
@@ -482,9 +478,8 @@ Sets which label is visible.
 @param labelNum 1-based index of label to display
 @author Kerry Wang
 */
-void setVisibleLabel(int labelNum)
-{
-    for (int i = 1; i <= NUMBEROFPAGES; i++) {
-        SetCtrlAttribute(panelHandle, LabelArray[i], ATTR_VISIBLE, i == labelNum);
-    }
+void setVisibleLabel(int labelNum) {
+  for (int i = 1; i <= NUMBEROFPAGES; i++) {
+    SetCtrlAttribute(panelHandle, LabelArray[i], ATTR_VISIBLE, i == labelNum);
+  }
 }
