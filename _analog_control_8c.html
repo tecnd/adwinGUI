@@ -67,6 +67,9 @@ $(function() {
   <div class="headertitle"><div class="title">AnalogControl.c File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>This panel is used to set the value of an <a class="el" href="struct_analog_table_values.html" title="Struct that stores instructions for an analog cell.">AnalogTableValues</a> in AnalogTable. It is called by double-clicking on an analog table cell.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;AnalogControl.h&quot;</code><br />
 <code>#include &lt;ansi_c.h&gt;</code><br />
 <code>#include &lt;toolbox.h&gt;</code><br />
@@ -78,17 +81,22 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:adf6b38ed06f769d518e84dab757c009f"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_analog_control_8c.html#adf6b38ed06f769d518e84dab757c009f">CMD_SETANALAOG_CALLBACK</a> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memdesc:adf6b38ed06f769d518e84dab757c009f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set button callback. On commit, reads data off of the panel controls and update the entry in the AnalogTable array.  <a href="_analog_control_8c.html#adf6b38ed06f769d518e84dab757c009f">More...</a><br /></td></tr>
 <tr class="separator:adf6b38ed06f769d518e84dab757c009f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a121c619cfc95790a032cf4b8af63cd25"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_analog_control_8c.html#a121c619cfc95790a032cf4b8af63cd25">SetControlPanel</a> (void)</td></tr>
+<tr class="memitem:a121c619cfc95790a032cf4b8af63cd25"><td class="memItemLeft" align="right" valign="top"><a id="a121c619cfc95790a032cf4b8af63cd25" name="a121c619cfc95790a032cf4b8af63cd25"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetControlPanel</b> (void)</td></tr>
+<tr class="memdesc:a121c619cfc95790a032cf4b8af63cd25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill in indicators on the panel. <br /></td></tr>
 <tr class="separator:a121c619cfc95790a032cf4b8af63cd25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a861f34a543f601ddf73c3379741b36be"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_analog_control_8c.html#a861f34a543f601ddf73c3379741b36be">RING_CTRLMODE_CALLBACK</a> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memdesc:a861f34a543f601ddf73c3379741b36be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Control Mode ring control. Cycles between the different control modes and changes the timescale of the ramp to an appropriate value for the mode.  <a href="_analog_control_8c.html#a861f34a543f601ddf73c3379741b36be">More...</a><br /></td></tr>
 <tr class="separator:a861f34a543f601ddf73c3379741b36be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14a89837181990263789d3ad68086b13"><td class="memItemLeft" align="right" valign="top"><a id="a14a89837181990263789d3ad68086b13" name="a14a89837181990263789d3ad68086b13"></a>
 int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>CMD_ANCANCEL_CALLBACK</b> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memdesc:a14a89837181990263789d3ad68086b13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Cancel button. <br /></td></tr>
 <tr class="separator:a14a89837181990263789d3ad68086b13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >This panel is used to set the value of an analog control. It is called by double-clicking on an analog table cell. Clicking on Set Value, reads the values from the control and stores them in the AnalogTable. </p>
+<div class="textblock"><p >This panel is used to set the value of an <a class="el" href="struct_analog_table_values.html" title="Struct that stores instructions for an analog cell.">AnalogTableValues</a> in AnalogTable. It is called by double-clicking on an analog table cell. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="adf6b38ed06f769d518e84dab757c009f" name="adf6b38ed06f769d518e84dab757c009f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adf6b38ed06f769d518e84dab757c009f">&#9670;&nbsp;</a></span>CMD_SETANALAOG_CALLBACK()</h2>
@@ -139,7 +147,9 @@ int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>CMD_ANCANC
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Panel button to set analog data. Reads data off of the panel controls, ringbox and numberboxes. Writes data to the AnalogTable array NOT DONE: IF TIMESCALE IS TOO LONG THEN OVERWRITE THE FOLLOWING CELL </p>
+
+<p>Set button callback. On commit, reads data off of the panel controls and update the entry in the AnalogTable array. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>If timescale exceeds the time column, update the following cells as well until total timescale is used. </dd></dl>
 
 </div>
 </div>
@@ -192,26 +202,9 @@ int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>CMD_ANCANC
         </tr>
       </table>
 </div><div class="memdoc">
-<p >activated when using the control mode ring control. Cycles between the different control modes and changes the timescale of the ramp to an appropriate value for the mode. If adding another function, just add another case, and modify the ring control on the AnalogControl.uir file, and add function handling in CalcFcnVal() in <a class="el" href="_g_u_i_design_8c.html">GUIDesign.c</a> </p>
 
-</div>
-</div>
-<a id="a121c619cfc95790a032cf4b8af63cd25" name="a121c619cfc95790a032cf4b8af63cd25"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a121c619cfc95790a032cf4b8af63cd25">&#9670;&nbsp;</a></span>SetControlPanel()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void SetControlPanel </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >Reads the value of the last active column before this one and displays it on the panel. </p>
+<p>Callback for the Control Mode ring control. Cycles between the different control modes and changes the timescale of the ramp to an appropriate value for the mode. </p>
+<p >If adding another function, just add another case, modify the ring control on the AnalogControl.uir file, and add function handling in CalcFcnVal() in <a class="el" href="_g_u_i_design_8c.html" title="Contains functions and callbacks for primary GUI. Handles data processing and communication with the ...">GUIDesign.c</a> </p>
 
 </div>
 </div>

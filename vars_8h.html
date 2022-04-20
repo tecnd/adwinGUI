@@ -85,6 +85,7 @@ Data Structures</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct that stores configuration and metadata for an analog channel.  <a href="struct_analog_channel_properties.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_digital_channel_properties.html">DigitalChannelProperties</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct that stores configuration and metadata for a digital channel.  <a href="struct_digital_channel_properties.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_analog_scan_parameters.html">AnalogScanParameters</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -174,11 +175,12 @@ Variables</h2></td></tr>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>commentsHandle</b></td></tr>
 <tr class="memdesc:a2865abeff262b79902b1b300e51b98c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Panel handle for the comments box. <br /></td></tr>
 <tr class="separator:a2865abeff262b79902b1b300e51b98c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a882d8cb84c9299f544f0c3cbc567ac91"><td class="memItemLeft" align="right" valign="top"><a id="a882d8cb84c9299f544f0c3cbc567ac91" name="a882d8cb84c9299f544f0c3cbc567ac91"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>panelHandle_sub2</b></td></tr>
+<tr class="memitem:a882d8cb84c9299f544f0c3cbc567ac91"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vars_8h.html#a882d8cb84c9299f544f0c3cbc567ac91">panelHandle_sub2</a></td></tr>
+<tr class="memdesc:a882d8cb84c9299f544f0c3cbc567ac91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Panel handle for the scan status window.  <a href="vars_8h.html#a882d8cb84c9299f544f0c3cbc567ac91">More...</a><br /></td></tr>
 <tr class="separator:a882d8cb84c9299f544f0c3cbc567ac91"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a620e8d2faccbd753e89a2b458eb6102c"><td class="memItemLeft" align="right" valign="top"><a id="a620e8d2faccbd753e89a2b458eb6102c" name="a620e8d2faccbd753e89a2b458eb6102c"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>menuHandle</b></td></tr>
+<tr class="memdesc:a620e8d2faccbd753e89a2b458eb6102c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle for the menu bar. <br /></td></tr>
 <tr class="separator:a620e8d2faccbd753e89a2b458eb6102c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c23d2347ae29ee9a05a4c86c81f938b"><td class="memItemLeft" align="right" valign="top"><a id="a8c23d2347ae29ee9a05a4c86c81f938b" name="a8c23d2347ae29ee9a05a4c86c81f938b"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>currentx</b></td></tr>
@@ -214,10 +216,8 @@ struct <a class="el" href="struct_analog_channel_properties.html">AnalogChannelP
 <tr class="separator:aa3fe0b4b77ccd8020e424cfb9d3a4105"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b0fd802a7630d0031ec5c2bf47d353d"><td class="memItemLeft" align="right" valign="top"><a id="a8b0fd802a7630d0031ec5c2bf47d353d" name="a8b0fd802a7630d0031ec5c2bf47d353d"></a>
 struct <a class="el" href="struct_digital_channel_properties.html">DigitalChannelProperties</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DChName</b> [<a class="el" href="vars_8h.html#a87e228e696211f371ac0c444421585a4">MAXDIGITAL</a>]</td></tr>
+<tr class="memdesc:a8b0fd802a7630d0031ec5c2bf47d353d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array holding the channel properties for each digital channel. <br /></td></tr>
 <tr class="separator:a8b0fd802a7630d0031ec5c2bf47d353d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a126bf98bfc52ede086a05118aeb63dea"><td class="memItemLeft" align="right" valign="top"><a id="a126bf98bfc52ede086a05118aeb63dea" name="a126bf98bfc52ede086a05118aeb63dea"></a>
-short&#160;</td><td class="memItemRight" valign="bottom"><b>processnum</b></td></tr>
-<tr class="separator:a126bf98bfc52ede086a05118aeb63dea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a559a9c501bbab79cadc9089f52958009"><td class="memItemLeft" align="right" valign="top"><a id="a559a9c501bbab79cadc9089f52958009" name="a559a9c501bbab79cadc9089f52958009"></a>
 struct <a class="el" href="struct_scan_parameters.html">ScanParameters</a>&#160;</td><td class="memItemRight" valign="bottom"><b>PScan</b></td></tr>
 <tr class="separator:a559a9c501bbab79cadc9089f52958009"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -230,7 +230,8 @@ struct <a class="el" href="struct_scan_buff.html">ScanBuff</a>&#160;</td><td cla
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Contains global macros, variables, typedefs, and struct definitions. </p>
-<p >Some arrays have +1 added to their size because LabWindows is 1-indexed. In those cases, the 0-th index is undefined and should not be used. </p>
+<p >Some arrays have +1 added to their size because LabWindows is 1-indexed. In those cases, the 0-th index is undefined and should not be used.</p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>Figure out what the scan structs do and write documentation </dd></dl>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="afb8839b1879451ef6dc557f790637433" name="afb8839b1879451ef6dc557f790637433"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afb8839b1879451ef6dc557f790637433">&#9670;&nbsp;</a></span>MAXANALOG</h2>
@@ -280,7 +281,7 @@ struct <a class="el" href="struct_scan_buff.html">ScanBuff</a>&#160;</td><td cla
 </div><div class="memdoc">
 
 <p>Panel handle for the main panel. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>Rename to be more descriptive and prevent variable shadowing </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>Rename to be more descriptive and prevent variable shadowing </dd></dl>
 
 </div>
 </div>
@@ -297,7 +298,7 @@ struct <a class="el" href="struct_scan_buff.html">ScanBuff</a>&#160;</td><td cla
 </div><div class="memdoc">
 
 <p>Panel handle for the analog settings window. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>Rename to be more descriptive </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd>Rename to be more descriptive </dd></dl>
 
 </div>
 </div>
@@ -314,7 +315,7 @@ struct <a class="el" href="struct_scan_buff.html">ScanBuff</a>&#160;</td><td cla
 </div><div class="memdoc">
 
 <p>Panel handle for the digital settings window. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd>Rename to be more descriptive </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd>Rename to be more descriptive </dd></dl>
 
 </div>
 </div>
@@ -331,7 +332,7 @@ struct <a class="el" href="struct_scan_buff.html">ScanBuff</a>&#160;</td><td cla
 </div><div class="memdoc">
 
 <p>Panel handle for the analog cell editing window. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd>Rename to be more descriptive </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>Rename to be more descriptive </dd></dl>
 
 </div>
 </div>
@@ -348,7 +349,7 @@ struct <a class="el" href="struct_scan_buff.html">ScanBuff</a>&#160;</td><td cla
 </div><div class="memdoc">
 
 <p>Panel handle for the scan window. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>Rename to be more descriptive </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Rename to be more descriptive </dd></dl>
 
 </div>
 </div>
@@ -365,7 +366,24 @@ struct <a class="el" href="struct_scan_buff.html">ScanBuff</a>&#160;</td><td cla
 </div><div class="memdoc">
 
 <p>Panel handle for the scan table loader window. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Rename to be more descriptive </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Rename to be more descriptive </dd></dl>
+
+</div>
+</div>
+<a id="a882d8cb84c9299f544f0c3cbc567ac91" name="a882d8cb84c9299f544f0c3cbc567ac91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a882d8cb84c9299f544f0c3cbc567ac91">&#9670;&nbsp;</a></span>panelHandle_sub2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int panelHandle_sub2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Panel handle for the scan status window. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>Rename to be more descriptive </dd></dl>
 
 </div>
 </div>

@@ -67,6 +67,9 @@ $(function() {
   <div class="headertitle"><div class="title">DigitalSettings.c File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Sets the <a class="el" href="struct_digital_channel_properties.html" title="Struct that stores configuration and metadata for a digital channel.">DigitalChannelProperties</a> for each digital line.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;DigitalSettings.h&quot;</code><br />
 <code>#include &lt;ansi_c.h&gt;</code><br />
 <code>#include &lt;userint.h&gt;</code><br />
@@ -76,256 +79,30 @@ $(function() {
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a058f3a760f9d9189b4829167f6dbd52e"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_digital_settings_8c.html#a058f3a760f9d9189b4829167f6dbd52e">NUM_DIG_LINE_CALLBACK</a> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memitem:a058f3a760f9d9189b4829167f6dbd52e"><td class="memItemLeft" align="right" valign="top"><a id="a058f3a760f9d9189b4829167f6dbd52e" name="a058f3a760f9d9189b4829167f6dbd52e"></a>
+int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>NUM_DIG_LINE_CALLBACK</b> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memdesc:a058f3a760f9d9189b4829167f6dbd52e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Line number box. Updates the displayed information as we change the line number. <br /></td></tr>
 <tr class="separator:a058f3a760f9d9189b4829167f6dbd52e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a029418c51ab0c8a7ffa6aa4961e39ac3"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_digital_settings_8c.html#a029418c51ab0c8a7ffa6aa4961e39ac3">CMD_DIGALLOWCHANGE_CALLBACK</a> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memitem:a029418c51ab0c8a7ffa6aa4961e39ac3"><td class="memItemLeft" align="right" valign="top"><a id="a029418c51ab0c8a7ffa6aa4961e39ac3" name="a029418c51ab0c8a7ffa6aa4961e39ac3"></a>
+int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>CMD_DIGALLOWCHANGE_CALLBACK</b> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memdesc:a029418c51ab0c8a7ffa6aa4961e39ac3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Allow Changes button. Switches components from Indicator to Hot so changes can be made. Adds flag that values have been changed so ADwin array is rebuilt on next run. <br /></td></tr>
 <tr class="separator:a029418c51ab0c8a7ffa6aa4961e39ac3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add3867f5e7fc25e6aa8899b53ae9f198"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_digital_settings_8c.html#add3867f5e7fc25e6aa8899b53ae9f198">CMD_DIGSETCHANGES_CALLBACK</a> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memitem:add3867f5e7fc25e6aa8899b53ae9f198"><td class="memItemLeft" align="right" valign="top"><a id="add3867f5e7fc25e6aa8899b53ae9f198" name="add3867f5e7fc25e6aa8899b53ae9f198"></a>
+int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>CMD_DIGSETCHANGES_CALLBACK</b> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memdesc:add3867f5e7fc25e6aa8899b53ae9f198"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Set Changes button. Takes inputs from the panel and updates the relevant DigitalChaannelProperties in DChName. <br /></td></tr>
 <tr class="separator:add3867f5e7fc25e6aa8899b53ae9f198"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9774a9809fa3bd98612f7cb2c77c758"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_digital_settings_8c.html#ad9774a9809fa3bd98612f7cb2c77c758">CMD_DONEDIG_CALLBACK</a> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memitem:ad9774a9809fa3bd98612f7cb2c77c758"><td class="memItemLeft" align="right" valign="top"><a id="ad9774a9809fa3bd98612f7cb2c77c758" name="ad9774a9809fa3bd98612f7cb2c77c758"></a>
+int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>CMD_DONEDIG_CALLBACK</b> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memdesc:ad9774a9809fa3bd98612f7cb2c77c758"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Done button. Sets all controls to Indicator and hides the panel. <br /></td></tr>
 <tr class="separator:ad9774a9809fa3bd98612f7cb2c77c758"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ed4029b57521ec8d4d082f5d2da0a5b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_digital_settings_8c.html#a6ed4029b57521ec8d4d082f5d2da0a5b">SetDigitalChannels</a> (void)</td></tr>
+<tr class="memitem:a6ed4029b57521ec8d4d082f5d2da0a5b"><td class="memItemLeft" align="right" valign="top"><a id="a6ed4029b57521ec8d4d082f5d2da0a5b" name="a6ed4029b57521ec8d4d082f5d2da0a5b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetDigitalChannels</b> (void)</td></tr>
+<tr class="memdesc:a6ed4029b57521ec8d4d082f5d2da0a5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the main panel to display new values in DChName. <br /></td></tr>
 <tr class="separator:a6ed4029b57521ec8d4d082f5d2da0a5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >Configure the digital lines. For each line we configure:</p><ul>
-<li>chnum : channel number (1-32 on first card, 101-132 on second card)</li>
-<li>chname : name of the channel.</li>
-<li>resettolow : Not implemented </li>
-</ul>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a id="a029418c51ab0c8a7ffa6aa4961e39ac3" name="a029418c51ab0c8a7ffa6aa4961e39ac3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a029418c51ab0c8a7ffa6aa4961e39ac3">&#9670;&nbsp;</a></span>CMD_DIGALLOWCHANGE_CALLBACK()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int CVICALLBACK CMD_DIGALLOWCHANGE_CALLBACK </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>panel</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>control</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>event</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>callbackData</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>eventData1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>eventData2</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >Button to allow changes to be made to textboxes. Changes textbox from dimmed (indicator) to activate (hot) mode </p>
-
-</div>
-</div>
-<a id="add3867f5e7fc25e6aa8899b53ae9f198" name="add3867f5e7fc25e6aa8899b53ae9f198"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#add3867f5e7fc25e6aa8899b53ae9f198">&#9670;&nbsp;</a></span>CMD_DIGSETCHANGES_CALLBACK()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int CVICALLBACK CMD_DIGSETCHANGES_CALLBACK </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>panel</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>control</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>event</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>callbackData</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>eventData1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>eventData2</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >Set the digital line information DChName, based on information in text boxes. </p>
-
-</div>
-</div>
-<a id="ad9774a9809fa3bd98612f7cb2c77c758" name="ad9774a9809fa3bd98612f7cb2c77c758"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9774a9809fa3bd98612f7cb2c77c758">&#9670;&nbsp;</a></span>CMD_DONEDIG_CALLBACK()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int CVICALLBACK CMD_DONEDIG_CALLBACK </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>panel</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>control</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>event</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>callbackData</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>eventData1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>eventData2</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >Turn control boxes into inactive (indicator) mode and hide the panel </p>
-
-</div>
-</div>
-<a id="a058f3a760f9d9189b4829167f6dbd52e" name="a058f3a760f9d9189b4829167f6dbd52e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a058f3a760f9d9189b4829167f6dbd52e">&#9670;&nbsp;</a></span>NUM_DIG_LINE_CALLBACK()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int CVICALLBACK NUM_DIG_LINE_CALLBACK </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>panel</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>control</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>event</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>callbackData</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>eventData1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>eventData2</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >Numeric control to update information displayed on the digital settings panel, based on the current line </p>
-
-</div>
-</div>
-<a id="a6ed4029b57521ec8d4d082f5d2da0a5b" name="a6ed4029b57521ec8d4d082f5d2da0a5b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ed4029b57521ec8d4d082f5d2da0a5b">&#9670;&nbsp;</a></span>SetDigitalChannels()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void SetDigitalChannels </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >Set the digital channel list (on main panel) with the information contained in the DChName array </p>
-
-</div>
-</div>
-</div><!-- contents -->
+<div class="textblock"><p >Sets the <a class="el" href="struct_digital_channel_properties.html" title="Struct that stores configuration and metadata for a digital channel.">DigitalChannelProperties</a> for each digital line. </p>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2

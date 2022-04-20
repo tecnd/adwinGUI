@@ -7,5 +7,6 @@ var searchData=
   ['panelhandle4_4',['panelHandle4',['../vars_8h.html#a9a683e9ff5020b31d768e32e4d27f388',1,'vars.h']]],
   ['panelhandle7_5',['panelHandle7',['../vars_8h.html#a353cc52ca441b12de4c88b608c07bec9',1,'vars.h']]],
   ['panelhandle8_6',['panelHandle8',['../vars_8h.html#a17c57136db1c0a4f40b27fc5fdfb65f2',1,'vars.h']]],
-  ['pastecolumn_5fcallback_7',['PASTECOLUMN_CALLBACK',['../_g_u_i_design_8c.html#af550572dcd7586b487978e6c231c35f5',1,'GUIDesign.c']]]
+  ['panelhandle_5fsub2_7',['panelHandle_sub2',['../vars_8h.html#a882d8cb84c9299f544f0c3cbc567ac91',1,'vars.h']]],
+  ['pastecolumn_5fcallback_8',['PASTECOLUMN_CALLBACK',['../_g_u_i_design_8c.html#af550572dcd7586b487978e6c231c35f5',1,'GUIDesign.c']]]
 ];
