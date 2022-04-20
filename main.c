@@ -108,10 +108,8 @@ inserted into other pages.
 
 #include <ansi_c.h>
 #include <cvirte.h>
-#include <time.h>
 #include <userint.h>
 
-#include "Adwin.h"
 #include "AnalogSettings.h"
 #include "AnalogSettings2.h"
 #include "DigitalSettings2.h"
@@ -123,7 +121,7 @@ inserted into other pages.
 void Initialization(void);
 
 /**
-Entry point. Handles initializing data arrays and GUI elements.
+@brief Entry point. Handles initializing data arrays and GUI elements.
 */
 int main(int argc, char* argv[]) {
   if (InitCVIRTE(0, argv, 0) == 0) return -1; /* out of memory */
@@ -181,7 +179,7 @@ int main(int argc, char* argv[]) {
 }
 
 /**
-Resizes and moves analog table, analog channel names table, and unit name table.
+@brief Resizes and moves analog table, analog channel names table, and unit name table.
 @param top Pixels from the top edge
 @param left Pixels from the left edge
 @param height Total pixel height of analog table
@@ -232,7 +230,7 @@ void ReshapeAnalogTable(int top, int left, int height, int width) {
 }
 
 /**
-Resizes and moves digital table, digital channel names table, and scan table.
+@brief Resizes and moves digital table, digital channel names table, and scan table.
 @param top Pixels from the top edge
 @param left Pixels from the left edge
 @param height Total pixel height of digital table
@@ -276,8 +274,7 @@ void ReshapeDigitalTable(int top, int left, int height, int width) {
 }
 
 /**
-Resizes and moves tables into place.
-@todo move table-related calls from Initialization() to here
+@brief Resizes and moves tables into place.
 @author David McKay, Kerry Wang
 */
 void BuildTables(void) {
@@ -352,8 +349,7 @@ void BuildTables(void) {
   }
 
   // Move and resize tables
-  int analogHeight = CELL_HEIGHT * (NUMBERANALOGCHANNELS) +
-                     6;  // +6 to stop table from scrolling
+  int analogHeight = CELL_HEIGHT * (NUMBERANALOGCHANNELS) + 6; // +6 to stop table from scrolling
   int analogTop = 155;
   int leftpos = 165;
   int digitalTop = analogTop + analogHeight + 50;
@@ -371,13 +367,13 @@ void BuildTables(void) {
   NewCtrlMenuItem(panelHandle, PANEL_ANALOGTABLE, "Paste", -1,
                   Analog_Cell_Paste, 0);
   HideBuiltInCtrlMenuItem(panelHandle, PANEL_ANALOGTABLE,
-                          -4);  // Hides Sort Command
+                          -4); // Hides Sort Command
 
   NewCtrlMenuItem(panelHandle, PANEL_DIGTABLE, "Copy", -1, Dig_Cell_Copy,
-                  0);  // Adds Popup Menu Item "Copy"
+                  0); // Adds Popup Menu Item "Copy"
   NewCtrlMenuItem(panelHandle, PANEL_DIGTABLE, "Paste", -1, Dig_Cell_Paste, 0);
   HideBuiltInCtrlMenuItem(panelHandle, PANEL_DIGTABLE,
-                          -4);  // Hides Sort Command
+                          -4); // Hides Sort Command
 
   NewCtrlMenuItem(panelHandle, PANEL_SCAN_TABLE, "Load Values", -1,
                   Scan_Table_Load, 0);
@@ -386,7 +382,7 @@ void BuildTables(void) {
 }
 
 /**
-Initializes the GUI.
+@brief Initializes the GUI.
 */
 void Initialization(void) {
   PScan.Scan_Active = FALSE;
@@ -474,7 +470,7 @@ void Initialization(void) {
 }
 
 /**
-Sets which label is visible.
+@brief Sets which label is visible.
 @param labelNum 1-based index of label to display
 @author Kerry Wang
 */

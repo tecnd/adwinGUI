@@ -1,14 +1,15 @@
 /**
 @file Comments.c
-Contains code for the comments window.
+@brief Contains code for the comments window.
 @author Kerry Wang
 */
 #include "Comments.h"
 
 #include "vars.h"
 
-char* string;
-
+/**
+@brief Panel event handler.
+*/
 int CVICALLBACK COMMENTS_CALLBACK(int panel, int event, void* callbackData,
     int eventData1, int eventData2)
 {
