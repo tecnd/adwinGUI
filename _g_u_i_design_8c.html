@@ -92,11 +92,13 @@ Functions</h2></td></tr>
 <tr class="memitem:a2f72f0fb9b42b3f0efa058b475350d9b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a2f72f0fb9b42b3f0efa058b475350d9b">BuildUpdateList</a> (double TMatrix[500], struct <a class="el" href="struct_analog_table_values.html">AnalogTableValues</a> AMat[<a class="el" href="vars_8h.html#ad951eda3c054aa95d4b874b3a6386e01">NUMBERANALOGCHANNELS</a>+1][500], int DMat[<a class="el" href="vars_8h.html#a3893c6ef53e7ef32b671624a39b0853a">NUMBERDIGITALCHANNELS</a>+1][500], int numtimes)</td></tr>
 <tr class="memdesc:a2f72f0fb9b42b3f0efa058b475350d9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds the data from the arrays into ADwin-friendly format.  <a href="_g_u_i_design_8c.html#a2f72f0fb9b42b3f0efa058b475350d9b">More...</a><br /></td></tr>
 <tr class="separator:a2f72f0fb9b42b3f0efa058b475350d9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11ba2412afbbd690958e4df8d7b83d20"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a11ba2412afbbd690958e4df8d7b83d20">OptimizeTimeLoop</a> (int *, int)</td></tr>
-<tr class="separator:a11ba2412afbbd690958e4df8d7b83d20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac01a1dab7f45025b08d9090a0e661233"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#ac01a1dab7f45025b08d9090a0e661233">OptimizeTimeLoop</a> (int *UpdateNum, int count)</td></tr>
+<tr class="memdesc:ac01a1dab7f45025b08d9090a0e661233"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compresses the UpdateNum list by replacing long strings of 0's with a single negative number representing the amount replaced. i.e. if we see 2000 0's in a row, replace with -2000 instead.  <a href="_g_u_i_design_8c.html#ac01a1dab7f45025b08d9090a0e661233">More...</a><br /></td></tr>
+<tr class="separator:ac01a1dab7f45025b08d9090a0e661233"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a771cb887bed3ad66bff22bdad595d894"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a771cb887bed3ad66bff22bdad595d894">ShiftColumn3</a> (int, int, int)</td></tr>
 <tr class="separator:a771cb887bed3ad66bff22bdad595d894"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc5759b6231a76640763063a6d85d054"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#afc5759b6231a76640763063a6d85d054">RunOnce</a> (void)</td></tr>
+<tr class="memdesc:afc5759b6231a76640763063a6d85d054"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flattens the time, analog, and digital tables from multiple "pages" to a single long page. Passes the tables to <a class="el" href="_g_u_i_design_8c.html#a2f72f0fb9b42b3f0efa058b475350d9b" title="Builds the data from the arrays into ADwin-friendly format.">BuildUpdateList()</a> to send to the ADwin.  <a href="_g_u_i_design_8c.html#afc5759b6231a76640763063a6d85d054">More...</a><br /></td></tr>
 <tr class="separator:afc5759b6231a76640763063a6d85d054"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9fad75a00bef8a3089fe7f5372239fa"><td class="memItemLeft" align="right" valign="top"><a id="aa9fad75a00bef8a3089fe7f5372239fa" name="aa9fad75a00bef8a3089fe7f5372239fa"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>SaveArrays</b> (char *, int)</td></tr>
@@ -107,40 +109,51 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>LoadArrays</b> (char 
 <tr class="memitem:a97561ad71a324731d9928af878e32ed4"><td class="memItemLeft" align="right" valign="top"><a id="a97561ad71a324731d9928af878e32ed4" name="a97561ad71a324731d9928af878e32ed4"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>ExportPanel</b> (char *, int)</td></tr>
 <tr class="separator:a97561ad71a324731d9928af878e32ed4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12aa5609b0a230947338f2504bbd7111"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a12aa5609b0a230947338f2504bbd7111">CalcFcnValue</a> (int, double, double, double, double, double)</td></tr>
-<tr class="separator:a12aa5609b0a230947338f2504bbd7111"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ebe8e978a5e857b0c0ca79331ccbb27"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a8ebe8e978a5e857b0c0ca79331ccbb27">CalcFcnValue</a> (int fcn, double Vinit, double Vfinal, double timescale, double telapsed, double celltime)</td></tr>
+<tr class="memdesc:a8ebe8e978a5e857b0c0ca79331ccbb27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given an analog function setting and a time, calculate the analog value.  <a href="_g_u_i_design_8c.html#a8ebe8e978a5e857b0c0ca79331ccbb27">More...</a><br /></td></tr>
+<tr class="separator:a8ebe8e978a5e857b0c0ca79331ccbb27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af39618179bb10e5ee39ee2f228cc8ac0"><td class="memItemLeft" align="right" valign="top"><a id="af39618179bb10e5ee39ee2f228cc8ac0" name="af39618179bb10e5ee39ee2f228cc8ac0"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>CheckIfWithinLimits</b> (double, int)</td></tr>
 <tr class="separator:af39618179bb10e5ee39ee2f228cc8ac0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab52b61f52a8e4dae7e4d4ec21a0edcdb"><td class="memItemLeft" align="right" valign="top"><a id="ab52b61f52a8e4dae7e4d4ec21a0edcdb" name="ab52b61f52a8e4dae7e4d4ec21a0edcdb"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SaveLastGuiSettings</b> (void)</td></tr>
-<tr class="separator:ab52b61f52a8e4dae7e4d4ec21a0edcdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a695c9adbffd54e512b0e03c40ce9b4bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a695c9adbffd54e512b0e03c40ce9b4bd">UpdateScanValue</a> (int)</td></tr>
-<tr class="separator:a695c9adbffd54e512b0e03c40ce9b4bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63869a8f922bd62894720eb99125fa70"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a63869a8f922bd62894720eb99125fa70">UpdateScanValue</a> (int Reset)</td></tr>
+<tr class="memdesc:a63869a8f922bd62894720eb99125fa70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Black magic.  <a href="_g_u_i_design_8c.html#a63869a8f922bd62894720eb99125fa70">More...</a><br /></td></tr>
+<tr class="separator:a63869a8f922bd62894720eb99125fa70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a831649aa01c304ceeb46426981dfc9c2"><td class="memItemLeft" align="right" valign="top"><a id="a831649aa01c304ceeb46426981dfc9c2" name="a831649aa01c304ceeb46426981dfc9c2"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>ExportScanBuffer</b> (void)</td></tr>
 <tr class="separator:a831649aa01c304ceeb46426981dfc9c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef9cd007d78ddc646604b50c003d1e29"><td class="memItemLeft" align="right" valign="top">BOOL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#aef9cd007d78ddc646604b50c003d1e29">IsPageChecked</a> (int page)</td></tr>
 <tr class="memdesc:aef9cd007d78ddc646604b50c003d1e29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns if the page is checked.  <a href="_g_u_i_design_8c.html#aef9cd007d78ddc646604b50c003d1e29">More...</a><br /></td></tr>
 <tr class="separator:aef9cd007d78ddc646604b50c003d1e29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0afae188565a4cb3ad38dabe6b90ed11"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a0afae188565a4cb3ad38dabe6b90ed11">CMD_RUN_CALLBACK</a> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memitem:a0afae188565a4cb3ad38dabe6b90ed11"><td class="memItemLeft" align="right" valign="top"><a id="a0afae188565a4cb3ad38dabe6b90ed11" name="a0afae188565a4cb3ad38dabe6b90ed11"></a>
+int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>CMD_RUN_CALLBACK</b> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memdesc:a0afae188565a4cb3ad38dabe6b90ed11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Run button. Disables scanning and activates the timer if Repeat is enabled. Calls <a class="el" href="_g_u_i_design_8c.html#afc5759b6231a76640763063a6d85d054" title="Flattens the time, analog, and digital tables from multiple &quot;pages&quot; to a single long page....">RunOnce()</a> to run the ADwin. <br /></td></tr>
 <tr class="separator:a0afae188565a4cb3ad38dabe6b90ed11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72eab897f9261404259eb19c5dad54da"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a72eab897f9261404259eb19c5dad54da">CMD_SCAN_CALLBACK</a> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memdesc:a72eab897f9261404259eb19c5dad54da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Scan button. Pretty much a copy of <a class="el" href="_g_u_i_design_8c.html#a0afae188565a4cb3ad38dabe6b90ed11" title="Callback for the Run button. Disables scanning and activates the timer if Repeat is enabled....">CMD_RUN_CALLBACK()</a>, but activates the Scan flag and resets the scan counter.  <a href="_g_u_i_design_8c.html#a72eab897f9261404259eb19c5dad54da">More...</a><br /></td></tr>
 <tr class="separator:a72eab897f9261404259eb19c5dad54da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5930ab6f728ff381d048504279014ee1"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a5930ab6f728ff381d048504279014ee1">TIMER_CALLBACK</a> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memdesc:a5930ab6f728ff381d048504279014ee1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the timer object. When the timer's countdown reaches 0, disable itself and call <a class="el" href="_g_u_i_design_8c.html#afc5759b6231a76640763063a6d85d054" title="Flattens the time, analog, and digital tables from multiple &quot;pages&quot; to a single long page....">RunOnce()</a> again.  <a href="_g_u_i_design_8c.html#a5930ab6f728ff381d048504279014ee1">More...</a><br /></td></tr>
 <tr class="separator:a5930ab6f728ff381d048504279014ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1fc77427b09aa7c9e9f01c98e33c1de6"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a1fc77427b09aa7c9e9f01c98e33c1de6">CMDSTOP_CALLBACK</a> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memdesc:a1fc77427b09aa7c9e9f01c98e33c1de6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Stop button. Turns off the timer object and the repeat button.  <a href="_g_u_i_design_8c.html#a1fc77427b09aa7c9e9f01c98e33c1de6">More...</a><br /></td></tr>
 <tr class="separator:a1fc77427b09aa7c9e9f01c98e33c1de6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb2eb8ec1d703539637b101a4c278862"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#aeb2eb8ec1d703539637b101a4c278862">LoadSettings</a> (void)</td></tr>
+<tr class="memitem:aeb2eb8ec1d703539637b101a4c278862"><td class="memItemLeft" align="right" valign="top"><a id="aeb2eb8ec1d703539637b101a4c278862" name="aeb2eb8ec1d703539637b101a4c278862"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>LoadSettings</b> (void)</td></tr>
+<tr class="memdesc:aeb2eb8ec1d703539637b101a4c278862"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads panel values from .pan and .arr files. <br /></td></tr>
 <tr class="separator:aeb2eb8ec1d703539637b101a4c278862"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a922612de9acba3e9d66febe590a9388e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a922612de9acba3e9d66febe590a9388e">SaveSettings</a> (void)</td></tr>
+<tr class="memitem:a922612de9acba3e9d66febe590a9388e"><td class="memItemLeft" align="right" valign="top"><a id="a922612de9acba3e9d66febe590a9388e" name="a922612de9acba3e9d66febe590a9388e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SaveSettings</b> (void)</td></tr>
+<tr class="memdesc:a922612de9acba3e9d66febe590a9388e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves panel values to .pan and .arr files. <br /></td></tr>
 <tr class="separator:a922612de9acba3e9d66febe590a9388e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d29ccfd4f86eb398523b68673316ffb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a9d29ccfd4f86eb398523b68673316ffb">ColorPicker</a> (int index)</td></tr>
+<tr class="memdesc:a9d29ccfd4f86eb398523b68673316ffb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function to alternate color every three rows.  <a href="_g_u_i_design_8c.html#a9d29ccfd4f86eb398523b68673316ffb">More...</a><br /></td></tr>
 <tr class="separator:a9d29ccfd4f86eb398523b68673316ffb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98f2caba7b218be1b6270c39a15ed8c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a98f2caba7b218be1b6270c39a15ed8c9">DrawNewTable</a> (int isdimmed)</td></tr>
+<tr class="memdesc:a98f2caba7b218be1b6270c39a15ed8c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Redraws analog and digital tables.  <a href="_g_u_i_design_8c.html#a98f2caba7b218be1b6270c39a15ed8c9">More...</a><br /></td></tr>
 <tr class="separator:a98f2caba7b218be1b6270c39a15ed8c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43e134cd7892adc614ede40ef84646b3"><td class="memItemLeft" align="right" valign="top"><a id="a43e134cd7892adc614ede40ef84646b3" name="a43e134cd7892adc614ede40ef84646b3"></a>
 void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>ANALOGSET_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memdesc:a43e134cd7892adc614ede40ef84646b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Analog channel settings menu option. <br /></td></tr>
 <tr class="separator:a43e134cd7892adc614ede40ef84646b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96dc86ae7719717698b8aa645cc4d610"><td class="memItemLeft" align="right" valign="top"><a id="a96dc86ae7719717698b8aa645cc4d610" name="a96dc86ae7719717698b8aa645cc4d610"></a>
 void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>DIGITALSET_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
@@ -198,15 +211,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ExportPanel</b> (char
 <tr class="memitem:acd3b7a9bbc719c0630380fb3f5382ad5"><td class="memItemLeft" align="right" valign="top"><a id="acd3b7a9bbc719c0630380fb3f5382ad5" name="acd3b7a9bbc719c0630380fb3f5382ad5"></a>
 void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>CONFIG_EXPORT_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
 <tr class="separator:acd3b7a9bbc719c0630380fb3f5382ad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b069e0eac49890dc595945faa575e77"><td class="memItemLeft" align="right" valign="top"><a id="a7b069e0eac49890dc595945faa575e77" name="a7b069e0eac49890dc595945faa575e77"></a>
-void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>MENU_ALLLOW_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
-<tr class="separator:a7b069e0eac49890dc595945faa575e77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c6a8e1ee28f68c4b815b77cd0d0722a"><td class="memItemLeft" align="right" valign="top"><a id="a7c6a8e1ee28f68c4b815b77cd0d0722a" name="a7c6a8e1ee28f68c4b815b77cd0d0722a"></a>
-void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>MENU_HOLD_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
-<tr class="separator:a7c6a8e1ee28f68c4b815b77cd0d0722a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8d10556122ccc49145aa6d655c11452a"><td class="memItemLeft" align="right" valign="top"><a id="a8d10556122ccc49145aa6d655c11452a" name="a8d10556122ccc49145aa6d655c11452a"></a>
-void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>MENU_BYCHANNEL_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
-<tr class="separator:a8d10556122ccc49145aa6d655c11452a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a196cbe599fa25bcccaa478d7778852ab"><td class="memItemLeft" align="right" valign="top"><a id="a196cbe599fa25bcccaa478d7778852ab" name="a196cbe599fa25bcccaa478d7778852ab"></a>
 void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>COMPRESSION_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
 <tr class="separator:a196cbe599fa25bcccaa478d7778852ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -382,40 +386,34 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
   </table>
   </dd>
 </dl>
-<p>all the above have 500 update period elements note that valid elements are base1</p>
+<p>Each array can have up to 499 elements. Note that elements are 1-indexed, the 0-th index is undefined and should not be accessed.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">numtimes</td><td>= the actual number of valid update period elements.</td></tr>
+    <tr><td class="paramname">numtimes</td><td>The actual number of valid update period elements.</td></tr>
   </table>
   </dd>
 </dl>
-<p>Generate the data that is sent to the ADwin and sends the data. From the meta-lists, we generate 3 arrays.</p><ul>
+<p>We generate the following 3 arrays:</p><ul>
 <li>UpdateNum<ul>
-<li>each entry is the number of channel updates that we perform during the ADwin EVENT, where an ADwin event is an update cycle, i.e. 10 microseconds, 100 microseconds... etc. We advance through this array once per ADwin Event. UpdateNum controls how fast we scan through ChNum and ChVal</li>
+<li>Each entry is the number of channel updates (i.e. ChNum/ChVal pairs) to be performed on the next ADwin trigger, which comes once every 10 microseconds.</li>
 </ul>
 </li>
 <li>ChNum<ul>
-<li>An array that contains the channel number to be updated. Synchronous with ChVal. Channels listed below</li>
+<li>Each entry is the channel number to be updated. Synchronous with ChVal. Channel number definitions as follows:</li>
+<li>1-32: Analog lines. ChVal is the voltage, from -10V to 10V.</li>
+<li>101, 102: Digital cards, with 32 lines each. ChVal is a 32-bit integer, one bit for each line, starting from LSB.</li>
 </ul>
 </li>
 <li>ChVal<ul>
-<li>An array that contains the value to be written to a channel. Synchronous with ChVal.</li>
-</ul>
-</li>
-<li>ChNum<ul>
-<li>Value 1-32: Analog lines, 4 cards with 8 lines each. ChVal is -10V to 10V</li>
-<li>Value 51: DDS1 line. ChVal is either a 2-bit value (0-3) to write, or (4-7) a reset signal</li>
-<li>Value 52: DDS2 line. ChVal is either a 2-bit value (0-3) to write, or (4-7) a reset signal</li>
-<li>Value 101, 102 First 16 and last 16 lines on the first DIO card. ChVal is a 16 bit integer</li>
-<li>Value 103, 104 First 16 and last 16 lines on the second DIO card. ChVal is a 16 bit integer </li>
+<li>Each entry is the value to be written to a channel. Synchronous with ChNum. </li>
 </ul>
 </li>
 </ul>
 
 </div>
 </div>
-<a id="a12aa5609b0a230947338f2504bbd7111" name="a12aa5609b0a230947338f2504bbd7111"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12aa5609b0a230947338f2504bbd7111">&#9670;&nbsp;</a></span>CalcFcnValue()</h2>
+<a id="a8ebe8e978a5e857b0c0ca79331ccbb27" name="a8ebe8e978a5e857b0c0ca79331ccbb27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ebe8e978a5e857b0c0ca79331ccbb27">&#9670;&nbsp;</a></span>CalcFcnValue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -463,7 +461,21 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>Write documentation </dd></dl>
+
+<p>Given an analog function setting and a time, calculate the analog value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fcn</td><td>Function type, see <a class="el" href="struct_analog_table_values.html#af6778b9f85a13e3b6cde1521d475da52" title="Which function to use.">AnalogTableValues.fcn</a>. </td></tr>
+    <tr><td class="paramname">Vinit</td><td>For ramps and S curve, voltage at telapsed = 0. Not used for step and sine wave. </td></tr>
+    <tr><td class="paramname">Vfinal</td><td>For step, voltage to step to. For ramps and S curve, voltage at telapsed &gt;= timescale. For sine wave, the amplitude. </td></tr>
+    <tr><td class="paramname">timescale</td><td>For ramps and S curve, time to reach Vfinal. For sine wave, the frequency. Not used for step. </td></tr>
+    <tr><td class="paramname">telapsed</td><td>The time elapsed since the start of the cell. </td></tr>
+    <tr><td class="paramname">celltime</td><td>Total time duration of this cell </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The resulting analog value. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>What is SimpleTiming? Seems turned on by default. </dd></dl>
 
 </div>
 </div>
@@ -520,59 +532,6 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
 
 </div>
 </div>
-<a id="a0afae188565a4cb3ad38dabe6b90ed11" name="a0afae188565a4cb3ad38dabe6b90ed11"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0afae188565a4cb3ad38dabe6b90ed11">&#9670;&nbsp;</a></span>CMD_RUN_CALLBACK()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int CVICALLBACK CMD_RUN_CALLBACK </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>panel</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>control</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>event</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>callbackData</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>eventData1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>eventData2</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >Executed when the "RUN" button is pressed. Disables scanning capability, saves the GUI in C:/LastGui.pan Just in case of a crash Activates the TIMER if necessary. Starts the routine to generate new data for ADwin </p>
-
-</div>
-</div>
 <a id="a72eab897f9261404259eb19c5dad54da" name="a72eab897f9261404259eb19c5dad54da"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a72eab897f9261404259eb19c5dad54da">&#9670;&nbsp;</a></span>CMD_SCAN_CALLBACK()</h2>
 
@@ -622,7 +581,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
         </tr>
       </table>
 </div><div class="memdoc">
-<p >pretty much a copy of the CMD_RUN routine, but activates the SCAN flag and resets the scan counter </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>could be integrated into the CMD_RUN routine.... but this works </dd></dl>
+
+<p>Callback for the Scan button. Pretty much a copy of <a class="el" href="_g_u_i_design_8c.html#a0afae188565a4cb3ad38dabe6b90ed11" title="Callback for the Run button. Disables scanning and activates the timer if Repeat is enabled....">CMD_RUN_CALLBACK()</a>, but activates the Scan flag and resets the scan counter. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>could be integrated into the CMD_RUN routine.... but this works </dd></dl>
 
 </div>
 </div>
@@ -675,7 +636,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Turns off the TIMER object, and turns off the "repeat" button Lets the ADwin finish its current program. Interrupting the program partway can be bad for the equipment as the variables are not cleared in memory and updates get out of sync. </p><dl class="section author"><dt>Author</dt><dd>Stefan Myrskog </dd></dl>
+
+<p>Callback for the Stop button. Turns off the timer object and the repeat button. </p>
+<p >Lets the ADwin finish its current program. Interrupting the program partway can be bad for the equipment as the variables are not cleared in memory and updates can get out of sync. </p><dl class="section author"><dt>Author</dt><dd>Stefan Myrskog </dd></dl>
 
 </div>
 </div>
@@ -694,7 +657,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Helper function to alternate color every three rows </p><dl class="params"><dt>Parameters</dt><dd>
+
+<p>Helper function to alternate color every three rows. </p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">index</td><td>1-based index to get color for </td></tr>
   </table>
@@ -802,7 +767,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Redraws analog and digital tables. </p><dl class="params"><dt>Parameters</dt><dd>
+
+<p>Redraws analog and digital tables. </p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">isdimmed</td><td>Whether or not to dim disabled columns </td></tr>
   </table>
@@ -960,27 +927,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
 
 </div>
 </div>
-<a id="aeb2eb8ec1d703539637b101a4c278862" name="aeb2eb8ec1d703539637b101a4c278862"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb2eb8ec1d703539637b101a4c278862">&#9670;&nbsp;</a></span>LoadSettings()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void LoadSettings </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >Loads panel values from file </p>
-
-</div>
-</div>
-<a id="a11ba2412afbbd690958e4df8d7b83d20" name="a11ba2412afbbd690958e4df8d7b83d20"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11ba2412afbbd690958e4df8d7b83d20">&#9670;&nbsp;</a></span>OptimizeTimeLoop()</h2>
+<a id="ac01a1dab7f45025b08d9090a0e661233" name="ac01a1dab7f45025b08d9090a0e661233"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac01a1dab7f45025b08d9090a0e661233">&#9670;&nbsp;</a></span>OptimizeTimeLoop()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1004,9 +952,11 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
         </tr>
       </table>
 </div><div class="memdoc">
-<p >This routine compresses the updatenum list by replacing long strings of 0 with a single line. i.e. if we see 2000 zero's in a row, just write -2000 instead. </p><dl class="params"><dt>Parameters</dt><dd>
+
+<p>Compresses the UpdateNum list by replacing long strings of 0's with a single negative number representing the amount replaced. i.e. if we see 2000 0's in a row, replace with -2000 instead. </p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">UpdateNum</td><td>Array of update numbers to be optimized (1-indexed) </td></tr>
+    <tr><td class="paramname">UpdateNum</td><td>Array to be optimized (1-indexed) </td></tr>
     <tr><td class="paramname">count</td><td>Length of UpdateNum </td></tr>
   </table>
   </dd>
@@ -1118,7 +1068,11 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Converts the 10 'pages' (3D array) into single 2D array 'metatables' Ignores dimmed out columns and pages </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>Change meta arrays to be malloc'd at runtime </dd></dl>
+
+<p>Flattens the time, analog, and digital tables from multiple "pages" to a single long page. Passes the tables to <a class="el" href="_g_u_i_design_8c.html#a2f72f0fb9b42b3f0efa058b475350d9b" title="Builds the data from the arrays into ADwin-friendly format.">BuildUpdateList()</a> to send to the ADwin. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd><p class="startdd">Change meta arrays to be malloc'd at runtime, or use dynamic lists. </p>
+<p class="enddd">Change name to be more descriptive. </p>
+</dd></dl>
 
 </div>
 </div>
@@ -1156,25 +1110,6 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a id="a922612de9acba3e9d66febe590a9388e" name="a922612de9acba3e9d66febe590a9388e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a922612de9acba3e9d66febe590a9388e">&#9670;&nbsp;</a></span>SaveSettings()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void SaveSettings </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >Saves panel values to *.pan file </p>
 
 </div>
 </div>
@@ -1263,12 +1198,14 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
         </tr>
       </table>
 </div><div class="memdoc">
-<p >TIMER is a CVI object. Whenever its countdown reaches 0, it executes the following code. TIMER is activated in the CMD_RUN, CMD_SCAN and BUILDUPDATELIST routines. it gets de-activated in this routine, and when we hit CMD_STOP </p>
+
+<p>Callback for the timer object. When the timer's countdown reaches 0, disable itself and call <a class="el" href="_g_u_i_design_8c.html#afc5759b6231a76640763063a6d85d054" title="Flattens the time, analog, and digital tables from multiple &quot;pages&quot; to a single long page....">RunOnce()</a> again. </p>
+<p >The timer is activated in <a class="el" href="_g_u_i_design_8c.html#a0afae188565a4cb3ad38dabe6b90ed11" title="Callback for the Run button. Disables scanning and activates the timer if Repeat is enabled....">CMD_RUN_CALLBACK()</a>, <a class="el" href="_g_u_i_design_8c.html#a72eab897f9261404259eb19c5dad54da" title="Callback for the Scan button. Pretty much a copy of CMD_RUN_CALLBACK(), but activates the Scan flag a...">CMD_SCAN_CALLBACK()</a>, and <a class="el" href="_g_u_i_design_8c.html#a2f72f0fb9b42b3f0efa058b475350d9b" title="Builds the data from the arrays into ADwin-friendly format.">BuildUpdateList()</a>. It gets deactivated here and when we hit <a class="el" href="_g_u_i_design_8c.html#a1fc77427b09aa7c9e9f01c98e33c1de6" title="Callback for the Stop button. Turns off the timer object and the repeat button.">CMDSTOP_CALLBACK()</a>. </p>
 
 </div>
 </div>
-<a id="a695c9adbffd54e512b0e03c40ce9b4bd" name="a695c9adbffd54e512b0e03c40ce9b4bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a695c9adbffd54e512b0e03c40ce9b4bd">&#9670;&nbsp;</a></span>UpdateScanValue()</h2>
+<a id="a63869a8f922bd62894720eb99125fa70" name="a63869a8f922bd62894720eb99125fa70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63869a8f922bd62894720eb99125fa70">&#9670;&nbsp;</a></span>UpdateScanValue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1282,6 +1219,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Black magic. </p>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>Write documentation </dd></dl>
 
 </div>
