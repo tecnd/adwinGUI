@@ -42,7 +42,6 @@ void LoadArrays(char*, int);
 void ExportPanel(char*, int);
 double CalcFcnValue(int, double, double, double, double, double);
 double CheckIfWithinLimits(double, int);
-void SaveLastGuiSettings(void);
 void UpdateScanValue(int);
 void ExportScanBuffer(void);
 
@@ -66,10 +65,7 @@ BOOL IsPageChecked(int page) {
 }
 
 /**
-Executed when the "RUN" button is pressed.
-Disables scanning capability, saves the GUI  in C:/LastGui.pan    Just in case
-of a crash Activates the TIMER if necessary. Starts the routine to generate new
-data for ADwin
+@brief Callback for the Run button. Disables scanning and activates the timer if Repeat is enabled. Calls RunOnce() to run the ADwin.
 */
 int CVICALLBACK CMD_RUN_CALLBACK(int panel, int control, int event,
                                  void* callbackData, int eventData1,
@@ -78,7 +74,6 @@ int CVICALLBACK CMD_RUN_CALLBACK(int panel, int control, int event,
   switch (event) {
     case EVENT_COMMIT:
       PScan.Scan_Active = FALSE;
-      SaveLastGuiSettings();
       // Forces the BuildUpdateList() routine to generate
       // new data for the ADwin
       ChangedVals = TRUE;
@@ -112,7 +107,6 @@ int CVICALLBACK CMD_SCAN_CALLBACK(int panel, int control, int event,
     case EVENT_COMMIT:
       UpdateScanValue(TRUE);  // sending value of 1 resets the scan counter.
       PScan.Scan_Active = TRUE;
-      SaveLastGuiSettings();
       ChangedVals = TRUE;
       repeat = TRUE;
       SetCtrlVal(panelHandle, PANEL_TOGGLEREPEAT,
@@ -1528,15 +1522,6 @@ void CVICALLBACK RESETZERO_CALLBACK(int menuBar, int menuItem,
                       &checked);
   SetMenuBarAttribute(menuHandle, MENU_SETTINGS_RESETZERO, ATTR_CHECKED,
                       abs(checked - 1));
-}
-
-void SaveLastGuiSettings(void) {
-  // Save settings:  First look for file .ini  This will be a simple 1 line file
-  // stating the name of the last file
-  // saved.  Load this up and use as the starting name in the file dialog.
-  char fname[100] = "c:\\LastGui.pan";
-  SavePanelState(panelHandle, fname, 1);
-  SaveArrays(fname, strlen(fname));
 }
 
 void CVICALLBACK EXPORT_PANEL_CALLBACK(int menuBar, int menuItem,
