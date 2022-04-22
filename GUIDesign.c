@@ -65,7 +65,8 @@ BOOL IsPageChecked(int page) {
 }
 
 /**
-@brief Callback for the Run button. Disables scanning and activates the timer if Repeat is enabled. Calls RunOnce() to run the ADwin.
+@brief Callback for the Run button. Disables scanning and activates the timer if
+Repeat is enabled. Calls RunOnce() to run the ADwin.
 */
 int CVICALLBACK CMD_RUN_CALLBACK(int panel, int control, int event,
                                  void* callbackData, int eventData1,
@@ -95,8 +96,8 @@ int CVICALLBACK CMD_RUN_CALLBACK(int panel, int control, int event,
 }
 
 /**
-pretty much a copy of the CMD_RUN routine, but activates the SCAN flag and
-resets the scan counter
+@brief Callback for the Scan button. Pretty much a copy of CMD_RUN_CALLBACK(),
+but activates the Scan flag and resets the scan counter.
 @todo could be integrated into the CMD_RUN routine.... but this works
 */
 int CVICALLBACK CMD_SCAN_CALLBACK(int panel, int control, int event,
@@ -121,9 +122,11 @@ int CVICALLBACK CMD_SCAN_CALLBACK(int panel, int control, int event,
 }
 
 /**
-TIMER is a CVI object.  Whenever its countdown reaches 0, it executes the
-following code. TIMER is activated in the CMD_RUN, CMD_SCAN and BUILDUPDATELIST
-routines. it gets de-activated in this routine, and when we hit CMD_STOP
+@brief Callback for the timer object. When the timer's countdown reaches 0,
+disable itself and call RunOnce() again.
+
+The timer is activated in CMD_RUN_CALLBACK(), CMD_SCAN_CALLBACK(), and
+BuildUpdateList(). It gets deactivated here and when we hit CMDSTOP_CALLBACK().
 */
 int CVICALLBACK TIMER_CALLBACK(int panel, int control, int event,
                                void* callbackData, int eventData1,
@@ -145,10 +148,12 @@ int CVICALLBACK TIMER_CALLBACK(int panel, int control, int event,
 }
 
 /**
-Turns off the TIMER object, and turns off the "repeat" button
+@brief Callback for the Stop button. Turns off the timer object and the repeat
+button.
+
 Lets the ADwin finish its current program.  Interrupting the program partway can
 be bad for the equipment as the variables are not cleared in memory and updates
-get out of sync.
+can get out of sync.
 @author Stefan Myrskog
 */
 int CVICALLBACK CMDSTOP_CALLBACK(int panel, int control, int event,
@@ -170,9 +175,10 @@ int CVICALLBACK CMDSTOP_CALLBACK(int panel, int control, int event,
 }
 
 /**
-Converts the 10 'pages' (3D array) into single 2D array 'metatables'
-Ignores dimmed out columns and pages
-@todo Change meta arrays to be malloc'd at runtime
+@brief Flattens the time, analog, and digital tables from multiple "pages" to a
+single long page. Passes the tables to BuildUpdateList() to send to the ADwin.
+@todo Change meta arrays to be malloc'd at runtime, or use dynamic lists.
+@todo Change name to be more descriptive.
 */
 void RunOnce(void) {
   // could/should change these following defs and use malloc instead, but they
@@ -183,18 +189,14 @@ void RunOnce(void) {
   int MetaDigitalArray[NUMBERDIGITALCHANNELS + 1][500] = {0};
   struct AnalogTableValues MetaAnalogArray[NUMBERANALOGCHANNELS + 1][500] = {0};
 
-  // Lets build the times list first...so we know how long it will be.
-  // check each page...find columns in use and dim out unused....(with 0 or
-  // negative time values)
-  int mindex = 0;
+  int mindex = 0;  // Index in the meta arrays
   // go through for each page
   for (int page = 1; page <= NUMBEROFPAGES; page++) {
-    if (IsPageChecked(page))  // if the page is selected (checkbox is checked)
-    {
-      // go through for each time column
+    // if the page is selected (checkbox is checked)
+    if (IsPageChecked(page)) {
+      // go through for each column
       for (int col = 1; col <= NUMBEROFCOLUMNS; col++) {
-        // ignore all columns after the first
-        //  time 0 (for that page)
+        // Ignore columns with negative times
         if (TimeArray[col][page] > 0) {
           mindex++;  // increase the number of columns counter
           MetaTimeArray[mindex] = TimeArray[col][page];
@@ -222,7 +224,9 @@ void RunOnce(void) {
             MetaDigitalArray[channel][mindex] =
                 DigTableValues[col][channel][page];
           }
-        } else if (TimeArray[col][page] == 0) {
+        }
+        // Skip to next page on time 0
+        else if (TimeArray[col][page] == 0) {
           break;
         }
       }
@@ -239,33 +243,23 @@ void RunOnce(void) {
 @param AMat[] Stores info located in the analog table
 @param DMat[] Stores info located in the digital table
 
-all the above have 500 update period elements note that valid elements are base1
+Each array can have up to 499 elements. Note that elements are 1-indexed, the
+0-th index is undefined and should not be accessed.
 
-@param numtimes = the actual number of valid update period elements.
+@param numtimes The actual number of valid update period elements.
 
-Generate the data that is sent to the ADwin and sends the data.
-From the meta-lists, we generate 3 arrays.
+We generate the following 3 arrays:
 - UpdateNum
-  - each entry is the number of channel updates that we perform during
-  the ADwin EVENT, where an ADwin event is an update cycle, i.e. 10
-microseconds, 100 microseconds... etc. We advance through this array once per
-ADwin Event. UpdateNum controls how fast we scan through ChNum and ChVal
+  - Each entry is the number of channel updates (i.e. ChNum/ChVal pairs) to be
+performed on the next ADwin trigger, which comes once every 10 microseconds.
 - ChNum
-  - An array that contains the channel number to be updated. Synchronous
-  with ChVal. Channels listed below
+  - Each entry is the channel number to be updated. Synchronous with ChVal.
+Channel number definitions as follows:
+  - 1-32: Analog lines. ChVal is the voltage, from -10V to 10V.
+  - 101, 102: Digital cards, with 32 lines each. ChVal is a 32-bit integer, one
+bit for each line, starting from LSB.
 - ChVal
-  - An array that contains the value to be written to a channel.
-Synchronous with ChVal.
-- ChNum
-  - Value 1-32: Analog lines, 4 cards with 8 lines each. ChVal is -10V to 10V
-  - Value 51: DDS1 line. ChVal is either a 2-bit value (0-3) to write, or (4-7)
-a reset signal
-  - Value 52: DDS2 line. ChVal is either a 2-bit value (0-3) to write, or (4-7)
-a reset signal
-  - Value 101, 102 First 16 and last 16 lines on the first DIO card. ChVal is a
-16 bit integer
-  - Value 103, 104 First 16 and last 16 lines on the second DIO card. ChVal is a
-16 bit integer
+  - Each entry is the value to be written to a channel. Synchronous with ChNum.
 */
 void BuildUpdateList(
     double TMatrix[500],
@@ -320,8 +314,6 @@ void BuildUpdateList(
     int count = 0;
     double NewAval, TempChVal, TempChVal2;
     double LastAval[NUMBERANALOGCHANNELS + 1] = {0};
-    // 1-24 for analog, ...but for now, if [1]=1 then
-    // all zero, else no change
     long ResetToZeroAtEnd[NUMBERANALOGCHANNELS + 6];
     static int didboot = 0;
     static int didprocess = 0;
@@ -471,7 +463,9 @@ void BuildUpdateList(
     }
 
     // Send the Array to the AdWin Sequencer
-    int GlobalDelay = 3000;  // 3000 * 3.33...ns = 0.01 ms ticks
+    int GlobalDelay = 3000;  // 3000 * 3.33...ns = 0.01 ms ticks. No longer
+                             // necessary with external trigger, but still here
+                             // in case we ever need to use the internal clock
     SetPar(2, GlobalDelay);
     SetData_Long(2, ChNum, 1, nuptotal + 1);
     SetData_Float(3, ChVal, 1, nuptotal + 1);
@@ -509,7 +503,18 @@ void BuildUpdateList(
 }
 
 /**
-@todo Write documentation
+@brief Given an analog function setting and a time, calculate the analog value.
+@param fcn Function type, see AnalogTableValues.fcn.
+@param Vinit For ramps and S curve, voltage at telapsed = 0. Not used for step
+and sine wave.
+@param Vfinal For step, voltage to step to. For ramps and S curve, voltage at
+telapsed >= timescale. For sine wave, the amplitude.
+@param timescale For ramps and S curve, time to reach Vfinal. For sine wave, the
+frequency. Not used for step.
+@param telapsed The time elapsed since the start of the cell.
+@param celltime Total time duration of this cell
+@return The resulting analog value.
+@todo What is SimpleTiming? Seems turned on by default.
 */
 double CalcFcnValue(int fcn, double Vinit, double Vfinal, double timescale,
                     double telapsed, double celltime) {
@@ -548,7 +553,7 @@ double CalcFcnValue(int fcn, double Vinit, double Vfinal, double timescale,
       }
       value = Vfinal - amplitude * exp(-tms / newtime);
       break;
-    case 4:
+    case 4:  // S curve
       amplitude = Vfinal - Vinit;
       double aconst = 3 * amplitude / pow(timescale, 2);
       double bconst = -2 * amplitude / pow(timescale, 3);
@@ -572,9 +577,10 @@ double CalcFcnValue(int fcn, double Vinit, double Vfinal, double timescale,
 }
 
 /**
-This routine compresses the updatenum list by replacing long strings of 0 with a
-single line. i.e. if we see 2000 zero's in a row, just write -2000 instead.
-@param UpdateNum Array of update numbers to be optimized (1-indexed)
+@brief Compresses the UpdateNum list by replacing long strings of 0's with a
+single negative number representing the amount replaced. i.e. if we see 2000 0's
+in a row, replace with -2000 instead.
+@param UpdateNum Array to be optimized (1-indexed)
 @param count Length of UpdateNum
 @return Length of UpdateNum after optimization, including index 0
 */
@@ -635,6 +641,7 @@ int OptimizeTimeLoop(int* UpdateNum, int count) {
 // cycle doesn't end
 // has to do with numsteps.  Should be programmed with ceiling(), not abs
 /**
+@brief Black magic
 @todo Write documentation
 */
 void UpdateScanValue(int Reset) {
@@ -820,7 +827,7 @@ void UpdateScanValue(int Reset) {
 }
 
 /**
-Loads panel values from file
+@brief Loads panel values from .pan and .arr files.
 */
 void LoadSettings(void) {
   int status = ConfirmPopup(
@@ -849,7 +856,7 @@ void LoadSettings(void) {
 }
 
 /**
-Saves panel values to *.pan file
+@brief Saves panel values to .pan and .arr files.
 */
 void SaveSettings(void) {
   char fsavename[500];
@@ -868,7 +875,7 @@ void SaveSettings(void) {
 }
 
 /**
-Helper function to alternate color every three rows
+@brief Helper function to alternate color every three rows
 @param index 1-based index to get color for
 @return Hex code for gray or light gray, depending on index
 @author Kerry Wang
@@ -882,7 +889,7 @@ int ColorPicker(int index) {
 }
 
 /**
-Redraws analog and digital tables.
+@brief Redraws analog and digital tables.
 @param isdimmed Whether or not to dim disabled columns
 */
 void DrawNewTable(int isdimmed) {
@@ -1051,7 +1058,9 @@ void DrawNewTable(int isdimmed) {
   }
 }
 
-// MENU: Analog Settings option chosen
+/**
+@brief Callback for the Analog channel settings menu option.
+*/
 void CVICALLBACK ANALOGSET_CALLBACK(int menuBar, int menuItem,
                                     void* callbackData, int panel) {
   ChangedVals = TRUE;
@@ -1691,15 +1700,6 @@ void CVICALLBACK CONFIG_EXPORT_CALLBACK(int menuBar, int menuItem,
 
   fclose(fconfig);
 }
-
-void CVICALLBACK MENU_ALLLOW_CALLBACK(int menuBar, int menuItem,
-                                      void* callbackData, int panel) {}
-
-void CVICALLBACK MENU_HOLD_CALLBACK(int menuBar, int menuItem,
-                                    void* callbackData, int panel) {}
-
-void CVICALLBACK MENU_BYCHANNEL_CALLBACK(int menuBar, int menuItem,
-                                         void* callbackData, int panel) {}
 
 void CVICALLBACK COMPRESSION_CALLBACK(int menuBar, int menuItem,
                                       void* callbackData, int panel) {
