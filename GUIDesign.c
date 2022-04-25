@@ -1098,42 +1098,42 @@ for the clicked cell.
 int CVICALLBACK ANALOGTABLE_CALLBACK(int panel, int control, int event,
                                      void* callbackData, int eventData1,
                                      int eventData2) {
-  int pixleft = 0, pixtop = 0;
-
-  char buff[80] = "";
-  int leftbuttondown, rightbuttondown, keymod;
-
   ChangedVals = TRUE;
   switch (event) {
     case EVENT_LEFT_DOUBLE_CLICK:
+      // Update last-clicked cell
       Point cpoint = {0, 0};
       GetActiveTableCell(panelHandle, PANEL_ANALOGTABLE, &cpoint);
-      // now set the indicators in the control panel title..ie units
       currentx = cpoint.x;
       currenty = cpoint.y;
+      // now set the indicators in the control panel title..ie units
       SetControlPanel();
-
-      sprintf(buff, "x:%d   y:%d    z:%d", currentx, currenty, currentpage);
+      // Display indices in window title
+      char buff[80] = "";
+      sprintf(buff, "x:%d y:%d z:%d", currentx, currenty, currentpage);
       SetPanelAttribute(panelHandle4, ATTR_TITLE, buff);
       // Read the mouse position and open window there.
-      GetGlobalMouseState(&panelHandle, &pixleft, &pixtop, &leftbuttondown,
-                          &rightbuttondown, &keymod);
+      int pixleft = 0, pixtop = 0;
+      GetGlobalMouseState(NULL, &pixleft, &pixtop, NULL, NULL, NULL);
       SetPanelAttribute(panelHandle4, ATTR_LEFT, pixleft);
       SetPanelAttribute(panelHandle4, ATTR_TOP, pixtop);
-
       DisplayPanel(panelHandle4);
-
       break;
   }
   return 0;
 }
 
+/**
+@brief Callback for the page buttons. Left-click to go to that page, right-click to rename the page.
+@param control ID of the clicked button.
+*/
 int CVICALLBACK TOGGLE_CALLBACK(int panel, int control, int event,
                                 void* callbackData, int eventData1,
                                 int eventData2) {
   switch (event) {
     case EVENT_COMMIT:
       for (int i = 1; i <= NUMBEROFPAGES; i++) {
+        // Go through ButtonArray, set the clicked button to on and all others to off
         SetCtrlVal(panelHandle, ButtonArray[i], control == ButtonArray[i]);
         if (control == ButtonArray[i]) {
           setVisibleLabel(i);
@@ -1144,6 +1144,7 @@ int CVICALLBACK TOGGLE_CALLBACK(int panel, int control, int event,
       DrawNewTable(0);
       break;
     case EVENT_RIGHT_CLICK:
+      // Get index of clicked button in ButtonArray
       int i = 1;
       for (i = 1; i <= NUMBEROFPAGES; i++) {
         if (ButtonArray[i] == control) {
@@ -1164,6 +1165,9 @@ int CVICALLBACK TOGGLE_CALLBACK(int panel, int control, int event,
   return 0;
 }
 
+/**
+@brief Callback for the page enable checkboxes. On toggle, dims or undims the tables.
+*/
 int CVICALLBACK CHECKBOX_CALLBACK(int panel, int control, int event,
                                   void* callbackData, int eventData1,
                                   int eventData2) {
@@ -1175,17 +1179,18 @@ int CVICALLBACK CHECKBOX_CALLBACK(int panel, int control, int event,
   return 0;
 }
 
+/**
+@brief Callback for the digital table. On double-click, toggles the clicked cell and updates the entry in DigTableValues.
+*/
 int CVICALLBACK DIGTABLE_CALLBACK(int panel, int control, int event,
                                   void* callbackData, int eventData1,
                                   int eventData2) {
-  int digval;
-  Point pval = {0, 0};
-
   ChangedVals = TRUE;
   switch (event) {
     case EVENT_LEFT_DOUBLE_CLICK:
+      Point pval = {0, 0};
       GetActiveTableCell(panelHandle, PANEL_DIGTABLE, &pval);
-      digval = DigTableValues[pval.x][pval.y][currentpage];
+      int digval = DigTableValues[pval.x][pval.y][currentpage];
       if (digval == 0) {
         DigTableValues[pval.x][pval.y][currentpage] = 1;
       } else {
@@ -1197,35 +1202,29 @@ int CVICALLBACK DIGTABLE_CALLBACK(int panel, int control, int event,
   return 0;
 }
 
+/**
+@brief Callback for the time table. Updates the time table and all analog cells in that column.
+*/
 int CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event,
                                    void* callbackData, int eventData1,
                                    int eventData2) {
-  double dval, tscaleold;
   ChangedVals = TRUE;
   switch (event) {
-      // EVENT_VAL_CHANGED:
-      // EVENT_VAL_CHANGED only seems to pick up the last
-      // changed values, or values changed using the
-      //  May 31,2006 -- TimeArray is updated just fine (Dave
-      //  Burns)
-      // controls (i.e. increment arrows).  Similar problems
-      // with other events...reading all times(for the page)
-      //  at a change event seems to work.
     case EVENT_COMMIT:
       for (int i = 1; i <= NUMBEROFCOLUMNS; i++) {
-        double oldtime = TimeArray[i][currentpage];
+        double dval;
         GetTableCellVal(panelHandle, PANEL_TIMETABLE, MakePoint(i, 1), &dval);
-
         TimeArray[i][currentpage] = dval;
-        // now rescale the time scale for waveform fcn. Go over all 16 analog
+        // now rescale the time scale for waveform fcn. Go over all analog
         // channels
+        double oldtime = TimeArray[i][currentpage];
         double ratio = dval / oldtime;
         if (oldtime == 0) {
           ratio = 1;
         }
 
         for (int j = 1; j <= NUMBERANALOGCHANNELS; j++) {
-          tscaleold =
+          double tscaleold =
               AnalogTable[i][j][currentpage]
                   .tscale;  // use this and next line to auto-scale the time
           AnalogTable[i][j][currentpage].tscale = tscaleold * ratio;
@@ -1239,12 +1238,20 @@ int CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event,
   return 0;
 }
 
+/**
+@brief Callback for the Boot Adwin menu option.
+@todo Should be merged into MENU_CALLBACK().
+*/
 void CVICALLBACK BOOTADWIN_CALLBACK(int menuBar, int menuItem,
                                     void* callbackData, int panel) {
   Boot("ADbasic\\ADwin11.btl", 0);
   Load_Process("ADbasic\\TransferDataExternalClock.TB1");
 }
 
+/**
+@brief Callback for the Clear Panel menu option.
+@todo Should be merged into MENU_CALLBACK().
+*/
 void CVICALLBACK CLEARPANEL_CALLBACK(int menuBar, int menuItem,
                                      void* callbackData, int panel) {
   // add code to clear all the analog and digital information.....
@@ -1890,7 +1897,7 @@ void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID,
 }
 
 /**
-Callback triggered by selecting Exit from the menubar. Directly calls
+@brief Callback triggered by selecting Exit from the menubar. Directly calls
 PANEL_CALLBACK() with event EVENT_CLOSE.
 @author Kerry Wang
 */
@@ -1900,7 +1907,7 @@ void CVICALLBACK EXIT(int menuBar, int menuItem, void* callbackData,
 }
 
 /**
-Callback for the panel. Handles closing the program.
+@brief Callback for the panel. Handles closing the program.
 @author Kerry Wang
 */
 int CVICALLBACK PANEL_CALLBACK(int panel, int event, void* callbackData,
@@ -1916,7 +1923,9 @@ int CVICALLBACK PANEL_CALLBACK(int panel, int event, void* callbackData,
   return status;
 }
 
-// Open Scan Table Loader Panel
+/**
+@brief Opens the Scan Loader panel.
+*/
 void CVICALLBACK Scan_Table_Load(int panel, int controlID, int MenuItemID,
                                  void* callbackData) {
   DisplayPanel(panelHandle8);
