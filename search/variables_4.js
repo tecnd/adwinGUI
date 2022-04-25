@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['maxvolts_0',['maxvolts',['../struct_analog_channel_properties.html#ac7d7b8a48c22b1fb3cf5bc9c1897fd4c',1,'AnalogChannelProperties']]],
-  ['menuhandle_1',['menuHandle',['../vars_8h.html#a620e8d2faccbd753e89a2b458eb6102c',1,'vars.h']]],
-  ['minvolts_2',['minvolts',['../struct_analog_channel_properties.html#a68e2bbe7f09df56b7f3145abfd8a9cda',1,'AnalogChannelProperties']]]
+  ['fcn_0',['fcn',['../struct_analog_table_values.html#af6778b9f85a13e3b6cde1521d475da52',1,'AnalogTableValues']]],
+  ['fval_1',['fval',['../struct_analog_table_values.html#af314defce1ac19638fde2b8796721fe3',1,'AnalogTableValues']]]
 ];

@@ -6,6 +6,8 @@ var searchData=
   ['timearray_3',['TimeArray',['../vars_8h.html#a206451dc0f61f4ccfb0edef806ea8f05',1,'vars.h']]],
   ['timer_5fcallback_4',['TIMER_CALLBACK',['../_g_u_i_design_8c.html#a5930ab6f728ff381d048504279014ee1',1,'GUIDesign.c']]],
   ['timescanparameters_5',['TimeScanParameters',['../struct_time_scan_parameters.html',1,'']]],
-  ['todo_20list_6',['Todo List',['../todo.html',1,'']]],
-  ['tscale_7',['tscale',['../struct_analog_table_values.html#a6f320ba7443ca5b76c1be7c95a9d7cac',1,'AnalogTableValues']]]
+  ['timetable_5fcallback_6',['TIMETABLE_CALLBACK',['../_g_u_i_design_8c.html#a488880df55c13cbc6d01d969a5c6d487',1,'GUIDesign.c']]],
+  ['todo_20list_7',['Todo List',['../todo.html',1,'']]],
+  ['toggle_5fcallback_8',['TOGGLE_CALLBACK',['../_g_u_i_design_8c.html#a92c7ed0bb8a11f8b8e3421f719c2b17b',1,'GUIDesign.c']]],
+  ['tscale_9',['tscale',['../struct_analog_table_values.html#a6f320ba7443ca5b76c1be7c95a9d7cac',1,'AnalogTableValues']]]
 ];

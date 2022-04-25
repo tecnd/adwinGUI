@@ -65,19 +65,23 @@ $(function() {
   <div class="headertitle"><div class="title">main.h</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef MAIN_H</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define MAIN_H</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="vars_8h.html">vars.h</a>&quot;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">// Arrays to hold runtime-generated controls</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keywordtype">int</span> LabelArray[<a class="code hl_define" href="vars_8h.html#aa145f58f305e9b209620c2677f01404e">NUMBEROFPAGES</a> + 1];</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keywordtype">int</span> ButtonArray[<a class="code hl_define" href="vars_8h.html#aa145f58f305e9b209620c2677f01404e">NUMBEROFPAGES</a> + 1];</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keywordtype">int</span> CheckboxArray[<a class="code hl_define" href="vars_8h.html#aa145f58f305e9b209620c2677f01404e">NUMBEROFPAGES</a> + 1];</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keywordtype">void</span> <a class="code hl_function" href="main_8c.html#afe7cfc007b90d18db52697b0e3f2e009">setVisibleLabel</a>(<span class="keywordtype">int</span>);</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="amain_8c_html_afe7cfc007b90d18db52697b0e3f2e009"><div class="ttname"><a href="main_8c.html#afe7cfc007b90d18db52697b0e3f2e009">setVisibleLabel</a></div><div class="ttdeci">void setVisibleLabel(int labelNum)</div><div class="ttdoc">Sets which label is visible.</div><div class="ttdef"><b>Definition:</b> main.c:477</div></div>
+<a href="main_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#ifndef MAIN_H</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#define MAIN_H</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="vars_8h.html">vars.h</a>&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">// Arrays to hold runtime-generated controls</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="main_8h.html#a44746f37007ca6288c623d096f7508c5">   14</a></span><span class="comment"></span><span class="keywordtype">int</span> <a class="code hl_variable" href="main_8h.html#a44746f37007ca6288c623d096f7508c5">LabelArray</a>[<a class="code hl_define" href="vars_8h.html#aa145f58f305e9b209620c2677f01404e">NUMBEROFPAGES</a> + 1];</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="main_8h.html#a21a6eaf2be3fb9da2e4379bca784eb7a">   18</a></span><span class="keywordtype">int</span> <a class="code hl_variable" href="main_8h.html#a21a6eaf2be3fb9da2e4379bca784eb7a">ButtonArray</a>[<a class="code hl_define" href="vars_8h.html#aa145f58f305e9b209620c2677f01404e">NUMBEROFPAGES</a> + 1];</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="main_8h.html#a442c067d04f2c10c9a3033e95e9a624d">   22</a></span><span class="keywordtype">int</span> <a class="code hl_variable" href="main_8h.html#a442c067d04f2c10c9a3033e95e9a624d">CheckboxArray</a>[<a class="code hl_define" href="vars_8h.html#aa145f58f305e9b209620c2677f01404e">NUMBEROFPAGES</a> + 1];</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keywordtype">void</span> <a class="code hl_function" href="main_8h.html#a9a5542bfbdf8e98c30fe736d99a81170">setVisibleLabel</a>(<span class="keywordtype">int</span>);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="amain_8h_html_a21a6eaf2be3fb9da2e4379bca784eb7a"><div class="ttname"><a href="main_8h.html#a21a6eaf2be3fb9da2e4379bca784eb7a">ButtonArray</a></div><div class="ttdeci">int ButtonArray[NUMBEROFPAGES+1]</div><div class="ttdoc">Array of page button references.</div><div class="ttdef"><b>Definition:</b> main.h:18</div></div>
+<div class="ttc" id="amain_8h_html_a442c067d04f2c10c9a3033e95e9a624d"><div class="ttname"><a href="main_8h.html#a442c067d04f2c10c9a3033e95e9a624d">CheckboxArray</a></div><div class="ttdeci">int CheckboxArray[NUMBEROFPAGES+1]</div><div class="ttdoc">Array of checkbox references.</div><div class="ttdef"><b>Definition:</b> main.h:22</div></div>
+<div class="ttc" id="amain_8h_html_a44746f37007ca6288c623d096f7508c5"><div class="ttname"><a href="main_8h.html#a44746f37007ca6288c623d096f7508c5">LabelArray</a></div><div class="ttdeci">int LabelArray[NUMBEROFPAGES+1]</div><div class="ttdoc">Array of label references.</div><div class="ttdef"><b>Definition:</b> main.h:14</div></div>
+<div class="ttc" id="amain_8h_html_a9a5542bfbdf8e98c30fe736d99a81170"><div class="ttname"><a href="main_8h.html#a9a5542bfbdf8e98c30fe736d99a81170">setVisibleLabel</a></div><div class="ttdeci">void setVisibleLabel(int)</div><div class="ttdoc">Sets which label is visible.</div><div class="ttdef"><b>Definition:</b> main.c:477</div></div>
 <div class="ttc" id="avars_8h_html"><div class="ttname"><a href="vars_8h.html">vars.h</a></div><div class="ttdoc">Contains global macros, variables, typedefs, and struct definitions.</div></div>
 <div class="ttc" id="avars_8h_html_aa145f58f305e9b209620c2677f01404e"><div class="ttname"><a href="vars_8h.html#aa145f58f305e9b209620c2677f01404e">NUMBEROFPAGES</a></div><div class="ttdeci">#define NUMBEROFPAGES</div><div class="ttdoc">Number of table pages to generate.</div><div class="ttdef"><b>Definition:</b> vars.h:38</div></div>
 </div><!-- fragment --></div><!-- contents -->

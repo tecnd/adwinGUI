@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['tbias_0',['tbias',['../struct_analog_channel_properties.html#a13d70140255d47021a097ffdbcd0d620',1,'AnalogChannelProperties']]],
-  ['tfcn_1',['tfcn',['../struct_analog_channel_properties.html#aac9ece47fa0d803ad31d96a5bfcceee9',1,'AnalogChannelProperties']]],
-  ['timearray_2',['TimeArray',['../vars_8h.html#a206451dc0f61f4ccfb0edef806ea8f05',1,'vars.h']]],
-  ['tscale_3',['tscale',['../struct_analog_table_values.html#a6f320ba7443ca5b76c1be7c95a9d7cac',1,'AnalogTableValues']]]
+  ['panelhandle_0',['panelHandle',['../vars_8h.html#a8055542f0409de69de9969edbb0a23c5',1,'vars.h']]],
+  ['panelhandle2_1',['panelHandle2',['../vars_8h.html#abb8359927877726f16260258cfa5ccba',1,'vars.h']]],
+  ['panelhandle3_2',['panelHandle3',['../vars_8h.html#acc66b2deac0b12d676e496719dba6a91',1,'vars.h']]],
+  ['panelhandle4_3',['panelHandle4',['../vars_8h.html#a9a683e9ff5020b31d768e32e4d27f388',1,'vars.h']]],
+  ['panelhandle7_4',['panelHandle7',['../vars_8h.html#a353cc52ca441b12de4c88b608c07bec9',1,'vars.h']]],
+  ['panelhandle8_5',['panelHandle8',['../vars_8h.html#a17c57136db1c0a4f40b27fc5fdfb65f2',1,'vars.h']]],
+  ['panelhandle_5fsub2_6',['panelHandle_sub2',['../vars_8h.html#a882d8cb84c9299f544f0c3cbc567ac91',1,'vars.h']]]
 ];

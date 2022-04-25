@@ -83,7 +83,7 @@ $(function() {
 <code>#include &quot;GUIDesign2.h&quot;</code><br />
 <code>#include &quot;Scan.h&quot;</code><br />
 <code>#include &quot;ScanTableLoader.h&quot;</code><br />
-<code>#include &quot;main.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="main_8h_source.html">main.h</a>&quot;</code><br />
 <code>#include &quot;scan2.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="vars_8h_source.html">vars.h</a>&quot;</code><br />
 </div><table class="memberdecls">
@@ -151,36 +151,40 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SaveSettings</b> (voi
 <tr class="memitem:a98f2caba7b218be1b6270c39a15ed8c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a98f2caba7b218be1b6270c39a15ed8c9">DrawNewTable</a> (int isdimmed)</td></tr>
 <tr class="memdesc:a98f2caba7b218be1b6270c39a15ed8c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Redraws analog and digital tables.  <a href="_g_u_i_design_8c.html#a98f2caba7b218be1b6270c39a15ed8c9">More...</a><br /></td></tr>
 <tr class="separator:a98f2caba7b218be1b6270c39a15ed8c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43e134cd7892adc614ede40ef84646b3"><td class="memItemLeft" align="right" valign="top"><a id="a43e134cd7892adc614ede40ef84646b3" name="a43e134cd7892adc614ede40ef84646b3"></a>
-void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>ANALOGSET_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
-<tr class="memdesc:a43e134cd7892adc614ede40ef84646b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Analog channel settings menu option. <br /></td></tr>
+<tr class="memitem:a43e134cd7892adc614ede40ef84646b3"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a43e134cd7892adc614ede40ef84646b3">ANALOGSET_CALLBACK</a> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memdesc:a43e134cd7892adc614ede40ef84646b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the analog channel settings menu option.  <a href="_g_u_i_design_8c.html#a43e134cd7892adc614ede40ef84646b3">More...</a><br /></td></tr>
 <tr class="separator:a43e134cd7892adc614ede40ef84646b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a96dc86ae7719717698b8aa645cc4d610"><td class="memItemLeft" align="right" valign="top"><a id="a96dc86ae7719717698b8aa645cc4d610" name="a96dc86ae7719717698b8aa645cc4d610"></a>
-void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>DIGITALSET_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memitem:a96dc86ae7719717698b8aa645cc4d610"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a96dc86ae7719717698b8aa645cc4d610">DIGITALSET_CALLBACK</a> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memdesc:a96dc86ae7719717698b8aa645cc4d610"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the digital channel settings menu option.  <a href="_g_u_i_design_8c.html#a96dc86ae7719717698b8aa645cc4d610">More...</a><br /></td></tr>
 <tr class="separator:a96dc86ae7719717698b8aa645cc4d610"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5835d08ce85a6614de2c91805ab6031"><td class="memItemLeft" align="right" valign="top"><a id="af5835d08ce85a6614de2c91805ab6031" name="af5835d08ce85a6614de2c91805ab6031"></a>
 void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>MENU_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memdesc:af5835d08ce85a6614de2c91805ab6031"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the menu bar. Currently handles the saving and loading options. <br /></td></tr>
 <tr class="separator:af5835d08ce85a6614de2c91805ab6031"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4e7963ed4320a51dccfbefd0d4431ad"><td class="memItemLeft" align="right" valign="top"><a id="aa4e7963ed4320a51dccfbefd0d4431ad" name="aa4e7963ed4320a51dccfbefd0d4431ad"></a>
 int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>ANALOGTABLE_CALLBACK</b> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memdesc:aa4e7963ed4320a51dccfbefd0d4431ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the analog table. On double-click, opens the analog control for the clicked cell. <br /></td></tr>
 <tr class="separator:aa4e7963ed4320a51dccfbefd0d4431ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92c7ed0bb8a11f8b8e3421f719c2b17b"><td class="memItemLeft" align="right" valign="top"><a id="a92c7ed0bb8a11f8b8e3421f719c2b17b" name="a92c7ed0bb8a11f8b8e3421f719c2b17b"></a>
-int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>TOGGLE_CALLBACK</b> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memitem:a92c7ed0bb8a11f8b8e3421f719c2b17b"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a92c7ed0bb8a11f8b8e3421f719c2b17b">TOGGLE_CALLBACK</a> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memdesc:a92c7ed0bb8a11f8b8e3421f719c2b17b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the page buttons. Left-click to go to that page, right-click to rename the page.  <a href="_g_u_i_design_8c.html#a92c7ed0bb8a11f8b8e3421f719c2b17b">More...</a><br /></td></tr>
 <tr class="separator:a92c7ed0bb8a11f8b8e3421f719c2b17b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6edb0b3247be9794681bdd7790ecfeab"><td class="memItemLeft" align="right" valign="top"><a id="a6edb0b3247be9794681bdd7790ecfeab" name="a6edb0b3247be9794681bdd7790ecfeab"></a>
 int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>CHECKBOX_CALLBACK</b> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memdesc:a6edb0b3247be9794681bdd7790ecfeab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the page enable checkboxes. On toggle, dims or undims the tables. <br /></td></tr>
 <tr class="separator:a6edb0b3247be9794681bdd7790ecfeab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1c115f82a7ceaf39fc10c109b4d6c40"><td class="memItemLeft" align="right" valign="top"><a id="ac1c115f82a7ceaf39fc10c109b4d6c40" name="ac1c115f82a7ceaf39fc10c109b4d6c40"></a>
 int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>DIGTABLE_CALLBACK</b> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memdesc:ac1c115f82a7ceaf39fc10c109b4d6c40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the digital table. On double-click, toggles the clicked cell and updates the entry in DigTableValues. <br /></td></tr>
 <tr class="separator:ac1c115f82a7ceaf39fc10c109b4d6c40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a488880df55c13cbc6d01d969a5c6d487"><td class="memItemLeft" align="right" valign="top"><a id="a488880df55c13cbc6d01d969a5c6d487" name="a488880df55c13cbc6d01d969a5c6d487"></a>
 int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>TIMETABLE_CALLBACK</b> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memdesc:a488880df55c13cbc6d01d969a5c6d487"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the time table. Updates the time table and all analog cells in that column. <br /></td></tr>
 <tr class="separator:a488880df55c13cbc6d01d969a5c6d487"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a212fb5fe225390e0927b9281885fcd2b"><td class="memItemLeft" align="right" valign="top"><a id="a212fb5fe225390e0927b9281885fcd2b" name="a212fb5fe225390e0927b9281885fcd2b"></a>
-void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>BOOTADWIN_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memitem:a212fb5fe225390e0927b9281885fcd2b"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a212fb5fe225390e0927b9281885fcd2b">BOOTADWIN_CALLBACK</a> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memdesc:a212fb5fe225390e0927b9281885fcd2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Boot Adwin menu option.  <a href="_g_u_i_design_8c.html#a212fb5fe225390e0927b9281885fcd2b">More...</a><br /></td></tr>
 <tr class="separator:a212fb5fe225390e0927b9281885fcd2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33e2e4f8d7034f5a41ad1691a4dde5ab"><td class="memItemLeft" align="right" valign="top"><a id="a33e2e4f8d7034f5a41ad1691a4dde5ab" name="a33e2e4f8d7034f5a41ad1691a4dde5ab"></a>
-void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>CLEARPANEL_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memitem:a33e2e4f8d7034f5a41ad1691a4dde5ab"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a33e2e4f8d7034f5a41ad1691a4dde5ab">CLEARPANEL_CALLBACK</a> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memdesc:a33e2e4f8d7034f5a41ad1691a4dde5ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Clear Panel menu option.  <a href="_g_u_i_design_8c.html#a33e2e4f8d7034f5a41ad1691a4dde5ab">More...</a><br /></td></tr>
 <tr class="separator:a33e2e4f8d7034f5a41ad1691a4dde5ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefc17b97710375d862980e7cae0616f9"><td class="memItemLeft" align="right" valign="top"><a id="aefc17b97710375d862980e7cae0616f9" name="aefc17b97710375d862980e7cae0616f9"></a>
 void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>INSERTCOLUMN_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
@@ -197,9 +201,6 @@ void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>COPYCOLUM
 <tr class="separator:a504efb458d8f9e4b6ce33efbea5bc426"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad282731276765d4b48d61493e38db9f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#ad282731276765d4b48d61493e38db9f8">SaveArrays</a> (char savedname[500], int csize)</td></tr>
 <tr class="separator:ad282731276765d4b48d61493e38db9f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af05711c177f1529c68b0dbd0d6664ee5"><td class="memItemLeft" align="right" valign="top"><a id="af05711c177f1529c68b0dbd0d6664ee5" name="af05711c177f1529c68b0dbd0d6664ee5"></a>
-void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>RESETZERO_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
-<tr class="separator:af05711c177f1529c68b0dbd0d6664ee5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb04570030c0ca69623d2eecc1551ed3"><td class="memItemLeft" align="right" valign="top"><a id="acb04570030c0ca69623d2eecc1551ed3" name="acb04570030c0ca69623d2eecc1551ed3"></a>
 void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>EXPORT_PANEL_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
 <tr class="separator:acb04570030c0ca69623d2eecc1551ed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -231,11 +232,14 @@ void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>SCANSETTI
 <tr class="memitem:a78d01a2c32620d4089eb07119ee5bde5"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a78d01a2c32620d4089eb07119ee5bde5">Analog_Cell_Paste</a> (int <a class="el" href="vars_8h.html#a8055542f0409de69de9969edbb0a23c5">panelHandle</a>, int controlID, int MenuItemID, void *callbackData)</td></tr>
 <tr class="separator:a78d01a2c32620d4089eb07119ee5bde5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e8ec2988ebbb3e81c54e729c9d20af6"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a6e8ec2988ebbb3e81c54e729c9d20af6">EXIT</a> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memdesc:a6e8ec2988ebbb3e81c54e729c9d20af6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback triggered by selecting Exit from the menubar. Directly calls <a class="el" href="_g_u_i_design_8c.html#a009937194be1b00e85b9cc3f5da3e04d" title="Callback for the panel. Handles closing the program.">PANEL_CALLBACK()</a> with event EVENT_CLOSE.  <a href="_g_u_i_design_8c.html#a6e8ec2988ebbb3e81c54e729c9d20af6">More...</a><br /></td></tr>
 <tr class="separator:a6e8ec2988ebbb3e81c54e729c9d20af6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a009937194be1b00e85b9cc3f5da3e04d"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a009937194be1b00e85b9cc3f5da3e04d">PANEL_CALLBACK</a> (int panel, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
+<tr class="memdesc:a009937194be1b00e85b9cc3f5da3e04d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the panel. Handles closing the program.  <a href="_g_u_i_design_8c.html#a009937194be1b00e85b9cc3f5da3e04d">More...</a><br /></td></tr>
 <tr class="separator:a009937194be1b00e85b9cc3f5da3e04d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8b28d9c0f7f6f2002c9a1880c17b0b5"><td class="memItemLeft" align="right" valign="top"><a id="ab8b28d9c0f7f6f2002c9a1880c17b0b5" name="ab8b28d9c0f7f6f2002c9a1880c17b0b5"></a>
 void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>Scan_Table_Load</b> (int panel, int controlID, int MenuItemID, void *callbackData)</td></tr>
+<tr class="memdesc:ab8b28d9c0f7f6f2002c9a1880c17b0b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens the Scan Loader panel. <br /></td></tr>
 <tr class="separator:ab8b28d9c0f7f6f2002c9a1880c17b0b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
@@ -336,6 +340,92 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
       </table>
 </div><div class="memdoc">
 <p >Replaces Highlighted Cell contents with the values copied to the clipboard using Analog_Cell_Copy This function Handles copies and pastes of analog channel data. </p>
+
+</div>
+</div>
+<a id="a43e134cd7892adc614ede40ef84646b3" name="a43e134cd7892adc614ede40ef84646b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43e134cd7892adc614ede40ef84646b3">&#9670;&nbsp;</a></span>ANALOGSET_CALLBACK()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CVICALLBACK ANALOGSET_CALLBACK </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuBar</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuItem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>callbackData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>panel</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Callback for the analog channel settings menu option. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>Should be merged into <a class="el" href="_g_u_i_design_8c.html#af5835d08ce85a6614de2c91805ab6031" title="Callback for the menu bar. Currently handles the saving and loading options.">MENU_CALLBACK()</a>. </dd></dl>
+
+</div>
+</div>
+<a id="a212fb5fe225390e0927b9281885fcd2b" name="a212fb5fe225390e0927b9281885fcd2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a212fb5fe225390e0927b9281885fcd2b">&#9670;&nbsp;</a></span>BOOTADWIN_CALLBACK()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CVICALLBACK BOOTADWIN_CALLBACK </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuBar</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuItem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>callbackData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>panel</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Callback for the Boot Adwin menu option. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>Should be merged into <a class="el" href="_g_u_i_design_8c.html#af5835d08ce85a6614de2c91805ab6031" title="Callback for the menu bar. Currently handles the saving and loading options.">MENU_CALLBACK()</a>. </dd></dl>
 
 </div>
 </div>
@@ -476,6 +566,49 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The resulting analog value. </dd></dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>What is SimpleTiming? Seems turned on by default. </dd></dl>
+
+</div>
+</div>
+<a id="a33e2e4f8d7034f5a41ad1691a4dde5ab" name="a33e2e4f8d7034f5a41ad1691a4dde5ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33e2e4f8d7034f5a41ad1691a4dde5ab">&#9670;&nbsp;</a></span>CLEARPANEL_CALLBACK()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CVICALLBACK CLEARPANEL_CALLBACK </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuBar</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuItem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>callbackData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>panel</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Callback for the Clear Panel menu option. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd>Should be merged into <a class="el" href="_g_u_i_design_8c.html#af5835d08ce85a6614de2c91805ab6031" title="Callback for the menu bar. Currently handles the saving and loading options.">MENU_CALLBACK()</a>. </dd></dl>
 
 </div>
 </div>
@@ -752,6 +885,49 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
 
 </div>
 </div>
+<a id="a96dc86ae7719717698b8aa645cc4d610" name="a96dc86ae7719717698b8aa645cc4d610"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96dc86ae7719717698b8aa645cc4d610">&#9670;&nbsp;</a></span>DIGITALSET_CALLBACK()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CVICALLBACK DIGITALSET_CALLBACK </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuBar</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuItem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>callbackData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>panel</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Callback for the digital channel settings menu option. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>Should be merged into <a class="el" href="_g_u_i_design_8c.html#af5835d08ce85a6614de2c91805ab6031" title="Callback for the menu bar. Currently handles the saving and loading options.">MENU_CALLBACK()</a>. </dd></dl>
+
+</div>
+</div>
 <a id="a98f2caba7b218be1b6270c39a15ed8c9" name="a98f2caba7b218be1b6270c39a15ed8c9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a98f2caba7b218be1b6270c39a15ed8c9">&#9670;&nbsp;</a></span>DrawNewTable()</h2>
 
@@ -815,7 +991,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Callback triggered by selecting Exit from the menubar. Directly calls <a class="el" href="_g_u_i_design_8c.html#a009937194be1b00e85b9cc3f5da3e04d">PANEL_CALLBACK()</a> with event EVENT_CLOSE. </p><dl class="section author"><dt>Author</dt><dd>Kerry Wang </dd></dl>
+
+<p>Callback triggered by selecting Exit from the menubar. Directly calls <a class="el" href="_g_u_i_design_8c.html#a009937194be1b00e85b9cc3f5da3e04d" title="Callback for the panel. Handles closing the program.">PANEL_CALLBACK()</a> with event EVENT_CLOSE. </p>
+<dl class="section author"><dt>Author</dt><dd>Kerry Wang </dd></dl>
 
 </div>
 </div>
@@ -1008,7 +1186,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Callback for the panel. Handles closing the program. </p><dl class="section author"><dt>Author</dt><dd>Kerry Wang </dd></dl>
+
+<p>Callback for the panel. Handles closing the program. </p>
+<dl class="section author"><dt>Author</dt><dd>Kerry Wang </dd></dl>
 
 </div>
 </div>
@@ -1201,6 +1381,66 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
 
 <p>Callback for the timer object. When the timer's countdown reaches 0, disable itself and call <a class="el" href="_g_u_i_design_8c.html#afc5759b6231a76640763063a6d85d054" title="Flattens the time, analog, and digital tables from multiple &quot;pages&quot; to a single long page....">RunOnce()</a> again. </p>
 <p >The timer is activated in <a class="el" href="_g_u_i_design_8c.html#a0afae188565a4cb3ad38dabe6b90ed11" title="Callback for the Run button. Disables scanning and activates the timer if Repeat is enabled....">CMD_RUN_CALLBACK()</a>, <a class="el" href="_g_u_i_design_8c.html#a72eab897f9261404259eb19c5dad54da" title="Callback for the Scan button. Pretty much a copy of CMD_RUN_CALLBACK(), but activates the Scan flag a...">CMD_SCAN_CALLBACK()</a>, and <a class="el" href="_g_u_i_design_8c.html#a2f72f0fb9b42b3f0efa058b475350d9b" title="Builds the data from the arrays into ADwin-friendly format.">BuildUpdateList()</a>. It gets deactivated here and when we hit <a class="el" href="_g_u_i_design_8c.html#a1fc77427b09aa7c9e9f01c98e33c1de6" title="Callback for the Stop button. Turns off the timer object and the repeat button.">CMDSTOP_CALLBACK()</a>. </p>
+
+</div>
+</div>
+<a id="a92c7ed0bb8a11f8b8e3421f719c2b17b" name="a92c7ed0bb8a11f8b8e3421f719c2b17b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92c7ed0bb8a11f8b8e3421f719c2b17b">&#9670;&nbsp;</a></span>TOGGLE_CALLBACK()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int CVICALLBACK TOGGLE_CALLBACK </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>panel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>control</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>event</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>callbackData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>eventData1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>eventData2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Callback for the page buttons. Left-click to go to that page, right-click to rename the page. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">control</td><td>ID of the clicked button. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

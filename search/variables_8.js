@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['units_0',['units',['../struct_analog_channel_properties.html#a4d7af51ff24665042b0aaaf2f4874c0c',1,'AnalogChannelProperties']]]
+  ['resettolow_0',['resettolow',['../struct_digital_channel_properties.html#acd0b121c71089ca41b190e0862a0fcfc',1,'DigitalChannelProperties']]],
+  ['resettozero_1',['resettozero',['../struct_analog_channel_properties.html#a7e4780ba640af286e2912adae815ec29',1,'AnalogChannelProperties']]]
 ];
