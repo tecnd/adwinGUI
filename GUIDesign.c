@@ -267,7 +267,6 @@ void BuildUpdateList(
     int DMat[NUMBERDIGITALCHANNELS + 1][500], int numtimes) {
   BOOL UseCompression;
   int NewTimeMat[500] = {0};
-  int checkresettozero = 0;
   int UsingFcns[NUMBERANALOGCHANNELS + 1] = {0};
   double cycletime = 0;
   int repeat = 0, timesum = 0;
@@ -470,9 +469,6 @@ void BuildUpdateList(
     SetData_Long(2, ChNum, 1, nuptotal + 1);
     SetData_Float(3, ChVal, 1, nuptotal + 1);
 
-    // determine if we should reset values to zero after a cycle
-    GetMenuBarAttribute(menuHandle, MENU_SETTINGS_RESETZERO, ATTR_CHECKED,
-                        &checkresettozero);
     for (int i = 1; i <= NUMBERANALOGCHANNELS; i++) {
       ResetToZeroAtEnd[i - 1] = AChName[i].resettozero;
     }
@@ -1059,7 +1055,8 @@ void DrawNewTable(int isdimmed) {
 }
 
 /**
-@brief Callback for the Analog channel settings menu option.
+@brief Callback for the analog channel settings menu option.
+@todo Should be merged into MENU_CALLBACK().
 */
 void CVICALLBACK ANALOGSET_CALLBACK(int menuBar, int menuItem,
                                     void* callbackData, int panel) {
@@ -1067,12 +1064,20 @@ void CVICALLBACK ANALOGSET_CALLBACK(int menuBar, int menuItem,
   DisplayPanel(panelHandle2);
 }
 
+/**
+@brief Callback for the digital channel settings menu option.
+@todo Should be merged into MENU_CALLBACK().
+*/
 void CVICALLBACK DIGITALSET_CALLBACK(int menuBar, int menuItem,
                                      void* callbackData, int panel) {
   ChangedVals = TRUE;
   DisplayPanel(panelHandle3);
 }
 
+/**
+@brief Callback for the menu bar. Currently handles the saving and loading
+options.
+*/
 void CVICALLBACK MENU_CALLBACK(int menuBar, int menuItem, void* callbackData,
                                int panel) {
   switch (menuItem) {
@@ -1086,36 +1091,37 @@ void CVICALLBACK MENU_CALLBACK(int menuBar, int menuItem, void* callbackData,
   }
 }
 
+/**
+@brief Callback for the analog table. On double-click, opens the analog control
+for the clicked cell.
+*/
 int CVICALLBACK ANALOGTABLE_CALLBACK(int panel, int control, int event,
                                      void* callbackData, int eventData1,
                                      int eventData2) {
   int pixleft = 0, pixtop = 0;
-  Point cpoint = {0, 0};
+
   char buff[80] = "";
   int leftbuttondown, rightbuttondown, keymod;
-  int panel_to_display;
 
   ChangedVals = TRUE;
   switch (event) {
     case EVENT_LEFT_DOUBLE_CLICK:
-      cpoint.x = 0;
-      cpoint.y = 0;
+      Point cpoint = {0, 0};
       GetActiveTableCell(panelHandle, PANEL_ANALOGTABLE, &cpoint);
       // now set the indicators in the control panel title..ie units
       currentx = cpoint.x;
       currenty = cpoint.y;
       SetControlPanel();
-      panel_to_display = panelHandle4;  // Program Analog Channel
 
       sprintf(buff, "x:%d   y:%d    z:%d", currentx, currenty, currentpage);
-      SetPanelAttribute(panel_to_display, ATTR_TITLE, buff);
+      SetPanelAttribute(panelHandle4, ATTR_TITLE, buff);
       // Read the mouse position and open window there.
       GetGlobalMouseState(&panelHandle, &pixleft, &pixtop, &leftbuttondown,
                           &rightbuttondown, &keymod);
-      SetPanelAttribute(panel_to_display, ATTR_LEFT, pixleft);
-      SetPanelAttribute(panel_to_display, ATTR_TOP, pixtop);
+      SetPanelAttribute(panelHandle4, ATTR_LEFT, pixleft);
+      SetPanelAttribute(panelHandle4, ATTR_TOP, pixtop);
 
-      DisplayPanel(panel_to_display);
+      DisplayPanel(panelHandle4);
 
       break;
   }
@@ -1522,15 +1528,6 @@ double CheckIfWithinLimits(double OutputVoltage, int linenumber) {
   if (OutputVoltage < AChName[linenumber].minvolts)
     NewOutput = AChName[linenumber].minvolts;
   return NewOutput;
-}
-
-void CVICALLBACK RESETZERO_CALLBACK(int menuBar, int menuItem,
-                                    void* callbackData, int panel) {
-  int checked = 0;
-  GetMenuBarAttribute(menuHandle, MENU_SETTINGS_RESETZERO, ATTR_CHECKED,
-                      &checked);
-  SetMenuBarAttribute(menuHandle, MENU_SETTINGS_RESETZERO, ATTR_CHECKED,
-                      abs(checked - 1));
 }
 
 void CVICALLBACK EXPORT_PANEL_CALLBACK(int menuBar, int menuItem,

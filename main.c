@@ -7,7 +7,7 @@
 @mainpage adwinGUI Documentation
 
 adwinGUI is built in LabWindows, with supplementary parts written in ADbasic and
-python.
+Python.
 */
 // IDEAS:
 /*

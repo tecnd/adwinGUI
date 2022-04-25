@@ -54,20 +54,15 @@
 #define  MENU_SETTINGS_DIGITAL            11      /* callback function: DIGITALSET_CALLBACK */
 #define  MENU_SETTINGS_BOOTADWIN          12      /* callback function: BOOTADWIN_CALLBACK */
 #define  MENU_SETTINGS_CLEARPANEL         13      /* callback function: CLEARPANEL_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO          14      /* callback function: RESETZERO_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO_SUBMENU  15
-#define  MENU_SETTINGS_RESETZERO_SETLOW   16      /* callback function: MENU_ALLLOW_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO_HOLD     17      /* callback function: MENU_HOLD_CALLBACK */
-#define  MENU_SETTINGS_RESETZERO_BYCHNL   18      /* callback function: MENU_BYCHANNEL_CALLBACK */
-#define  MENU_SETTINGS_SCANSETTING        19      /* callback function: SCANSETTING_CALLBACK */
-#define  MENU_EDITMATRIX                  20
-#define  MENU_EDITMATRIX_INSERTCOLUMN     21      /* callback function: INSERTCOLUMN_CALLBACK */
-#define  MENU_EDITMATRIX_DELETECOLUMN     22      /* callback function: DELETECOLUMN_CALLBACK */
-#define  MENU_EDITMATRIX_COPYCOLUMN       23      /* callback function: COPYCOLUMN_CALLBACK */
-#define  MENU_EDITMATRIX_PASTECOLUMN      24      /* callback function: PASTECOLUMN_CALLBACK */
-#define  MENU_PREFS                       25
-#define  MENU_PREFS_COMPRESSION           26      /* callback function: COMPRESSION_CALLBACK */
-#define  MENU_PREFS_SIMPLETIMING          27      /* callback function: SIMPLETIMING_CALLBACK */
+#define  MENU_SETTINGS_SCANSETTING        14      /* callback function: SCANSETTING_CALLBACK */
+#define  MENU_EDITMATRIX                  15
+#define  MENU_EDITMATRIX_INSERTCOLUMN     16      /* callback function: INSERTCOLUMN_CALLBACK */
+#define  MENU_EDITMATRIX_DELETECOLUMN     17      /* callback function: DELETECOLUMN_CALLBACK */
+#define  MENU_EDITMATRIX_COPYCOLUMN       18      /* callback function: COPYCOLUMN_CALLBACK */
+#define  MENU_EDITMATRIX_PASTECOLUMN      19      /* callback function: PASTECOLUMN_CALLBACK */
+#define  MENU_PREFS                       20
+#define  MENU_PREFS_COMPRESSION           21      /* callback function: COMPRESSION_CALLBACK */
+#define  MENU_PREFS_SIMPLETIMING          22      /* callback function: SIMPLETIMING_CALLBACK */
 
 
      /* Callback Prototypes: */
@@ -90,13 +85,9 @@ void CVICALLBACK EXIT(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK EXPORT_PANEL_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK EXPORT_PYTHON_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK INSERTCOLUMN_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
-void CVICALLBACK MENU_ALLLOW_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
-void CVICALLBACK MENU_BYCHANNEL_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK MENU_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
-void CVICALLBACK MENU_HOLD_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK PANEL_CALLBACK(int panel, int event, void *callbackData, int eventData1, int eventData2);
 void CVICALLBACK PASTECOLUMN_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
-void CVICALLBACK RESETZERO_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SCANSETTING_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK SIMPLETIMING_CALLBACK(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK TIMER_CALLBACK(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
