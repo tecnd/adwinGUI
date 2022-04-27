@@ -46,8 +46,8 @@ void UpdateScanValue(int);
 void ExportScanBuffer(void);
 
 // Clipboard to hold data from copy/paste cells
+BOOL ClipboardEmpty = TRUE;
 double TimeClip;
-int ClipColumn = -1;
 struct AnalogTableValues AnalogClip[NUMBERANALOGCHANNELS + 1];
 int DigClip[NUMBERDIGITALCHANNELS + 1];
 
@@ -1335,18 +1335,18 @@ void ShiftColumn(int col, int page, int dir) {
   for (int i = 0; i < NUMBEROFCOLUMNS - col; i++) {
     TimeArray[start + dir * i][page] = TimeArray[start + dir * (i + 1)][page];
 
-    for (int j = 1; j <= NUMBERANALOGCHANNELS; j++) {
-      AnalogTable[start + dir * i][j][page].fcn =
-          AnalogTable[start + dir * (i + 1)][j][page].fcn;
-      AnalogTable[start + dir * i][j][page].fval =
-          AnalogTable[start + dir * (i + 1)][j][page].fval;
-      AnalogTable[start + dir * i][j][page].tscale =
-          AnalogTable[start + dir * (i + 1)][j][page].tscale;
+    for (int row = 1; row <= NUMBERANALOGCHANNELS; row++) {
+      AnalogTable[start + dir * i][row][page].fcn =
+          AnalogTable[start + dir * (i + 1)][row][page].fcn;
+      AnalogTable[start + dir * i][row][page].fval =
+          AnalogTable[start + dir * (i + 1)][row][page].fval;
+      AnalogTable[start + dir * i][row][page].tscale =
+          AnalogTable[start + dir * (i + 1)][row][page].tscale;
     }
 
-    for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++) {
-      DigTableValues[start + dir * i][j][page] =
-          DigTableValues[start + dir * (i + 1)][j][page];
+    for (int row = 1; row <= NUMBERDIGITALCHANNELS; row++) {
+      DigTableValues[start + dir * i][row][page] =
+          DigTableValues[start + dir * (i + 1)][row][page];
     }
   }
 
@@ -1355,82 +1355,59 @@ void ShiftColumn(int col, int page, int dir) {
     TimeArray[zerocol][page] = 0;
   }
 
-  for (int j = 1; j <= NUMBERANALOGCHANNELS; j++) {
-    AnalogTable[zerocol][j][page].fcn = 1;
-    AnalogTable[zerocol][j][page].fval = 0;
-    AnalogTable[zerocol][j][page].tscale = 1;
+  for (int row = 1; row <= NUMBERANALOGCHANNELS; row++) {
+    AnalogTable[zerocol][row][page].fcn = 1;
+    AnalogTable[zerocol][row][page].fval = 0;
+    AnalogTable[zerocol][row][page].tscale = 1;
   }
 
-  for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++) {
-    DigTableValues[zerocol][j][page] = 0;
+  for (int row = 1; row <= NUMBERDIGITALCHANNELS; row++) {
+    DigTableValues[zerocol][row][page] = 0;
   }
   ChangedVals = TRUE;
   DrawNewTable(0);
 }
 
+/**
+@brief Copies a column to the clipboard.
+*/
 void CVICALLBACK COPYCOLUMN_CALLBACK(int menuBar, int menuItem,
                                      void* callbackData, int panel) {
-  // All attributes of active column are replaced with those of the global
-  // "clip" variables (from ClipColumn)
-
-  char buff[20] = "", buff2[100] = "";
   Point cpoint = {0, 0};
-
   GetActiveTableCell(panelHandle, PANEL_TIMETABLE, &cpoint);
 
-  // User Confirmation of Selected Column
-  sprintf(buff, "%d", cpoint.x);
-  strcat(buff2, "Confirm Copy of column ");
-  strcat(buff2, buff);
-  int status = ConfirmPopup("Array Manipulation:Copy", buff2);
-
-  if (status == 1) {
-    ClipColumn = cpoint.x;
-    TimeClip = TimeArray[cpoint.x][currentpage];
-    for (int j = 1; j <= NUMBERANALOGCHANNELS; j++) {
-      AnalogClip[j].fcn = AnalogTable[cpoint.x][j][currentpage].fcn;
-      AnalogClip[j].fval = AnalogTable[cpoint.x][j][currentpage].fval;
-      AnalogClip[j].tscale = AnalogTable[cpoint.x][j][currentpage].tscale;
-    }
-
-    for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++) {
-      DigClip[j] = DigTableValues[cpoint.x][j][currentpage];
-    }
-    DrawNewTable(0);  // draws undimmed table if already dimmed
+  ClipboardEmpty = FALSE;
+  TimeClip = TimeArray[cpoint.x][currentpage];
+  for (int row = 1; row <= NUMBERANALOGCHANNELS; row++) {
+    AnalogClip[row] = AnalogTable[cpoint.x][row][currentpage];
   }
+  for (int row = 1; row <= NUMBERDIGITALCHANNELS; row++) {
+    DigClip[row] = DigTableValues[cpoint.x][row][currentpage];
+  }
+  DrawNewTable(0);  // Draws undimmed table if already dimmed
 }
 
 /**
-Replaces all the values in the selected column with the global "clip" values
+@brief Replaces column with values from the clipboard.
 */
 void CVICALLBACK PASTECOLUMN_CALLBACK(int menuBar, int menuItem,
                                       void* callbackData, int panel) {
-  Point cpoint = {0, 0};
-  ChangedVals = 1;
-
   // Ensures a column has been copied to the clipboard
-  if (ClipColumn > 0) {
-    char buff[100] = "";
-    // User Confirmation of Copy Function
+  if (!ClipboardEmpty) {
+    Point cpoint = {0, 0};
     GetActiveTableCell(panelHandle, PANEL_TIMETABLE, &cpoint);
-    sprintf(
-        buff,
-        "Confirm Copy of Column %d to %d?\nContents of Column %d will be lost.",
-        ClipColumn, cpoint.x, cpoint.x);
-    int status = ConfirmPopup("Paste Column", buff);
-
-    if (status == 1) {
-      TimeArray[cpoint.x][currentpage] = TimeClip;
-      for (int j = 1; j <= NUMBERANALOGCHANNELS; j++) {
-        AnalogTable[cpoint.x][j][currentpage].fcn = AnalogClip[j].fcn;
-        AnalogTable[cpoint.x][j][currentpage].fval = AnalogClip[j].fval;
-        AnalogTable[cpoint.x][j][currentpage].tscale = AnalogClip[j].tscale;
-        DigTableValues[cpoint.x][j][currentpage] = DigClip[j];
-      }
-      DrawNewTable(0);
+    TimeArray[cpoint.x][currentpage] = TimeClip;
+    for (int row = 1; row <= NUMBERANALOGCHANNELS; row++) {
+      AnalogTable[cpoint.x][row][currentpage] = AnalogClip[row];
     }
-  } else
-    ConfirmPopup("Copy Column", "No Column Selected");
+    for (int row = 1; row <= NUMBERDIGITALCHANNELS; row++) {
+      DigTableValues[cpoint.x][row][currentpage] = DigClip[row];
+    }
+    ChangedVals = TRUE;
+    DrawNewTable(0);
+  } else {
+    MessagePopup("Paste error", "Clipboard is empty!");
+  }
 }
 
 /** Loads all Panel attributes and values which are not saved automatically by
