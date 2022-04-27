@@ -95,31 +95,24 @@ Functions</h2></td></tr>
 <tr class="memitem:ac01a1dab7f45025b08d9090a0e661233"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#ac01a1dab7f45025b08d9090a0e661233">OptimizeTimeLoop</a> (int *UpdateNum, int count)</td></tr>
 <tr class="memdesc:ac01a1dab7f45025b08d9090a0e661233"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compresses the UpdateNum list by replacing long strings of 0's with a single negative number representing the amount replaced. i.e. if we see 2000 0's in a row, replace with -2000 instead.  <a href="_g_u_i_design_8c.html#ac01a1dab7f45025b08d9090a0e661233">More...</a><br /></td></tr>
 <tr class="separator:ac01a1dab7f45025b08d9090a0e661233"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a771cb887bed3ad66bff22bdad595d894"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a771cb887bed3ad66bff22bdad595d894">ShiftColumn3</a> (int, int, int)</td></tr>
-<tr class="separator:a771cb887bed3ad66bff22bdad595d894"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd2748ff8f8fc1b7bdac4efb9f5d1010"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#afd2748ff8f8fc1b7bdac4efb9f5d1010">ShiftColumn</a> (int col, int page, int dir)</td></tr>
+<tr class="memdesc:afd2748ff8f8fc1b7bdac4efb9f5d1010"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts or deletes a column on a page by shifting columns left or right.  <a href="_g_u_i_design_8c.html#afd2748ff8f8fc1b7bdac4efb9f5d1010">More...</a><br /></td></tr>
+<tr class="separator:afd2748ff8f8fc1b7bdac4efb9f5d1010"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc5759b6231a76640763063a6d85d054"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#afc5759b6231a76640763063a6d85d054">RunOnce</a> (void)</td></tr>
 <tr class="memdesc:afc5759b6231a76640763063a6d85d054"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flattens the time, analog, and digital tables from multiple "pages" to a single long page. Passes the tables to <a class="el" href="_g_u_i_design_8c.html#a2f72f0fb9b42b3f0efa058b475350d9b" title="Builds the data from the arrays into ADwin-friendly format.">BuildUpdateList()</a> to send to the ADwin.  <a href="_g_u_i_design_8c.html#afc5759b6231a76640763063a6d85d054">More...</a><br /></td></tr>
 <tr class="separator:afc5759b6231a76640763063a6d85d054"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9fad75a00bef8a3089fe7f5372239fa"><td class="memItemLeft" align="right" valign="top"><a id="aa9fad75a00bef8a3089fe7f5372239fa" name="aa9fad75a00bef8a3089fe7f5372239fa"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SaveArrays</b> (char *, int)</td></tr>
-<tr class="separator:aa9fad75a00bef8a3089fe7f5372239fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaae5a2007b24fbc57b4636aa4a1670db"><td class="memItemLeft" align="right" valign="top"><a id="aaae5a2007b24fbc57b4636aa4a1670db" name="aaae5a2007b24fbc57b4636aa4a1670db"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>LoadArrays</b> (char *, int)</td></tr>
-<tr class="separator:aaae5a2007b24fbc57b4636aa4a1670db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97561ad71a324731d9928af878e32ed4"><td class="memItemLeft" align="right" valign="top"><a id="a97561ad71a324731d9928af878e32ed4" name="a97561ad71a324731d9928af878e32ed4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>ExportPanel</b> (char *, int)</td></tr>
-<tr class="separator:a97561ad71a324731d9928af878e32ed4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ebe8e978a5e857b0c0ca79331ccbb27"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a8ebe8e978a5e857b0c0ca79331ccbb27">CalcFcnValue</a> (int fcn, double Vinit, double Vfinal, double timescale, double telapsed, double celltime)</td></tr>
 <tr class="memdesc:a8ebe8e978a5e857b0c0ca79331ccbb27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given an analog function setting and a time, calculate the analog value.  <a href="_g_u_i_design_8c.html#a8ebe8e978a5e857b0c0ca79331ccbb27">More...</a><br /></td></tr>
 <tr class="separator:a8ebe8e978a5e857b0c0ca79331ccbb27"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af39618179bb10e5ee39ee2f228cc8ac0"><td class="memItemLeft" align="right" valign="top"><a id="af39618179bb10e5ee39ee2f228cc8ac0" name="af39618179bb10e5ee39ee2f228cc8ac0"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>CheckIfWithinLimits</b> (double, int)</td></tr>
-<tr class="separator:af39618179bb10e5ee39ee2f228cc8ac0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab36583afd9ea7ad00f0a5cb19a0654f7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#ab36583afd9ea7ad00f0a5cb19a0654f7">CheckIfWithinLimits</a> (double OutputVoltage, int linenumber)</td></tr>
+<tr class="memdesc:ab36583afd9ea7ad00f0a5cb19a0654f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clamps the voltage between the analog line's minvolts and maxvolts.  <a href="_g_u_i_design_8c.html#ab36583afd9ea7ad00f0a5cb19a0654f7">More...</a><br /></td></tr>
+<tr class="separator:ab36583afd9ea7ad00f0a5cb19a0654f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63869a8f922bd62894720eb99125fa70"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a63869a8f922bd62894720eb99125fa70">UpdateScanValue</a> (int Reset)</td></tr>
 <tr class="memdesc:a63869a8f922bd62894720eb99125fa70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Black magic.  <a href="_g_u_i_design_8c.html#a63869a8f922bd62894720eb99125fa70">More...</a><br /></td></tr>
 <tr class="separator:a63869a8f922bd62894720eb99125fa70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a831649aa01c304ceeb46426981dfc9c2"><td class="memItemLeft" align="right" valign="top"><a id="a831649aa01c304ceeb46426981dfc9c2" name="a831649aa01c304ceeb46426981dfc9c2"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>ExportScanBuffer</b> (void)</td></tr>
+<tr class="memdesc:a831649aa01c304ceeb46426981dfc9c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the scan buffer to a text file. <br /></td></tr>
 <tr class="separator:a831649aa01c304ceeb46426981dfc9c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef9cd007d78ddc646604b50c003d1e29"><td class="memItemLeft" align="right" valign="top">BOOL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#aef9cd007d78ddc646604b50c003d1e29">IsPageChecked</a> (int page)</td></tr>
 <tr class="memdesc:aef9cd007d78ddc646604b50c003d1e29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns if the page is checked.  <a href="_g_u_i_design_8c.html#aef9cd007d78ddc646604b50c003d1e29">More...</a><br /></td></tr>
@@ -137,6 +130,12 @@ int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>CMD_RUN_CA
 <tr class="memitem:a1fc77427b09aa7c9e9f01c98e33c1de6"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a1fc77427b09aa7c9e9f01c98e33c1de6">CMDSTOP_CALLBACK</a> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
 <tr class="memdesc:a1fc77427b09aa7c9e9f01c98e33c1de6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Stop button. Turns off the timer object and the repeat button.  <a href="_g_u_i_design_8c.html#a1fc77427b09aa7c9e9f01c98e33c1de6">More...</a><br /></td></tr>
 <tr class="separator:a1fc77427b09aa7c9e9f01c98e33c1de6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6103455df288b2492912f0d5bb9f89eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a6103455df288b2492912f0d5bb9f89eb">LoadArrays</a> (char savedname[500])</td></tr>
+<tr class="memdesc:a6103455df288b2492912f0d5bb9f89eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads internal arrays from the .arr file.  <a href="_g_u_i_design_8c.html#a6103455df288b2492912f0d5bb9f89eb">More...</a><br /></td></tr>
+<tr class="separator:a6103455df288b2492912f0d5bb9f89eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0e7cb6cd0885cc57bf2b92fb2b4e82a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#ab0e7cb6cd0885cc57bf2b92fb2b4e82a">SaveArrays</a> (char savedname[500])</td></tr>
+<tr class="memdesc:ab0e7cb6cd0885cc57bf2b92fb2b4e82a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves internal arrays to a .arr file.  <a href="_g_u_i_design_8c.html#ab0e7cb6cd0885cc57bf2b92fb2b4e82a">More...</a><br /></td></tr>
+<tr class="separator:ab0e7cb6cd0885cc57bf2b92fb2b4e82a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb2eb8ec1d703539637b101a4c278862"><td class="memItemLeft" align="right" valign="top"><a id="aeb2eb8ec1d703539637b101a4c278862" name="aeb2eb8ec1d703539637b101a4c278862"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>LoadSettings</b> (void)</td></tr>
 <tr class="memdesc:aeb2eb8ec1d703539637b101a4c278862"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads panel values from .pan and .arr files. <br /></td></tr>
@@ -186,51 +185,57 @@ int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>TIMETABLE_
 <tr class="memitem:a33e2e4f8d7034f5a41ad1691a4dde5ab"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a33e2e4f8d7034f5a41ad1691a4dde5ab">CLEARPANEL_CALLBACK</a> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
 <tr class="memdesc:a33e2e4f8d7034f5a41ad1691a4dde5ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Clear Panel menu option.  <a href="_g_u_i_design_8c.html#a33e2e4f8d7034f5a41ad1691a4dde5ab">More...</a><br /></td></tr>
 <tr class="separator:a33e2e4f8d7034f5a41ad1691a4dde5ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefc17b97710375d862980e7cae0616f9"><td class="memItemLeft" align="right" valign="top"><a id="aefc17b97710375d862980e7cae0616f9" name="aefc17b97710375d862980e7cae0616f9"></a>
-void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>INSERTCOLUMN_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memitem:aefc17b97710375d862980e7cae0616f9"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#aefc17b97710375d862980e7cae0616f9">INSERTCOLUMN_CALLBACK</a> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memdesc:aefc17b97710375d862980e7cae0616f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Insert Column menu option. Calls <a class="el" href="_g_u_i_design_8c.html#afd2748ff8f8fc1b7bdac4efb9f5d1010" title="Inserts or deletes a column on a page by shifting columns left or right.">ShiftColumn()</a> in insert mode.  <a href="_g_u_i_design_8c.html#aefc17b97710375d862980e7cae0616f9">More...</a><br /></td></tr>
 <tr class="separator:aefc17b97710375d862980e7cae0616f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a765b32555e789c1b1beb9a702da908"><td class="memItemLeft" align="right" valign="top"><a id="a3a765b32555e789c1b1beb9a702da908" name="a3a765b32555e789c1b1beb9a702da908"></a>
-void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>DELETECOLUMN_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memitem:a3a765b32555e789c1b1beb9a702da908"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a3a765b32555e789c1b1beb9a702da908">DELETECOLUMN_CALLBACK</a> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memdesc:a3a765b32555e789c1b1beb9a702da908"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Delete Column menu option. Calls <a class="el" href="_g_u_i_design_8c.html#afd2748ff8f8fc1b7bdac4efb9f5d1010" title="Inserts or deletes a column on a page by shifting columns left or right.">ShiftColumn()</a> in delete mode.  <a href="_g_u_i_design_8c.html#a3a765b32555e789c1b1beb9a702da908">More...</a><br /></td></tr>
 <tr class="separator:a3a765b32555e789c1b1beb9a702da908"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48a8cf6ab7275da4162516a0dce1d270"><td class="memItemLeft" align="right" valign="top"><a id="a48a8cf6ab7275da4162516a0dce1d270" name="a48a8cf6ab7275da4162516a0dce1d270"></a>
-void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>COPYCOLUMN_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memitem:a48a8cf6ab7275da4162516a0dce1d270"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a48a8cf6ab7275da4162516a0dce1d270">COPYCOLUMN_CALLBACK</a> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memdesc:a48a8cf6ab7275da4162516a0dce1d270"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a column to the clipboard.  <a href="_g_u_i_design_8c.html#a48a8cf6ab7275da4162516a0dce1d270">More...</a><br /></td></tr>
 <tr class="separator:a48a8cf6ab7275da4162516a0dce1d270"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af550572dcd7586b487978e6c231c35f5"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#af550572dcd7586b487978e6c231c35f5">PASTECOLUMN_CALLBACK</a> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memdesc:af550572dcd7586b487978e6c231c35f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces column with values from the clipboard.  <a href="_g_u_i_design_8c.html#af550572dcd7586b487978e6c231c35f5">More...</a><br /></td></tr>
 <tr class="separator:af550572dcd7586b487978e6c231c35f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a504efb458d8f9e4b6ce33efbea5bc426"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a504efb458d8f9e4b6ce33efbea5bc426">LoadArrays</a> (char savedname[500], int csize)</td></tr>
-<tr class="separator:a504efb458d8f9e4b6ce33efbea5bc426"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad282731276765d4b48d61493e38db9f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#ad282731276765d4b48d61493e38db9f8">SaveArrays</a> (char savedname[500], int csize)</td></tr>
-<tr class="separator:ad282731276765d4b48d61493e38db9f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb04570030c0ca69623d2eecc1551ed3"><td class="memItemLeft" align="right" valign="top"><a id="acb04570030c0ca69623d2eecc1551ed3" name="acb04570030c0ca69623d2eecc1551ed3"></a>
-void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>EXPORT_PANEL_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memitem:a2cceaf178351e5913de89e77f7e91866"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a2cceaf178351e5913de89e77f7e91866">ExportPanel</a> (char fexportname[200])</td></tr>
+<tr class="memdesc:a2cceaf178351e5913de89e77f7e91866"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes TimeArray, AnalogTable, and DigTableValues out in text format for other programs to parse.  <a href="_g_u_i_design_8c.html#a2cceaf178351e5913de89e77f7e91866">More...</a><br /></td></tr>
+<tr class="separator:a2cceaf178351e5913de89e77f7e91866"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb04570030c0ca69623d2eecc1551ed3"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#acb04570030c0ca69623d2eecc1551ed3">EXPORT_PANEL_CALLBACK</a> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memdesc:acb04570030c0ca69623d2eecc1551ed3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Export Panel menu option. Prompts the user for a filename and calls <a class="el" href="_g_u_i_design_8c.html#a2cceaf178351e5913de89e77f7e91866" title="Writes TimeArray, AnalogTable, and DigTableValues out in text format for other programs to parse.">ExportPanel()</a>.  <a href="_g_u_i_design_8c.html#acb04570030c0ca69623d2eecc1551ed3">More...</a><br /></td></tr>
 <tr class="separator:acb04570030c0ca69623d2eecc1551ed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c6d265b1ef4f2fe4ef57a986794032a"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a5c6d265b1ef4f2fe4ef57a986794032a">EXPORT_PYTHON_CALLBACK</a> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memdesc:a5c6d265b1ef4f2fe4ef57a986794032a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Export Panel and Launch Python menu option. Exports the panel to the system's temp directory and opens it in the Python reader.  <a href="_g_u_i_design_8c.html#a5c6d265b1ef4f2fe4ef57a986794032a">More...</a><br /></td></tr>
 <tr class="separator:a5c6d265b1ef4f2fe4ef57a986794032a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95f2b30bbbe755f269e540c0608571e4"><td class="memItemLeft" align="right" valign="top"><a id="a95f2b30bbbe755f269e540c0608571e4" name="a95f2b30bbbe755f269e540c0608571e4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>ExportPanel</b> (char fexportname[200], int fnamesize)</td></tr>
-<tr class="separator:a95f2b30bbbe755f269e540c0608571e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd3b7a9bbc719c0630380fb3f5382ad5"><td class="memItemLeft" align="right" valign="top"><a id="acd3b7a9bbc719c0630380fb3f5382ad5" name="acd3b7a9bbc719c0630380fb3f5382ad5"></a>
-void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>CONFIG_EXPORT_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memitem:acd3b7a9bbc719c0630380fb3f5382ad5"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#acd3b7a9bbc719c0630380fb3f5382ad5">CONFIG_EXPORT_CALLBACK</a> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memdesc:acd3b7a9bbc719c0630380fb3f5382ad5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Export Channel Config menu option. Writes out channel configurations to a text file.  <a href="_g_u_i_design_8c.html#acd3b7a9bbc719c0630380fb3f5382ad5">More...</a><br /></td></tr>
 <tr class="separator:acd3b7a9bbc719c0630380fb3f5382ad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a196cbe599fa25bcccaa478d7778852ab"><td class="memItemLeft" align="right" valign="top"><a id="a196cbe599fa25bcccaa478d7778852ab" name="a196cbe599fa25bcccaa478d7778852ab"></a>
-void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>COMPRESSION_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memitem:a196cbe599fa25bcccaa478d7778852ab"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a196cbe599fa25bcccaa478d7778852ab">COMPRESSION_CALLBACK</a> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memdesc:a196cbe599fa25bcccaa478d7778852ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Use Compression menu option. Toggles on click.  <a href="_g_u_i_design_8c.html#a196cbe599fa25bcccaa478d7778852ab">More...</a><br /></td></tr>
 <tr class="separator:a196cbe599fa25bcccaa478d7778852ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77495d9e30c20fe8af207e9726a50850"><td class="memItemLeft" align="right" valign="top"><a id="a77495d9e30c20fe8af207e9726a50850" name="a77495d9e30c20fe8af207e9726a50850"></a>
-void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>SIMPLETIMING_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memitem:a77495d9e30c20fe8af207e9726a50850"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a77495d9e30c20fe8af207e9726a50850">SIMPLETIMING_CALLBACK</a> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memdesc:a77495d9e30c20fe8af207e9726a50850"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Use Simple Timing menu option. Toggles on click.  <a href="_g_u_i_design_8c.html#a77495d9e30c20fe8af207e9726a50850">More...</a><br /></td></tr>
 <tr class="separator:a77495d9e30c20fe8af207e9726a50850"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee1b88cc432b2f77ee780f7502bc5d22"><td class="memItemLeft" align="right" valign="top"><a id="aee1b88cc432b2f77ee780f7502bc5d22" name="aee1b88cc432b2f77ee780f7502bc5d22"></a>
-void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>SCANSETTING_CALLBACK</b> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memitem:aee1b88cc432b2f77ee780f7502bc5d22"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#aee1b88cc432b2f77ee780f7502bc5d22">SCANSETTING_CALLBACK</a> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
+<tr class="memdesc:aee1b88cc432b2f77ee780f7502bc5d22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the Scan Setup menu option. Opens the scan panel.  <a href="_g_u_i_design_8c.html#aee1b88cc432b2f77ee780f7502bc5d22">More...</a><br /></td></tr>
 <tr class="separator:aee1b88cc432b2f77ee780f7502bc5d22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6dd317df9b9b1661148fd4c78643353d"><td class="memItemLeft" align="right" valign="top">int CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a6dd317df9b9b1661148fd4c78643353d">CMD_COMMENTS_CALLBACK</a> (int panel, int control, int event, void *callbackData, int eventData1, int eventData2)</td></tr>
 <tr class="separator:a6dd317df9b9b1661148fd4c78643353d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb22d4a8ae7aa1d7f9ea735afd32eb02"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#abb22d4a8ae7aa1d7f9ea735afd32eb02">Dig_Cell_Copy</a> (int <a class="el" href="vars_8h.html#a8055542f0409de69de9969edbb0a23c5">panelHandle</a>, int controlID, int MenuItemID, void *callbackData)</td></tr>
-<tr class="separator:abb22d4a8ae7aa1d7f9ea735afd32eb02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c1ddfb771a3baf4d74c5eb56d058bc3"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a3c1ddfb771a3baf4d74c5eb56d058bc3">Dig_Cell_Paste</a> (int <a class="el" href="vars_8h.html#a8055542f0409de69de9969edbb0a23c5">panelHandle</a>, int controlID, int MenuItemID, void *callbackData)</td></tr>
-<tr class="separator:a3c1ddfb771a3baf4d74c5eb56d058bc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac29ca9d87ceb9bb7246d5e23ca296154"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#ac29ca9d87ceb9bb7246d5e23ca296154">Analog_Cell_Copy</a> (int <a class="el" href="vars_8h.html#a8055542f0409de69de9969edbb0a23c5">panelHandle</a>, int controlID, int MenuItemID, void *callbackData)</td></tr>
-<tr class="separator:ac29ca9d87ceb9bb7246d5e23ca296154"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78d01a2c32620d4089eb07119ee5bde5"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a78d01a2c32620d4089eb07119ee5bde5">Analog_Cell_Paste</a> (int <a class="el" href="vars_8h.html#a8055542f0409de69de9969edbb0a23c5">panelHandle</a>, int controlID, int MenuItemID, void *callbackData)</td></tr>
-<tr class="separator:a78d01a2c32620d4089eb07119ee5bde5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff71e35f0a6994e1a46bcd0c11c455ad"><td class="memItemLeft" align="right" valign="top"><a id="aff71e35f0a6994e1a46bcd0c11c455ad" name="aff71e35f0a6994e1a46bcd0c11c455ad"></a>
+void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>Dig_Cell_Copy</b> (int panel, int controlID, int MenuItemID, void *callbackData)</td></tr>
+<tr class="memdesc:aff71e35f0a6994e1a46bcd0c11c455ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Right-click Copy callback. Copies the value of the active digital table cell into the clipboard. <br /></td></tr>
+<tr class="separator:aff71e35f0a6994e1a46bcd0c11c455ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4faf98494a7cf3e32243dc6b329ac5b1"><td class="memItemLeft" align="right" valign="top"><a id="a4faf98494a7cf3e32243dc6b329ac5b1" name="a4faf98494a7cf3e32243dc6b329ac5b1"></a>
+void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>Dig_Cell_Paste</b> (int panel, int controlID, int MenuItemID, void *callbackData)</td></tr>
+<tr class="memdesc:a4faf98494a7cf3e32243dc6b329ac5b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Right-click Paste callback. Pastes the clipboard into highlighted digital table cells. <br /></td></tr>
+<tr class="separator:a4faf98494a7cf3e32243dc6b329ac5b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77f27724e30805bebcf1a48bb81a30ce"><td class="memItemLeft" align="right" valign="top"><a id="a77f27724e30805bebcf1a48bb81a30ce" name="a77f27724e30805bebcf1a48bb81a30ce"></a>
+void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>Analog_Cell_Copy</b> (int panel, int controlID, int MenuItemID, void *callbackData)</td></tr>
+<tr class="memdesc:a77f27724e30805bebcf1a48bb81a30ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Right-click Copy callback. Copies the contents of the active analog table cell into the clipoard. <br /></td></tr>
+<tr class="separator:a77f27724e30805bebcf1a48bb81a30ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a186714099b76769ed36b06bd2aabfa2e"><td class="memItemLeft" align="right" valign="top"><a id="a186714099b76769ed36b06bd2aabfa2e" name="a186714099b76769ed36b06bd2aabfa2e"></a>
+void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>Analog_Cell_Paste</b> (int panel, int controlID, int MenuItemID, void *callbackData)</td></tr>
+<tr class="memdesc:a186714099b76769ed36b06bd2aabfa2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Right-click Paste callback. Pastes the clipboard into highlighted analog table cells. <br /></td></tr>
+<tr class="separator:a186714099b76769ed36b06bd2aabfa2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e8ec2988ebbb3e81c54e729c9d20af6"><td class="memItemLeft" align="right" valign="top">void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_g_u_i_design_8c.html#a6e8ec2988ebbb3e81c54e729c9d20af6">EXIT</a> (int menuBar, int menuItem, void *callbackData, int panel)</td></tr>
 <tr class="memdesc:a6e8ec2988ebbb3e81c54e729c9d20af6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback triggered by selecting Exit from the menubar. Directly calls <a class="el" href="_g_u_i_design_8c.html#a009937194be1b00e85b9cc3f5da3e04d" title="Callback for the panel. Handles closing the program.">PANEL_CALLBACK()</a> with event EVENT_CLOSE.  <a href="_g_u_i_design_8c.html#a6e8ec2988ebbb3e81c54e729c9d20af6">More...</a><br /></td></tr>
 <tr class="separator:a6e8ec2988ebbb3e81c54e729c9d20af6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -244,105 +249,34 @@ void CVICALLBACK&#160;</td><td class="memItemRight" valign="bottom"><b>Scan_Tabl
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:af940ba65e30d6443917b69bf98c78330"><td class="memItemLeft" align="right" valign="top"><a id="af940ba65e30d6443917b69bf98c78330" name="af940ba65e30d6443917b69bf98c78330"></a>
+BOOL&#160;</td><td class="memItemRight" valign="bottom"><b>ClipboardEmpty</b> = TRUE</td></tr>
+<tr class="memdesc:af940ba65e30d6443917b69bf98c78330"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set to FALSE on first column copy. Prevents pasting from an uninitialized clipboard. <br /></td></tr>
+<tr class="separator:af940ba65e30d6443917b69bf98c78330"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4ffa0f7b94843a63add28c91c40a3b7"><td class="memItemLeft" align="right" valign="top"><a id="ab4ffa0f7b94843a63add28c91c40a3b7" name="ab4ffa0f7b94843a63add28c91c40a3b7"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>TimeClip</b></td></tr>
+<tr class="memdesc:ab4ffa0f7b94843a63add28c91c40a3b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clipboard for time. <br /></td></tr>
 <tr class="separator:ab4ffa0f7b94843a63add28c91c40a3b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0595182a2f42395100205c36507f7e6"><td class="memItemLeft" align="right" valign="top"><a id="ac0595182a2f42395100205c36507f7e6" name="ac0595182a2f42395100205c36507f7e6"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>ClipColumn</b> = -1</td></tr>
-<tr class="separator:ac0595182a2f42395100205c36507f7e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6b6c5c26b27371af31192560c22bcb3"><td class="memItemLeft" align="right" valign="top"><a id="aa6b6c5c26b27371af31192560c22bcb3" name="aa6b6c5c26b27371af31192560c22bcb3"></a>
 struct <a class="el" href="struct_analog_table_values.html">AnalogTableValues</a>&#160;</td><td class="memItemRight" valign="bottom"><b>AnalogClip</b> [<a class="el" href="vars_8h.html#ad951eda3c054aa95d4b874b3a6386e01">NUMBERANALOGCHANNELS</a>+1]</td></tr>
+<tr class="memdesc:aa6b6c5c26b27371af31192560c22bcb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clipboard for analog column. <br /></td></tr>
 <tr class="separator:aa6b6c5c26b27371af31192560c22bcb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acab3dc9f338e9cdc733e6e2753b57a33"><td class="memItemLeft" align="right" valign="top"><a id="acab3dc9f338e9cdc733e6e2753b57a33" name="acab3dc9f338e9cdc733e6e2753b57a33"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class="el" href="vars_8h.html#a3893c6ef53e7ef32b671624a39b0853a">NUMBERDIGITALCHANNELS</a>+1]</td></tr>
+<tr class="memdesc:acab3dc9f338e9cdc733e6e2753b57a33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clipboard for digital column. <br /></td></tr>
 <tr class="separator:acab3dc9f338e9cdc733e6e2753b57a33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf8074401e5a24d0f7bdc9b223560efc"><td class="memItemLeft" align="right" valign="top"><a id="aaf8074401e5a24d0f7bdc9b223560efc" name="aaf8074401e5a24d0f7bdc9b223560efc"></a>
+struct <a class="el" href="struct_analog_table_values.html">AnalogTableValues</a>&#160;</td><td class="memItemRight" valign="bottom"><b>AnalogCellClip</b> = {.fcn = 1}</td></tr>
+<tr class="memdesc:aaf8074401e5a24d0f7bdc9b223560efc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clipboard for analog cell. <br /></td></tr>
+<tr class="separator:aaf8074401e5a24d0f7bdc9b223560efc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4c8f619a1ad8dbfb4f984cc093155e8"><td class="memItemLeft" align="right" valign="top"><a id="ae4c8f619a1ad8dbfb4f984cc093155e8" name="ae4c8f619a1ad8dbfb4f984cc093155e8"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>DigCellClip</b> = 0</td></tr>
+<tr class="memdesc:ae4c8f619a1ad8dbfb4f984cc093155e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clipboard for digital cell. <br /></td></tr>
+<tr class="separator:ae4c8f619a1ad8dbfb4f984cc093155e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Contains functions and callbacks for primary GUI. Handles data processing and communication with the ADwin. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="ac29ca9d87ceb9bb7246d5e23ca296154" name="ac29ca9d87ceb9bb7246d5e23ca296154"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac29ca9d87ceb9bb7246d5e23ca296154">&#9670;&nbsp;</a></span>Analog_Cell_Copy()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CVICALLBACK Analog_Cell_Copy </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>panelHandle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>controlID</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>MenuItemID</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>callbackData</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >This function copies the contents of the active AnalogTable Cell to the Clipboard Globals</p>
-<p >Handles Analog Channels, it is called by right clicking on the Analog Table and Selecing "Copy" </p>
-
-</div>
-</div>
-<a id="a78d01a2c32620d4089eb07119ee5bde5" name="a78d01a2c32620d4089eb07119ee5bde5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a78d01a2c32620d4089eb07119ee5bde5">&#9670;&nbsp;</a></span>Analog_Cell_Paste()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CVICALLBACK Analog_Cell_Paste </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>panelHandle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>controlID</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>MenuItemID</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>callbackData</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >Replaces Highlighted Cell contents with the values copied to the clipboard using Analog_Cell_Copy This function Handles copies and pastes of analog channel data. </p>
-
-</div>
-</div>
 <a id="a43e134cd7892adc614ede40ef84646b3" name="a43e134cd7892adc614ede40ef84646b3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a43e134cd7892adc614ede40ef84646b3">&#9670;&nbsp;</a></span>ANALOGSET_CALLBACK()</h2>
 
@@ -566,6 +500,44 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The resulting analog value. </dd></dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>What is SimpleTiming? Seems turned on by default. </dd></dl>
+
+</div>
+</div>
+<a id="ab36583afd9ea7ad00f0a5cb19a0654f7" name="ab36583afd9ea7ad00f0a5cb19a0654f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab36583afd9ea7ad00f0a5cb19a0654f7">&#9670;&nbsp;</a></span>CheckIfWithinLimits()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double CheckIfWithinLimits </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>OutputVoltage</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>linenumber</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Clamps the voltage between the analog line's minvolts and maxvolts. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">OutputVoltage</td><td>The value to be clamped. </td></tr>
+    <tr><td class="paramname">linenumber</td><td>The analog line number. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The clamped value. </dd></dl>
 
 </div>
 </div>
@@ -803,35 +775,35 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
 
 </div>
 </div>
-<a id="abb22d4a8ae7aa1d7f9ea735afd32eb02" name="abb22d4a8ae7aa1d7f9ea735afd32eb02"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb22d4a8ae7aa1d7f9ea735afd32eb02">&#9670;&nbsp;</a></span>Dig_Cell_Copy()</h2>
+<a id="a196cbe599fa25bcccaa478d7778852ab" name="a196cbe599fa25bcccaa478d7778852ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a196cbe599fa25bcccaa478d7778852ab">&#9670;&nbsp;</a></span>COMPRESSION_CALLBACK()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void CVICALLBACK Dig_Cell_Copy </td>
+          <td class="memname">void CVICALLBACK COMPRESSION_CALLBACK </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>panelHandle</em>, </td>
+          <td class="paramname"><em>menuBar</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>controlID</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>MenuItemID</em>, </td>
+          <td class="paramname"><em>menuItem</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>callbackData</em>&#160;</td>
+          <td class="paramname"><em>callbackData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>panel</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -840,39 +812,41 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Copies the value of the active DigitalTabel value into the clipboard </p>
+
+<p>Callback for the Use Compression menu option. Toggles on click. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>Should be merged into <a class="el" href="_g_u_i_design_8c.html#af5835d08ce85a6614de2c91805ab6031" title="Callback for the menu bar. Currently handles the saving and loading options.">MENU_CALLBACK()</a>. </dd></dl>
 
 </div>
 </div>
-<a id="a3c1ddfb771a3baf4d74c5eb56d058bc3" name="a3c1ddfb771a3baf4d74c5eb56d058bc3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c1ddfb771a3baf4d74c5eb56d058bc3">&#9670;&nbsp;</a></span>Dig_Cell_Paste()</h2>
+<a id="acd3b7a9bbc719c0630380fb3f5382ad5" name="acd3b7a9bbc719c0630380fb3f5382ad5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd3b7a9bbc719c0630380fb3f5382ad5">&#9670;&nbsp;</a></span>CONFIG_EXPORT_CALLBACK()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void CVICALLBACK Dig_Cell_Paste </td>
+          <td class="memname">void CVICALLBACK CONFIG_EXPORT_CALLBACK </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>panelHandle</em>, </td>
+          <td class="paramname"><em>menuBar</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>controlID</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>MenuItemID</em>, </td>
+          <td class="paramname"><em>menuItem</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>callbackData</em>&#160;</td>
+          <td class="paramname"><em>callbackData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>panel</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -881,7 +855,95 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Pastes the value store in DigClip[0] by Dig_Cell_Copy into the selected Digital Table Cells </p>
+
+<p>Callback for the Export Channel Config menu option. Writes out channel configurations to a text file. </p>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated:</a></b></dt><dd>Functionality is not needed, can consider merging into <a class="el" href="_g_u_i_design_8c.html#a2cceaf178351e5913de89e77f7e91866" title="Writes TimeArray, AnalogTable, and DigTableValues out in text format for other programs to parse.">ExportPanel()</a> if required. </dd></dl>
+
+</div>
+</div>
+<a id="a48a8cf6ab7275da4162516a0dce1d270" name="a48a8cf6ab7275da4162516a0dce1d270"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48a8cf6ab7275da4162516a0dce1d270">&#9670;&nbsp;</a></span>COPYCOLUMN_CALLBACK()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CVICALLBACK COPYCOLUMN_CALLBACK </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuBar</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuItem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>callbackData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>panel</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Copies a column to the clipboard. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Should be a right-click option. </dd></dl>
+
+</div>
+</div>
+<a id="a3a765b32555e789c1b1beb9a702da908" name="a3a765b32555e789c1b1beb9a702da908"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a765b32555e789c1b1beb9a702da908">&#9670;&nbsp;</a></span>DELETECOLUMN_CALLBACK()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CVICALLBACK DELETECOLUMN_CALLBACK </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuBar</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuItem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>callbackData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>panel</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Callback for the Delete Column menu option. Calls <a class="el" href="_g_u_i_design_8c.html#afd2748ff8f8fc1b7bdac4efb9f5d1010" title="Inserts or deletes a column on a page by shifting columns left or right.">ShiftColumn()</a> in delete mode. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>Should be a right-click option. </dd></dl>
 
 </div>
 </div>
@@ -997,6 +1059,49 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
 
 </div>
 </div>
+<a id="acb04570030c0ca69623d2eecc1551ed3" name="acb04570030c0ca69623d2eecc1551ed3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb04570030c0ca69623d2eecc1551ed3">&#9670;&nbsp;</a></span>EXPORT_PANEL_CALLBACK()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CVICALLBACK EXPORT_PANEL_CALLBACK </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuBar</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuItem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>callbackData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>panel</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Callback for the Export Panel menu option. Prompts the user for a filename and calls <a class="el" href="_g_u_i_design_8c.html#a2cceaf178351e5913de89e77f7e91866" title="Writes TimeArray, AnalogTable, and DigTableValues out in text format for other programs to parse.">ExportPanel()</a>. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>Should be merged into <a class="el" href="_g_u_i_design_8c.html#af5835d08ce85a6614de2c91805ab6031" title="Callback for the menu bar. Currently handles the saving and loading options.">MENU_CALLBACK()</a>. </dd></dl>
+
+</div>
+</div>
 <a id="a5c6d265b1ef4f2fe4ef57a986794032a" name="a5c6d265b1ef4f2fe4ef57a986794032a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5c6d265b1ef4f2fe4ef57a986794032a">&#9670;&nbsp;</a></span>EXPORT_PYTHON_CALLBACK()</h2>
 
@@ -1034,7 +1139,79 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Export the panel to a file and open it in the Python reader </p><dl class="section author"><dt>Author</dt><dd>Kerry Wang </dd></dl>
+
+<p>Callback for the Export Panel and Launch Python menu option. Exports the panel to the system's temp directory and opens it in the Python reader. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd>Should be merged into <a class="el" href="_g_u_i_design_8c.html#af5835d08ce85a6614de2c91805ab6031" title="Callback for the menu bar. Currently handles the saving and loading options.">MENU_CALLBACK()</a>. </dd></dl>
+<dl class="section author"><dt>Author</dt><dd>Kerry Wang </dd></dl>
+
+</div>
+</div>
+<a id="a2cceaf178351e5913de89e77f7e91866" name="a2cceaf178351e5913de89e77f7e91866"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2cceaf178351e5913de89e77f7e91866">&#9670;&nbsp;</a></span>ExportPanel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ExportPanel </td>
+          <td>(</td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>fexportname</em>[200]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Writes TimeArray, AnalogTable, and DigTableValues out in text format for other programs to parse. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fexportname</td><td>Filename to save in. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aefc17b97710375d862980e7cae0616f9" name="aefc17b97710375d862980e7cae0616f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefc17b97710375d862980e7cae0616f9">&#9670;&nbsp;</a></span>INSERTCOLUMN_CALLBACK()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CVICALLBACK INSERTCOLUMN_CALLBACK </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuBar</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuItem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>callbackData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>panel</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Callback for the Insert Column menu option. Calls <a class="el" href="_g_u_i_design_8c.html#afd2748ff8f8fc1b7bdac4efb9f5d1010" title="Inserts or deletes a column on a page by shifting columns left or right.">ShiftColumn()</a> in insert mode. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd>Should be a right-click option. </dd></dl>
 
 </div>
 </div>
@@ -1068,8 +1245,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
 
 </div>
 </div>
-<a id="a504efb458d8f9e4b6ce33efbea5bc426" name="a504efb458d8f9e4b6ce33efbea5bc426"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a504efb458d8f9e4b6ce33efbea5bc426">&#9670;&nbsp;</a></span>LoadArrays()</h2>
+<a id="a6103455df288b2492912f0d5bb9f89eb" name="a6103455df288b2492912f0d5bb9f89eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6103455df288b2492912f0d5bb9f89eb">&#9670;&nbsp;</a></span>LoadArrays()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1078,30 +1255,20 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
           <td class="memname">void LoadArrays </td>
           <td>(</td>
           <td class="paramtype">char&#160;</td>
-          <td class="paramname"><em>savedname</em>[500], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>savedname</em>[500]</td><td>)</td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>csize</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Loads all Panel attributes and values which are not saved automatically by the NI function SavePanelState. the values are stored in the .arr file by SaveArrays.</p>
-<p >Note that if the lengths of any of the data arrays are changed previous saves will not be able to be loaded. If necessary See AdwinGUI Panel Converter V11-V12 (created June 01, 2006)</p>
+
+<p>Loads internal arrays from the .arr file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">savedname[]</td><td></td></tr>
-    <tr><td class="paramname">csize</td><td></td></tr>
+    <tr><td class="paramname">savedname[]</td><td>Path to the associated .pan file</td></tr>
   </table>
   </dd>
 </dl>
+<p>Note that if the lengths of any of the data arrays are changed, previous saves will no longer be compatible. See the save-converter branch. </p>
 
 </div>
 </div>
@@ -1229,7 +1396,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Replaces all the values in the selected column with the global "clip" values </p>
+
+<p>Replaces column with values from the clipboard. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Should be a right-click option. </dd></dl>
 
 </div>
 </div>
@@ -1256,8 +1425,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
 
 </div>
 </div>
-<a id="ad282731276765d4b48d61493e38db9f8" name="ad282731276765d4b48d61493e38db9f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad282731276765d4b48d61493e38db9f8">&#9670;&nbsp;</a></span>SaveArrays()</h2>
+<a id="ab0e7cb6cd0885cc57bf2b92fb2b4e82a" name="ab0e7cb6cd0885cc57bf2b92fb2b4e82a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0e7cb6cd0885cc57bf2b92fb2b4e82a">&#9670;&nbsp;</a></span>SaveArrays()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1266,13 +1435,52 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
           <td class="memname">void SaveArrays </td>
           <td>(</td>
           <td class="paramtype">char&#160;</td>
-          <td class="paramname"><em>savedname</em>[500], </td>
+          <td class="paramname"><em>savedname</em>[500]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Saves internal arrays to a .arr file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">savedname[]</td><td>Path to the associated .pan file</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Note that if the lengths of any of the data arrays are changed, previous saves will no longer be compatible. See the save-converter branch. </p>
+
+</div>
+</div>
+<a id="aee1b88cc432b2f77ee780f7502bc5d22" name="aee1b88cc432b2f77ee780f7502bc5d22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee1b88cc432b2f77ee780f7502bc5d22">&#9670;&nbsp;</a></span>SCANSETTING_CALLBACK()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CVICALLBACK SCANSETTING_CALLBACK </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuBar</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>csize</em>&#160;</td>
+          <td class="paramname"><em>menuItem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>callbackData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>panel</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1281,26 +1489,20 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Saves all Panel attributes and values which are not saved automatically by the NI function SavePanelState. The values are stored in the .arr file.</p>
-<p >Note that if the lengths of any of the data arrays are changed previous saves will not be able to be laoded. If necessary See AdwinGUI Panel Converter V11-V12 (created June 01, 2006)</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">savedname[]</td><td></td></tr>
-    <tr><td class="paramname">csize</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
+
+<p>Callback for the Scan Setup menu option. Opens the scan panel. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd>Should be merged into <a class="el" href="_g_u_i_design_8c.html#af5835d08ce85a6614de2c91805ab6031" title="Callback for the menu bar. Currently handles the saving and loading options.">MENU_CALLBACK()</a>. </dd></dl>
 
 </div>
 </div>
-<a id="a771cb887bed3ad66bff22bdad595d894" name="a771cb887bed3ad66bff22bdad595d894"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a771cb887bed3ad66bff22bdad595d894">&#9670;&nbsp;</a></span>ShiftColumn3()</h2>
+<a id="afd2748ff8f8fc1b7bdac4efb9f5d1010" name="afd2748ff8f8fc1b7bdac4efb9f5d1010"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd2748ff8f8fc1b7bdac4efb9f5d1010">&#9670;&nbsp;</a></span>ShiftColumn()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void ShiftColumn3 </td>
+          <td class="memname">void ShiftColumn </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>col</em>, </td>
@@ -1324,8 +1526,60 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>DigClip</b> [<a class=
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Takes all columns starting at col on page and shifts them to the left or right depending on the value of dir dir==1 for a deletion: all the columns starting at col+1 are shifted one to the left, the page's last column is new dir==-1 for an insertion: all the columns starting at col are shifted one to the right, the column at col is new and the last column is lost The new column can be set with all values at 0 or with the attributes previously in place</p>
-<p >Replaced Malfunctioning ShiftColumn and ShiftColumn2(see previous AdwinGUI releases) </p>
+
+<p>Inserts or deletes a column on a page by shifting columns left or right. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">col</td><td>1-based index to insert/delete a column at. </td></tr>
+    <tr><td class="paramname">page</td><td>Page to insert/delete column on. </td></tr>
+    <tr><td class="paramname">dir</td><td>-1 to insert, 1 to delete.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>When inserting, the last column on the page is lost. </p>
+
+</div>
+</div>
+<a id="a77495d9e30c20fe8af207e9726a50850" name="a77495d9e30c20fe8af207e9726a50850"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77495d9e30c20fe8af207e9726a50850">&#9670;&nbsp;</a></span>SIMPLETIMING_CALLBACK()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CVICALLBACK SIMPLETIMING_CALLBACK </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuBar</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>menuItem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>callbackData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>panel</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Callback for the Use Simple Timing menu option. Toggles on click. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>Should be merged into <a class="el" href="_g_u_i_design_8c.html#af5835d08ce85a6614de2c91805ab6031" title="Callback for the menu bar. Currently handles the saving and loading options.">MENU_CALLBACK()</a>. </dd></dl>
 
 </div>
 </div>
