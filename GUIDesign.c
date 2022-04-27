@@ -37,7 +37,6 @@ void BuildUpdateList(double[500],
 int OptimizeTimeLoop(int*, int);
 void ShiftColumn(int, int, int);
 void RunOnce(void);
-void ExportPanel(char*, int);
 double CalcFcnValue(int, double, double, double, double, double);
 double CheckIfWithinLimits(double, int);
 void UpdateScanValue(int);
@@ -1478,30 +1477,135 @@ void CVICALLBACK PASTECOLUMN_CALLBACK(int menuBar, int menuItem,
   }
 }
 
+/**
+@brief Clamps the voltage between the analog line's minvolts and maxvolts.
+@param OutputVoltage The value to be clamped.
+@param linenumber The analog line number.
+@return The clamped value.
+*/
 double CheckIfWithinLimits(double OutputVoltage, int linenumber) {
-  double NewOutput;
-  NewOutput = OutputVoltage;
-  if (OutputVoltage > AChName[linenumber].maxvolts)
-    NewOutput = AChName[linenumber].maxvolts;
-  if (OutputVoltage < AChName[linenumber].minvolts)
-    NewOutput = AChName[linenumber].minvolts;
-  return NewOutput;
+  const double minvolts = AChName[linenumber].minvolts;
+  const double maxvolts = AChName[linenumber].maxvolts;
+  const double NewOutput = OutputVoltage < minvolts ? minvolts : OutputVoltage; // Clamps lower bound
+  return NewOutput > maxvolts ? maxvolts : NewOutput; // Clamps upper bound and return
 }
 
+/**
+@brief Writes TimeArray, AnalogTable, and DigTableValues out in text format for other programs to parse.
+@param fexportname Filename to save in.
+*/
+void ExportPanel(char fexportname[200]) {
+  double MetaTimeArray[500] = {0};
+  int MetaDigitalArray[NUMBERDIGITALCHANNELS + 1][500] = {0};
+  struct AnalogTableValues MetaAnalogArray[NUMBERANALOGCHANNELS + 1][500] = {0};
+
+  FILE* fexport = fopen(fexportname, "w");
+  if (fexport == NULL) {
+    MessagePopup("Save Error", "Failed to save configuration file");
+    return;
+  }
+
+  // Append each page into meta arrays
+  int mindex = 0;
+  for (int page = 1; page <= NUMBEROFPAGES; page++) {
+    // Ignore page if not checked
+    if (!IsPageChecked(page)) {
+      continue;
+    }
+    for (int col = 1; col <= NUMBEROFCOLUMNS; col++) {
+      // Ignore all columns after the first time=0
+      if (TimeArray[col][page] == 0) {
+        break;
+      }
+      // Ignore columns with negative time
+      else if (TimeArray[col][page] < 0) {
+       continue;
+      }
+      mindex++;  // Copy column into next slot in meta arrays
+      MetaTimeArray[mindex] = TimeArray[col][page];
+      for (int row = 1; row <= NUMBERANALOGCHANNELS; row++) {
+        MetaAnalogArray[row][mindex] = AnalogTable[col][row][page];
+      }
+      for (int row = 1; row <= NUMBERDIGITALCHANNELS; row++) {
+        MetaDigitalArray[row][mindex] = DigTableValues[col][row][page];
+      }
+    }
+  }
+
+  // Now write to file
+  // Write times, line starts with T
+  char buff[10];
+  char* string = StrDup("T");
+  for (int i = 1; i <= mindex; i++) {
+    AppendString(&string, ",", 1);
+    sprintf(buff, "%.2f", MetaTimeArray[i]);
+    AppendString(&string, buff, -1);
+  }
+  AppendString(&string, "\n", 1);
+  fprintf(fexport, string);
+  free(string);
+
+  // Write analog lines, each line starts with A
+  const char fcnmode[] =
+      "SLEJWH";  // step, linear, exponential, const-jerk, sine wave, hold
+  for (int row = 1; row <= NUMBERANALOGCHANNELS; row++) {
+    string = StrDup("A,");
+    AppendString(&string, AChName[row].chname, 50);
+    AppendString(&string, ",", 1);
+    sprintf(buff, "%d", AChName[row].chnum);
+    AppendString(&string, buff, 3);
+    for (int i = 1; i <= mindex; i++) {
+      AppendString(&string, ",", 1);
+      AppendString(&string, fcnmode + MetaAnalogArray[row][i].fcn - 1, 1);
+      sprintf(buff, "%#.2f", MetaAnalogArray[row][i].fval);
+      AppendString(&string, buff, -1);
+      AppendString(&string, "/", 1);
+      sprintf(buff, "%#.2f", MetaAnalogArray[row][i].tscale);
+      AppendString(&string, buff, -1);
+    }
+    AppendString(&string, "\n", 1);
+    fprintf(fexport, string);
+    free(string);
+  }
+
+  // Write digital lines, each line starts with D
+  for (int row = 1; row <= NUMBERDIGITALCHANNELS; row++) {
+    string = StrDup("D,");
+    AppendString(&string, DChName[row].chname, 50);
+    AppendString(&string, ",", 1);
+    sprintf(buff, "%d", DChName[row].chnum);
+    AppendString(&string, buff, 3);
+    for (int i = 1; i <= mindex; i++) {
+      AppendString(&string, ",", 1);
+      sprintf(buff, "%d", MetaDigitalArray[row][i]);
+      AppendString(&string, buff, -1);
+    }
+    AppendString(&string, "\n", 1);
+    fprintf(fexport, string);
+    free(string);
+  }
+  fclose(fexport);
+}
+
+/**
+@brief Callback for the Export Panel menu option. Prompts the user for a filename and calls ExportPanel().
+@todo Should be merged into MENU_CALLBACK().
+*/
 void CVICALLBACK EXPORT_PANEL_CALLBACK(int menuBar, int menuItem,
                                        void* callbackData, int panel) {
   char fexportname[260];
-
   int status = FileSelectPopupEx("", "*.export", "", "Export Panel?",
                                  VAL_SAVE_BUTTON, 0, 0, fexportname);
   if (status == VAL_NO_FILE_SELECTED) {
     return;
   }
-  ExportPanel(fexportname, strlen(fexportname));
+  ExportPanel(fexportname);
 }
 
 /**
-Export the panel to a file and open it in the Python reader
+@brief Callback for the Export Panel and Launch Python menu option.
+Exports the panel to the system's temp directory and opens it in the Python reader.
+@todo Should be merged into MENU_CALLBACK().
 @author Kerry Wang
 */
 void CVICALLBACK EXPORT_PYTHON_CALLBACK(int menuBar, int menuItem,
@@ -1509,115 +1613,20 @@ void CVICALLBACK EXPORT_PYTHON_CALLBACK(int menuBar, int menuItem,
   char* appdata = getenv("localappdata");
   char* fexportname = StrDup(appdata);
   AppendString(&fexportname, "\\Temp\\pyreader.export", -1);
-  ExportPanel(fexportname, strlen(fexportname));
+  ExportPanel(fexportname);
+  free(fexportname);
   char* launchname = StrDup("pythonw3.exe pyreader\\pyreader.py ");
   AppendString(&launchname, appdata, -1);
   AppendString(&launchname, "\\Temp\\pyreader.export", -1);
   LaunchExecutableEx(launchname, LE_SHOWNORMAL, NULL);
+  free(launchname);
 }
 
-void ExportPanel(char fexportname[200], int fnamesize) {
-  FILE* fexport;
-  char buff[500], bigbuff[2000];
-  char fcnmode[] =
-      "SLEJWH";  // step, linear, exponential, const-jerk, sine wave, hold
-  double MetaTimeArray[500] = {0};
-  int MetaDigitalArray[NUMBERDIGITALCHANNELS + 1][500] = {0};
-  struct AnalogTableValues MetaAnalogArray[NUMBERANALOGCHANNELS + 1][500] = {0};
-  int mindex, tsize;
-
-  if ((fexport = fopen(fexportname, "w")) == NULL) {
-    MessagePopup("Save Error", "Failed to save configuration file");
-  }
-
-  // Lets build the times list first...so we know how long it will be.
-  // check each page...find used columns and dim out unused....(with 0 or
-  // negative values)
-  SetCtrlAttribute(panelHandle, PANEL_ANALOGTABLE, ATTR_TABLE_MODE, VAL_COLUMN);
-  mindex = 0;
-
-  // go through for each page
-  for (int page = 1; page <= NUMBEROFPAGES; page++) {
-    if (IsPageChecked(page)) {
-      // if the page is selected
-      // go through for each time column
-      for (int col = 1; col <= NUMBEROFCOLUMNS; col++) {
-        // ignore all columns after the first time=0
-        if (TimeArray[col][page] == 0) {
-          break;
-        }
-        // ignore columns with negative time
-        else if (TimeArray[col][page] > 0) {
-          mindex++;  // increase the number of columns counter
-          MetaTimeArray[mindex] = TimeArray[col][page];
-
-          // go through for each analog channel
-          for (int channel = 1; channel <= NUMBERANALOGCHANNELS; channel++) {
-            MetaAnalogArray[channel][mindex].fcn =
-                AnalogTable[col][channel][page].fcn;
-            MetaAnalogArray[channel][mindex].fval =
-                AnalogTable[col][channel][page].fval;
-            MetaAnalogArray[channel][mindex].tscale =
-                AnalogTable[col][channel][page].tscale;
-          }
-          // go through each digital channel
-          for (int channel = 1; channel <= NUMBERDIGITALCHANNELS; channel++) {
-            MetaDigitalArray[channel][mindex] =
-                DigTableValues[col][channel][page];
-          }
-        }
-      }
-    }
-  }
-  tsize = mindex;  // tsize is the number of columns
-  // now write to file
-  // write header
-  sprintf(bigbuff, "T");
-  for (int i = 1; i <= tsize; i++) {
-    strcat(bigbuff, ",");
-    sprintf(buff, "%.2f", MetaTimeArray[i]);
-    strcat(bigbuff, buff);
-  }
-  strcat(bigbuff, "\n");
-  fprintf(fexport, bigbuff);
-  // done header, now write analog lines
-  char* string;
-  for (int j = 1; j <= NUMBERANALOGCHANNELS; j++) {
-    string = StrDup("A,");
-    AppendString(&string, AChName[j].chname, 50);
-    AppendString(&string, ",", 1);
-    sprintf(buff, "%d", AChName[j].chnum);
-    AppendString(&string, buff, 3);
-    for (int i = 1; i <= tsize; i++) {
-      AppendString(&string, ",", 1);
-      AppendString(&string, fcnmode + MetaAnalogArray[j][i].fcn - 1, 1);
-      sprintf(buff, "%#.2f", MetaAnalogArray[j][i].fval);
-      AppendString(&string, buff, -1);
-      AppendString(&string, "/", 1);
-      sprintf(buff, "%#.2f", MetaAnalogArray[j][i].tscale);
-      AppendString(&string, buff, -1);
-    }
-    AppendString(&string, "\n", 1);
-    fprintf(fexport, string);
-  }
-
-  // now do digital
-  for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++) {
-    sprintf(bigbuff, "D,");
-    strncat(bigbuff, DChName[j].chname, 50);
-    strncat(bigbuff, ",", 1);
-    sprintf(buff, "%d", DChName[j].chnum);
-    strncat(bigbuff, buff, 3);
-    for (int i = 1; i <= tsize; i++) {
-      strcat(bigbuff, ",");
-      sprintf(buff, "%d", MetaDigitalArray[j][i]);
-      strcat(bigbuff, buff);
-    }
-    strncat(bigbuff, "\n", 1);
-    fprintf(fexport, bigbuff);
-  }
-  fclose(fexport);
-}
+/**
+@brief Callback for the Export Channel Config menu option.
+Writes out channel configurations to a text file.
+@deprecated Functionality is not needed, can consider merging into ExportPanel() if required.
+*/
 
 void CVICALLBACK CONFIG_EXPORT_CALLBACK(int menuBar, int menuItem,
                                         void* callbackData, int panel) {
