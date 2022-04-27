@@ -37,8 +37,6 @@ void BuildUpdateList(double[500],
 int OptimizeTimeLoop(int*, int);
 void ShiftColumn(int, int, int);
 void RunOnce(void);
-void SaveArrays(char*, int);
-void LoadArrays(char*, int);
 void ExportPanel(char*, int);
 double CalcFcnValue(int, double, double, double, double, double);
 double CheckIfWithinLimits(double, int);
@@ -823,6 +821,76 @@ void UpdateScanValue(int Reset) {
 }
 
 /**
+@brief Loads internal arrays from the .arr file.
+@param savedname[] Path to the associated .pan file
+
+Note that if the lengths of any of the data arrays are changed, previous saves
+will no longer be compatible. See the save-converter branch.
+*/
+void LoadArrays(char savedname[500]) {
+  char buff[500] = "";
+  strncat(buff, savedname, strlen(savedname) - 4);
+  strncat(buff, ".arr", 4);
+  FILE* fdata = fopen(buff, "rb");
+  if (fdata == NULL) {
+    MessagePopup("Load error", "Failed to open file");
+    return;
+  }
+  // now for the times.
+  fread(&TimeArray, sizeof TimeArray, 1, fdata);
+  // and the analog data
+  fread(&AnalogTable, sizeof AnalogTable, 1, fdata);
+  fread(&DigTableValues, sizeof DigTableValues, 1, fdata);
+  fread(&AChName, sizeof AChName, 1, fdata);
+  fread(&DChName, sizeof DChName, 1, fdata);
+
+  char buttonName[80];
+  for (int page = 1; page <= NUMBEROFPAGES; page++) {
+    fread(&buttonName, sizeof buttonName, 1, fdata);
+    SetCtrlAttribute(panelHandle, ButtonArray[page], ATTR_ON_TEXT, buttonName);
+    SetCtrlAttribute(panelHandle, ButtonArray[page], ATTR_OFF_TEXT, buttonName);
+  }
+
+  fclose(fdata);
+
+  SetAnalogChannels();
+  SetDigitalChannels();
+}
+
+/**
+@brief Saves internal arrays to a .arr file.
+@param savedname[] Path to the associated .pan file
+
+Note that if the lengths of any of the data arrays are changed, previous saves
+will no longer be compatible. See the save-converter branch.
+*/
+void SaveArrays(char savedname[500]) {
+  char buff[500] = "";
+  strncpy(buff, savedname, strlen(savedname) - 4);
+  strncat(buff, ".arr", 4);
+  FILE* fdata = fopen(buff, "wb");
+  if (fdata == NULL) {
+    MessagePopup("Save error", "Failed to open file for writing");
+    return;
+  }
+  // now for the times.
+  fwrite(&TimeArray, sizeof TimeArray, 1, fdata);
+  // and the analog data
+  fwrite(&AnalogTable, sizeof AnalogTable, 1, fdata);
+  fwrite(&DigTableValues, sizeof DigTableValues, 1, fdata);
+  fwrite(&AChName, sizeof AChName, 1, fdata);
+  fwrite(&DChName, sizeof DChName, 1, fdata);
+
+  char buttonName[80];
+  for (int page = 1; page <= NUMBEROFPAGES; page++) {
+    GetCtrlAttribute(panelHandle, ButtonArray[page], ATTR_ON_TEXT, buttonName);
+    fwrite(&buttonName, sizeof buttonName, 1, fdata);
+  }
+
+  fclose(fdata);
+}
+
+/**
 @brief Loads panel values from .pan and .arr files.
 */
 void LoadSettings(void) {
@@ -844,7 +912,7 @@ void LoadSettings(void) {
     return;
   }
   RecallPanelState(commentsHandle, fsavename, 2);
-  LoadArrays(fsavename, strlen(fsavename));
+  LoadArrays(fsavename);
   SetPanelAttribute(panelHandle, ATTR_TITLE, fsavename);
   // Reset button state and redraw table by simulating click on first page
   // button
@@ -863,7 +931,7 @@ void SaveSettings(void) {
   if (status != VAL_NO_FILE_SELECTED) {
     SavePanelState(panelHandle, fsavename, 1);
     SavePanelState(commentsHandle, fsavename, 2);
-    SaveArrays(fsavename, strlen(fsavename));
+    SaveArrays(fsavename);
     SetPanelAttribute(panelHandle, ATTR_TITLE, fsavename);
   } else {
     MessagePopup("File Error", "No file was selected");
@@ -1408,87 +1476,6 @@ void CVICALLBACK PASTECOLUMN_CALLBACK(int menuBar, int menuItem,
   } else {
     MessagePopup("Paste error", "Clipboard is empty!");
   }
-}
-
-/** Loads all Panel attributes and values which are not saved automatically by
-the NI function SavePanelState. the values are stored in the .arr file by
-SaveArrays.
-
-Note that if the lengths of any of the data arrays are changed previous saves
-will not be able to be loaded. If necessary See AdwinGUI Panel Converter V11-V12
-(created June 01, 2006)
-
-@param savedname[]
-@param csize
-*/
-void LoadArrays(char savedname[500], int csize) {
-  FILE* fdata;
-  char buff[500] = "";
-  char buttonName[80];
-  strncat(buff, savedname, csize - 4);
-  strcat(buff, ".arr");
-  if ((fdata = fopen(buff, "rb")) == NULL) {
-    MessagePopup("Load Error", "Failed to load data arrays");
-  }
-  // now for the times.
-  fread(&TimeArray, (sizeof TimeArray), 1, fdata);
-  // and the analog data
-  fread(&AnalogTable, (sizeof AnalogTable), 1, fdata);
-  fread(&DigTableValues, (sizeof DigTableValues), 1, fdata);
-  fread(&AChName, (sizeof AChName), 1, fdata);
-  fread(&DChName, sizeof DChName, 1, fdata);
-
-  for (int page = 1; page <= NUMBEROFPAGES; page++) {
-    fread(&buttonName, sizeof buttonName, 1, fdata);
-    SetCtrlAttribute(panelHandle, ButtonArray[page], ATTR_ON_TEXT, buttonName);
-    SetCtrlAttribute(panelHandle, ButtonArray[page], ATTR_OFF_TEXT, buttonName);
-  }
-
-  fclose(fdata);
-
-  SetAnalogChannels();
-  SetDigitalChannels();
-}
-
-/**
-Saves all Panel attributes and values which are not saved automatically by the
-NI function SavePanelState. The values are stored in the .arr file.
-
-Note that if the lengths of any of the data arrays are changed previous saves
-will not be able to be laoded. If necessary See AdwinGUI Panel Converter V11-V12
-(created June 01, 2006)
-
-@param savedname[]
-@param csize
-*/
-void SaveArrays(char savedname[500], int csize) {
-  FILE* fdata;
-  char buff[500];
-  char buttonName[80];
-  strncpy(buff, savedname, csize - 4);
-  buff[csize - 4] = 0;
-  strcat(buff, ".arr");
-  if ((fdata = fopen(buff, "wb")) == NULL) {
-    char buff2[100];
-    strcpy(buff2, "Failed to save data arrays. \n Panel Filename received\n");
-    strcat(buff2, buff);
-    MessagePopup("Save Error", buff2);
-  }
-  // now for the times.
-  fwrite(&TimeArray, sizeof TimeArray, 1, fdata);
-  // and the analog data
-  fwrite(&AnalogTable, sizeof AnalogTable, 1, fdata);
-  fwrite(&DigTableValues, sizeof DigTableValues, 1, fdata);
-
-  fwrite(&AChName, sizeof AChName, 1, fdata);
-  fwrite(&DChName, sizeof DChName, 1, fdata);
-
-  for (int page = 1; page <= NUMBEROFPAGES; page++) {
-    GetCtrlAttribute(panelHandle, ButtonArray[page], ATTR_ON_TEXT, buttonName);
-    fwrite(&buttonName, sizeof buttonName, 1, fdata);
-  }
-
-  fclose(fdata);
 }
 
 double CheckIfWithinLimits(double OutputVoltage, int linenumber) {
