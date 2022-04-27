@@ -47,6 +47,8 @@ BOOL ClipboardEmpty = TRUE;
 double TimeClip;
 struct AnalogTableValues AnalogClip[NUMBERANALOGCHANNELS + 1];
 int DigClip[NUMBERDIGITALCHANNELS + 1];
+struct AnalogTableValues AnalogCellClip = {.fcn=1};
+int DigCellClip = 0;
 
 /**
 @brief Returns if the page is checked.
@@ -1343,7 +1345,7 @@ void CVICALLBACK CLEARPANEL_CALLBACK(int menuBar, int menuItem,
 
 /**
 @brief Callback for the Insert Column menu option. Calls ShiftColumn() in insert mode.
-@todo Should be merged into MENU_CALLBACK().
+@todo Should be a right-click option.
 */
 void CVICALLBACK INSERTCOLUMN_CALLBACK(int menuBar, int menuItem,
                                        void* callbackData, int panel) {
@@ -1359,7 +1361,7 @@ void CVICALLBACK INSERTCOLUMN_CALLBACK(int menuBar, int menuItem,
 
 /**
 @brief Callback for the Delete Column menu option. Calls ShiftColumn() in delete mode.
-@todo Should be merged into MENU_CALLBACK().
+@todo Should be a right-click option.
 */
 void CVICALLBACK DELETECOLUMN_CALLBACK(int menuBar, int menuItem,
                                        void* callbackData, int panel) {
@@ -1437,6 +1439,7 @@ void ShiftColumn(int col, int page, int dir) {
 
 /**
 @brief Copies a column to the clipboard.
+@todo Should be a right-click option.
 */
 void CVICALLBACK COPYCOLUMN_CALLBACK(int menuBar, int menuItem,
                                      void* callbackData, int panel) {
@@ -1456,6 +1459,7 @@ void CVICALLBACK COPYCOLUMN_CALLBACK(int menuBar, int menuItem,
 
 /**
 @brief Replaces column with values from the clipboard.
+@todo Should be a right-click option.
 */
 void CVICALLBACK PASTECOLUMN_CALLBACK(int menuBar, int menuItem,
                                       void* callbackData, int panel) {
@@ -1627,7 +1631,6 @@ void CVICALLBACK EXPORT_PYTHON_CALLBACK(int menuBar, int menuItem,
 Writes out channel configurations to a text file.
 @deprecated Functionality is not needed, can consider merging into ExportPanel() if required.
 */
-
 void CVICALLBACK CONFIG_EXPORT_CALLBACK(int menuBar, int menuItem,
                                         void* callbackData, int panel) {
   FILE* fconfig;
@@ -1665,6 +1668,10 @@ void CVICALLBACK CONFIG_EXPORT_CALLBACK(int menuBar, int menuItem,
   fclose(fconfig);
 }
 
+/**
+@brief Callback for the Use Compression menu option. Toggles on click.
+@todo Should be merged into MENU_CALLBACK().
+*/
 void CVICALLBACK COMPRESSION_CALLBACK(int menuBar, int menuItem,
                                       void* callbackData, int panel) {
   BOOL UseCompression;
@@ -1678,6 +1685,10 @@ void CVICALLBACK COMPRESSION_CALLBACK(int menuBar, int menuItem,
   }
 }
 
+/**
+@brief Callback for the Use Simple Timing menu option. Toggles on click.
+@todo Should be merged into MENU_CALLBACK().
+*/
 void CVICALLBACK SIMPLETIMING_CALLBACK(int menuBar, int menuItem,
                                        void* callbackData, int panel) {
   BOOL Simple_Timing;
@@ -1692,6 +1703,10 @@ void CVICALLBACK SIMPLETIMING_CALLBACK(int menuBar, int menuItem,
   }
 }
 
+/**
+@brief Callback for the Scan Setup menu option. Opens the scan panel.
+@todo Should be merged into MENU_CALLBACK().
+*/
 void CVICALLBACK SCANSETTING_CALLBACK(int menuBar, int menuItem,
                                       void* callbackData, int panel) {
   InitializeScanPanel();
@@ -1713,6 +1728,9 @@ int CVICALLBACK CMD_COMMENTS_CALLBACK(int panel, int control, int event,
   return 0;
 }
 
+/**
+@brief Writes the scan buffer to a text file.
+*/
 void ExportScanBuffer(void) {
   char fbuffername[250];
 
@@ -1752,25 +1770,22 @@ void ExportScanBuffer(void) {
 }
 
 /**
-Copies the value of the active DigitalTabel value into the clipboard
+@brief Right-click Copy callback. Copies the value of the active digital table cell into the clipboard.
 */
-void CVICALLBACK Dig_Cell_Copy(int panelHandle, int controlID, int MenuItemID,
+void CVICALLBACK Dig_Cell_Copy(int panel, int controlID, int MenuItemID,
                                void* callbackData) {
   Point pval = {0, 0};
-
   GetActiveTableCell(panelHandle, PANEL_DIGTABLE, &pval);
-  DigClip[0] = DigTableValues[pval.x][pval.y][currentpage];
+  DigCellClip = DigTableValues[pval.x][pval.y][currentpage];
 }
 
 /**
-Pastes the value store in DigClip[0] by Dig_Cell_Copy into the selected Digital
-Table Cells
+@brief Right-click Paste callback. Pastes the clipboard into highlighted digital table cells.
 */
-void CVICALLBACK Dig_Cell_Paste(int panelHandle, int controlID, int MenuItemID,
+void CVICALLBACK Dig_Cell_Paste(int panel, int controlID, int MenuItemID,
                                 void* callbackData) {
   Rect selection;
   Point pval = {0, 0};
-
   GetTableSelection(
       panelHandle, PANEL_DIGTABLE,
       &selection);  // note: returns a 0 to all values if only 1 cell selected
@@ -1781,43 +1796,34 @@ void CVICALLBACK Dig_Cell_Paste(int panelHandle, int controlID, int MenuItemID,
          pval.y <= selection.top + (selection.height - 1); pval.y++) {
       for (pval.x = selection.left;
            pval.x <= selection.left + (selection.width - 1); pval.x++) {
-        DigTableValues[pval.x][pval.y][currentpage] = DigClip[0];
+        DigTableValues[pval.x][pval.y][currentpage] = DigCellClip;
       }
     }
   }
   // Pasting into single cell
-  else if (selection.top == 0) {
+  else {
     GetActiveTableCell(panelHandle, PANEL_DIGTABLE, &pval);
-    DigTableValues[pval.x][pval.y][currentpage] = DigClip[0];
+    DigTableValues[pval.x][pval.y][currentpage] = DigCellClip;
   }
+  ChangedVals = TRUE;
   DrawNewTable(0);
 }
 
 /**
-This function copies the contents of the active AnalogTable Cell to the
-Clipboard Globals
-
-Handles Analog Channels, it is called by right clicking on the Analog Table and
-Selecing "Copy"
+@brief Right-click Copy callback. Copies the contents of the active analog table cell into the
+clipoard.
 */
-void CVICALLBACK Analog_Cell_Copy(int panelHandle, int controlID,
+void CVICALLBACK Analog_Cell_Copy(int panel, int controlID,
                                   int MenuItemID, void* callbackData) {
   Point pval = {0, 0};
-
   GetActiveTableCell(panelHandle, PANEL_ANALOGTABLE, &pval);
-
-  if (pval.y <= NUMBERANALOGCHANNELS) {
-    AnalogClip[0].fcn = AnalogTable[pval.x][pval.y][currentpage].fcn;
-    AnalogClip[0].fval = AnalogTable[pval.x][pval.y][currentpage].fval;
-    AnalogClip[0].tscale = AnalogTable[pval.x][pval.y][currentpage].tscale;
-  }
+  AnalogCellClip = AnalogTable[pval.x][pval.y][currentpage];
 }
 
 /**
-Replaces Highlighted Cell contents with the values copied to the clipboard using
-Analog_Cell_Copy This function Handles copies and pastes of analog channel data.
+@brief Right-click Paste callback. Pastes the clipboard into highlighted analog table cells.
 */
-void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID,
+void CVICALLBACK Analog_Cell_Paste(int panel, int controlID,
                                    int MenuItemID, void* callbackData) {
   Rect selection;
   Point pval = {0, 0};
@@ -1827,32 +1833,22 @@ void CVICALLBACK Analog_Cell_Paste(int panelHandle, int controlID,
       &selection);  // returns a 0 to all values if only 1 cell selected
 
   // Paste made into multiple cells of analog channels
-  if (selection.top <= NUMBERANALOGCHANNELS && selection.top > 0) {
-    int row = selection.top;
-    while ((row <= selection.top + (selection.height - 1)) &&
-           (row <= NUMBERANALOGCHANNELS)) {
-      for (int col = selection.left;
-           col <= selection.left + (selection.width - 1); col++) {
-        AnalogTable[col][row][currentpage].fcn = AnalogClip[0].fcn;
-        AnalogTable[col][row][currentpage].fval = AnalogClip[0].fval;
-        AnalogTable[col][row][currentpage].tscale = AnalogClip[0].tscale;
+  if (selection.top > 0) {
+    for (pval.y = selection.top;
+         pval.y <= selection.top + (selection.height - 1); pval.y++) {
+      for (pval.x = selection.left;
+           pval.x <= selection.left + (selection.width - 1); pval.x++) {
+        AnalogTable[pval.x][pval.y][currentpage] = AnalogCellClip;
       }
-      row++;
     }
   }
 
   // Paste Made into single Cell
-  else if (selection.top == 0)
-    ;
-  {
+  else {
     GetActiveTableCell(panelHandle, PANEL_ANALOGTABLE, &pval);
-    if (pval.y <= NUMBERANALOGCHANNELS) {
-      AnalogTable[pval.x][pval.y][currentpage].fcn = AnalogClip[0].fcn;
-      AnalogTable[pval.x][pval.y][currentpage].fval = AnalogClip[0].fval;
-      AnalogTable[pval.x][pval.y][currentpage].tscale = AnalogClip[0].tscale;
-    }
+    AnalogTable[pval.x][pval.y][currentpage] = AnalogCellClip;
   }
-  ChangedVals = 1;
+  ChangedVals = TRUE;
   DrawNewTable(0);
 }
 
