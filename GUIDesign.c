@@ -35,7 +35,7 @@ void BuildUpdateList(double[500],
                      struct AnalogTableValues[NUMBERANALOGCHANNELS + 1][500],
                      int[NUMBERDIGITALCHANNELS + 1][500], int);
 int OptimizeTimeLoop(int*, int);
-void ShiftColumn3(int, int, int);
+void ShiftColumn(int, int, int);
 void RunOnce(void);
 void SaveArrays(char*, int);
 void LoadArrays(char*, int);
@@ -1274,79 +1274,67 @@ void CVICALLBACK CLEARPANEL_CALLBACK(int menuBar, int menuItem,
   }
 }
 
+/**
+@brief Callback for the Insert Column menu option. Calls ShiftColumn() in insert mode.
+@todo Should be merged into MENU_CALLBACK().
+*/
 void CVICALLBACK INSERTCOLUMN_CALLBACK(int menuBar, int menuItem,
                                        void* callbackData, int panel) {
-  char buff[20] = "", buff2[100] = "";
-  int status;
-  Point cpoint = {0, 0};
-
-  GetActiveTableCell(panelHandle, PANEL_TIMETABLE, &cpoint);
-  sprintf(buff, "%d", cpoint.x);
-  strcat(buff2, "Really insert column at ");
-  strcat(buff2, buff);
-  status = ConfirmPopup("insert Array",
-                        buff2);  // User Confirmation of Column Insert
-  if (status == 1) {
-    ShiftColumn3(cpoint.x, currentpage, -1);  // -1 for shifting columns right
-  }
-}
-
-void CVICALLBACK DELETECOLUMN_CALLBACK(int menuBar, int menuItem,
-                                       void* callbackData, int panel) {
-  char buff[20] = "", buff2[100] = "";
-  int status;
   Point cpoint = {0, 0};
   GetActiveTableCell(panelHandle, PANEL_TIMETABLE, &cpoint);
-  sprintf(buff, "%d", cpoint.x);
-
-  strcat(buff2, "Really delete column ");
-  strcat(buff2, buff);
-  status = ConfirmPopup("Delete Array", buff2);
-
+  char message[100];
+  sprintf(message, "Really insert column at %d? The last column will be lost!", cpoint.x);
+  int status = ConfirmPopup("Insert column", message);
   if (status == 1) {
-    ShiftColumn3(cpoint.x, currentpage, 1);  // 1 for shifting columns left
+    ShiftColumn(cpoint.x, currentpage, -1);  // -1 for insert mode
   }
 }
 
 /**
-Takes all columns starting at col on page and shifts them to the left or
-right depending on the value of dir dir==1 for a deletion: all the columns
-starting at col+1 are shifted one to the left, the page's last column is new
-dir==-1 for an insertion: all the columns starting at col are shifted one to
-the right, the column at col is new and the      last column is lost
-The new column can be set with all values at 0 or with the attributes
-previously in place
-
-Replaced Malfunctioning ShiftColumn and ShiftColumn2(see previous AdwinGUI
-releases)
+@brief Callback for the Delete Column menu option. Calls ShiftColumn() in delete mode.
+@todo Should be merged into MENU_CALLBACK().
 */
-void ShiftColumn3(int col, int page, int dir) {
-  printf("col %d", col);
-  int i;
-  int status = 0;
+void CVICALLBACK DELETECOLUMN_CALLBACK(int menuBar, int menuItem,
+                                       void* callbackData, int panel) {
+  Point cpoint = {0, 0};
+  GetActiveTableCell(panelHandle, PANEL_TIMETABLE, &cpoint);
+  char message[40];
+  sprintf(message, "Really delete column %d?", cpoint.x);
+  int status = ConfirmPopup("Delete column", message);
+  if (status == 1) {
+    ShiftColumn(cpoint.x, currentpage, 1);  // 1 for delete mode
+  }
+}
+
+/**
+@brief Inserts or deletes a column on a page by shifting columns left or right.
+@param col 1-based index to insert/delete a column at.
+@param page Page to insert/delete column on.
+@param dir -1 to insert, 1 to delete.
+
+When inserting, the last column on the page is lost.
+*/
+void ShiftColumn(int col, int page, int dir) {
   int start = 0;
   int zerocol = 0;
-  // if we inserted a column, then set all values to zero
-  //  prompt and ask if we want to duplicate the selected column
   if (dir == -1) {
-    // shifts cols right (insertion)
+    // Insertion: Starting from the end, each column copies its left neighbor
+    // Then zero out selected column
     start = NUMBEROFCOLUMNS;
     zerocol = col;
-    status = ConfirmPopup("Duplicate",
-                          "Do you want to duplicate the selected column?");
   } else if (dir == 1) {
-    // shifts cols left  (deletion)
+    // Deletion: Starting from the selected column, each column copies its right neighbor
+    // Then zero out last column
     start = col;
     zerocol = NUMBEROFCOLUMNS;
-    status = ConfirmPopup("Duplicate",
-                          "Do you want the last column to be duplicated?");
   } else {
     Assert(0);
   }
 
-  // shift columns left or right depending on dir
-  for (i = 0; i < NUMBEROFCOLUMNS - col; i++) {
+  // Shift columns left or right depending on dir
+  for (int i = 0; i < NUMBEROFCOLUMNS - col; i++) {
     TimeArray[start + dir * i][page] = TimeArray[start + dir * (i + 1)][page];
+
     for (int j = 1; j <= NUMBERANALOGCHANNELS; j++) {
       AnalogTable[start + dir * i][j][page].fcn =
           AnalogTable[start + dir * (i + 1)][j][page].fcn;
@@ -1362,22 +1350,21 @@ void ShiftColumn3(int col, int page, int dir) {
     }
   }
 
-  // Sets all values to zero
-  if (status == 0) {
-    if (dir == 1) TimeArray[zerocol][page] = 0;
-
-    for (int j = 1; j <= NUMBERANALOGCHANNELS; j++) {
-      AnalogTable[zerocol][j][page].fcn = 1;
-      AnalogTable[zerocol][j][page].fval = 0;
-      AnalogTable[zerocol][j][page].tscale = 1;
-    }
-
-    for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++) {
-      DigTableValues[start + dir * i][j][page] =
-          DigTableValues[start + dir * (i + 1)][j][page];
-    }
+  // Zero out zerocol
+  if (dir == 1) {
+    TimeArray[zerocol][page] = 0;
   }
-  ChangedVals = 1;
+
+  for (int j = 1; j <= NUMBERANALOGCHANNELS; j++) {
+    AnalogTable[zerocol][j][page].fcn = 1;
+    AnalogTable[zerocol][j][page].fval = 0;
+    AnalogTable[zerocol][j][page].tscale = 1;
+  }
+
+  for (int j = 1; j <= NUMBERDIGITALCHANNELS; j++) {
+    DigTableValues[zerocol][j][page] = 0;
+  }
+  ChangedVals = TRUE;
   DrawNewTable(0);
 }
 
