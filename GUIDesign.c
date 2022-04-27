@@ -43,11 +43,30 @@ void UpdateScanValue(int);
 void ExportScanBuffer(void);
 
 // Clipboard to hold data from copy/paste cells
+/**
+@brief Set to FALSE on first column copy. Prevents pasting from an uninitialized
+clipboard.
+*/
 BOOL ClipboardEmpty = TRUE;
+/**
+@brief Clipboard for time.
+*/
 double TimeClip;
+/**
+@brief Clipboard for analog column.
+*/
 struct AnalogTableValues AnalogClip[NUMBERANALOGCHANNELS + 1];
+/**
+@brief Clipboard for digital column.
+*/
 int DigClip[NUMBERDIGITALCHANNELS + 1];
-struct AnalogTableValues AnalogCellClip = {.fcn=1};
+/**
+@brief Clipboard for analog cell.
+*/
+struct AnalogTableValues AnalogCellClip = {.fcn = 1};
+/**
+@brief Clipboard for digital cell.
+*/
 int DigCellClip = 0;
 
 /**
@@ -1193,7 +1212,8 @@ int CVICALLBACK ANALOGTABLE_CALLBACK(int panel, int control, int event,
 }
 
 /**
-@brief Callback for the page buttons. Left-click to go to that page, right-click to rename the page.
+@brief Callback for the page buttons. Left-click to go to that page, right-click
+to rename the page.
 @param control ID of the clicked button.
 */
 int CVICALLBACK TOGGLE_CALLBACK(int panel, int control, int event,
@@ -1202,7 +1222,8 @@ int CVICALLBACK TOGGLE_CALLBACK(int panel, int control, int event,
   switch (event) {
     case EVENT_COMMIT:
       for (int i = 1; i <= NUMBEROFPAGES; i++) {
-        // Go through ButtonArray, set the clicked button to on and all others to off
+        // Go through ButtonArray, set the clicked button to on and all others
+        // to off
         SetCtrlVal(panelHandle, ButtonArray[i], control == ButtonArray[i]);
         if (control == ButtonArray[i]) {
           setVisibleLabel(i);
@@ -1235,7 +1256,8 @@ int CVICALLBACK TOGGLE_CALLBACK(int panel, int control, int event,
 }
 
 /**
-@brief Callback for the page enable checkboxes. On toggle, dims or undims the tables.
+@brief Callback for the page enable checkboxes. On toggle, dims or undims the
+tables.
 */
 int CVICALLBACK CHECKBOX_CALLBACK(int panel, int control, int event,
                                   void* callbackData, int eventData1,
@@ -1249,7 +1271,8 @@ int CVICALLBACK CHECKBOX_CALLBACK(int panel, int control, int event,
 }
 
 /**
-@brief Callback for the digital table. On double-click, toggles the clicked cell and updates the entry in DigTableValues.
+@brief Callback for the digital table. On double-click, toggles the clicked cell
+and updates the entry in DigTableValues.
 */
 int CVICALLBACK DIGTABLE_CALLBACK(int panel, int control, int event,
                                   void* callbackData, int eventData1,
@@ -1272,7 +1295,8 @@ int CVICALLBACK DIGTABLE_CALLBACK(int panel, int control, int event,
 }
 
 /**
-@brief Callback for the time table. Updates the time table and all analog cells in that column.
+@brief Callback for the time table. Updates the time table and all analog cells
+in that column.
 */
 int CVICALLBACK TIMETABLE_CALLBACK(int panel, int control, int event,
                                    void* callbackData, int eventData1,
@@ -1344,7 +1368,8 @@ void CVICALLBACK CLEARPANEL_CALLBACK(int menuBar, int menuItem,
 }
 
 /**
-@brief Callback for the Insert Column menu option. Calls ShiftColumn() in insert mode.
+@brief Callback for the Insert Column menu option. Calls ShiftColumn() in insert
+mode.
 @todo Should be a right-click option.
 */
 void CVICALLBACK INSERTCOLUMN_CALLBACK(int menuBar, int menuItem,
@@ -1352,7 +1377,8 @@ void CVICALLBACK INSERTCOLUMN_CALLBACK(int menuBar, int menuItem,
   Point cpoint = {0, 0};
   GetActiveTableCell(panelHandle, PANEL_TIMETABLE, &cpoint);
   char message[100];
-  sprintf(message, "Really insert column at %d? The last column will be lost!", cpoint.x);
+  sprintf(message, "Really insert column at %d? The last column will be lost!",
+          cpoint.x);
   int status = ConfirmPopup("Insert column", message);
   if (status == 1) {
     ShiftColumn(cpoint.x, currentpage, -1);  // -1 for insert mode
@@ -1360,7 +1386,8 @@ void CVICALLBACK INSERTCOLUMN_CALLBACK(int menuBar, int menuItem,
 }
 
 /**
-@brief Callback for the Delete Column menu option. Calls ShiftColumn() in delete mode.
+@brief Callback for the Delete Column menu option. Calls ShiftColumn() in delete
+mode.
 @todo Should be a right-click option.
 */
 void CVICALLBACK DELETECOLUMN_CALLBACK(int menuBar, int menuItem,
@@ -1392,8 +1419,8 @@ void ShiftColumn(int col, int page, int dir) {
     start = NUMBEROFCOLUMNS;
     zerocol = col;
   } else if (dir == 1) {
-    // Deletion: Starting from the selected column, each column copies its right neighbor
-    // Then zero out last column
+    // Deletion: Starting from the selected column, each column copies its right
+    // neighbor Then zero out last column
     start = col;
     zerocol = NUMBEROFCOLUMNS;
   } else {
@@ -1490,12 +1517,16 @@ void CVICALLBACK PASTECOLUMN_CALLBACK(int menuBar, int menuItem,
 double CheckIfWithinLimits(double OutputVoltage, int linenumber) {
   const double minvolts = AChName[linenumber].minvolts;
   const double maxvolts = AChName[linenumber].maxvolts;
-  const double NewOutput = OutputVoltage < minvolts ? minvolts : OutputVoltage; // Clamps lower bound
-  return NewOutput > maxvolts ? maxvolts : NewOutput; // Clamps upper bound and return
+  const double NewOutput = OutputVoltage < minvolts
+                               ? minvolts
+                               : OutputVoltage;  // Clamps lower bound
+  return NewOutput > maxvolts ? maxvolts
+                              : NewOutput;  // Clamps upper bound and return
 }
 
 /**
-@brief Writes TimeArray, AnalogTable, and DigTableValues out in text format for other programs to parse.
+@brief Writes TimeArray, AnalogTable, and DigTableValues out in text format for
+other programs to parse.
 @param fexportname Filename to save in.
 */
 void ExportPanel(char fexportname[200]) {
@@ -1523,7 +1554,7 @@ void ExportPanel(char fexportname[200]) {
       }
       // Ignore columns with negative time
       else if (TimeArray[col][page] < 0) {
-       continue;
+        continue;
       }
       mindex++;  // Copy column into next slot in meta arrays
       MetaTimeArray[mindex] = TimeArray[col][page];
@@ -1592,7 +1623,8 @@ void ExportPanel(char fexportname[200]) {
 }
 
 /**
-@brief Callback for the Export Panel menu option. Prompts the user for a filename and calls ExportPanel().
+@brief Callback for the Export Panel menu option. Prompts the user for a
+filename and calls ExportPanel().
 @todo Should be merged into MENU_CALLBACK().
 */
 void CVICALLBACK EXPORT_PANEL_CALLBACK(int menuBar, int menuItem,
@@ -1608,7 +1640,8 @@ void CVICALLBACK EXPORT_PANEL_CALLBACK(int menuBar, int menuItem,
 
 /**
 @brief Callback for the Export Panel and Launch Python menu option.
-Exports the panel to the system's temp directory and opens it in the Python reader.
+Exports the panel to the system's temp directory and opens it in the Python
+reader.
 @todo Should be merged into MENU_CALLBACK().
 @author Kerry Wang
 */
@@ -1629,7 +1662,8 @@ void CVICALLBACK EXPORT_PYTHON_CALLBACK(int menuBar, int menuItem,
 /**
 @brief Callback for the Export Channel Config menu option.
 Writes out channel configurations to a text file.
-@deprecated Functionality is not needed, can consider merging into ExportPanel() if required.
+@deprecated Functionality is not needed, can consider merging into ExportPanel()
+if required.
 */
 void CVICALLBACK CONFIG_EXPORT_CALLBACK(int menuBar, int menuItem,
                                         void* callbackData, int panel) {
@@ -1770,7 +1804,8 @@ void ExportScanBuffer(void) {
 }
 
 /**
-@brief Right-click Copy callback. Copies the value of the active digital table cell into the clipboard.
+@brief Right-click Copy callback. Copies the value of the active digital table
+cell into the clipboard.
 */
 void CVICALLBACK Dig_Cell_Copy(int panel, int controlID, int MenuItemID,
                                void* callbackData) {
@@ -1780,7 +1815,8 @@ void CVICALLBACK Dig_Cell_Copy(int panel, int controlID, int MenuItemID,
 }
 
 /**
-@brief Right-click Paste callback. Pastes the clipboard into highlighted digital table cells.
+@brief Right-click Paste callback. Pastes the clipboard into highlighted digital
+table cells.
 */
 void CVICALLBACK Dig_Cell_Paste(int panel, int controlID, int MenuItemID,
                                 void* callbackData) {
@@ -1810,21 +1846,22 @@ void CVICALLBACK Dig_Cell_Paste(int panel, int controlID, int MenuItemID,
 }
 
 /**
-@brief Right-click Copy callback. Copies the contents of the active analog table cell into the
-clipoard.
+@brief Right-click Copy callback. Copies the contents of the active analog table
+cell into the clipoard.
 */
-void CVICALLBACK Analog_Cell_Copy(int panel, int controlID,
-                                  int MenuItemID, void* callbackData) {
+void CVICALLBACK Analog_Cell_Copy(int panel, int controlID, int MenuItemID,
+                                  void* callbackData) {
   Point pval = {0, 0};
   GetActiveTableCell(panelHandle, PANEL_ANALOGTABLE, &pval);
   AnalogCellClip = AnalogTable[pval.x][pval.y][currentpage];
 }
 
 /**
-@brief Right-click Paste callback. Pastes the clipboard into highlighted analog table cells.
+@brief Right-click Paste callback. Pastes the clipboard into highlighted analog
+table cells.
 */
-void CVICALLBACK Analog_Cell_Paste(int panel, int controlID,
-                                   int MenuItemID, void* callbackData) {
+void CVICALLBACK Analog_Cell_Paste(int panel, int controlID, int MenuItemID,
+                                   void* callbackData) {
   Rect selection;
   Point pval = {0, 0};
 
