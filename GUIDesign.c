@@ -1668,7 +1668,7 @@ if required.
 void CVICALLBACK CONFIG_EXPORT_CALLBACK(int menuBar, int menuItem,
                                         void* callbackData, int panel) {
   FILE* fconfig;
-  char buff[500], fconfigname[200], buff3[31];
+  char buff[500], fconfigname[260], buff3[31];
 
   FileSelectPopup("", "*.config", "", "Save Configuration", VAL_SAVE_BUTTON, 0,
                   0, 1, 1, fconfigname);
