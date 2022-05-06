@@ -1,7 +1,7 @@
 # adwinGUI
 Developer documentation can be found at <https://tecnd.github.io/adwinGUI/>.
 ## User Guide
-### Menu bar
+### Menu Bar
 - File
   - Load Parameters - Loads panel from a .pan/.arr pair. Both files must have the same name and be in
   the same directory.
@@ -36,7 +36,7 @@ Developer documentation can be found at <https://tecnd.github.io/adwinGUI/>.
   - Use Simple Timing - When calculating analog outputs, ignores the timescale parameter and treats the full
   cell as the timescale. Leave on unless you have good reason not to.
   
-### Page buttons
+### Page Buttons
 - Right-click to rename the page.
 
 ### Analog and Digital Tables
@@ -47,3 +47,8 @@ digital table, this toggles the cell.
 
 ### Scan Values Table
 - Right-click -> Load Values to generate scan values.
+
+### Usage Notes
+- For whatever reason, redrawing the GUI takes significant time while repeat mode is active. This results in
+delays between cycles. This can be mitigated by minimizing the interface to skip redrawing the GUI.
+- On Windows, use Win+Shift+S to quickly take screengrabs.
