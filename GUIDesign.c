@@ -230,12 +230,8 @@ void RunOnce(void) {
               MetaAnalogArray[channel][mindex].tscale =
                   MetaAnalogArray[channel][mindex - 1].tscale;
             } else {
-              MetaAnalogArray[channel][mindex].fcn =
-                  AnalogTable[col][channel][page].fcn;
-              MetaAnalogArray[channel][mindex].fval =
-                  AnalogTable[col][channel][page].fval;
-              MetaAnalogArray[channel][mindex].tscale =
-                  AnalogTable[col][channel][page].tscale;
+              MetaAnalogArray[channel][mindex] =
+                  AnalogTable[col][channel][page];
             }
           }
           for (int channel = 1; channel <= NUMBERDIGITALCHANNELS; channel++) {
@@ -1559,7 +1555,15 @@ void ExportPanel(char fexportname[200]) {
       mindex++;  // Copy column into next slot in meta arrays
       MetaTimeArray[mindex] = TimeArray[col][page];
       for (int row = 1; row <= NUMBERANALOGCHANNELS; row++) {
-        MetaAnalogArray[row][mindex] = AnalogTable[col][row][page];
+        if (AnalogTable[col][row][page].fcn == 6) {
+          MetaAnalogArray[row][mindex].fcn = 1;
+          MetaAnalogArray[row][mindex].fval =
+              MetaAnalogArray[row][mindex - 1].fval;
+          MetaAnalogArray[row][mindex].tscale =
+              MetaAnalogArray[row][mindex - 1].tscale;
+        } else {
+          MetaAnalogArray[row][mindex] = AnalogTable[col][row][page];
+        }
       }
       for (int row = 1; row <= NUMBERDIGITALCHANNELS; row++) {
         MetaDigitalArray[row][mindex] = DigTableValues[col][row][page];
@@ -1582,7 +1586,7 @@ void ExportPanel(char fexportname[200]) {
 
   // Write analog lines, each line starts with A
   const char fcnmode[] =
-      "SLEJWH";  // step, linear, exponential, const-jerk, sine wave, hold
+      "SLEJW";  // step, linear, exponential, const-jerk, sine wave, hold
   for (int row = 1; row <= NUMBERANALOGCHANNELS; row++) {
     string = StrDup("A,");
     AppendString(&string, AChName[row].chname, 50);
